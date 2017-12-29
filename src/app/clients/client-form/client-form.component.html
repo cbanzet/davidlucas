@@ -1,0 +1,113 @@
+<mat-card>
+	<br>
+	<mat-card-header>
+		<div mat-card-avatar class="example-header-image">
+			<mat-icon matListIcon>face</mat-icon>
+		</div>	
+		<mat-card-title>New Client</mat-card-title>
+		<mat-card-subtitle>Ajout d'une nouvelle cliente</mat-card-subtitle>
+	</mat-card-header>
+
+	<form #newClientForm="ngForm" (ngSubmit)="onSubmit(newClientForm)">
+	<mat-card-content>
+			<table cellspacing="0">
+				<tr>
+	  			<td>
+	  				<mat-form-field>
+	    				<input matInput placeholder="First name" required
+	    					ngModel #newClientfirstname="ngModel"
+	    					name="newClientfirstname">
+	  				</mat-form-field>
+	  			</td>
+	  			<td>
+	  				<mat-form-field>
+	    				<input matInput placeholder="Last name" required
+	    				ngModel #newClientlastname="ngModel"
+	    				name="newClientlastname">
+	  				</mat-form-field>
+	  			</td>
+	  		</tr>
+	  		<tr>
+	  			<td>
+	  				<mat-form-field>
+	    				<input matInput placeholder="Email" type=email
+	    				ngModel #newClientemail="ngModel" 
+	    				name="newClientemail">
+	 	  				</mat-form-field>
+	  			</td>
+	  			<td>
+	  				<mat-form-field>
+	    				<input matInput mat-maxlength="3" placeholder="Phone"
+	    				ngModel name="newClientphone">
+	  				</mat-form-field>    				
+	  			</td>    			
+	  		</tr>		
+	  		<tr>
+	  			<td>
+	  				<mat-form-field class="add-client-full-width">
+	    				<input matInput placeholder="Street" 
+	    				ngModel name="newClientstreet">
+	  				</mat-form-field>
+	  			</td>
+	  			<td>
+	  				<mat-form-field class="add-client-full-width">
+	    				<input matInput placeholder="Zip" 
+	    				ngModel #newClientzip maxlength="5" name="newClientzip">
+	    				<mat-hint align="end">{{newClientzip.value.length}} / 5</mat-hint>
+	  				</mat-form-field>
+	  			</td>
+	  		</tr>
+	  		<tr>
+	  			<td>
+	  				<mat-form-field class="add-client-full-width">
+	    				<input matInput placeholder="City"
+	    				ngModel name="newClientcity">
+	  				</mat-form-field>    				
+	  			</td>
+	  			<td>
+	  				<mat-form-field class="add-client-full-width">
+	    				<input matInput placeholder="Birthdate"
+	    				ngModel name="newClientbirthdate">
+	  				</mat-form-field>
+	  			</td>	  				
+	  		</tr>
+<!-- 	  		<tr>
+	  			<td>
+	  				<mat-slide-toggle [(ngModel)]="fiche" name="fiche">Fiche Technique</mat-slide-toggle>
+	  			</td>
+	  			<td>
+	  				<md-form-field>
+      				<textarea matInput placeholder="Fiche Technique" 
+      				ngModel name="newClientfichetechnique" rows="4"
+      				[disabled]="!fiche"></textarea>
+    				</md-form-field>
+	  			</td>
+	  		</tr> -->
+	  		<tr>
+	  			<td colspan="2">
+	  				<span class="fiche-technique-label">Fiche Technique : </span>
+	  				<textarea matInput placeholder="Fiche Technique" 
+      				ngModel name="newClientfichetechnique" rows="4"></textarea>
+	  			</td>
+	  		</tr>
+	  	</table>
+	</mat-card-content>
+
+	<mat-card-actions>
+
+		<button mat-fab (click)="goBack()" type="button" color="black">
+			<mat-icon>keyboard_arrow_left</mat-icon>
+		</button>
+
+		<button mat-fab type="submit" color="accent"
+			[disabled]="!newClientForm.form.valid">
+			<mat-icon>save</mat-icon>
+		</button>
+
+	</mat-card-actions>
+	</form>
+	<mat-card-footer>
+		<br>
+	</mat-card-footer>
+
+</mat-card>

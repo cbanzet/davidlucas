@@ -1,0 +1,22 @@
+mat-card-title {
+	font-size: 1.2em !important;
+	line-height: 0.5em;
+	font-weight: 300;
+}
+
+.keystyle {
+  color: #ccc;
+  font-size: 10px;
+}
+mat-radio-button {
+	margin-right: 10px;
+	color: #999
+}
+.mat-radio-checked {
+	color: #000 !important;
+	font-weight: bold !important;
+}
+
+.field-types {
+	width: 100%;
+}

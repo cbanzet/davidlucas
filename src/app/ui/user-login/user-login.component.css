@@ -1,0 +1,37 @@
+h2 {
+	font-size: 3em;
+	font-weight: 100;
+}
+
+mat-card {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+  margin: 0 auto;
+  -webkit-border-radius: 30px;
+	-moz-border-radius: 30px;
+	border-radius: 30px;
+}
+mat-card-title {
+	text-align: center;
+}
+mat-card-title span {
+	display: block;
+	font-size: 0.5em;
+	font-weight: 300;
+	letter-spacing: 2px;
+	color: #B3B3B3;
+}
+mat-card-footer {
+	text-align: center;
+}
+
+
+.example-full-width {
+  width: 100%;
+}
+
+.logo-login {
+	width: 200px; height: auto;
+	margin: 0px auto;
+}

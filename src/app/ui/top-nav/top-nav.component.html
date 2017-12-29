@@ -1,0 +1,115 @@
+<!-- <mat-toolbar id="mainToolbarDLAPP" *ngIf="auth.currentUser">  -->
+
+<!-- <mat-toolbar id="mainToolbarDLAPP"> -->
+
+  <mat-menu #appMenu="matMenu" yPosition="below" xPosition="before">
+    
+    <button mat-menu-item routerLink="./dashboard">
+        <mat-icon> dashboard </mat-icon>
+        <span>Dashboard</span>
+    </button>
+
+    <button mat-menu-item routerLink="./calendar">
+        <mat-icon> today </mat-icon>
+        <span>Calendar</span>
+    </button>
+
+    <button mat-menu-item routerLink="./clientsearch">
+        <mat-icon> face </mat-icon>
+        <span>Clients</span>
+    </button>
+
+    <button mat-menu-item routerLink="./salon" 
+      [routerLinkActive]="['matl-button--colored']">
+        <mat-icon>weekend</mat-icon>
+        <span>Salons</span>
+    </button>
+
+    <button mat-menu-item routerLink="./members" 
+      [routerLinkActive]="['matl-button--colored']">
+        <mat-icon>people</mat-icon>
+        <span>Members</span>
+    </button>    
+        
+    <button mat-menu-item routerLink="./prestations">
+        <mat-icon>content_cut</mat-icon>
+        <span>Prestations</span>
+    </button>
+
+    <button mat-menu-item routerLink="./forfaits">
+        <mat-icon>content_cut</mat-icon>
+        <span>Forfaits</span>
+    </button>    
+
+    <button mat-menu-item disabled>
+        <mat-icon> chrome_reader_mode </mat-icon>
+        <span>Report</span>
+    </button>
+
+    <mat-divider></mat-divider>
+
+    <button mat-menu-item (click)="gotoUserProfile()">
+      <mat-icon>person</mat-icon>
+      <span>{{ auth.currentUserDisplayName }}</span>
+    </button>
+
+    <button mat-menu-item (click)="logout()" color="accent">
+      <mat-icon>power_settings_new</mat-icon>
+      <span> Sign out</span>      
+    </button>
+    
+  </mat-menu>
+
+  <!-- <button mat-icon-button [matMenuTriggerFor]="appMenu"> -->
+  <button mat-fab class="main-menu-trigger-button"
+    *ngIf="auth.currentUser" color="warn"
+    [matMenuTriggerFor]="appMenu">
+    <mat-icon>menu</mat-icon>
+  </button>
+
+
+  <!-- <h1>David Lucas App</h1> -->
+
+  <!-- This fills the remaining space of the current row -->
+  <!-- <span class="example-fill-remaining-space"></span> -->
+
+
+<!--   <mat-form-field class="day-cal">
+    <input matInput [matDatepicker]="picker">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>  -->
+
+  <!-- 
+  <mat-chip-list>  
+    <mat-chip>
+      <mat-icon>access_time</mat-icon>
+      <span> Today</span>
+    </mat-chip>        
+    <mat-chip>
+      <mat-icon>keyboard_arrow_left</mat-icon>
+      <span></span>
+    </mat-chip>
+    <mat-chip>
+      <mat-icon>today</mat-icon>
+      <span> {{today | date}}</span>
+    </mat-chip>
+    <mat-chip>
+      <mat-icon>keyboard_arrow_right</mat-icon>
+    </mat-chip>  
+
+    <mat-chip 
+      (click)="gotoUserProfile()">
+      <mat-icon>person</mat-icon>
+      <span>{{ auth.currentUserDisplayName }}</span>
+    </mat-chip>
+    <mat-chip class="hoverpointer" color="accent" selected="true"
+      (click)="logout()">
+        <mat-icon>power_settings_new</mat-icon>
+        <span> Sign out</span>
+    </mat-chip>
+  </mat-chip-list>
+  -->
+ 
+
+<!-- </mat-toolbar> -->

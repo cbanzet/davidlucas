@@ -1,0 +1,89 @@
+mat-grid-tile {
+  background: red;
+}
+
+mat-card-title {
+	font-size: 1.2em !important;
+	/*text-transform: uppercase;*/
+	font-weight: 300;
+}
+
+mat-card-header button {
+	margin-left: 10px
+}
+
+.mailphone {
+	margin-right: 10px;
+
+}
+.mailphone a {
+	text-decoration: none;
+	background-color: #B3B3B3;
+	color: #eee;
+	padding: 2px 10px;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+}
+.mailphone a:hover {
+	background-color: #000;
+	color: #fff;
+}
+
+
+.edit-client-form {
+  min-width: 150px;
+  /*max-width: 500px;*/
+  width: 100%;
+}
+
+.edit-client-full-width {
+  width: 100%;
+}
+
+.key-class {
+	font-size: 0.6em;
+	color: #ccc;
+}
+
+.rolecapadmin, .rolecap, .rolemanu {
+	text-transform: uppercase;
+	padding: 0 10px;
+	color: #FFF;
+	font-size: 0.6em;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+}
+
+.rolecapadmin {
+	background-color: #000;
+	color: #FFF;
+}
+.rolecap {
+	background-color: #808080;
+	color: #FFF;
+}
+.rolemanu {
+	background-color: #B3B3B3;
+	color: #FFF;	
+}
+
+
+.flr {
+	float: right;
+}
+
+
+.example-full-width {
+  width: 100%;
+}
+
+.example-fill-remaining-space {
+  // This fills the remaining space, by using flexbox. 
+  // Every toolbar row uses a flexbox row layout.
+  flex: 1 1 auto;
+}
+
+
+

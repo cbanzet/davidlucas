@@ -1,0 +1,68 @@
+<!-- <mat-toolbar color="primary">
+    <mat-toolbar-row>
+        <span>David Lucas</span>
+
+        <span class="example-spacer"></span>
+
+        <button mat-button routerLink="/forfaits" class="fbtn">LISTE DES FORFAITS</button>
+        <button mat-button routerLink="/forfaitform"class="fbtn">CREER FORFAITS</button>
+    </mat-toolbar-row>
+</mat-toolbar> -->
+
+
+<mat-card *ngIf="addForfait">
+
+  <mat-card-header>
+    <div mat-card-avatar class="example-header-image">
+      <mat-icon matListIcon>content_cut</mat-icon>
+    </div>      
+    <mat-card-title>Forfaits</mat-card-title>
+    <mat-card-subtitle>Créer un nouveau forfait</mat-card-subtitle>   
+  </mat-card-header>
+
+  <form #newForfaitForm="ngForm" (ngSubmit)="onSubmit(newForfaitForm)">
+                                  
+  <mat-card-content>
+
+    <mat-form-field>
+      <input matInput placeholder="Title" 
+        required
+        ngModel #newForfaitTitle="ngModel"
+        name="newForfaitTitle">
+    </mat-form-field>					
+
+    <mat-form-field class="field-types">
+      <mat-select ngModel required 
+        #selectedPrestation1="ngModel" name="selectedPrestation1" placeholder="Choisir la premiere prestation">
+        <mat-option *ngFor="let prestation of prestations | async" [value]="prestation">{{ prestation.title}} </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="field-types">
+      <mat-select ngModel required 
+        #selectedPrestation2="ngModel" name="selectedPrestation2" placeholder="Choisir la seconde prestation">
+        <mat-option *ngFor="let prestation of prestations | async" [value]="prestation">{{ prestation.title}} </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="field-types">
+      <mat-select ngModel required 
+        #selectedPrestation3="ngModel" name="selectedPrestation3" placeholder="Choisir la troisieme prestation">
+        <mat-option *ngFor="let prestation of prestations | async" [value]="prestation">{{ prestation.title}} </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+  </mat-card-content>
+
+  <button mat-fab (click)="goBack()" type="button" color="black">
+      <mat-icon>keyboard_arrow_left</mat-icon>
+  </button>
+  <button mat-fab type="submit" color="accent"
+         [disabled]="!newForfaitForm.form.valid">
+      <mat-icon>save</mat-icon>
+  </button>
+
+  </form>
+
+
+</mat-card> 

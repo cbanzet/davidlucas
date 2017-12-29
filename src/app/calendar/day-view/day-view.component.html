@@ -1,0 +1,96 @@
+<!-- <pre>{{ members | async | json }}</pre> -->
+
+<ng-template #loading>				
+	<br><br>
+	<mat-spinner color="accent"></mat-spinner>
+	<br><br>
+</ng-template>
+
+<!-- {{ calendarDate }} <br> {{ dateForQuery }}
+<div *ngIf="events$ | async; let events; else loading">
+  <ul>
+    <li *ngFor="let event of events">
+      {{ event.payload.val().text }}
+      <code>{{ event.payload.key }}</code> - 
+      {{ event.payload.val().date }} -
+      {{event.payload.val().statut}} -
+      {{event.payload.val().time}} - {{event.payload.val().prestationAcronyme }}
+      <pre> {{ event | json }} </pre>
+    </li>
+  </ul>
+  <div *ngIf="events.length === 0">No results, try clearing filters</div>
+</div> -->
+
+<mat-card *ngIf="events$ | async; let events; else loading">
+	<mat-card-content>
+		<table>
+			<tr>
+				<td class="cal-cell-today bg-black">
+					<mat-icon (click)="getToday()">today</mat-icon>
+				</td>
+				<td [colSpan]="(members | async)?.length" class="td-date">
+				  <mat-icon (click)="changeDay(calendarDate,'-7')">fast_rewind</mat-icon>
+				  <mat-icon (click)="changeDay(calendarDate,'-1')">keyboard_arrow_left</mat-icon>
+				  <span class="showdate"> {{calendarDate | date:'EEEE d MMM'}}</span>
+				  <mat-icon (click)="changeDay(calendarDate,'1')">keyboard_arrow_right</mat-icon>
+				  <mat-icon (click)="changeDay(calendarDate,'7')">fast_forward</mat-icon>
+				</td>
+			</tr>
+			<tr>
+				<td class="cal-cell-people bg-black" routerLink="./../members">
+					<mat-icon>people</mat-icon>
+				</td>
+				<td class="cal-cell-name" 
+					*ngFor="let member of members | async"
+					[routerLink]="['./../member', member.$key]">
+					{{ member.firstname}}
+				</td>
+			</tr>
+			<tr *ngFor="let time of times">
+				<td class="cal-cell-hour">{{ time }}</td>
+				<td class="cal-cell nopad-nocell" 
+					*ngFor="let member of members | async"
+					(click)="openDialogNewEvent(calendarDate,time,member)">
+						<div class="rdv" *ngFor="let event of events">
+							<span 
+								[ngClass]="
+								{
+									'waiting-event':event.payload.val().statut=='waiting',
+									'ongoing-event':event.payload.val().statut=='ongoing'
+								}"
+						 		*ngIf="event.payload.val().memberFirstname===member.firstname&&event.payload.val().time===time"
+								(click)="openDialogSeeEvent($event,event)">
+									{{ event.payload.val().prestationAcronyme }}
+								</span>
+						</div>
+				</td>
+			</tr>
+			<tr>
+				<td class="cal-cell-list bg-black">
+					<mat-icon routerLink="./../events">list</mat-icon>					
+				</td>
+				<td [colSpan]="(members | async)?.length" class="td-bottom">
+					
+				</td>
+			</tr>
+		</table>
+	</mat-card-content>
+
+</mat-card>
+
+
+<!-- <mat-toolbar>
+
+	<button mat-menu-item routerLink="./../events">
+		<mat-icon>view_list</mat-icon>
+		<span>Events List</span>
+  </button> 
+
+  <button mat-menu-item routerLink="./../clientform">
+      <mat-icon>face</mat-icon>
+      <span>New Client</span>
+  </button>
+
+</mat-toolbar> -->
+
+

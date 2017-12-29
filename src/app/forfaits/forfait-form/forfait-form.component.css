@@ -1,0 +1,31 @@
+/* Application-wide Styles */
+h1 {
+  color: #369;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 250%;
+}
+h2, h3 {
+  color: #444;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: lighter;
+}
+
+.fbtn{
+  color: white ;
+}
+.example-spacer{
+  flex: 1 1 auto;
+}
+.example-icon{
+  padding: 0 14px;
+}
+
+button {
+  margin-left: 10px !important;
+}
+
+mat-card-title {
+  font-size: 1.2em !important;
+  line-height: 0.5em;
+  font-weight: 300;
+}

@@ -1,0 +1,106 @@
+<!-- <pre>{{ (member | async)?.events | json }}</pre> -->
+
+<mat-card *ngIf="member | async as member">
+	<br>
+	<mat-card-header>
+		<div mat-card-avatar class="example-header-image">
+			<mat-icon matListIcon>face</mat-icon>
+		</div>	
+		<mat-card-title>Edit Member</mat-card-title>
+		<mat-card-subtitle>Modifier les informations de <strong>{{ member.firstname }} {{ member.lastname }}</strong><br><span class="keystyle">{{ member.$key }}</span></mat-card-subtitle>
+	</mat-card-header>
+
+	<!-- <pre>{{ member | json }}</pre> -->
+
+	<mat-card-content>
+		<mat-grid-list cols="2">
+			<mat-grid-tile>
+				<table cellspacing="0">
+					<tr>
+						<td>
+							<mat-form-field>
+			  				<input matInput placeholder="First name" required
+			  					[(ngModel)]="member.firstname"
+			  					(ngModelChange)="updateField(member,firstnameField,member.firstname)">
+							</mat-form-field>
+						</td>
+						<td>
+							<mat-form-field>
+			  				<input matInput placeholder="Last name" required
+			  				[(ngModel)]="member.lastname"
+			  				(ngModelChange)="updateField(member,lastnameField,member.lastname)">
+							</mat-form-field>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<mat-form-field>
+			  				<input matInput placeholder="Email" type=email
+			  				[(ngModel)]="member.email"
+			  				(ngModelChange)="updateField(member,emailField,member.email)">
+				  		</mat-form-field>
+						</td>
+						<td>
+							<mat-form-field>
+			  				<input matInput mat-maxlength="3" placeholder="Phone"
+			  				[(ngModel)]="member.phone"
+			  				(ngModelChange)="updateField(member,phoneField,member.phone)">
+							</mat-form-field>    				
+						</td>    			
+					</tr>		
+					<tr>
+						<td>
+							<mat-form-field class="add-member-full-width">
+			  				<input matInput placeholder="Street" 
+			  				[(ngModel)]="member.street"
+			  				(ngModelChange)="updateField(member,streetField,member.street)">
+							</mat-form-field>
+						</td>
+						<td>
+							<mat-form-field class="add-member-full-width">
+			  				<input matInput placeholder="Zip" 
+			  				[(ngModel)]="member.zip" maxlength="5"
+			  				(ngModelChange)="updateField(member,zipField,member.zip)">
+							</mat-form-field>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<mat-form-field class="add-member-full-width">
+			  				<input matInput placeholder="City"
+			  				[(ngModel)]="member.city"
+			  				(ngModelChange)="updateField(member,cityField,member.city)">
+							</mat-form-field>    				
+						</td>
+						<td class="ta-r">
+							<mat-slide-toggle>En poste</mat-slide-toggle>
+						</td>	  				
+					</tr>
+			  </table>
+			</mat-grid-tile>
+			<mat-grid-tile>
+				<h3>Events Details</h3>
+				
+			</mat-grid-tile>
+		</mat-grid-list>
+	</mat-card-content>
+
+	<button mat-fab (click)="goBack()" color="black">
+		<mat-icon>keyboard_arrow_left</mat-icon>
+	</button>
+
+	<span matTooltip="Couper l'accès">
+	<button mat-fab color="black">
+		<mat-icon>phonelink_erase</mat-icon>
+	</button>
+	</span>
+
+	<span matTooltip="Delete Forever">
+	<button mat-fab (click)="deleteForever(member)" color="black">
+		<mat-icon>delete_forever</mat-icon>
+	</button>
+	</span>
+
+</mat-card>
+
+

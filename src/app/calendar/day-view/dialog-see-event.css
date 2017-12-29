@@ -1,0 +1,80 @@
+mat-icon:focus, mat-icon:active {
+	outline: none;
+}
+
+h1 {
+	font-size: 1.1em !important;
+	color: #000;
+	font-weight: bold;
+	margin-bottom: 0;
+}
+h2 {
+	font-size: 1.2em !important;
+	color: #666666;
+	font-weight: normal;
+	margin: 5px 0 10px;
+}
+h3 {
+	font-size: 1em !important;
+	color: #333;
+	font-weight: bold;
+	background-color: #000;
+	color: #FFF;
+	padding: 5px 10px;
+	margin: 0;	
+}
+
+button {
+	margin-right: 15px;
+}
+
+.datatime {
+	font-size: 0.8em;
+	background-color: #000;
+	color: #fff;
+	padding: 0 10px;
+
+}
+
+.al {
+	float: right;
+}
+
+.cur-point {
+	cursor: pointer;
+}
+
+.smalldate {
+	font-size: 0.7em;
+	font-weight: 200;
+	color: #666;
+}
+
+.client-detail {
+	font-size: 0.6em;
+	font-weight: normal;
+	margin-bottom: 20px;	
+}
+
+.ongoingclass {
+	background-color: green;
+	color: #FFF;
+	padding: 0 10px;
+}
+
+.client-detail a {
+	color: #fff;
+	background-color: #666;
+	padding: 5px 10px;
+	margin-right: 5px;
+	margin-bottom: 20px;
+	text-decoration: none;
+	font-size: 1.2em;
+}
+.client-detail a:hover {
+	background-color: #000;
+}
+
+.mt30 {
+	margin-top: 30px;
+}

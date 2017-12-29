@@ -1,0 +1,108 @@
+<!-- <mat-card *ngIf="searchClient">
+	<mat-card-content>
+		<form>
+			<mat-form-field	class="example-form">
+			  <input 
+			  		matInput 
+			  		placeholder="Search Client" aria-label="Composer" 
+			  		[matAutocomplete]="auto" 
+			  		[formControl]="clientCtrl">
+			  <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+			    <mat-option *ngFor="let client of filteredClients | async" 
+			    	[value]="client">
+			      <span>{{ client.firstname }} {{ client.lastname }}</span>
+			    </mat-option>
+			  </mat-autocomplete>
+			  <mat-icon matSuffix>search</mat-icon>
+			</mat-form-field>
+
+			<button mat-fab (click)="
+												searchClient=false;
+												matCardClientsList=true" 
+												type="button" color="black">
+				<mat-icon>list</mat-icon>
+			</button>
+
+			<button mat-fab routerLink="./../clientform"
+												type="button" color="black">
+				<mat-icon>person_add</mat-icon>
+			</button>
+		</form> 
+	</mat-card-content>
+	<br>
+</mat-card> -->
+
+
+
+<ng-template #loading>				
+	<br><br>
+	<mat-spinner color="accent"></mat-spinner>
+	<br><br>
+</ng-template>
+
+<mat-card *ngIf="clients | async; let clients; else loading">
+	<mat-card-header>
+		<div mat-card-avatar class="example-header-image">
+			<mat-icon matListIcon>supervisor_account</mat-icon>
+		</div>
+		<mat-card-title>Client List</mat-card-title>
+		<mat-card-subtitle>Liste des inscriptions de clientes sur l'application</mat-card-subtitle>
+		<button mat-fab routerLink="./../clientsearch" color="black">
+			<mat-icon>search</mat-icon>
+  	</button>
+		<button mat-fab routerLink="./../clientform" color="black">
+			<mat-icon>add</mat-icon>
+  	</button>  	
+	</mat-card-header>
+	<mat-card-content>
+		<mat-list dense>
+		  <mat-list-item 
+		  	*ngFor="let client of clients">
+					<mat-icon matListIcon>face</mat-icon>
+					<p matLine> 
+						<span><strong>{{client.firstname}} {{client.lastname}}</strong></span><br>
+						<span>{{client.timestamp | date}}</span>
+					</p>
+					<p matline *ngIf="client.email"><span class="mailphone"><a href="mailto:{{ client.email }}">{{ client.email }}</a></span></p>
+					<p matline *ngIf="client.phone"><span class="mailphone"><a href="tel:{{client.phone}}">{{ client.phone }}</a></span></p>
+					<!-- <p matline><span class="key-class">{{ client.key }}</span></p> -->
+					<button mat-icon-button
+						[routerLink]="['./../client', client.$key]">
+						<!-- (click)="onSelect(client.key)"> -->
+		        <mat-icon>info</mat-icon>
+		     </button>
+					<button mat-icon-button
+						(click)="deleteClient(client)">
+		        <mat-icon>remove_circle</mat-icon>
+		     </button>		     
+		  </mat-list-item>
+		</mat-list>
+	</mat-card-content>
+</mat-card>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<mat-toolbar>
+<!-- 	<button mat-menu-item
+		routerLink="./../clientsearch"> -->
+	<button mat-menu-item routerLink="./../clientsearch">
+		<mat-icon>search</mat-icon>
+		<span>Search Client</span>
+  </button>
+	<button mat-menu-item 
+		routerLink="./../clientform">
+			<mat-icon>add</mat-icon>
+		<span>Add Client</span>
+  </button> 
+</mat-toolbar> 

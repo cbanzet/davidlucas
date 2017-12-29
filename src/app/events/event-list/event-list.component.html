@@ -1,0 +1,48 @@
+<!-- <pre>{{ events | async | json }}</pre> -->
+<mat-card>
+	<mat-card-header>
+		<div mat-card-avatar class="example-header-image">
+			<mat-icon matListIcon>today</mat-icon>
+		</div>			
+		<mat-card-title>List of All Events at <strong>David Lucas Paris</strong></mat-card-title>
+		<mat-card-subtitle>Click on an event to see and edit all details</mat-card-subtitle>		
+	</mat-card-header>
+	<mat-card-content>
+		<mat-list dense *ngIf="events | async; let events; else loading">
+			<mat-list-item *ngFor="let event of events">
+				<mat-icon matListIcon>alarm</mat-icon>
+				<p matLine>
+					<strong>{{ event.memberFirstname }} </strong> à rendez-vous
+					le <strong> {{ event.timestamp | date:'d MMM' }}</strong>
+					à <strong>{{ event.time }} </strong>
+					avec <strong>{{ event.clientFirstname }} {{ event.clientLastname }}</strong>
+				</p>
+				<p matline *ngIf="event.clientPhone">
+					<span class="mailphone"><a href="tel:{{event.clientPhone}}">{{ event.clientPhone }}</a></span>
+				</p>
+				<p matline>
+					<span [ngClass]="{'waiting':event.statut=='waiting','ongoing':event.statut=='ongoing'}" class="event-statut">{{ event.statut }}</span>
+				</p>							
+				<button mat-icon-button color="warn"
+						(click)="deleteEvent(event)">
+		        <mat-icon>remove_circle</mat-icon>
+		    </button>
+			</mat-list-item>
+		</mat-list>
+		<ng-template #loading>Loading&hellip;</ng-template>
+	</mat-card-content>
+</mat-card>
+
+<mat-toolbar>
+	<button mat-menu-item 
+		routerLink="./../calendar">
+			<mat-icon>today</mat-icon>
+		<span>Calendar</span>
+  </button>
+	<button mat-menu-item 
+		routerLink="./../clientform">
+			<mat-icon>add</mat-icon>
+		<span>Add Client</span>
+  </button>
+</mat-toolbar>
+

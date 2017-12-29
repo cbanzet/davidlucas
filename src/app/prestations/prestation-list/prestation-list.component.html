@@ -1,0 +1,96 @@
+<ng-template #loading>				
+	<br><br>
+	<mat-spinner color="accent"></mat-spinner>
+	<br><br>
+</ng-template>
+
+
+<!-- <pre>{{ prestations | async | json }}</pre> -->
+
+
+
+<mat-card *ngIf="prestations | async; let prestations; else loading">
+	<mat-card-header class="example-full-width">
+		<div mat-card-avatar class="example-header-image">
+			<mat-icon matListIcon>content_cut</mat-icon>
+		</div>
+		<mat-card-title>Prestations</mat-card-title>
+		<mat-card-subtitle>Liste des Prestations proposées par le Salon</mat-card-subtitle>
+	  <span class="example-fill-remaining-space"></span>
+		<!-- <button mat-fab (click)="addComposer=false;addComposers=false" type="button" color="black"><mat-icon>search</mat-icon></button> -->
+		<button mat-fab routerLink="./../prestationform" type="button" color="black"><mat-icon>add</mat-icon></button>
+		<button mat-fab routerLink="./../calendar" type="button" color="black">
+			<mat-icon>today</mat-icon>
+		</button>					
+	</mat-card-header>
+
+	<mat-card-content>
+		<br>
+		<mat-list dense>
+			<mat-list-item *ngFor="let presta of prestations">
+				<mat-icon matListIcon>local_offer</mat-icon>
+				<!-- <p matLine> {{ presta.title }} {{ presta.details }}</p> -->
+					<mat-form-field class="field-acro" *ngIf="presta.acronyme">
+						<input matInput maxlength="3" placeholder="Acronyme" 
+							[(ngModel)]="presta.acronyme"
+							(ngModelChange)=updateField(presta,acronymeField,presta.acronyme)>
+		  			<mat-hint align="end">{{presta.acronyme.length}} / 2</mat-hint>
+					</mat-form-field>
+					<mat-form-field class="field-title">
+	  				<input matInput placeholder="Title"
+	  					[(ngModel)]="presta.title"
+	  					(ngModelChange)="updateField(presta,titleField,presta.title)">
+					</mat-form-field>
+					<mat-form-field class="field-details">
+	  				<input matInput placeholder="Details"
+	  					[(ngModel)]="presta.details"
+	  					(ngModelChange)="updateField(presta,detailsField,presta.details)">
+					</mat-form-field>
+					<mat-form-field class="field-price">
+	  				<input matInput placeholder="Prix Équipe" type="number"
+	  					[(ngModel)]="presta.priceTeam"
+	  					(ngModelChange)="updateField(presta,priceTeamField,presta.priceTeam)">
+	  				<mat-icon matSuffix>euro_symbol</mat-icon>
+					</mat-form-field>
+					<mat-form-field class="field-price">
+	  				<input matInput placeholder="Prix David" type="number"
+	  					[(ngModel)]="presta.priceDavid"
+	  					(ngModelChange)="updateField(presta,priceDavidField,presta.priceDavid)">
+	  				<mat-icon matSuffix>euro_symbol</mat-icon>
+					</mat-form-field>
+				<div *ngIf="presta.types">
+					<!-- {{ presta.types | json }} -->
+					<mat-chip-list>
+					  <mat-chip *ngFor="let type of presta.types">
+					  	{{ type }}
+					  </mat-chip>					  
+					</mat-chip-list>
+				</div>
+				<div class="pull-right">
+					<button mat-icon-button
+						[routerLink]="['./../prestation', presta.$key]">
+								<!-- (click)="onSelect(member.key)"> -->
+				     <mat-icon>info</mat-icon>
+				  </button>
+				  <button mat-icon-button
+							(click)="deletePrestation(presta)">
+			        <mat-icon>remove_circle</mat-icon>
+			    </button>
+			  </div>
+			</mat-list-item>
+		</mat-list>
+	</mat-card-content>
+	<!-- <ng-template #loading>Loading&hellip;</ng-template> -->
+</mat-card>
+
+<!-- <mat-card dense *ngIf="oldprestas | async; let oldprestas">
+	<ul>
+		<li *ngFor="let oldpresta of oldprestas">
+			{{ oldpresta.title }} {{ oldpresta.details }}
+		</li>
+	</ul>
+	<button mat-raised-button color="warn"
+			(click)="migratePresta(oldprestas)">
+   	Migrate
+	</button>
+</mat-card> -->

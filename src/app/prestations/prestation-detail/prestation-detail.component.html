@@ -1,0 +1,106 @@
+<mat-card *ngIf="prestation | async as prestation">
+	<br>
+	<mat-card-header>
+		<div mat-card-avatar class="example-header-image">
+			<mat-icon matListIcon>content_cut</mat-icon>
+		</div>	
+		<mat-card-title>Modifier la Prestation</mat-card-title>
+		<mat-card-subtitle>Modifier les informations de la prestation<br>
+			<span class="keystyle">{{ prestation.$key }}</span>
+		</mat-card-subtitle>
+	</mat-card-header>
+	<mat-card-content>
+		<table cellspacing="0">
+			<tr>
+				<td>
+					<mat-form-field>
+					  <mat-select required placeholder="Salons"
+					  	[(ngModel)]="prestation.salon.title">
+					    <mat-option *ngFor="let salon of salons | async" 
+					    	[value]="salon">
+					    	{{ salon.title }}
+					    </mat-option>
+					  </mat-select>
+					</mat-form-field>
+				</td>
+				<td>					
+					<mat-form-field>
+						<input matInput maxlength="3" placeholder="Acronyme" 
+							required [(ngModel)]="prestation.acronyme"
+							(ngModelChange)=updateField(prestation,acronymeField,prestation.acronyme)>
+	    			<mat-hint align="end">{{prestation.acronyme.length}} / 3</mat-hint>
+					</mat-form-field>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<mat-form-field>
+	  				<input matInput placeholder="Title" required
+	  					[(ngModel)]="prestation.title"
+	  					(ngModelChange)="updateField(prestation,titleField,prestation.title)">
+					</mat-form-field>
+				</td>
+				<td>
+					<mat-form-field>
+	  				<input matInput placeholder="Details" required
+	  				[(ngModel)]="prestation.details"
+	  				(ngModelChange)="updateField(prestation,detailsField,prestation.details)">
+					</mat-form-field>
+				</td>				
+			</tr>
+			<tr>
+				<td>
+					<mat-form-field>
+	  				<input matInput placeholder="Prix Équipe" required
+	  					type="number"
+	  					[(ngModel)]="prestation.priceTeam"
+	  					(ngModelChange)="updateField(prestation,priceTeamField,prestation.priceTeam)">
+	  				<mat-icon matSuffix>euro_symbol</mat-icon>
+					</mat-form-field>
+				</td>
+				<td>
+					<mat-form-field>
+	  				<input matInput placeholder="Prix David" required
+	  					type="number"
+	  					[(ngModel)]="prestation.priceDavid"
+	  					(ngModelChange)="updateField(prestation,priceDavidField,prestation.priceDavid)">
+	  				<mat-icon matSuffix>euro_symbol</mat-icon>
+					</mat-form-field>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<br>
+					<mat-radio-group>
+					  <mat-radio-button 
+					  	*ngFor="let time of times" 
+					  	[value]="time"
+					  	[checked]="time==prestation.time"
+					  	(change)="updateField(prestation,timeField,time)">
+					  	{{ time }} minutes
+					  </mat-radio-button>
+					</mat-radio-group>
+					<br><br>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<mat-form-field class="field-types">
+					  <mat-select [compareWith]="compareFn" [(ngModel)]="prestation.types" placeholder="Types de prestations" multiple>
+					    <mat-option 
+					    	*ngFor="let prestatype of prestatypes | async" 
+					    	[value]="prestatype">
+					    	{{prestatype.title}} {{prestatype.key}}
+					    </mat-option>
+					  </mat-select>
+					</mat-form-field>					
+					{{ prestation.types.snapshot }}
+				</td>
+			</tr>				
+		</table>		
+	</mat-card-content>
+
+	<button mat-fab (click)="goBack()" color="black">
+		<mat-icon>keyboard_arrow_left</mat-icon>
+	</button>	
+</mat-card>

@@ -1,0 +1,60 @@
+<!-- <pre>{{ members | async | json }}</pre> -->
+
+<mat-card>
+	<mat-card-header>
+		<div mat-card-avatar class="example-header-image">
+			<mat-icon matListIcon>people</mat-icon>
+		</div>
+		<mat-card-title>Les membres du Salon David Lucas Paris</mat-card-title>
+		<mat-card-subtitle>Cliquer sur un des membres pour voir ses informations</mat-card-subtitle>
+		<button mat-fab routerLink="./../memberform" color="black">
+			<mat-icon>add</mat-icon>
+		</button>
+		<button mat-fab routerLink="./../calendar" color="black">
+			<mat-icon>today</mat-icon>
+		</button>			
+	</mat-card-header>
+	<mat-card-content>
+		<mat-list dense>
+		  <mat-list-item 
+		  	*ngFor="let member of members | async">
+					<mat-icon matListIcon>person</mat-icon>
+					<p matLine>
+						<span><strong>{{member.firstname}} {{member.lastname}}</strong></span><br>
+						<span>{{member.timestamp | date}}</span>
+						<span *ngIf="member.role&&member.role.key==3" class="rolecap">{{ member.role.title }}</span>
+						<span *ngIf="member.role&&member.role.key==4" class="rolemanu">{{ member.role.title }}</span>						
+						<span *ngIf="member.role&&(member.role.key==1||member.role.key==2)" class="rolecapadmin">{{ member.role.title }}</span>
+					</p>
+					<p matline *ngIf="member.email"><span class="mailphone"><a href="mailto:{{ member.email }}">{{ member.email }}</a></span></p>
+					<p matline *ngIf="member.phone"><span class="mailphone"><a href="tel:{{member.phone}}">{{ member.phone }}</a></span></p>
+					<p matline><span class="key-class">{{ member.key }}</span></p>
+					<button mat-icon-button
+						[routerLink]="['./../member', member.$key]">
+						<!-- (click)="onSelect(member.key)"> -->
+		        <mat-icon>info</mat-icon>
+		     </button>
+		     <!-- 					
+		     <button mat-icon-button
+						(click)="deleteMember(member)">
+		        <mat-icon>remove_circle</mat-icon>
+		     </button> 
+		   		-->		     
+		  </mat-list-item>
+		</mat-list>
+	</mat-card-content>
+</mat-card>
+
+
+<!-- <mat-toolbar>
+	<button mat-menu-item
+		routerLink="./../membersearch">
+		<mat-icon>search</mat-icon>
+		<span>Search member</span>
+  </button>
+	<button mat-menu-item 
+		routerLink="./../memberform">
+			<mat-icon>add</mat-icon>
+		<span>Add member</span>
+  </button> 
+</mat-toolbar>  -->

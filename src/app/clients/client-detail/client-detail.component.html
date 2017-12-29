@@ -1,0 +1,111 @@
+<mat-card *ngIf="client | async as client">
+	<br>
+	<mat-card-header>
+		<div mat-card-avatar class="example-header-image">
+			<mat-icon matListIcon>face</mat-icon>
+		</div>	
+		<mat-card-title>Edit Client</mat-card-title>
+		<mat-card-subtitle>Modifier les informations de <strong>{{ client.firstname }} {{ client.lastname }}</strong><br><span class="keystyle">{{ client.$key }}</span></mat-card-subtitle>
+	</mat-card-header>
+
+	<!-- <h2>{{ (client | async)?.firstname }}</h2> -->
+	<!-- <pre>{{ client | json }}</pre> -->
+
+	<mat-card-content>
+		<mat-grid-list cols="2">
+  		<mat-grid-tile>
+				<table cellspacing="0">
+					<tr>
+						<td>
+							<mat-form-field>
+			  				<input matInput placeholder="First name" required
+			  					[(ngModel)]="client.firstname"
+			  					(ngModelChange)="updateField(client.$key,firstnameField,client.firstname)">
+							</mat-form-field>
+						</td>
+						<td>
+							<mat-form-field>
+			  				<input matInput placeholder="Last name" required
+			  				[(ngModel)]="client.lastname"
+			  				(ngModelChange)="updateField(client.$key,lastnameField,client.lastname)">
+							</mat-form-field>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<mat-form-field>
+			  				<input matInput placeholder="Email" type=email
+			  				[(ngModel)]="client.email"
+			  				(ngModelChange)="updateField(client.$key,emailField,client.email)">
+				  		</mat-form-field>
+						</td>
+						<td>
+							<mat-form-field>
+			  				<input matInput mat-maxlength="3" placeholder="Phone"
+			  				[(ngModel)]="client.phone"
+			  				(ngModelChange)="updateField(client.$key,phoneField,client.phone)">
+							</mat-form-field>    				
+						</td>    			
+					</tr>		
+					<tr>
+						<td>
+							<mat-form-field class="add-client-full-width">
+			  				<input matInput placeholder="Street" 
+			  				[(ngModel)]="client.street"
+			  				(ngModelChange)="updateField(client.$key,streetField,client.street)">
+							</mat-form-field>
+						</td>
+						<td>
+							<mat-form-field class="add-client-full-width">
+			  				<input matInput placeholder="Zip" 
+			  				[(ngModel)]="client.zip" maxlength="5"
+			  				(ngModelChange)="updateField(client.$key,zipField,client.zip)">
+							</mat-form-field>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<mat-form-field class="add-client-full-width">
+			  				<input matInput placeholder="City"
+			  				[(ngModel)]="client.city"
+			  				(ngModelChange)="updateField(client.$key,cityField,client.city)">
+							</mat-form-field>    				
+						</td>
+						<td>
+							<mat-form-field class="add-client-full-width">
+			  				<input matInput placeholder="Birthdate"
+			  				[(ngModel)]="client.birthdate"
+			  				(ngModelChange)="updateField(client.$key,birthdateField,client.birthdate)">
+							</mat-form-field>
+						</td>	  				
+					</tr>
+					<tr>
+						<td colspan="2">
+							<span class="fiche-technique-label">Fiche Technique : </span>
+							<textarea matInput placeholder="Fiche Technique" rows="4"
+							[(ngModel)]="client.fichetechnique"
+							(ngModelChange)="updateField(client.$key,fichetechniqueField,client.fichetechnique)">
+							</textarea>
+						</td>
+					</tr>
+			  </table>
+			</mat-grid-tile>
+			<mat-grid-tile>
+				<div>
+					<h3>Events Details</h3>
+					<mat-list>
+	  				<!-- <mat-list-item *ngFor="let event of client.events">{{event.date}}</mat-list-item> -->
+	  			</mat-list>
+  			</div>
+			</mat-grid-tile>
+		</mat-grid-list>	
+
+	</mat-card-content>
+
+	<button mat-fab (click)="goBack()" color="black">
+		<mat-icon>keyboard_arrow_left</mat-icon>
+	</button>
+
+</mat-card>
+
+

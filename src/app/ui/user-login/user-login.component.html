@@ -1,0 +1,91 @@
+<!-- <div *ngIf="!auth.currentUser; else alreadyLoggedIn">
+  <h3>Social Login</h3>
+    <button (click)="signInWithGoogle()" class="button btn-social btn-google">
+      <i class="fa fa-google-plus fa-lg"></i> Connect Google
+    </button>
+    <button (click)="signInWithGithub()" class="button btn-social btn-github" disabled>
+      <i class="fa fa-github fa-lg"></i> Connect GitHub
+    </button>
+    <button (click)="signInWithFacebook()" class="button  btn-social btn-facebook" disabled>
+      <i class="fa fa-facebook fa-lg"></i> Connect Facebook
+    </button>
+    <button (click)="signInWithTwitter()" class="button  btn-social btn-twitter" disabled>
+      <i class="fa fa-twitter fa-lg"></i> Connect Twitter
+    </button>
+    <hr>
+    <h3>Anonymous Login</h3>
+      <button (click)="signInAnonymously()" class="button button-info">
+        <i class="fa fa-user-secret fa-lg"></i> Connect Anonymously
+      </button>
+    <hr>
+
+    <user-form></user-form>
+</div>
+
+<ng-template #alreadyLoggedIn>
+  <p class="text-success">
+    Already logged in!
+  </p>
+</ng-template> -->
+
+
+
+<br><br>
+
+<mat-card> 
+  <mat-card-title>
+    <img src="http://davidlucas.fr/img/pastille-DL-APP-2.png" alt="Logo David Lucas Paris" class="logo-login">
+    <span>Login to David Lucas APP</span><br>
+    {{ auth.currentUserDisplayName }}
+  </mat-card-title>
+
+  <mat-card-content>
+
+    <form class="login-form">
+              
+      <mat-form-field class="example-full-width">
+        <!-- <input matInput placeholder="Email"> -->
+        <input matInput placeholder="Email" [formControl]="emailFormControl">
+        <mat-error *ngIf="emailFormControl.hasError('pattern')">
+          Please enter a valid email address
+        </mat-error>
+        <mat-error *ngIf="emailFormControl.hasError('required')">
+          Email is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+      <!-- 
+      <mat-form-field class="example-full-width">
+        <span matPrefix>+33 &nbsp;</span>
+        <input type="tel" matInput 
+          placeholder="Cellphone"
+          #cellPhone maxlength="10">
+          <mat-hint align="end">{{cellPhone.value.length}} / 10</mat-hint>
+      </mat-form-field> 
+      -->
+      <mat-form-field class="example-full-width">
+        <input type="password" matInput 
+          placeholder="Password">
+      </mat-form-field>
+    </form>
+
+  </mat-card-content>
+
+  <mat-card-footer>
+    <button mat-raised-button (click)="signInAnonymously()" color="warn">
+      <mat-icon>account_circle</mat-icon>
+      <span> Anonymous Login</span>
+    </button>
+    <button mat-raised-button (click)="signInWithGoogle()" color="black">
+      <mat-icon>public</mat-icon>
+      <span> Signin with Google</span>
+    </button> 
+    <button mat-raised-button color="black">
+      <mat-icon>check</mat-icon>
+      <span> Signin with Email</span>
+    </button>   
+    <br><br><br>          
+  </mat-card-footer>
+
+</mat-card>
+
+

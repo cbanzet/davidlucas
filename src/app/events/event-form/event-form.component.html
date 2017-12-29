@@ -1,0 +1,117 @@
+<mat-card>
+	<mat-card-header>
+		<div mat-card-avatar class="example-header-image">
+			<mat-icon matListIcon>today</mat-icon>
+		</div>			
+		<mat-card-title>{{ pagetitle }}</mat-card-title>
+		<mat-card-subtitle>{{ pagesubtitle }}</mat-card-subtitle>		
+	</mat-card-header>
+
+	<mat-card-content *ngIf="step1">
+		<mat-grid-list class="gridlistbut" cols="3" rowHeight="2:1">
+		  <mat-grid-tile (click)="step1=false;step1a=true;pagetitle='New Concert';pagesubtitle='Select Artits'">
+		  	<mat-icon matListIcon>add</mat-icon>
+		  	<span>Coupe</span>
+		 	</mat-grid-tile>
+		  <mat-grid-tile>
+		  	<mat-icon matListIcon>add</mat-icon>
+				<span>Manucure</span>
+			</mat-grid-tile>
+		  <mat-grid-tile>
+		  	<mat-icon matListIcon>add</mat-icon>
+		  	<span>Couleur</span>
+		  </mat-grid-tile>
+		</mat-grid-list>
+	</mat-card-content>
+
+
+<!-- 	<mat-card-content *ngIf="step1a">
+		<form #newPrestaForm="ngForm" (ngSubmit)="onSubmit(newPrestaForm)">
+			<table>
+				<tr>
+					<td>
+						<mat-form-field>
+							<input matInput placeholder="Title" 
+								required
+								ngModel #newEventTitle="ngModel"
+								name="newEventTitle">
+						</mat-form-field>					
+					</td>
+					<td>
+						<mat-form-field>
+							<input matInput placeholder="Place" 
+								required
+								ngModel #newEventPlace="ngModel"
+								name="newEventPlace">
+						</mat-form-field>	
+					</td>
+				</tr>	
+				<tr>
+					<td coslpan="2"><h1>Programme</h1></td>
+				</tr>		
+				<tr>
+					<td>
+						<mat-form-field>
+						  <input matInput [matDatepicker]="datepicker" placeholder="Choose a date">
+						  <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
+						  <mat-datepicker #datepicker></mat-datepicker>
+						</mat-form-field>					
+					</td>
+					<td>
+						<mat-form-field	class="example-form">
+						  <input 
+						  		matInput 
+						  		placeholder="Search Composer" aria-label="Composer" 
+						  		[matAutocomplete]="auto" 
+						  		[formControl]="composerCtrl">
+						  <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+						    <mat-option *ngFor="let composer of filteredComposers | async" 
+						    	[value]="composer">
+						      <span>{{ composer.firstname }} {{ composer.lastname }}</span>
+						    </mat-option>
+						  </mat-autocomplete>
+						  <mat-icon matSuffix>search</mat-icon>
+						</mat-form-field>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<mat-form-field>
+						  <mat-select multiple placeholder="Select Artist" 
+						  	ngModel #selectedArtist="ngModel" name="selectedArtist">
+						    <mat-option *ngFor="let artist of artists | async" 
+						    	[value]="artist">
+						    	{{ artist.firstname }} {{ artist.lastname }}
+						    </mat-option>
+						  </mat-select>
+						</mat-form-field>
+					</td>	
+					<td></td>			
+				</tr>
+			</table>
+			<button mat-fab (click)="goBack()" type="button" color="black">
+				<mat-icon>keyboard_arrow_left</mat-icon>
+			</button>
+			<button mat-fab type="submit" color="accent"
+				[disabled]="!newPrestaForm.form.valid">
+				<mat-icon>save</mat-icon>
+			</button>			
+		</form>		
+	</mat-card-content> -->
+
+
+</mat-card>
+
+
+
+<mat-card *ngIf="eventForm">
+
+
+	<mat-card-content>
+	
+		3 Possibilités : Concert Isolé / Tournée / Masterclass
+
+	
+	</mat-card-content>
+
+</mat-card>

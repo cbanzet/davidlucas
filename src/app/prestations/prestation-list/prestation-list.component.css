@@ -1,0 +1,46 @@
+button {
+  margin-left: 10px !important;
+}
+
+mat-card-title {
+	font-size: 1.2em !important;
+	line-height: 0.5em;
+	font-weight: 300;
+}
+
+.example-full-width {
+  width: 100%;
+}
+
+.example-fill-remaining-space {
+  // This fills the remaining space, by using flexbox. 
+  // Every toolbar row uses a flexbox row layout.
+  flex: 1 1 auto;
+}
+
+
+mat-spinner {
+	margin: 0 auto;
+}
+
+
+.field-acro, .field-price, .field-title, .field-details {
+	margin-left: 2px;
+}
+.field-acro {
+	max-width: 60px;
+}
+.field-price {
+	max-width: 80px;
+	font-weight: bold;
+}
+.field-title {
+	min-width: 200px;
+}
+.field-details {
+	min-width: 180px;
+}
+
+.pull-right {
+	float: right;
+}

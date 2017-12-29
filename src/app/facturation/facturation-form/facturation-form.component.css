@@ -1,0 +1,32 @@
+button {
+  margin-left: 10px !important;
+}
+
+mat-card-title {
+	font-size: 1.2em !important;
+	line-height: 0.5em;
+	font-weight: 300;
+}
+
+h5 {
+	font-weight: 200;
+	font-size: 0.9em;
+	text-transform: uppercase;
+	padding: 20px 0 10px;
+	margin: 0;
+}
+
+.mode-A4 {
+  max-width: 700px;
+  margin: 20px auto;
+  min-height: 1000px;
+}
+
+.header-image {
+	width: 200px;
+}
+
+.header-image img {
+	width: 100px;
+	height: auto;
+}

@@ -1,0 +1,30 @@
+mat-radio-button {
+	margin-right: 10px;
+	color: #999
+}
+
+
+button {
+  margin-left: 10px !important;
+}
+
+mat-card-title {
+	font-size: 1.2em !important;
+	line-height: 0.5em;
+	font-weight: 300;
+}
+
+
+.mat-radio-checked {
+	color: #000 !important;
+	font-weight: bold !important;
+}
+
+.sequence mat-grid-tile {
+	background-color: #191919;
+	color: #fff;
+}
+
+.field-types {
+	width: 100%;
+}

@@ -1,0 +1,54 @@
+<mat-card>
+
+	<h1>What is it that you wanna do?</h1>
+
+
+  <button mat-menu-item routerLink="./../clients" 
+    [routerLinkActive]="['matl-button--colored']">
+      <mat-icon>people</mat-icon>
+      <span>See Clients</span>
+  </button>
+
+  <button mat-menu-item routerLink="./../clientform" 
+    [routerLinkActive]="['matl-button--colored']">
+      <mat-icon>face</mat-icon>
+      <span>Add Client</span>
+  </button>
+
+  <button mat-menu-item routerLink="./../salon" 
+    [routerLinkActive]="['matl-button--colored']">
+      <mat-icon>weekend</mat-icon>
+      <span>Salon</span>
+  </button>
+
+  <button mat-menu-item routerLink="./../members" 
+    [routerLinkActive]="['matl-button--colored']">
+      <mat-icon>people</mat-icon>
+      <span>See Members</span>
+  </button>
+
+  <button mat-menu-item routerLink="./../member" 
+    [routerLinkActive]="['matl-button--colored']">
+      <mat-icon>person_add</mat-icon>
+      <span>Add Member</span>
+  </button>
+      
+  <button mat-menu-item routerLink="./../prestation">
+      <mat-icon>content_cut</mat-icon>
+      <span>Prestations</span>
+  </button>
+
+  <button mat-menu-item disabled routerLink="./lab">
+      <mat-icon> build </mat-icon>
+      <span>Report</span>
+  </button>
+
+  <button mat-menu-item routerLink="./lab">
+      <mat-icon> build </mat-icon>
+      <span>Lab</span>
+  </button>	
+
+</mat-card>
+
+
+

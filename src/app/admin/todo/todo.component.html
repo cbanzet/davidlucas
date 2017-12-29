@@ -1,0 +1,139 @@
+<!-- <pre>{{ tasks | async | json }}</pre> -->
+
+<ng-template #loading>				
+	<br><br>
+	<mat-spinner color="accent"></mat-spinner>
+	<br><br>
+</ng-template>
+
+<mat-card *ngIf="taskList">
+  <mat-card-header>
+    <div mat-card-avatar class="example-header-image">
+      <mat-icon matListIcon>build</mat-icon>
+    </div>      
+    <mat-card-title>Todo List for David Lucas App</mat-card-title>
+    <mat-card-subtitle>Click a task and see further informations</mat-card-subtitle>
+		<button mat-fab type="button" color="black"
+			(click)="taskList=false;addtaskForm=true">
+			<mat-icon>add</mat-icon>
+		</button>
+  </mat-card-header>
+
+  <mat-card-content *ngIf="tasks | async; let tasks; else loading">
+    <mat-list dense>
+      <mat-list-item *ngFor="let task of tasks">
+        <h4 mat-line [ngClass]="task.status==2 ? 'task-done' : 'task-waiting'">
+        	<span class="task-title"> {{ task.component }} : {{ task.action }} : {{ task.details }}</span><br>
+        	<span *ngIf="task.timestamp" class="task-date">{{ task.timestamp | date}} </span>
+        	<span *ngIf="task.time" class="task-date"> | Estimated Time : <strong>{{ task.time }}H</strong></span>
+        	<span *ngIf="task.startdate" class="task-date"> | Start: <strong>{{ task.startdate | date: 'MM-dd HH:mm' }}</strong></span>
+        	<span *ngIf="task.enddate" class="task-date"> | Complete: <strong>{{ task.enddate | date: 'MM-dd HH:mm' }}</strong></span>
+        	<span *ngIf="task.length" class="task-date"> | Time Spent : <strong>{{ task.length }}H</strong></span>
+        </h4>
+        <!-- TASK WAITING -->
+				<button mat-icon-button color="warn"
+					*ngIf="task.status==0"
+					(click)="changeTaskStatus(task)">
+		        <mat-icon>alarm_add</mat-icon>
+		    </button>
+        <!-- TASK ON GOING -->		    
+				<button mat-icon-button color="accent"
+					*ngIf="task.status==1"
+					(click)="changeTaskStatus(task)">
+		        <mat-icon>alarm</mat-icon>
+		    </button>
+        <!-- TASK DONE -->		    		    
+				<button mat-icon-button
+					*ngIf="task.status==2">
+		        <mat-icon>done</mat-icon>
+		    </button>		     
+				<button mat-icon-button color="warn"
+						(click)="deleteTask(task)">
+		        <mat-icon>remove_circle</mat-icon>
+		    </button>      
+      </mat-list-item>
+    </mat-list>
+  </mat-card-content>
+</mat-card>
+
+
+
+
+
+<mat-card *ngIf="addtaskForm">
+	<form #newtaskForm="ngForm" (ngSubmit)="onSubmit(newtaskForm)">
+	<mat-card-content>
+
+			<!-- 			
+			<mat-form-field>
+				<input matInput placeholder="Task Title" required 
+					ngModel #newTaskTitle="ngModel"
+					name="newTaskTitle">
+			</mat-form-field> 
+			-->
+
+
+			<mat-form-field>
+			  <mat-select placeholder="Select Action"
+			  	ngModel #newTaskAction="ngModel"
+					name="newTaskAction">
+			    <mat-option *ngFor="let action of actions" [value]="action">
+			  			{{ action }}
+			  	</mat-option>
+			  </mat-select>
+			</mat-form-field>
+
+			<mat-form-field>
+			  <mat-select placeholder="Select Component"
+			  	ngModel #newTaskComponent="ngModel"
+					name="newTaskComponent">
+			    <mat-option>None</mat-option>
+			    <mat-option *ngFor="let component of components" [value]="component">
+			  			{{ component }}
+			  	</mat-option>
+			  </mat-select>
+			</mat-form-field>
+
+
+			<mat-form-field>
+				<input matInput placeholder="Task Details" 
+					ngModel #newTaskDetails="ngModel"
+					name="newTaskDetails">
+			</mat-form-field>
+
+
+			<mat-radio-group ngModel name="newTaskTime" required>
+			  <mat-radio-button class="radio-button-origine" 
+			  	*ngFor="let time of times" [value]="time">
+			    {{ time }}H
+			  </mat-radio-button>
+			</mat-radio-group>			
+
+		<button mat-fab type="submit" color="warn"
+			[disabled]="!newtaskForm.form.valid">
+			<mat-icon>add</mat-icon>
+		</button>
+
+	</mat-card-content>
+	</form>
+</mat-card>
+
+
+<mat-toolbar>
+	<button mat-mini-fab class="ml" color="black"
+		routerLink="./../dashboard">
+		<mat-icon>home</mat-icon>
+	</button>
+
+	<button mat-mini-fab class="ml" color="black"
+		*ngIf="!addtaskForm"
+		(click)="addtaskForm=true;taskList=false">
+		<mat-icon>add</mat-icon>
+	</button>
+
+	<button mat-mini-fab class="ml" type="button" color="black"
+		*ngIf="!taskList"
+		(click)="addtaskForm=false;taskList=true">
+		<mat-icon>list</mat-icon>
+	</button>		
+</mat-toolbar>

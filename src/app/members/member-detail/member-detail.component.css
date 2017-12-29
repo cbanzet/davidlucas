@@ -1,0 +1,52 @@
+mat-card-title {
+	font-size: 1.2em !important;
+	line-height: 0.5em;
+	font-weight: 300;
+}
+
+.ta-r {
+	text-align: right;
+}
+
+textarea {
+   /*border: 1px dotted #FFF;*/
+   padding: 5px 0;
+   color: #333;
+   font-size: 0.9em;   
+}
+
+textarea:enabled {
+    /*background: #ddd;*/
+    /*border: 1px dotted #333;*/
+    border-bottom: 1px solid #7F7F7F;
+}
+
+.fiche-technique-label {
+	color: #999999;
+}
+
+.ta-r {
+  text-align: center;
+}
+
+button {
+  margin-left: 10px !important;
+}
+
+.keystyle {
+  color: #ccc;
+  font-size: 10px;
+}
+
+.example-radio-group {
+  display: inline-flex;
+  flex-direction: column;
+}
+
+.example-radio-button {
+  margin: 5px;
+}
+
+.example-selected-value {
+  margin: 15px 0;
+}

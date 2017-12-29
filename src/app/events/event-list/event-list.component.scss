@@ -1,0 +1,52 @@
+mat-radio-button {
+	margin-right: 10px;
+	color: #999
+}
+
+
+button {
+  margin-left: 10px !important;
+}
+
+mat-card-title {
+	font-size: 1.2em !important;
+	line-height: 0.5em;
+	font-weight: 300;
+}
+
+.mailphone {
+	margin-right: 10px;
+
+}
+.mailphone a {
+	text-decoration: none;
+	background-color: #B3B3B3;
+	color: #eee;
+	padding: 2px 10px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+}
+.mailphone a:hover {
+	background-color: #000;
+	color: #fff;
+}
+
+.event-statut {
+	background-color: #ccc;
+	color: #fff;
+	margin-right: 5px;
+	padding: 2px 10px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;	
+	text-transform: uppercase;
+}
+
+.ongoing {
+	background-color: green !important;
+}
+
+.waiting {
+	background-color: red !important;
+}

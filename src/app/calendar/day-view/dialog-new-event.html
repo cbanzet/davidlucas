@@ -1,0 +1,71 @@
+
+
+<div mat-dialog-title>
+
+
+<!-- {{data.selectedCoiffeur.$key}} -->
+
+
+	<h1 *ngIf="data.selectedCoiffeur" mat-dialog-title>Rendez-vous pour {{data.selectedCoiffeur.firstname}} <br>
+		<span class="datatime">
+			<span>le {{ data.date | date:'d MMM' }}. à {{data.time}}</span>
+		</span>
+	</h1>
+
+	<h1 *ngIf="data.memberfromtable" mat-dialog-title>Rendez-vous pour {{data.memberfromtable.firstname}}</h1>
+
+	<h2 *ngIf="selectedClient">avec {{ selectedClient.firstname}} {{ selectedClient.lastname}}</h2>
+
+	<h3 *ngIf="data.prestation">{{ data.prestation.title }} - {{ data.prestation.time }} min</h3>
+
+</div>
+
+
+<div mat-dialog-content>
+
+	<mat-form-field
+	*ngIf="!selectedClient">
+	  <input 
+	  		matInput 
+	  		placeholder="Chercher une Client" aria-label="Client"
+	  		[matAutocomplete]="auto" 
+	  		[formControl]="clientCtrl">
+	  <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+	    <mat-option *ngFor="let client of filteredClients | async" 
+	    	[value]="client">
+	      <span>{{ client.firstname }} {{ client.lastname }}</span>
+	    </mat-option>
+	  </mat-autocomplete>
+	  <mat-icon matSuffix>search</mat-icon>
+	</mat-form-field>
+
+	<button mat-mini-fab *ngIf="!selectedClient" 
+		routerLink="./../clientform" (click)="onNoClick()" color="black">
+			<mat-icon>add</mat-icon>
+	</button>
+
+	<mat-select
+		*ngIf="!data.prestation"
+		[(ngModel)]="data.prestation"
+		placeholder="Select Prestations"  name="prestation">
+			<mat-option *ngFor="let presta of prestations | async" [value]="presta">{{presta.title}}
+			</mat-option>		
+	</mat-select>
+
+</div>
+
+<div mat-dialog-actions>
+
+	<button mat-fab (click)="onNoClick()" type="button" tabindex="-1" color="black">
+		<mat-icon>close</mat-icon>
+  </button>
+
+	<button mat-fab 
+		[disabled]="!data.prestation||!data.selectedCoiffeur||!selectedClient"
+		(click)="saveEvent(data,selectedClient)"
+		type="button" tabindex="2">
+		<mat-icon>check</mat-icon>
+  </button>
+
+</div>
+<br>

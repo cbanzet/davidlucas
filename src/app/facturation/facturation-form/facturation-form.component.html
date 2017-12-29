@@ -1,0 +1,97 @@
+<!-- <pre>{{ clients | async | json }}</pre> -->
+
+<mat-card class="mode-A4">
+	<mat-card-header>
+		<div mat-card-avatar class="header-image">
+			<img src="http://www.davidlucas.fr/img/David-Lucas-LOGO-2015-black.png">
+			<!-- <mat-icon matListIcon>payment</mat-icon> -->
+		</div>			
+		<mat-card-title>Facture n°</mat-card-title>
+		<mat-card-subtitle>
+			<strong>Salon David Lucas Paris</strong><br>
+			20 Rue Danielle Casanova, 75002 Paris <br>
+			01 47 03 92 04
+		</mat-card-subtitle>	
+	</mat-card-header>
+
+	<mat-card-content>
+		<!-- <form #newFactureForm="ngForm" (ngSubmit)="onSubmit(newFactureForm)"> -->
+			
+			<h5>Date</h5>
+			
+			<span *ngIf="selectedDate">
+				<strong>{{ selectedDate | date }}</strong>
+			</span>
+
+			<mat-form-field *ngIf="!selectedDate" class="full-width">
+			  <input matInput [matDatepicker]="picker" [(ngModel)]="selectedDate" placeholder="Choose a date">
+			  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+			  <mat-datepicker #picker startView="day"></mat-datepicker>
+			</mat-form-field>
+
+
+			<h5>Client(e)</h5>
+
+			<span *ngIf="selectedClient">
+				<strong>{{ selectedClient.firstname }} {{ selectedClient.lastname }}</strong><br>
+				{{ selectedClient.street }} <br> 
+				{{ selectedClient.zip }} {{ selectedClient.city }} <br>
+				{{ selectedClient.phone }} <br>
+				{{ selectedClient.email }}
+			</span>
+
+
+			<mat-form-field	*ngIf="!selectedClient" class="full-width">
+			  <input 
+			  		matInput 
+			  		placeholder="Search Client" aria-label="Client" 
+			  		[matAutocomplete]="auto" 
+			  		[formControl]="clientCtrl">
+			  <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayClientFn">
+			    <mat-option *ngFor="let client of filteredClients | async" 
+			    	[value]="client">
+			      <span>{{ client.firstname }} {{ client.lastname }}</span>
+			    </mat-option>
+			  </mat-autocomplete>
+			  <mat-icon matSuffix>search</mat-icon>
+			</mat-form-field>
+
+			<h5>Coiffeur</h5>
+
+			<span *ngIf="selectedCoiffeur">
+				<strong>{{ selectedCoiffeur.firstname }} {{ selectedCoiffeur.lastname }}</strong>
+			</span>
+
+
+
+<!-- 			<mat-form-field *ngIf="!selectedCoiffeur" class="full-width">
+			  <input 
+			  		matInput 
+			  		placeholder="Select Coiffeur" aria-label="Coiffeur" 
+			  		[matAutocomplete]="auto2" 
+			  		[formControl]="coiffeurCtrl">
+			  <mat-autocomplete #auto2="matAutocomplete" [displayWith]="displayCoiffeurFn">
+			    <mat-option *ngFor="let coiffeur of filteredCoiffeurs | async" 
+			    	[value]="coiffeur">
+			      <span>{{ coiffeur.firstname }} {{ coiffeur.lastname }}</span>
+			    </mat-option>
+			  </mat-autocomplete>
+			  <mat-icon matSuffix>search</mat-icon>
+			</mat-form-field> -->
+
+			<h5>Prestations</h5>
+
+			<mat-form-field>
+			  <mat-select [(value)]="selectedPrestation"
+			  	placeholder="Sélectionner la prestation">
+			    <mat-option>None</mat-option>
+			    <mat-option value="option1">Option 1</mat-option>
+			    <mat-option value="option2">Option 2</mat-option>
+			    <mat-option value="option3">Option 3</mat-option>
+			  </mat-select>
+			</mat-form-field>
+
+
+		<!-- </form> -->
+	</mat-card-content>
+</mat-card>

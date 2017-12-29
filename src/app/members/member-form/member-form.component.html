@@ -1,0 +1,101 @@
+<mat-card>
+	<br>
+	<mat-card-header>
+		<div mat-card-avatar class="example-header-image">
+			<mat-icon matListIcon>person</mat-icon>
+		</div>	
+		<mat-card-title>New Member</mat-card-title>
+		<mat-card-subtitle>Ajout d'un nouveau membre dans notre équipe</mat-card-subtitle>
+	</mat-card-header>
+
+	<form #newMemberForm="ngForm" (ngSubmit)="onSubmit(newMemberForm)">
+	<mat-card-content>
+			<table cellspacing="0">
+				<tr>
+	  			<td>
+	  				<mat-form-field>
+	    				<input matInput placeholder="First name" required
+	    					ngModel #newMemberfirstname="ngModel"
+	    					name="newMemberfirstname">
+	  				</mat-form-field>
+	  			</td>
+	  			<td>
+	  				<mat-form-field>
+	    				<input matInput placeholder="Last name" required
+	    				ngModel #newMemberlastname="ngModel"
+	    				name="newMemberlastname">
+	  				</mat-form-field>
+	  			</td>
+	  		</tr>
+	  		<tr>
+	  			<td>
+	  				<mat-form-field>
+	    				<input matInput placeholder="Email" type="email"
+	    				ngModel #newMemberemail="ngModel" required
+	    				name="newMemberemail">
+	 	  				</mat-form-field>
+	  			</td>
+	  			<td>
+	  				<mat-form-field>
+	    				<input matInput mat-maxlength="3" placeholder="Phone"
+	    				ngModel name="newMemberphone">
+	  				</mat-form-field>    				
+	  			</td>    			
+	  		</tr>		
+	  		<tr>
+	  			<td>
+	  				<mat-form-field class="add-member-full-width">
+	    				<input matInput placeholder="Street" 
+	    				ngModel name="newMemberstreet">
+	  				</mat-form-field>
+	  			</td>
+	  			<td>
+	  				<mat-form-field class="add-member-full-width">
+	    				<input matInput placeholder="Zip" 
+	    				ngModel #newMemberzip maxlength="5" name="newMemberzip">
+	    				<mat-hint align="end">{{newMemberzip.value.length}} / 5</mat-hint>
+	  				</mat-form-field>
+	  			</td>
+	  		</tr>
+	  		<tr>
+	  			<td>
+	  				<mat-form-field class="add-member-full-width">
+	    				<input matInput placeholder="City"
+	    				ngModel name="newMembercity">
+	  				</mat-form-field>    				
+	  			</td>
+	  			<td></td>
+	  		</tr>
+	  		<tr>
+	  			<td colspan="2">
+	  				<!-- <pre>{{ roles | async | json }}</pre> -->
+						<mat-radio-group ngModel name="pickedMemberRole" required>
+						  <mat-radio-button class="example-radio-button" 
+						  	[disabled]="role.key==1"
+						  	*ngFor="let role of roles | async" [value]="role">
+						    {{ role.title }}
+						  </mat-radio-button>
+						</mat-radio-group>	  				
+	  			</td>	  				
+	  		</tr>
+	  	</table>
+	</mat-card-content>
+
+	<mat-card-actions>
+
+		<button mat-fab (click)="goBack()" type="button" color="black">
+			<mat-icon>keyboard_arrow_left</mat-icon>
+		</button>
+
+		<button mat-fab type="submit" color="accent"
+			[disabled]="!newMemberForm.form.valid">
+			<mat-icon>save</mat-icon>
+		</button>
+
+	</mat-card-actions>
+	</form>
+	<mat-card-footer>
+		<br>
+	</mat-card-footer>
+
+</mat-card>

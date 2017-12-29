@@ -1,0 +1,70 @@
+mat-grid-tile h2 {
+	display: block;
+	color: #FFF;
+	text-transform: uppercase;
+	font-size: 1.5em !important;
+	font-weight: 200;
+}
+
+mat-grid-tile.enable {
+  background: #666666;
+  color: #eee;
+  cursor: pointer
+}
+
+mat-grid-tile.enable:hover {
+	background: #000;
+	color: #FFF;
+}
+
+mat-grid-tile.disable {
+  background: #ccc;
+  color: #eee;
+}
+
+mat-card-title {
+	font-size: 1.2em !important;
+	line-height: 0.5em;
+	/*text-transform: uppercase;*/
+	font-weight: 300;
+}
+
+.mat-chip {
+  font-size: 10px;
+  line-height: 12px;
+}
+
+.prestaGridColor {
+background: #ffffff; /* Old browsers */
+background: -moz-linear-gradient(-45deg, #ffffff 0%, #f6f6f6 47%, #ededed 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(-45deg, #ffffff 0%,#f6f6f6 47%,#ededed 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(135deg, #ffffff 0%,#f6f6f6 47%,#ededed 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ededed',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+}
+
+.mailphone {
+	margin-right: 10px;
+
+}
+.mailphone a {
+	text-decoration: none;
+	background-color: #B3B3B3;
+	color: #eee;
+	padding: 2px 10px;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+}
+.mailphone a:hover {
+	background-color: #000;
+	color: #fff;
+}
+
+.bg-vendome {
+	background: #000 url("http://www.davidlucas.fr/img/david-lucas-vendome.jpg") center top !important;
+	-webkit-background-size: cover !important;
+  -moz-background-size: cover !important;
+  -o-background-size: cover !important;
+  background-size: cover !important;	    
+}
+

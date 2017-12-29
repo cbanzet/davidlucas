@@ -1,0 +1,35 @@
+mat-card-title {
+	font-size: 1.2em !important;
+	line-height: 0.5em;
+	font-weight: 300;
+}
+
+
+.ta-r {
+	text-align: right;
+}
+
+
+
+textarea {
+   /*border: 1px dotted #FFF;*/
+   padding: 5px 0;
+   color: #333;
+   font-size: 0.9em;   
+}
+
+
+textarea:enabled {
+    /*background: #ddd;*/
+    /*border: 1px dotted #333;*/
+    border-bottom: 1px solid #7F7F7F;
+    
+}
+
+.fiche-technique-label {
+	color: #999999;
+}
+
+button {
+  margin-left: 10px !important;
+}

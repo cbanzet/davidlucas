@@ -1,0 +1,52 @@
+mat-radio-button {
+	margin-right: 10px;
+	color: #999
+}
+button {
+  margin-left: 10px !important;
+}
+a, a:focus, a:active {
+   outline: 0;
+}
+
+mat-card-title {
+	font-size: 1.2em !important;
+	line-height: 0.5em;
+	font-weight: 300;
+}
+
+mat-spinner {
+	margin: 0 auto;
+}
+
+.mb-20px {
+	margin-bottom: 40px;
+}
+
+
+.task-title {
+	font-weight: bold;
+	font-size: 1.2em;
+}
+
+
+
+.mat-list-item {
+	border-bottom: 1px dashed #fff;	
+}
+.mat-list-item:hover {
+	/*background-color: #ddd;*/
+	border-bottom: 1px dashed #ccc;	
+	background: #ffffff; /* Old browsers */
+	background: -moz-linear-gradient(top, #ffffff 0%, #eeeeee 100%); /* FF3.6-15 */
+	background: -webkit-linear-gradient(top, #ffffff 0%,#eeeeee 100%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(to bottom, #ffffff 0%,#eeeeee 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#eeeeee',GradientType=0 ); /* IE6-9 */
+}
+
+.task-waiting {
+	color: #000 !important;
+}
+.task-done {
+	color: #ccc !important;
+}

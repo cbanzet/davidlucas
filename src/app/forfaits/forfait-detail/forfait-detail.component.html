@@ -1,0 +1,95 @@
+
+<mat-card *ngIf="forfait | async as forfait ">
+		<br>
+		<mat-card-header>
+			<div mat-card-avatar class="example-header-image">
+				<mat-icon matListIcon>content_cut</mat-icon>
+			</div>	
+			<mat-card-title>Modifier le Forfait</mat-card-title>
+			<mat-card-subtitle>Modifier les informations du forfait<br>
+				<span class="keystyle">{{ forfait.$key }}</span>
+			</mat-card-subtitle>
+		</mat-card-header>
+		<mat-card-content>
+			<table cellspacing="0">
+          <tr>
+              <td>
+                <mat-form-field>
+                  <input matInput placeholder="Title" required
+                    [(ngModel)]="forfait.title"
+                    (ngModelChange)="updateField(forfait,titleField,forfait.title)">
+                </mat-form-field>
+              </td>	
+              
+              <td>
+                  <mat-form-field>
+                    <mat-select required placeholder="Premiere prestation"
+                    [compareWith]="compareFn" [(ngModel)]="forfait.prestations[1].title"
+                    (ngModelChange)="updateField(forfait,prestationField,forfait.prestations[1].title)">
+                    <mat-option *ngFor="let prestation of prestations | async" 
+                      [value]="prestation">
+                      {{ prestation.title }} 
+                    </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </td>
+
+            </tr>
+            <tr>
+              <td> 
+                <mat-form-field>
+                  <input matInput placeholder="Prix Total" required
+                    type="number"
+                    [(ngModel)]="forfait.price"
+                    (ngModelChange)="updateField(forfait,prestationField,forfait.price)">
+                  <mat-icon matSuffix>euro_symbol</mat-icon>
+                </mat-form-field>
+              </td>
+
+              <td>
+                  <mat-form-field>
+                    <mat-select required placeholder="Deuxieme prestation"
+                    [compareWith]="compareFn" [(ngModel)]="forfait.prestations[2].title"
+                    (ngModelChange)="updateField(forfait,prestationField,forfait.prestations[2].title)">
+                    <mat-option *ngFor="let prestation of prestations | async" 
+                      [value]="prestation">
+                      {{ prestation.title }}
+                    </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </td>
+            </tr>	
+
+            <tr>
+                <td> 
+                  <mat-form-field>
+                    <input matInput placeholder="times" required
+                      type="number"
+                      [(ngModel)]="forfait.time"
+                      (ngModelChange)="updateField(forfait,priceField,forfait.time)">
+                    
+                  </mat-form-field>
+                </td>
+
+                <td>
+                    <mat-form-field>
+                      <mat-select required placeholder="Troisieme prestation"
+                      [compareWith]="compareFn" [(ngModel)]="forfait.prestations[3].title"
+                      (ngModelChange)="updateField(forfait,prestationField,forfait.prestations[3].title)">
+                      <mat-option *ngFor="let prestation of prestations | async"
+                        [value]="prestation">
+                        {{ prestation.title }}
+                      </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </td>
+              </tr>	
+				<tr>
+					
+     
+			</table>		
+		</mat-card-content> 
+		<button mat-fab (click)="goBack()" color="black">
+			<mat-icon>keyboard_arrow_left</mat-icon>
+		</button>	
+</mat-card>
