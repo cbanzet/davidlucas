@@ -28,6 +28,12 @@ button {
 	margin-right: 15px;
 }
 
+
+.fl-right {
+	float: right;
+	text-align: right;
+}
+
 .datatime {
 	font-size: 0.8em;
 	background-color: #000;
@@ -78,3 +84,16 @@ button {
 .mt30 {
 	margin-top: 30px;
 }
+
+mat-spinner {
+	margin: 0 auto;
+}
+
+.display-block {
+	display: block;
+}
+
+.cursor-pointer {
+	cursor: pointer;
+}
+

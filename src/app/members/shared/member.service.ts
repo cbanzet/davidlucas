@@ -18,6 +18,7 @@ export class MemberService {
   private salonPath = '/salons';
 
   membersRef: AngularFireList<any>;
+  coiffeursRef: AngularFireList<any>;  
   memberRef:  AngularFireObject<any>;
   members: Observable<any[]>; //  list of objects
   member:  Observable<any>;   //   single object
@@ -32,16 +33,13 @@ export class MemberService {
     private router: Router) 
   { 
   	this.membersRef = db.list('/members');
-    this.rolesRef = db.list('/memberRole'); 
-
-  	// this.members = this.membersRef.snapshotChanges().map(arr => {
-   //    return arr.map(snap => Object.assign(snap.payload.val(), { $key: snap.key }) )
-   //  })
+    this.rolesRef = db.list('/memberRole');
+    this.coiffeursRef = db.list('/memberRole/3/members/', ref => ref.orderByChild('firstname'));
   }
 
-
+////////////////////////////////////////////////////////////////////////////////
   ////// G E T ////////////////
-
+////////////////////////////////////////////////////////////////////////////////
 
   // Return an observable list with optional query
   getMembersList() {
@@ -49,6 +47,12 @@ export class MemberService {
       return arr.map(snap => Object.assign(snap.payload.val(), { $key: snap.key }) )
     })    
   }
+
+  getCoiffeursList() {
+    return this.coiffeursRef.snapshotChanges().map(arr => {
+      return arr.map(snap => Object.assign(snap.payload.val(), { $key: snap.key }) )
+    })    
+  }  
 
   getRoles() {
     return this.rolesRef.snapshotChanges().map(arr => {
@@ -80,9 +84,9 @@ export class MemberService {
   } 
 
 
-
+////////////////////////////////////////////////////////////////////////////////
   ////// C R E A T E ////////////////
-
+////////////////////////////////////////////////////////////////////////////////
 
   // Create new member
   createMember(newMemberForm: NgForm): void {
@@ -127,9 +131,9 @@ export class MemberService {
     this.router.navigate(['/members']);      
   }
 
-
+////////////////////////////////////////////////////////////////////////////////
   ///////////// D E L E T E ////////////////
-
+////////////////////////////////////////////////////////////////////////////////
 
 
   // Delete a single Member
@@ -153,9 +157,9 @@ export class MemberService {
   }
 
 
-
+////////////////////////////////////////////////////////////////////////////////
   ///////////// U P D A T E ////////////////
-
+////////////////////////////////////////////////////////////////////////////////
  
 
   // Update Member's data

@@ -28,6 +28,7 @@ import { ForfaitDetailComponent } from './forfaits/forfait-detail/forfait-detail
 import { FacturationListComponent } from './facturation/facturation-list/facturation-list.component';
 import { FacturationFormComponent } from './facturation/facturation-form/facturation-form.component';
 import { FacturationDetailComponent } from './facturation/facturation-detail/facturation-detail.component';
+import { FacturationEventComponent } from './facturation/facturation-event/facturation-event.component';
 
 import { EventDetailComponent } from './events/event-detail/event-detail.component';
 import { EventFormComponent } from './events/event-form/event-form.component';
@@ -58,6 +59,7 @@ const routes: Routes = [
   ////////////////////////////////////////////////////////////////
   { path: 'facturations', component: FacturationListComponent },
   { path: 'facturationform', component: FacturationFormComponent },
+  { path: 'facturationevent/:eventid', component: FacturationEventComponent },
   { path: 'facturation/:id', component: FacturationDetailComponent },
   ////////////////////////////////////////////////////////////////
   { path: 'salon', component: SalonComponent },

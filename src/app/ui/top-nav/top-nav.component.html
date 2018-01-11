@@ -4,10 +4,10 @@
 
   <mat-menu #appMenu="matMenu" yPosition="below" xPosition="before">
     
-    <button mat-menu-item routerLink="./dashboard">
+<!--     <button mat-menu-item routerLink="./dashboard">
         <mat-icon> dashboard </mat-icon>
         <span>Dashboard</span>
-    </button>
+    </button> -->
 
     <button mat-menu-item routerLink="./calendar">
         <mat-icon> today </mat-icon>
@@ -17,12 +17,6 @@
     <button mat-menu-item routerLink="./clientsearch">
         <mat-icon> face </mat-icon>
         <span>Clients</span>
-    </button>
-
-    <button mat-menu-item routerLink="./salon" 
-      [routerLinkActive]="['matl-button--colored']">
-        <mat-icon>weekend</mat-icon>
-        <span>Salons</span>
     </button>
 
     <button mat-menu-item routerLink="./members" 
@@ -41,10 +35,23 @@
         <span>Forfaits</span>
     </button>    
 
+    <button mat-menu-item routerLink="./facturations">
+        <mat-icon>payment</mat-icon>
+        <span>Facturation</span>
+    </button>    
+
+    
+<!--     <button mat-menu-item routerLink="./salon" 
+      [routerLinkActive]="['matl-button--colored']">
+        <mat-icon>weekend</mat-icon>
+        <span>Salons</span>
+    </button>
+ -->
     <button mat-menu-item disabled>
         <mat-icon> chrome_reader_mode </mat-icon>
         <span>Report</span>
     </button>
+   
 
     <mat-divider></mat-divider>
 

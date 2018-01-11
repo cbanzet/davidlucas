@@ -1,12 +1,14 @@
-<!-- <pre>{{ clients | async | json }}</pre> -->
+<!-- <pre>{{ coiffeurs | async | json }}</pre> -->
+<!-- {{ selectedEvent | async | json}} -->
 
 <mat-card class="mode-A4">
+	<br><br><br>
 	<mat-card-header>
 		<div mat-card-avatar class="header-image">
 			<img src="http://www.davidlucas.fr/img/David-Lucas-LOGO-2015-black.png">
 			<!-- <mat-icon matListIcon>payment</mat-icon> -->
 		</div>			
-		<mat-card-title>Facture n°</mat-card-title>
+		<mat-card-title>Facture n° 20170104-0001</mat-card-title>
 		<mat-card-subtitle>
 			<strong>Salon David Lucas Paris</strong><br>
 			20 Rue Danielle Casanova, 75002 Paris <br>
@@ -16,82 +18,240 @@
 
 	<mat-card-content>
 		<!-- <form #newFactureForm="ngForm" (ngSubmit)="onSubmit(newFactureForm)"> -->
+		<table>
+			<tr>
+				<td width="315px">
+					<h5>Date</h5>
+
+					<span *ngIf="selectedDate">
+						<strong>{{ selectedDate | date }}</strong>
+					</span>
+
+					<mat-form-field *ngIf="!selectedDate" class="full-width">
+					  <input matInput [matDatepicker]="picker" [(ngModel)]="selectedDate" placeholder="Choose a date">
+					  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+					  <mat-datepicker #picker startView="day"></mat-datepicker>
+					</mat-form-field>
+
+
+					<h5>Client(e)</h5>
+
+					<span *ngIf="selectedClient">
+						<strong>{{ selectedClient.firstname }} {{ selectedClient.lastname }}</strong><br>
+						<span *ngIf="selectedClient.street">{{ selectedClient.street }} <br></span>
+						<span *ngIf="selectedClient.zip">{{ selectedClient.zip }} {{ selectedClient.city }} <br></span>
+						<span *ngIf="selectedClient.phone">{{ selectedClient.phone }} <br></span>
+						<span *ngIf="selectedClient.email">{{ selectedClient.email }}</span>
+					</span>
+
+
+					<mat-form-field	*ngIf="!selectedClient" class="full-width">
+					  <input 
+					  		matInput 
+					  		placeholder="Search Client" aria-label="Client" 
+					  		[matAutocomplete]="auto" 
+					  		[formControl]="clientCtrl">
+					  <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayClientFn">
+					    <mat-option *ngFor="let client of filteredClients | async" 
+					    	[value]="client">
+					      <span>{{ client.firstname }} {{ client.lastname }}</span>
+					    </mat-option>
+					  </mat-autocomplete>
+					  <mat-icon matSuffix>search</mat-icon>
+					</mat-form-field>
+
+					<h5>Coiffeur</h5>
+
+					<span *ngIf="selectedCoiffeur">
+						<strong>{{ selectedCoiffeur.firstname }} {{ selectedCoiffeur.lastname }}</strong>
+						<!-- <br>Selected Firstname Coiffeur : {{ selectedFirstnameCoiffeur }} -->
+					</span>
+
+					<mat-form-field *ngIf="!selectedCoiffeur" class="full-width">
+					  <input 
+					  		matInput 
+					  		placeholder="Select Coiffeur" aria-label="Coiffeur" 
+					  		[matAutocomplete]="auto2" 
+					  		[formControl]="coiffeurCtrl">
+					  <mat-autocomplete #auto2="matAutocomplete" [displayWith]="displayCoiffeurFn">
+					    <mat-option *ngFor="let coiffeur of filteredCoiffeurs | async" 
+					    	[value]="coiffeur">
+					      <span>{{ coiffeur.firstname }} {{ coiffeur.lastname }}</span>
+					    </mat-option>
+					  </mat-autocomplete>
+					  <mat-icon matSuffix>search</mat-icon>
+					</mat-form-field>
+
+
+					<h5>Forfaits & Prestations</h5>
+				 			
+					<span *ngIf="selectedPrestation">
+						<strong>{{ selectedPrestation.title }}</strong><br>
+						{{ selectedPrestation.details }} <br><br>
+
+						<!-- Prix :  -->
+						<!-- Team: {{selectedPrestation.priceTeam}} <br> -->
+						<!-- David: {{selectedPrestation.priceDavid}} <br> -->
+						<!-- Selected Firstname Coiffeur : {{ selectedFirstnameCoiffeur }} <br> -->
+						<!-- Selected Price: {{ selectedPrice }} <br> -->
+					</span> 
+					
+					<mat-form-field *ngIf="!selectedPrestation&&selectedFirstnameCoiffeur" class="full-width">
+					  <input 
+					  		matInput 
+					  		placeholder="Select Prestation" aria-label="Prestation" 
+					  		[matAutocomplete]="auto3" 
+					  		[formControl]="prestationCtrl">
+					  <mat-autocomplete #auto3="matAutocomplete" [displayWith]="displayPrestationFn">
+					    <mat-option class="prestation-option-list" 
+					    	*ngFor="let prestation of filteredPrestations | async" 
+					    	[value]="prestation">
+					      <span><strong>{{ prestation.title }}</strong> {{ prestation.details }}</span>
+					    </mat-option>
+					  </mat-autocomplete>
+					  <mat-icon matSuffix>search</mat-icon>
+					</mat-form-field>
+					
+				</td>
+				<td width="420px">
+					<!-- 
+						Selected Price : {{ selectedPrice }} € <br>
+						Selected Quantity : {{ selectedQty }}<br>
+						Selected Coiffeur : {{ selectedCoiffeur }} <br>
+						Total HT : {{ totalHT }} <br>
+						Total Tax : {{ totalTAX }} <br>
+						Total TTC : {{ totalTTC }} <br> 
+					-->
+					<div *ngIf="	selectedCoiffeur&&
+												selectedClient&&
+												selectedDate&&
+												selectedPrestation">
+						<table>
+							<tr class="facture-price-header">
+								<td width="200" class="td-a-l">Description</td>
+								<td width="50" class="td-a-c">QTY</td>
+								<td width="60" class="td-a-c">PRICE</td>
+								<td width="70" class="td-a-c">AMOUNT</td>
+							</tr>
+							<tr>
+								<td>
+									<span>
+										<strong>{{ selectedPrestation.title }}</strong><br>
+										{{ selectedPrestation.details }}
+									</span>
+								</td>
+								<td class="td-a-c">
+									<span>
+										<span>{{ selectedQty }}</span>
+										<span class="qty-ctrl">
+											<span class="qty-plus" (click)="changeQty(+1)">+</span>
+											<span class="qty-moint" (click)="changeQty(-1)">-</span>
+										</span>
+									</span>
+								</td>
+								<td class="td-a-c">
+									<span *ngIf="selectedPrice">
+										{{ selectedPrice }} €
+									</span>
+								</td>
+								<td class="td-a-c">
+									<span><strong>{{ (selectedQty*selectedPrice) }} €</strong></span>
+								</td>
+							</tr>
+							<tr>
+								<td></td>
+								<td colspan="2" class="bg-grey ta-l">TOTAL HT</td>
+								<td class="td-a-c">{{ totalHT }} €</td>
+							</tr>
+							 							
+							<tr *ngIf="promo">
+								<td></td>
+								<td colspan="2" class="ta-l">PROMO {{(promo*100)}} %</td>
+								<td class="td-a-c">-{{ promoEuros }} €</td>
+							</tr> 
+						
+							<tr>
+								<td></td>
+								<td colspan="2" class="ta-l">TAX 20%</td>
+								<td class="td-a-c">{{ totalTAX }} €</td>
+							</tr>
+							<tr>
+								<td></td>
+								<td colspan="2" class="bg-black ta-l">TOTAL TTC</td>
+								<td class="td-a-c"><strong>{{ totalTTC }} €</strong></td>
+							</tr>														
+						</table>
+					</div>
+					<!-- <pre>{{ selectedPrestation | json }}</pre> -->
+					<!-- <pre>{{ selectedCoiffeur | json }}</pre> -->
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<h5>Appliquer une réduction</h5>
+					<mat-grid-list class="moy-paie" cols="4" rowHeight="40px">
+					  <mat-grid-tile [ngClass]="promo==0.05 ? 'gridSelected' : 'gridNotSelected'" 
+					  	(click)="applyPromo(0.05)">5%</mat-grid-tile>
+					  <mat-grid-tile [ngClass]="promo==0.1 ? 'gridSelected' : 'gridNotSelected'" 
+					  	(click)="applyPromo(0.1)">10%</mat-grid-tile>
+					  <mat-grid-tile [ngClass]="promo==0.5 ? 'gridSelected' : 'gridNotSelected'"  
+					  	(click)="applyPromo(0.5)">50%</mat-grid-tile>
+					  <mat-grid-tile (click)="promo=null;promoEuros=0;sumTablePrice()">
+					  	<mat-icon>clear</mat-icon>
+					  </mat-grid-tile>
+					</mat-grid-list>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<h5>Choisir le Moyen de Réglement</h5>
+					<mat-grid-list class="moy-paie" cols="4" rowHeight="40px">
+					  <mat-grid-tile [ngClass]="moypay==1 ? 'gridSelected' : 'gridNotSelec'" 
+					  	(click)="applyMoyPaiement(1)">Carte Bancaire</mat-grid-tile>
+					  <mat-grid-tile [ngClass]="moypay==2 ? 'gridSelected' : 'gridNotSelec'" 
+					  	(click)="applyMoyPaiement(2)">Espèces</mat-grid-tile>
+					  <mat-grid-tile [ngClass]="moypay==3 ? 'gridSelected' : 'gridNotSelec'" 
+					  	(click)="applyMoyPaiement(3)">Carte Cadeaux</mat-grid-tile>
+					  <mat-grid-tile [ngClass]="moypay==4 ? 'gridSelected' : 'gridNotSelec'" 
+					  	(click)="applyMoyPaiement(4)">Virement Bancaire</mat-grid-tile>
+					</mat-grid-list>
+				</td>	
+			</tr>
+		</table>	
 			
-			<h5>Date</h5>
 			
-			<span *ngIf="selectedDate">
-				<strong>{{ selectedDate | date }}</strong>
-			</span>
 
-			<mat-form-field *ngIf="!selectedDate" class="full-width">
-			  <input matInput [matDatepicker]="picker" [(ngModel)]="selectedDate" placeholder="Choose a date">
-			  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-			  <mat-datepicker #picker startView="day"></mat-datepicker>
-			</mat-form-field>
-
-
-			<h5>Client(e)</h5>
-
-			<span *ngIf="selectedClient">
-				<strong>{{ selectedClient.firstname }} {{ selectedClient.lastname }}</strong><br>
-				{{ selectedClient.street }} <br> 
-				{{ selectedClient.zip }} {{ selectedClient.city }} <br>
-				{{ selectedClient.phone }} <br>
-				{{ selectedClient.email }}
-			</span>
-
-
-			<mat-form-field	*ngIf="!selectedClient" class="full-width">
-			  <input 
-			  		matInput 
-			  		placeholder="Search Client" aria-label="Client" 
-			  		[matAutocomplete]="auto" 
-			  		[formControl]="clientCtrl">
-			  <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayClientFn">
-			    <mat-option *ngFor="let client of filteredClients | async" 
-			    	[value]="client">
-			      <span>{{ client.firstname }} {{ client.lastname }}</span>
-			    </mat-option>
-			  </mat-autocomplete>
-			  <mat-icon matSuffix>search</mat-icon>
-			</mat-form-field>
-
-			<h5>Coiffeur</h5>
-
-			<span *ngIf="selectedCoiffeur">
-				<strong>{{ selectedCoiffeur.firstname }} {{ selectedCoiffeur.lastname }}</strong>
-			</span>
-
-
-
-<!-- 			<mat-form-field *ngIf="!selectedCoiffeur" class="full-width">
-			  <input 
-			  		matInput 
-			  		placeholder="Select Coiffeur" aria-label="Coiffeur" 
-			  		[matAutocomplete]="auto2" 
-			  		[formControl]="coiffeurCtrl">
-			  <mat-autocomplete #auto2="matAutocomplete" [displayWith]="displayCoiffeurFn">
-			    <mat-option *ngFor="let coiffeur of filteredCoiffeurs | async" 
-			    	[value]="coiffeur">
-			      <span>{{ coiffeur.firstname }} {{ coiffeur.lastname }}</span>
-			    </mat-option>
-			  </mat-autocomplete>
-			  <mat-icon matSuffix>search</mat-icon>
-			</mat-form-field> -->
-
-			<h5>Prestations</h5>
-
-			<mat-form-field>
-			  <mat-select [(value)]="selectedPrestation"
-			  	placeholder="Sélectionner la prestation">
-			    <mat-option>None</mat-option>
-			    <mat-option value="option1">Option 1</mat-option>
-			    <mat-option value="option2">Option 2</mat-option>
-			    <mat-option value="option3">Option 3</mat-option>
-			  </mat-select>
-			</mat-form-field>
 
 
 		<!-- </form> -->
 	</mat-card-content>
+  <mat-card-footer>
+			<mat-toolbar>
+		<!-- 		<button mat-fab (click)="goBack()" type="button" color="black">
+					<mat-icon>keyboard_arrow_left</mat-icon>
+				</button> -->				
+				<button mat-raised-button type="button" color="black"
+					(click)="goBack()">
+					Retour
+				</button>
+				<span class="example-spacer"></span>
+				<button mat-raised-button type="button" color="black"
+					(click)="reset()">
+					Reset
+				</button>
+				<button mat-raised-button type="button" color="warn"
+					[disabled]="!billready"
+					(click)="getBill()">
+					Valider
+				</button>				
+			</mat-toolbar>
+
+			<!--   		
+			<span>
+  			<strong>Salon David Lucas Paris</strong><br>
+  			20 Rue Danielle Casanova, 75002 Paris <br>
+  			01 47 03 92 04
+  		</span> 
+  		-->
+  </mat-card-footer>  	
 </mat-card>

@@ -52,7 +52,7 @@ import { FacturationModule } from './facturation/shared/facturation.module';
   ],
   declarations: [
     PageNotFoundComponent,
-    AppComponent
+    AppComponent,
   ],
   providers: [],
   bootstrap: [AppComponent],

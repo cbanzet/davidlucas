@@ -31,7 +31,12 @@ export class ForfaitService {
 
   }
 
+
+///////////////////////////////////////////////////////////////////////////
   ///////////////////// GET /////////////////////////
+///////////////////////////////////////////////////////////////////////////
+
+
 
   getPrestaTypeSnapshotList() {
     return this.prestationRef.snapshotChanges().map(arr => {
@@ -69,7 +74,12 @@ export class ForfaitService {
   }
 
 
+
+///////////////////////////////////////////////////////////////////////////
   /////////////// C R E A T E ///////////////////////
+///////////////////////////////////////////////////////////////////////////
+
+
 
   createForfait(newForfaitForm: NgForm): void {
   	// console.log(newForfaitForm.value);
@@ -148,7 +158,418 @@ export class ForfaitService {
     console.log(newForfaitData, keyNewForfait);
   }
 
+
+
+
+
+
+
+
+
+
+// createForfait(newForfaitForm: NgForm): void {
+//     // console.log(newForfaitForm.value);
+  
+//     var newForfaitData = {};
+//     var times: number = 0;
+//     var price: number = 0;
+   
+//     newForfaitData['title'] = newForfaitForm?newForfaitForm.value.newForfaitTitle:0;
+//     var newPrestation = [];
+//     var numberKey = newForfaitForm.value.pickedNumberPrestation.key;
+
+//       // debut
+
+//       if (numberKey === '2') {
+
+//         newPrestation[1] = {
+//           key: newForfaitForm.value.selectedPrestation1.key,
+//           title: newForfaitForm.value.selectedPrestation1.title,
+//           order:  1
+//         };
+//         newForfaitData['prestations'] = newPrestation;
+    
+    
+//         newPrestation[2] = {
+//           key: newForfaitForm.value.selectedPrestation2.key,
+//           title: newForfaitForm.value.selectedPrestation2.title,
+//           order:  2
+//         };
+//         newForfaitData['prestations'] = newPrestation;
+    
+//         newForfaitData['prestations'] = newPrestation;
+//         times = times + +newForfaitForm.value.selectedPrestation1.time + +newForfaitForm.value.selectedPrestation2.time ;
+//         newForfaitData['time'] = times;
+    
+//          price = price + +newForfaitForm.value.selectedPrestation1.priceDavid +
+//                   +newForfaitForm.value.selectedPrestation1.priceTeam +
+//                  // tslint:disable-next-line:max-line-length
+//                   +newForfaitForm.value.selectedPrestation2.priceDavid +
+//                   +newForfaitForm.value.selectedPrestation2.priceTeam ;
+    
+//         newForfaitData['price'] = price;
+
+//       }
+
+//       else if (numberKey === '3') {
+
+//         newPrestation[1] = {
+//           key: newForfaitForm.value.selectedPrestation1.key,
+//           title: newForfaitForm.value.selectedPrestation1.title,
+//           order:  1
+//         };
+//         newForfaitData['prestations'] = newPrestation;
+    
+    
+//         newPrestation[2] = {
+//           key: newForfaitForm.value.selectedPrestation2.key,
+//           title: newForfaitForm.value.selectedPrestation2.title,
+//           order:  2
+//         };
+//         newForfaitData['prestations'] = newPrestation;
+    
+//         newPrestation[3] = {
+//           key: newForfaitForm.value.selectedPrestation3.key,
+//           title: newForfaitForm.value.selectedPrestation3.title,
+//           order:  3
+//         };
+//         newForfaitData['prestations'] = newPrestation;
+//         times = times + +newForfaitForm.value.selectedPrestation1.time + +newForfaitForm.value.selectedPrestation2.time + 
+//                 +newForfaitForm.value.selectedPrestation3.time ;
+//         newForfaitData['time'] = times;
+    
+//          price = price + +newForfaitForm.value.selectedPrestation1.priceDavid +
+//                   +newForfaitForm.value.selectedPrestation1.priceTeam +
+//                  // tslint:disable-next-line:max-line-length
+//                   +newForfaitForm.value.selectedPrestation2.priceDavid +
+//                   +newForfaitForm.value.selectedPrestation2.priceTeam +
+//                  // tslint:disable-next-line:max-line-length
+//                  +newForfaitForm.value.selectedPrestation3.priceDavid +
+//                  +newForfaitForm.value.selectedPrestation3.priceTeam ;
+    
+//         newForfaitData['price'] = price;
+
+//       }
+//       else if (numberKey === '4') {
+
+//         newPrestation[1] = {
+//           key: newForfaitForm.value.selectedPrestation1.key,
+//           title: newForfaitForm.value.selectedPrestation1.title,
+//           order:  1
+//         };
+//         newForfaitData['prestations'] = newPrestation;
+    
+    
+//         newPrestation[2] = {
+//           key: newForfaitForm.value.selectedPrestation2.key,
+//           title: newForfaitForm.value.selectedPrestation2.title,
+//           order:  2
+//         };
+//         newForfaitData['prestations'] = newPrestation;
+    
+//         newPrestation[3] = {
+//           key: newForfaitForm.value.selectedPrestation3.key,
+//           title: newForfaitForm.value.selectedPrestation3.title,
+//           order:  3
+//         };
+//         newPrestation[4] = {
+//           key: newForfaitForm.value.selectedPrestation3.key,
+//           title: newForfaitForm.value.selectedPrestation3.title,
+//           order:  4
+//         };
+//         newForfaitData['prestations'] = newPrestation;
+//         times = times + +newForfaitForm.value.selectedPrestation1.time + +newForfaitForm.value.selectedPrestation2.time + 
+//                 +newForfaitForm.value.selectedPrestation3.time + 
+//                 +newForfaitForm.value.selectedPrestation4.time ;
+//         newForfaitData['time'] = times;
+    
+//          price = price + +newForfaitForm.value.selectedPrestation1.priceDavid +
+//                   +newForfaitForm.value.selectedPrestation1.priceTeam +
+//                  // tslint:disable-next-line:max-line-length
+//                   +newForfaitForm.value.selectedPrestation2.priceDavid +
+//                   +newForfaitForm.value.selectedPrestation2.priceTeam +
+//                  // tslint:disable-next-line:max-line-length
+//                  +newForfaitForm.value.selectedPrestation3.priceDavid +
+//                  +newForfaitForm.value.selectedPrestation3.priceTeam +
+
+//                  +newForfaitForm.value.selectedPrestation4.priceDavid +
+//                  +newForfaitForm.value.selectedPrestation4.priceTeam;
+    
+//         newForfaitData['price'] = price;
+
+
+//       }
+
+//       else if (numberKey === '5') {
+
+//         newPrestation[1] = {
+//           key: newForfaitForm.value.selectedPrestation1.key,
+//           title: newForfaitForm.value.selectedPrestation1.title,
+//           order:  1
+//         };
+//         newForfaitData['prestations'] = newPrestation;
+    
+    
+//         newPrestation[2] = {
+//           key: newForfaitForm.value.selectedPrestation2.key,
+//           title: newForfaitForm.value.selectedPrestation2.title,
+//           order:  2
+//         };
+//         newForfaitData['prestations'] = newPrestation;
+    
+//         newPrestation[3] = {
+//           key: newForfaitForm.value.selectedPrestation3.key,
+//           title: newForfaitForm.value.selectedPrestation3.title,
+//           order:  3
+//         };
+//         newPrestation[4] = {
+//           key: newForfaitForm.value.selectedPrestation3.key,
+//           title: newForfaitForm.value.selectedPrestation3.title,
+//           order:  4
+//         };
+//         newPrestation[5] = {
+//           key: newForfaitForm.value.selectedPrestation3.key,
+//           title: newForfaitForm.value.selectedPrestation3.title,
+//           order:  5
+//         };
+//         newForfaitData['prestations'] = newPrestation;
+//         times = times + +newForfaitForm.value.selectedPrestation1.time + +newForfaitForm.value.selectedPrestation2.time + 
+//                 +newForfaitForm.value.selectedPrestation3.time + 
+//                 +newForfaitForm.value.selectedPrestation4.time +
+//                 +newForfaitForm.value.selectedPrestation5.time ;
+//         newForfaitData['time'] = times;
+    
+//          price = price + +newForfaitForm.value.selectedPrestation1.priceDavid +
+//                   +newForfaitForm.value.selectedPrestation1.priceTeam +
+//                  // tslint:disable-next-line:max-line-length
+//                   +newForfaitForm.value.selectedPrestation2.priceDavid +
+//                   +newForfaitForm.value.selectedPrestation2.priceTeam +
+//                  // tslint:disable-next-line:max-line-length
+//                  +newForfaitForm.value.selectedPrestation3.priceDavid +
+//                  +newForfaitForm.value.selectedPrestation3.priceTeam +
+
+//                  +newForfaitForm.value.selectedPrestation4.priceDavid +
+//                  +newForfaitForm.value.selectedPrestation4.priceTeam
+                 
+//                  +newForfaitForm.value.selectedPrestation5.priceDavid +
+//                  +newForfaitForm.value.selectedPrestation5.priceTeam ;
+    
+//         newForfaitData['price'] = price;
+
+
+//       }
+
+//       else  {
+
+//         newPrestation[1] = {
+//           key: newForfaitForm.value.selectedPrestation1.key,
+//           title: newForfaitForm.value.selectedPrestation1.title,
+//           order:  1
+//         };
+//         newForfaitData['prestations'] = newPrestation;
+    
+    
+//         newPrestation[2] = {
+//           key: newForfaitForm.value.selectedPrestation2.key,
+//           title: newForfaitForm.value.selectedPrestation2.title,
+//           order:  2
+//         };
+//         newForfaitData['prestations'] = newPrestation;
+    
+//         newPrestation[3] = {
+//           key: newForfaitForm.value.selectedPrestation3.key,
+//           title: newForfaitForm.value.selectedPrestation3.title,
+//           order:  3
+//         };
+//         newPrestation[4] = {
+//           key: newForfaitForm.value.selectedPrestation3.key,
+//           title: newForfaitForm.value.selectedPrestation3.title,
+//           order:  4
+//         };
+//         newPrestation[5] = {
+//           key: newForfaitForm.value.selectedPrestation3.key,
+//           title: newForfaitForm.value.selectedPrestation3.title,
+//           order:  5
+//         };
+//         newPrestation[6] = {
+//           key: newForfaitForm.value.selectedPrestation3.key,
+//           title: newForfaitForm.value.selectedPrestation3.title,
+//           order:  6
+//         };
+//         newForfaitData['prestations'] = newPrestation;
+//         times = times + +newForfaitForm.value.selectedPrestation1.time + +newForfaitForm.value.selectedPrestation2.time + 
+//                 +newForfaitForm.value.selectedPrestation3.time + 
+//                 +newForfaitForm.value.selectedPrestation4.time +
+//                 +newForfaitForm.value.selectedPrestation5.time +
+//                 +newForfaitForm.value.selectedPrestation6.time ;
+//         newForfaitData['time'] = times;
+    
+//          price = price + +newForfaitForm.value.selectedPrestation1.priceDavid +
+//                   +newForfaitForm.value.selectedPrestation1.priceTeam +
+//                  // tslint:disable-next-line:max-line-length
+//                   +newForfaitForm.value.selectedPrestation2.priceDavid +
+//                   +newForfaitForm.value.selectedPrestation2.priceTeam +
+//                  // tslint:disable-next-line:max-line-length
+//                  +newForfaitForm.value.selectedPrestation3.priceDavid +
+//                  +newForfaitForm.value.selectedPrestation3.priceTeam +
+
+//                  +newForfaitForm.value.selectedPrestation4.priceDavid +
+//                  +newForfaitForm.value.selectedPrestation4.priceTeam
+                 
+//                  +newForfaitForm.value.selectedPrestation5.priceDavid +
+//                  +newForfaitForm.value.selectedPrestation5.priceTeam  +
+
+//                  +newForfaitForm.value.selectedPrestation5.priceDavid +
+//                  +newForfaitForm.value.selectedPrestation5.priceTeam ;
+    
+//         newForfaitData['price'] = price;
+
+
+//       }
+    
+//     // fin
+
+//     // Insertion dans le noeud forfait
+//     var keyNewForfait = this.forfaitsRef.push(newForfaitData).key;
+
+//      // Insertion dans le noeud prestation (denormalisation)
+//     var updatePrestationsData = {};
+
+//     if (numberKey === '2') {
+//       var prestationkey1 = newForfaitForm.value.selectedPrestation1.key;
+//       updatePrestationsData["prestations/"+ prestationkey1 +"/forfaits/"+keyNewForfait] = true;
+//       // Insert in LookUp
+//       this.db.list('/lookUpPrestationForfait').update(prestationkey1, {[keyNewForfait]:true});
+  
+//       var prestationkey2 = newForfaitForm.value.selectedPrestation2.key;
+//       updatePrestationsData["prestations/"+ prestationkey2 +"/forfaits/"+keyNewForfait] = true;
+//       // Insert in LookUp
+//       this.db.list('/lookUpPrestationForfait').update(prestationkey2, {[keyNewForfait]:true});
+//     }
+
+//    else if (numberKey === '3') {
+//       var prestationkey1 = newForfaitForm.value.selectedPrestation1.key;
+//       updatePrestationsData["prestations/"+ prestationkey1 +"/forfaits/"+keyNewForfait] = true;
+//       // Insert in LookUp
+//       this.db.list('/lookUpPrestationForfait').update(prestationkey1, {[keyNewForfait]:true});
+  
+//       var prestationkey2 = newForfaitForm.value.selectedPrestation2.key;
+//       updatePrestationsData["prestations/"+ prestationkey2 +"/forfaits/"+keyNewForfait] = true;
+//       // Insert in LookUp
+//       this.db.list('/lookUpPrestationForfait').update(prestationkey2, {[keyNewForfait]:true});
+  
+//       var prestationkey3 = newForfaitForm.value.selectedPrestation3.key;
+//       updatePrestationsData["prestations/"+ prestationkey3 +"/forfaits/"+keyNewForfait] = true;
+//       // Insert in LookUp
+//       this.db.list('/lookUpPrestationForfait').update(prestationkey3, {[keyNewForfait]:true});
+//     }
+//     else if (numberKey === '4') {
+//       var prestationkey1 = newForfaitForm.value.selectedPrestation1.key;
+//       updatePrestationsData["prestations/"+ prestationkey1 +"/forfaits/"+keyNewForfait] = true;
+//       // Insert in LookUp
+//       this.db.list('/lookUpPrestationForfait').update(prestationkey1, {[keyNewForfait]:true});
+  
+//       var prestationkey2 = newForfaitForm.value.selectedPrestation2.key;
+//       updatePrestationsData["prestations/"+ prestationkey2 +"/forfaits/"+keyNewForfait] = true;
+//       // Insert in LookUp
+//       this.db.list('/lookUpPrestationForfait').update(prestationkey2, {[keyNewForfait]:true});
+  
+//       var prestationkey3 = newForfaitForm.value.selectedPrestation3.key;
+//       updatePrestationsData["prestations/"+ prestationkey3 +"/forfaits/"+keyNewForfait] = true;
+//       // Insert in LookUp
+//       this.db.list('/lookUpPrestationForfait').update(prestationkey3, {[keyNewForfait]:true});
+
+//       var prestationkey4 = newForfaitForm.value.selectedPrestation4.key;
+//       updatePrestationsData["prestations/"+ prestationkey3 +"/forfaits/"+keyNewForfait] = true;
+//       // Insert in LookUp
+//       this.db.list('/lookUpPrestationForfait').update(prestationkey4, {[keyNewForfait]:true});
+//     }
+
+//     else if (numberKey === '5') {
+//       var prestationkey1 = newForfaitForm.value.selectedPrestation1.key;
+//       updatePrestationsData["prestations/"+ prestationkey1 +"/forfaits/"+keyNewForfait] = true;
+//       // Insert in LookUp
+//       this.db.list('/lookUpPrestationForfait').update(prestationkey1, {[keyNewForfait]:true});
+  
+//       var prestationkey2 = newForfaitForm.value.selectedPrestation2.key;
+//       updatePrestationsData["prestations/"+ prestationkey2 +"/forfaits/"+keyNewForfait] = true;
+//       // Insert in LookUp
+//       this.db.list('/lookUpPrestationForfait').update(prestationkey2, {[keyNewForfait]:true});
+  
+//       var prestationkey3 = newForfaitForm.value.selectedPrestation3.key;
+//       updatePrestationsData["prestations/"+ prestationkey3 +"/forfaits/"+keyNewForfait] = true;
+//       // Insert in LookUp
+//       this.db.list('/lookUpPrestationForfait').update(prestationkey3, {[keyNewForfait]:true});
+
+//       var prestationkey4 = newForfaitForm.value.selectedPrestation4.key;
+//       updatePrestationsData["prestations/"+ prestationkey3 +"/forfaits/"+keyNewForfait] = true;
+//       // Insert in LookUp
+//       this.db.list('/lookUpPrestationForfait').update(prestationkey4, {[keyNewForfait]:true});
+
+//       var prestationkey5 = newForfaitForm.value.selectedPrestation4.key;
+//       updatePrestationsData["prestations/"+ prestationkey3 +"/forfaits/"+keyNewForfait] = true;
+//       // Insert in LookUp
+//       this.db.list('/lookUpPrestationForfait').update(prestationkey5, {[keyNewForfait]:true});
+//     }
+
+//     else {
+//       var prestationkey1 = newForfaitForm.value.selectedPrestation1.key;
+//       updatePrestationsData["prestations/"+ prestationkey1 +"/forfaits/"+keyNewForfait] = true;
+//       // Insert in LookUp
+//       this.db.list('/lookUpPrestationForfait').update(prestationkey1, {[keyNewForfait]:true});
+  
+//       var prestationkey2 = newForfaitForm.value.selectedPrestation2.key;
+//       updatePrestationsData["prestations/"+ prestationkey2 +"/forfaits/"+keyNewForfait] = true;
+//       // Insert in LookUp
+//       this.db.list('/lookUpPrestationForfait').update(prestationkey2, {[keyNewForfait]:true});
+  
+//       var prestationkey3 = newForfaitForm.value.selectedPrestation3.key;
+//       updatePrestationsData["prestations/"+ prestationkey3 +"/forfaits/"+keyNewForfait] = true;
+//       // Insert in LookUp
+//       this.db.list('/lookUpPrestationForfait').update(prestationkey3, {[keyNewForfait]:true});
+
+//       var prestationkey4 = newForfaitForm.value.selectedPrestation4.key;
+//       updatePrestationsData["prestations/"+ prestationkey3 +"/forfaits/"+keyNewForfait] = true;
+//       // Insert in LookUp
+//       this.db.list('/lookUpPrestationForfait').update(prestationkey4, {[keyNewForfait]:true});
+
+//       var prestationkey5 = newForfaitForm.value.selectedPrestation4.key;
+//       updatePrestationsData["prestations/"+ prestationkey3 +"/forfaits/"+keyNewForfait] = true;
+//       // Insert in LookUp
+//       this.db.list('/lookUpPrestationForfait').update(prestationkey5, {[keyNewForfait]:true});
+
+//       var prestationkey6 = newForfaitForm.value.selectedPrestation4.key;
+//       updatePrestationsData["prestations/"+ prestationkey3 +"/forfaits/"+keyNewForfait] = true;
+//       // Insert in LookUp
+//       this.db.list('/lookUpPrestationForfait').update(prestationkey6, {[keyNewForfait]:true});
+//     }
+   
+//     this.db.object("/").update(updatePrestationsData).then(_=>'Prestations Saved');
+//     this.router.navigate(['/forfaits']);
+//     console.log(newForfaitData, keyNewForfait);
+//   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+///////////////////////////////////////////////////////////////////////////
   /////////////// D E L E T E ///////////////////////
+///////////////////////////////////////////////////////////////////////////
+
 
 
   deleteForfait(forfait): void {
@@ -185,8 +606,10 @@ export class ForfaitService {
   }
 
 
-  ///////////// U P D A T E ////////////////
 
+///////////////////////////////////////////////////////////////////////////
+  ///////////// U P D A T E ////////////////
+///////////////////////////////////////////////////////////////////////////
  
 
   // Update Member's data

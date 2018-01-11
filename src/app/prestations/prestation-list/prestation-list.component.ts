@@ -16,7 +16,7 @@ export class PrestationListComponent implements OnInit {
   titleField = "title";
   detailsField = "details";
   timeField = "time";
-  priceDavidField = "pricedavid";
+  priceDavidField = "priceDavid";
   priceTeamField = "priceTeam";
   acronymeField = "acronyme";
 

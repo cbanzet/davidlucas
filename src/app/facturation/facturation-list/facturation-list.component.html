@@ -1,3 +1,62 @@
-<p>
-  facturation-list works!
-</p>
+<ng-template #loading>				
+	<br><br>
+	<mat-spinner color="warn"></mat-spinner>
+	<br><br>
+</ng-template>
+
+<mat-card *ngIf="factures | async; let factures; else loading">
+  <mat-card-header>
+    <div mat-card-avatar class="example-header-image">
+      <mat-icon matListIcon>receipt</mat-icon>
+    </div>      
+    <mat-card-title>Factures</mat-card-title>
+    <mat-card-subtitle>Liste des Factures du Salon David Lucas Paris</mat-card-subtitle>
+		<button mat-fab type="button" color="black"
+      routerLink="./../facturationform">
+			<!-- [routerLink]="['./../facturationform', '0']"> -->
+			<mat-icon>add</mat-icon>
+		</button>
+  </mat-card-header>
+
+  <mat-card-content>
+  	<br>
+    <mat-list dense>
+      <mat-list-item *ngFor="let facture of factures">
+        <!-- <h4 mat-line [ngClass]="facture.status==2 ? 'facture-done' : 'facture-waiting'"> -->
+				<h4 mat-line>        	
+        	<span class="facture-title">
+        		<strong>{{ facture.prestationFullTitle }}</strong> pour 
+        		<strong>{{ facture.clientFullName }}</strong> par 
+        		<strong>{{ facture.coiffeurFullName }}</strong>
+        	</span><br>
+        	<span *ngIf="facture.timestamp" class="facture-date">{{ facture.timestamp | date}} </span>
+        	<span *ngIf="facture.startdate" class="facture-date"> | Start: <strong>{{ facture.startdate | date: 'MM-dd HH:mm' }}</strong></span>
+        	<span *ngIf="facture.enddate" class="facture-date"> | Complete: <strong>{{ facture.enddate | date: 'MM-dd HH:mm' }}</strong></span>
+        	<span *ngIf="facture.length" class="facture-date"> | Time Spent : <strong>{{ facture.length }}H</strong></span>
+            <!-- <strong>{{ facture.status }}</strong> -->
+        </h4>
+        <!-- facture WAITING -->
+				<button mat-icon-button color="warn"
+					*ngIf="facture.status==0"
+					(click)="changeFactureStatus(facture)">
+		        <mat-icon>hourglass_empty</mat-icon>
+		    </button>
+        <!-- facture ON GOING -->		    
+				<button mat-icon-button
+					*ngIf="facture.status==1"
+					(click)="changeFactureStatus(facture)">
+		        <mat-icon>hourglass_full</mat-icon>
+		    </button>
+        <!-- facture DONE -->		    		    
+				<button mat-icon-button
+					*ngIf="facture.status==11">
+		        <mat-icon>done</mat-icon>
+		    </button>		     
+				<button mat-icon-button color="warn"
+						(click)="deleteFacture(facture)">
+		        <mat-icon>remove_circle</mat-icon>
+		    </button>      
+      </mat-list-item>
+    </mat-list>
+  </mat-card-content>
+</mat-card>

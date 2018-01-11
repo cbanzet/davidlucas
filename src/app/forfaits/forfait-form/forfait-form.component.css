@@ -9,7 +9,13 @@ h2, h3 {
   font-family: Arial, Helvetica, sans-serif;
   font-weight: lighter;
 }
-
+h5 {
+  font-weight: 200;
+  font-size: 0.9em;
+  text-transform: uppercase;
+  padding: 10px 0 10px;
+  margin: 10px 0 10px;
+}
 .fbtn{
   color: white ;
 }
@@ -20,6 +26,36 @@ h2, h3 {
   padding: 0 14px;
 }
 
+.buble {
+  background-color: #000;
+  color: #fff;
+  font-weight: bold;
+  width: 16px;
+  height: 16px;
+  line-height: 16px;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  border-radius: 8px;  
+  text-align: center;
+  display: block;
+  margin-right: 10px;
+  font-size: 0.7em;
+}
+
+.mat-radio-checked {
+  font-weight: bold !important;
+}
+
+.pr-10 {
+  text-transform: uppercase;
+  padding-right: 10px !important;
+}
+.pb-10 {
+  padding-bottom: 15px;
+  display: block;
+}
+
+
 button {
   margin-left: 10px !important;
 }
@@ -28,4 +64,20 @@ mat-card-title {
   font-size: 1.2em !important;
   line-height: 0.5em;
   font-weight: 300;
+}
+
+.full-width {
+  width: 100%;
+}
+.full-width .mat-form-field {
+  width: 100%;
+}
+
+
+.full-width {
+  width: 100%;
+}
+
+.presta-list {
+  font-size: 0.9em;
 }

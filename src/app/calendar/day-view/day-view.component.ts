@@ -1,4 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from './../../core/auth.service';
 import { AngularFireDatabase, 
          AngularFireList,AngularFireObject,
@@ -14,6 +15,8 @@ import 'rxjs/add/operator/map';
 import "rxjs/add/operator/switchMap";
 
 import { EventService } from './../../events/shared/event.service';
+import { ForfaitService } from './../../forfaits/shared/forfait.service';
+
 
 // import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AngularMaterialModule } from './../../ui/angularmaterial.module';
@@ -35,6 +38,7 @@ export class DayViewComponent implements OnInit {
   prestations: Observable<any[]>;
 
   members: Observable<any[]>;
+  coiffeurs: Observable<any[]>;
   events: Observable<any[]>;
   presta: any;
 
@@ -94,17 +98,43 @@ export class DayViewComponent implements OnInit {
   constructor(
     private eventService: EventService,
     public dialog: MatDialog,
-    private db: AngularFireDatabase) {
+    private db: AngularFireDatabase) 
+  {
 
     this.members = this.eventService.getMembersList();
 
     this.date$ = new BehaviorSubject(null);
-    this.events$ = this.date$.switchMap(date =>
-      db.list('/events', ref =>
+
+    this.events$ = this.date$.switchMap(date => db.list('/events', ref =>
         date ? ref.orderByChild('date').equalTo(date) : ref
       ).snapshotChanges()
     );
+
+
+    // Chantier Optimisation
+    // this.events$ = this.date$.switchMap(date => db.list('/events', ref =>
+    //   date ? ref.orderByChild('date').equalTo(date) : ref)
+    //   .snapshotChanges()
+    //   .map(arr => 
+    //   {
+    //   return arr.map(snap => Object
+    //     .assign(
+    //       snap.payload.val(), 
+    //       { 
+    //         key: snap.key,
+    //         clientFullname: `${snap.payload.val().clientFirstname} ${snap.payload.val().clientLastname}`
+    //       }
+    //     )
+    //   })
   }
+
+
+  checkIfFirstMultiEvent(s) {
+    // console.log(s);
+    // if
+  }
+
+
 
   filterEventsBy(date: string|null) {
     this.date$.next(date);
@@ -125,7 +155,8 @@ export class DayViewComponent implements OnInit {
 
 
   openDialogNewEvent(date,time,member): void {
-    let dialogNewEventRef = this.dialog.open(DialogNewEvent, {
+    let dialogNewEventRef = this.dialog.open(DialogNewEvent, 
+    {
       width: '400px',
       data: { 
         time: time,
@@ -172,6 +203,9 @@ export class DayViewComponent implements OnInit {
 
 
 
+
+
+
 @Component({
   selector: 'dialog-new-event',
   templateUrl: 'dialog-new-event.html',
@@ -185,16 +219,24 @@ export class DialogNewEvent implements OnInit {
 
   members: Observable<any[]>;
   prestations: Observable<any[]>;
+  forfaits: Observable<any[]>;
   clients: Observable<any[]>;
   clientCtrl: FormControl = new FormControl();
   filteredClients: Observable<any[]>;
   selectedClient:Observable<any[]>;
 
+  selectPrestaOrForfait:boolean=true;
+  showPrestaSelect:boolean=false;
+  showForfaitsSelect:boolean=false;
+
   constructor(
     private eventService: EventService,
+    private forfaitService: ForfaitService,    
     private db: AngularFireDatabase,
     public dialogRef: MatDialogRef<DialogNewEvent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
+
+      this.forfaits = this.forfaitService.getForfaitsList();
 
       this.members = db.list('members').snapshotChanges().map(arr => {
         return arr.map(snap => Object.assign(snap.payload.val(), { key: snap.key }) )
@@ -233,16 +275,12 @@ export class DialogNewEvent implements OnInit {
       .switchMap(client => {
         if(client) {
           if(client.insertdate) { 
-            console.log('Goto Client Page'); 
-            // var key = client.$key;
             this.selectedClient = client;
-            // this.router.navigate(['/composer/'+key]);
             return this.clients;
           }
           else return this.filterClients(client)
         } else {
           // do something better here :P
-          console.log('Do not get this case');
           return this.filterClients('something');
         }
       })    
@@ -250,10 +288,18 @@ export class DialogNewEvent implements OnInit {
 
 
   saveEvent(data,client) {
-    this.eventService.createEvent(data,client);
+    // this.eventService.createEvent(data,client);
+
+    this.eventService.formatEventForCreation(data,client);
     this.dialogRef.close();
   }
 }
+
+
+
+
+
+
 
 
 
@@ -272,17 +318,22 @@ export class DialogSeeEvent implements OnInit {
   prestation: Observable<any[]>;
   client: Observable<any[]>;
   meeting: Observable<any[]>;
+  suitemeeting: any;
   paymentbutton:boolean = true;
   key: any;
+  showDatePicker:boolean=false;
+  showSavedDate:boolean=true;
 
   constructor(
     private eventService: EventService,
+    private router: Router,    
     private db: AngularFireDatabase,
     public dialogRef: MatDialogRef<DialogNewEvent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
 
     this.key = data.key;
     this.meeting = this.eventService.getEventWithKey(this.key);
+    this.suitemeeting = this.eventService.getEventsSerie(this.key,data.date,data.time);
 
   }
 
@@ -294,6 +345,10 @@ export class DialogSeeEvent implements OnInit {
 
   doingEvent(meeting,action) {
     this.eventService.doingEvent(meeting,action);
+    if(action=='done') { 
+      console.log("go to facturation"); 
+      this.router.navigate(['/facturationevent/'+this.key])
+    }
     this.dialogRef.close();
   }
 
@@ -305,14 +360,6 @@ export class DialogSeeEvent implements OnInit {
   ngOnInit() {
   }
 
-
 }
-
-
-
-
-
-
-
 
 

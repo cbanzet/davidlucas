@@ -28,6 +28,8 @@ export class TodoComponent implements OnInit {
 
   components = [
     "Admin Component",    
+    "Calendar Component",
+    "Card Component",    
     "Clients Component",
     "Core Component",
     "Events Component",
@@ -47,6 +49,7 @@ export class TodoComponent implements OnInit {
     "Database",
     "Développement",
     "Navigation",
+    "Optimisation",
     "Style"
   ]
 

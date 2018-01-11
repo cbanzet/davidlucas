@@ -1,0 +1,190 @@
+<!-- <pre>{{ coiffeurs | async | json }}</pre> -->
+<!-- {{ getEvent | async | json}} -->
+
+<!-- <mat-card *ngIf="dev"> -->
+<mat-card *ngIf="getEvent | async as getEvent" class="mode-A4">
+	<br><br><br>
+	<mat-card-header>
+		<div mat-card-avatar class="header-image">
+			<img src="http://www.davidlucas.fr/img/David-Lucas-LOGO-2015-black.png">
+			<!-- <mat-icon matListIcon>payment</mat-icon> -->
+		</div>			
+		<mat-card-title>Facture n° 20170104-0002</mat-card-title>
+		<mat-card-subtitle>
+			<strong>Salon David Lucas Paris</strong><br>
+			20 Rue Danielle Casanova, 75002 Paris <br>
+			01 47 03 92 04
+		</mat-card-subtitle>	
+	</mat-card-header>
+
+
+	<mat-card-content>
+		<!-- <form #newFactureForm="ngForm" (ngSubmit)="onSubmit(newFactureForm)"> -->
+		<table>
+			<tr>
+				<td width="315px">
+					<h5>Date</h5>
+
+					<span *ngIf="getEvent">
+						<strong>{{ getEvent.payload.val().date }}</strong> à 
+						<strong>{{ getEvent.payload.val().time }}</strong>
+					</span>
+
+					<h5>Client(e)</h5>
+
+					<span *ngIf="getEvent">
+						<strong>{{ getEvent.payload.val().clientFirstname }} {{ getEvent.payload.val().clientLastname }}</strong><br>
+						<!-- 						
+						<span *ngIf="selectedClient.street">{{ selectedClient.street }} <br></span>
+						<span *ngIf="selectedClient.zip">{{ selectedClient.zip }} {{ selectedClient.city }} <br></span> 
+						-->
+						<span>{{ getEvent.payload.val().clientPhone }} <br></span>
+						<span>{{ getEvent.payload.val().clientEmail }}</span>
+					</span>
+
+
+					<h5>Coiffeur</h5>
+
+					<span *ngIf="getEvent">
+						<strong>{{ getEvent.payload.val().memberFirstname }} {{ getEvent.payload.val().memberLastname }}</strong>
+					</span>
+
+
+					<h5>Forfaits & Prestations</h5>
+				 			
+					<span *ngIf="getEvent">
+						<strong>{{ getEvent.payload.val().prestationTitle }}</strong><br>
+						{{ getEvent.payload.val().prestationDetails }} <br><br>
+
+						<!-- Prix :  -->
+						<!-- Team: {{selectedPrestation.priceTeam}} <br> -->
+						<!-- David: {{selectedPrestation.priceDavid}} <br> -->
+						<!-- Selected Firstname Coiffeur : {{ selectedFirstnameCoiffeur }} <br> -->
+						<!-- Selected Price: {{ selectedPrice }} <br> -->
+					</span> 
+				
+					
+				</td>
+				<td width="420px">
+					<div *ngIf="priceEvent | async as priceEvent">
+
+					 	<span style="display:none">
+					 	<!-- <span> -->
+	 					 	Event Price : {{ getPriceNumber(priceEvent) }} <br>
+							Selected Quantity : {{ selectedQty }}<br>
+							Total HT : {{ totalHT }} <br>
+							Total Tax : {{ totalTAX }} <br>
+							Total TTC : {{ totalTTC }} <br>  
+						</span>
+
+
+						<table>
+							<tr class="facture-price-header">
+								<td width="200" class="td-a-l">Description</td>
+								<td width="50" class="td-a-c">QTY</td>
+								<td width="60" class="td-a-c">PRICE</td>
+								<td width="70" class="td-a-c">AMOUNT</td>
+							</tr>
+							<tr>
+								<td>
+									<span>
+										<strong>{{ getEvent.payload.val().prestationTitle }}</strong><br>
+										{{ getEvent.payload.val().prestationDetails }}
+									</span>
+								</td>
+								<td class="td-a-c">
+									<span>
+										<span>{{ selectedQty }}</span>
+										<span class="qty-ctrl">
+											<span class="qty-plus" (click)="changeQty(+1)">+</span>
+											<span class="qty-moint" (click)="changeQty(-1)">-</span>
+										</span>
+									</span>
+								</td>
+								<td class="td-a-c">{{ priceEvent }} €</td>
+								<td class="td-a-c"><strong>{{ (selectedQty*priceEvent) }} €</strong></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td colspan="2" class="bg-grey ta-l">TOTAL HT</td>
+								<td class="td-a-c">{{ totalHT }} €
+									<!-- {{ (selectedQty*getEvent.payload.val().prestationPriceDavid) }} € -->
+								</td>
+							</tr>
+							<tr>
+								<td></td>
+								<td colspan="2" class="ta-l">TAX 20%</td>
+								<td class="td-a-c">{{ totalTAX }} €
+								</td>
+							</tr>
+							<tr>
+								<td></td>
+								<td colspan="2" class="bg-black ta-l">TOTAL TTC</td>
+								<td class="td-a-c"><strong>{{ totalTTC }} €</strong></td>
+							</tr>														
+						</table>
+					</div>
+					<!-- <pre>{{ selectedPrestation | json }}</pre> -->
+					<!-- <pre>{{ selectedCoiffeur | json }}</pre> -->
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<h5>Appliquer une réduction</h5>
+					<mat-grid-list class="moy-paie" cols="4" rowHeight="40px">
+					  <mat-grid-tile>5%</mat-grid-tile>
+					  <mat-grid-tile>10%</mat-grid-tile>
+					  <mat-grid-tile>50%</mat-grid-tile>
+					  <mat-grid-tile>Autre</mat-grid-tile>
+					</mat-grid-list>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<h5>Choisir le Moyen de Réglement</h5>
+					<mat-grid-list class="moy-paie" cols="4" rowHeight="40px">
+					  <mat-grid-tile>Carte Bancaire</mat-grid-tile>
+					  <mat-grid-tile>Espèces</mat-grid-tile>
+					  <mat-grid-tile>Carte Cadeaux</mat-grid-tile>
+					  <mat-grid-tile>Virement Bancaire</mat-grid-tile>
+					</mat-grid-list>
+				</td>	
+			</tr>
+		</table>	
+			
+			
+
+
+
+		<!-- </form> -->
+	</mat-card-content>
+  <mat-card-footer>
+			<mat-toolbar>
+		<!-- 		<button mat-fab (click)="goBack()" type="button" color="black">
+					<mat-icon>keyboard_arrow_left</mat-icon>
+				</button> -->				
+				<button mat-raised-button type="button" color="black"
+					(click)="goBack()">
+					RETOUR
+				</button>
+				<span class="example-spacer"></span>
+				<button mat-raised-button type="button" color="black"
+					routerLink="./../../facturationform">
+					RESET
+				</button>
+				<button mat-raised-button type="button" color="warn"
+					(click)="getBill(getEvent.key,getEvent.payload.val())">
+					<!-- [disabled]="!billready" -->
+					ENCAISSER
+				</button>				
+			</mat-toolbar>
+
+			<!--   		
+			<span>
+  			<strong>Salon David Lucas Paris</strong><br>
+  			20 Rue Danielle Casanova, 75002 Paris <br>
+  			01 47 03 92 04
+  		</span> 
+  		-->
+  </mat-card-footer>  	
+</mat-card>

@@ -1,6 +1,6 @@
 <ng-template #loading>				
 	<br><br>
-	<mat-spinner color="accent"></mat-spinner>
+	<mat-spinner color="warn"></mat-spinner>
 	<br><br>
 </ng-template>
 
@@ -58,21 +58,28 @@
 	  					(ngModelChange)="updateField(presta,priceDavidField,presta.priceDavid)">
 	  				<mat-icon matSuffix>euro_symbol</mat-icon>
 					</mat-form-field>
-				<div *ngIf="presta.types">
-					<!-- {{ presta.types | json }} -->
+					<span class="time" *ngIf="presta.time">
+						{{ presta.time }} min
+					</span>
+				
+				<!-- 
+ 				<div *ngIf="presta.types">
 					<mat-chip-list>
 					  <mat-chip *ngFor="let type of presta.types">
 					  	{{ type }}
 					  </mat-chip>					  
 					</mat-chip-list>
-				</div>
+				</div>  
+				-->
+				
 				<div class="pull-right">
+					<!--
 					<button mat-icon-button
 						[routerLink]="['./../prestation', presta.$key]">
-								<!-- (click)="onSelect(member.key)"> -->
 				     <mat-icon>info</mat-icon>
 				  </button>
-				  <button mat-icon-button
+					-->
+				  <button mat-icon-button color="warn" disabled 
 							(click)="deletePrestation(presta)">
 			        <mat-icon>remove_circle</mat-icon>
 			    </button>
