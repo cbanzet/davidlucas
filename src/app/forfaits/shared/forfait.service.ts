@@ -2,9 +2,9 @@ import { Forfait } from './forfait';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 // import { FirebaseApp } from 'angularfire2';
-import { 	AngularFireDatabase, 
-					AngularFireList, 
-					AngularFireObject } from 'angularfire2/database';
+import {   AngularFireDatabase, 
+          AngularFireList, 
+          AngularFireObject } from 'angularfire2/database';
 
 import { Observable } from 'rxjs/Observable';
 import { NgForm } from '@angular/forms';
@@ -31,12 +31,7 @@ export class ForfaitService {
 
   }
 
-
-///////////////////////////////////////////////////////////////////////////
   ///////////////////// GET /////////////////////////
-///////////////////////////////////////////////////////////////////////////
-
-
 
   getPrestaTypeSnapshotList() {
     return this.prestationRef.snapshotChanges().map(arr => {
@@ -74,502 +69,123 @@ export class ForfaitService {
   }
 
 
-
-///////////////////////////////////////////////////////////////////////////
   /////////////// C R E A T E ///////////////////////
-///////////////////////////////////////////////////////////////////////////
-
-
 
   createForfait(newForfaitForm: NgForm): void {
-  	// console.log(newForfaitForm.value);
+    // console.log(newForfaitForm.value);
   
     var newForfaitData = {};
     var times: number = 0;
-    var price: number = 0;
+    var priceD: number = 0;
+    var priceT: number = 0;
    
     newForfaitData['title'] = newForfaitForm?newForfaitForm.value.newForfaitTitle:0;
     var newPrestation = [];
-
-    newPrestation[1] = {
-      key: newForfaitForm.value.selectedPrestation1.key,
-      title: newForfaitForm.value.selectedPrestation1.title,
-      order:  1
-    };
-    newForfaitData['prestations'] = newPrestation;
-
-
-    newPrestation[2] = {
-      key: newForfaitForm.value.selectedPrestation2.key,
-      title: newForfaitForm.value.selectedPrestation2.title,
-      order:  2
-    };
-    newForfaitData['prestations'] = newPrestation;
-
-    newPrestation[3] = {
-      key: newForfaitForm.value.selectedPrestation3.key,
-      title: newForfaitForm.value.selectedPrestation3.title,
-      order:  3
-    };
-    newForfaitData['prestations'] = newPrestation;
-    times = times + +newForfaitForm.value.selectedPrestation1.time + +newForfaitForm.value.selectedPrestation2.time + 
-            +newForfaitForm.value.selectedPrestation3.time ;
-    newForfaitData['time'] = times;
-
-     price = price + +newForfaitForm.value.selectedPrestation1.priceDavid +
-              +newForfaitForm.value.selectedPrestation1.priceTeam +
-             // tslint:disable-next-line:max-line-length
-              +newForfaitForm.value.selectedPrestation2.priceDavid +
-              +newForfaitForm.value.selectedPrestation2.priceTeam +
-             // tslint:disable-next-line:max-line-length
-             +newForfaitForm.value.selectedPrestation3.priceDavid +
-             +newForfaitForm.value.selectedPrestation3.priceTeam ;
-
-    newForfaitData['price'] = price;
-
-    // Insertion dans le noeud forfait
-    var keyNewForfait = this.forfaitsRef.push(newForfaitData).key;
-
-     // Insertion dans le noeud prestation (denormalisation)
+    var numberKey = newForfaitForm.value.pickedNumberPrestation.key;
     var updatePrestationsData = {};
 
-    var prestationkey1 = newForfaitForm.value.selectedPrestation1.key;
-    updatePrestationsData["prestations/"+ prestationkey1 +"/forfaits/"+keyNewForfait] = true;
-    // Insert in LookUp
-    this.db.list('/lookUpPrestationForfait').update(prestationkey1, {[keyNewForfait]:true});
+    var forfaitTabPrice = [];
 
-    var prestationkey2 = newForfaitForm.value.selectedPrestation2.key;
-    updatePrestationsData["prestations/"+ prestationkey2 +"/forfaits/"+keyNewForfait] = true;
-    // Insert in LookUp
-    this.db.list('/lookUpPrestationForfait').update(prestationkey2, {[keyNewForfait]:true});
+      if (numberKey) {
+        // INITIALISATION DU TABLEAU POUR CHAQUE CAS
 
-    var prestationkey3 = newForfaitForm.value.selectedPrestation3.key;
-    updatePrestationsData["prestations/"+ prestationkey3 +"/forfaits/"+keyNewForfait] = true;
-    // Insert in LookUp
-    this.db.list('/lookUpPrestationForfait').update(prestationkey3, {[keyNewForfait]:true});
+        var forfaitTabData = [ {key: newForfaitForm.value.selectedPrestation1.key,
+                                title: newForfaitForm.value.selectedPrestation1.title,
+                                times: newForfaitForm.value.selectedPrestation1.time,
+                                priceD: newForfaitForm.value.selectedPrestation1.priceDavid,
+                                priceT: newForfaitForm.value.selectedPrestation1.priceTeam},
+
+                                {key: newForfaitForm.value.selectedPrestation2.key,
+                                  title: newForfaitForm.value.selectedPrestation2.title,
+                                  times: newForfaitForm.value.selectedPrestation2.time,
+                                  priceD: newForfaitForm.value.selectedPrestation2.priceDavid,
+                                  priceT: newForfaitForm.value.selectedPrestation2.priceTeam}
+                               ]
+
+        if(numberKey === '3'){
+            forfaitTabData.push( {key: newForfaitForm.value.selectedPrestation3.key,
+            title: newForfaitForm.value.selectedPrestation3.title,
+            times: newForfaitForm.value.selectedPrestation3.time,
+            priceD: newForfaitForm.value.selectedPrestation3.priceDavid,
+            priceT: newForfaitForm.value.selectedPrestation3.priceTeam});
+
+        }
+        else if(numberKey === '4'){
+            forfaitTabData.push( {key: newForfaitForm.value.selectedPrestation3.key,
+              title: newForfaitForm.value.selectedPrestation3.title,
+              times: newForfaitForm.value.selectedPrestation3.time,
+              priceD: newForfaitForm.value.selectedPrestation3.priceDavid,
+              priceT: newForfaitForm.value.selectedPrestation3.priceTeam},
+
+                {key: newForfaitForm.value.selectedPrestation4.key,
+                title: newForfaitForm.value.selectedPrestation4.title,
+                times: newForfaitForm.value.selectedPrestation4.time,
+                priceD: newForfaitForm.value.selectedPrestation4.priceDavid,
+                priceT: newForfaitForm.value.selectedPrestation4.priceTeam} );
+
+        }
+        else if(numberKey === '5'){
+
+              forfaitTabData.push( {key: newForfaitForm.value.selectedPrestation3.key,
+                title: newForfaitForm.value.selectedPrestation3.title,
+                times: newForfaitForm.value.selectedPrestation3.time,
+                priceD: newForfaitForm.value.selectedPrestation3.priceDavid,
+                priceT: newForfaitForm.value.selectedPrestation3.priceTeam},
+
+                {key: newForfaitForm.value.selectedPrestation4.key,
+                title: newForfaitForm.value.selectedPrestation4.title,
+                times: newForfaitForm.value.selectedPrestation4.time,
+                priceD: newForfaitForm.value.selectedPrestation4.priceDavid,
+                priceT: newForfaitForm.value.selectedPrestation4.priceTeam}, 
+
+                {key: newForfaitForm.value.selectedPrestation5.key,
+                title: newForfaitForm.value.selectedPrestation5.title,
+                times: newForfaitForm.value.selectedPrestation5.time,
+                priceD: newForfaitForm.value.selectedPrestation5.priceDavid,
+                priceT: newForfaitForm.value.selectedPrestation5.priceTeam } );
+        }
+       
+
+        for( var i=0; i < numberKey ; i++ ){
+            newPrestation[i+1] = {
+            key: forfaitTabData[i].key,
+            title: forfaitTabData[i].title,
+            order:  i+1
+          };
+          times = times + +forfaitTabData[i].times;
+          priceD = priceD + +forfaitTabData[i].priceD;
+          priceT = priceT + +forfaitTabData[i].priceT;
+
+        
+        }
+        newForfaitData['prestations'] = newPrestation ;
+        newForfaitData['time'] = times;
+        newForfaitData['priceDavid'] = priceD;
+        newForfaitData['priceTeam'] = priceT;
+
+        //Insert in forfait
+        var keyNewForfait = this.forfaitsRef.push(newForfaitData).key;
+          // lookup
+        for( var i=0; i < numberKey ; i++ ){
+            // insert in Prestation
+            updatePrestationsData["prestations/"+ forfaitTabData[i].key +"/forfaits/"+keyNewForfait] = true;
+            // Insert in LookUp
+            // this.db.list('/lookUpPrestationForfait').update(forfaitTabData[i].key, {[keyNewForfait]:true});
+            updatePrestationsData["lookUpForfaitPrestations/"+ forfaitTabData[i].key +"/"+keyNewForfait] = true;
+        };
+
+      }
 
     this.db.object("/").update(updatePrestationsData).then(_=>'Prestations Saved');
-
-    // fin
 
      this.router.navigate(['/forfaits']);
 
     // console.log(keyNewPresta);  
     console.log(newForfaitData, keyNewForfait);
+   // console.log(newForfaitForm.value.forfair.title);
   }
 
-
-
-
-
-
-
-
-
-
-// createForfait(newForfaitForm: NgForm): void {
-//     // console.log(newForfaitForm.value);
-  
-//     var newForfaitData = {};
-//     var times: number = 0;
-//     var price: number = 0;
-   
-//     newForfaitData['title'] = newForfaitForm?newForfaitForm.value.newForfaitTitle:0;
-//     var newPrestation = [];
-//     var numberKey = newForfaitForm.value.pickedNumberPrestation.key;
-
-//       // debut
-
-//       if (numberKey === '2') {
-
-//         newPrestation[1] = {
-//           key: newForfaitForm.value.selectedPrestation1.key,
-//           title: newForfaitForm.value.selectedPrestation1.title,
-//           order:  1
-//         };
-//         newForfaitData['prestations'] = newPrestation;
-    
-    
-//         newPrestation[2] = {
-//           key: newForfaitForm.value.selectedPrestation2.key,
-//           title: newForfaitForm.value.selectedPrestation2.title,
-//           order:  2
-//         };
-//         newForfaitData['prestations'] = newPrestation;
-    
-//         newForfaitData['prestations'] = newPrestation;
-//         times = times + +newForfaitForm.value.selectedPrestation1.time + +newForfaitForm.value.selectedPrestation2.time ;
-//         newForfaitData['time'] = times;
-    
-//          price = price + +newForfaitForm.value.selectedPrestation1.priceDavid +
-//                   +newForfaitForm.value.selectedPrestation1.priceTeam +
-//                  // tslint:disable-next-line:max-line-length
-//                   +newForfaitForm.value.selectedPrestation2.priceDavid +
-//                   +newForfaitForm.value.selectedPrestation2.priceTeam ;
-    
-//         newForfaitData['price'] = price;
-
-//       }
-
-//       else if (numberKey === '3') {
-
-//         newPrestation[1] = {
-//           key: newForfaitForm.value.selectedPrestation1.key,
-//           title: newForfaitForm.value.selectedPrestation1.title,
-//           order:  1
-//         };
-//         newForfaitData['prestations'] = newPrestation;
-    
-    
-//         newPrestation[2] = {
-//           key: newForfaitForm.value.selectedPrestation2.key,
-//           title: newForfaitForm.value.selectedPrestation2.title,
-//           order:  2
-//         };
-//         newForfaitData['prestations'] = newPrestation;
-    
-//         newPrestation[3] = {
-//           key: newForfaitForm.value.selectedPrestation3.key,
-//           title: newForfaitForm.value.selectedPrestation3.title,
-//           order:  3
-//         };
-//         newForfaitData['prestations'] = newPrestation;
-//         times = times + +newForfaitForm.value.selectedPrestation1.time + +newForfaitForm.value.selectedPrestation2.time + 
-//                 +newForfaitForm.value.selectedPrestation3.time ;
-//         newForfaitData['time'] = times;
-    
-//          price = price + +newForfaitForm.value.selectedPrestation1.priceDavid +
-//                   +newForfaitForm.value.selectedPrestation1.priceTeam +
-//                  // tslint:disable-next-line:max-line-length
-//                   +newForfaitForm.value.selectedPrestation2.priceDavid +
-//                   +newForfaitForm.value.selectedPrestation2.priceTeam +
-//                  // tslint:disable-next-line:max-line-length
-//                  +newForfaitForm.value.selectedPrestation3.priceDavid +
-//                  +newForfaitForm.value.selectedPrestation3.priceTeam ;
-    
-//         newForfaitData['price'] = price;
-
-//       }
-//       else if (numberKey === '4') {
-
-//         newPrestation[1] = {
-//           key: newForfaitForm.value.selectedPrestation1.key,
-//           title: newForfaitForm.value.selectedPrestation1.title,
-//           order:  1
-//         };
-//         newForfaitData['prestations'] = newPrestation;
-    
-    
-//         newPrestation[2] = {
-//           key: newForfaitForm.value.selectedPrestation2.key,
-//           title: newForfaitForm.value.selectedPrestation2.title,
-//           order:  2
-//         };
-//         newForfaitData['prestations'] = newPrestation;
-    
-//         newPrestation[3] = {
-//           key: newForfaitForm.value.selectedPrestation3.key,
-//           title: newForfaitForm.value.selectedPrestation3.title,
-//           order:  3
-//         };
-//         newPrestation[4] = {
-//           key: newForfaitForm.value.selectedPrestation3.key,
-//           title: newForfaitForm.value.selectedPrestation3.title,
-//           order:  4
-//         };
-//         newForfaitData['prestations'] = newPrestation;
-//         times = times + +newForfaitForm.value.selectedPrestation1.time + +newForfaitForm.value.selectedPrestation2.time + 
-//                 +newForfaitForm.value.selectedPrestation3.time + 
-//                 +newForfaitForm.value.selectedPrestation4.time ;
-//         newForfaitData['time'] = times;
-    
-//          price = price + +newForfaitForm.value.selectedPrestation1.priceDavid +
-//                   +newForfaitForm.value.selectedPrestation1.priceTeam +
-//                  // tslint:disable-next-line:max-line-length
-//                   +newForfaitForm.value.selectedPrestation2.priceDavid +
-//                   +newForfaitForm.value.selectedPrestation2.priceTeam +
-//                  // tslint:disable-next-line:max-line-length
-//                  +newForfaitForm.value.selectedPrestation3.priceDavid +
-//                  +newForfaitForm.value.selectedPrestation3.priceTeam +
-
-//                  +newForfaitForm.value.selectedPrestation4.priceDavid +
-//                  +newForfaitForm.value.selectedPrestation4.priceTeam;
-    
-//         newForfaitData['price'] = price;
-
-
-//       }
-
-//       else if (numberKey === '5') {
-
-//         newPrestation[1] = {
-//           key: newForfaitForm.value.selectedPrestation1.key,
-//           title: newForfaitForm.value.selectedPrestation1.title,
-//           order:  1
-//         };
-//         newForfaitData['prestations'] = newPrestation;
-    
-    
-//         newPrestation[2] = {
-//           key: newForfaitForm.value.selectedPrestation2.key,
-//           title: newForfaitForm.value.selectedPrestation2.title,
-//           order:  2
-//         };
-//         newForfaitData['prestations'] = newPrestation;
-    
-//         newPrestation[3] = {
-//           key: newForfaitForm.value.selectedPrestation3.key,
-//           title: newForfaitForm.value.selectedPrestation3.title,
-//           order:  3
-//         };
-//         newPrestation[4] = {
-//           key: newForfaitForm.value.selectedPrestation3.key,
-//           title: newForfaitForm.value.selectedPrestation3.title,
-//           order:  4
-//         };
-//         newPrestation[5] = {
-//           key: newForfaitForm.value.selectedPrestation3.key,
-//           title: newForfaitForm.value.selectedPrestation3.title,
-//           order:  5
-//         };
-//         newForfaitData['prestations'] = newPrestation;
-//         times = times + +newForfaitForm.value.selectedPrestation1.time + +newForfaitForm.value.selectedPrestation2.time + 
-//                 +newForfaitForm.value.selectedPrestation3.time + 
-//                 +newForfaitForm.value.selectedPrestation4.time +
-//                 +newForfaitForm.value.selectedPrestation5.time ;
-//         newForfaitData['time'] = times;
-    
-//          price = price + +newForfaitForm.value.selectedPrestation1.priceDavid +
-//                   +newForfaitForm.value.selectedPrestation1.priceTeam +
-//                  // tslint:disable-next-line:max-line-length
-//                   +newForfaitForm.value.selectedPrestation2.priceDavid +
-//                   +newForfaitForm.value.selectedPrestation2.priceTeam +
-//                  // tslint:disable-next-line:max-line-length
-//                  +newForfaitForm.value.selectedPrestation3.priceDavid +
-//                  +newForfaitForm.value.selectedPrestation3.priceTeam +
-
-//                  +newForfaitForm.value.selectedPrestation4.priceDavid +
-//                  +newForfaitForm.value.selectedPrestation4.priceTeam
-                 
-//                  +newForfaitForm.value.selectedPrestation5.priceDavid +
-//                  +newForfaitForm.value.selectedPrestation5.priceTeam ;
-    
-//         newForfaitData['price'] = price;
-
-
-//       }
-
-//       else  {
-
-//         newPrestation[1] = {
-//           key: newForfaitForm.value.selectedPrestation1.key,
-//           title: newForfaitForm.value.selectedPrestation1.title,
-//           order:  1
-//         };
-//         newForfaitData['prestations'] = newPrestation;
-    
-    
-//         newPrestation[2] = {
-//           key: newForfaitForm.value.selectedPrestation2.key,
-//           title: newForfaitForm.value.selectedPrestation2.title,
-//           order:  2
-//         };
-//         newForfaitData['prestations'] = newPrestation;
-    
-//         newPrestation[3] = {
-//           key: newForfaitForm.value.selectedPrestation3.key,
-//           title: newForfaitForm.value.selectedPrestation3.title,
-//           order:  3
-//         };
-//         newPrestation[4] = {
-//           key: newForfaitForm.value.selectedPrestation3.key,
-//           title: newForfaitForm.value.selectedPrestation3.title,
-//           order:  4
-//         };
-//         newPrestation[5] = {
-//           key: newForfaitForm.value.selectedPrestation3.key,
-//           title: newForfaitForm.value.selectedPrestation3.title,
-//           order:  5
-//         };
-//         newPrestation[6] = {
-//           key: newForfaitForm.value.selectedPrestation3.key,
-//           title: newForfaitForm.value.selectedPrestation3.title,
-//           order:  6
-//         };
-//         newForfaitData['prestations'] = newPrestation;
-//         times = times + +newForfaitForm.value.selectedPrestation1.time + +newForfaitForm.value.selectedPrestation2.time + 
-//                 +newForfaitForm.value.selectedPrestation3.time + 
-//                 +newForfaitForm.value.selectedPrestation4.time +
-//                 +newForfaitForm.value.selectedPrestation5.time +
-//                 +newForfaitForm.value.selectedPrestation6.time ;
-//         newForfaitData['time'] = times;
-    
-//          price = price + +newForfaitForm.value.selectedPrestation1.priceDavid +
-//                   +newForfaitForm.value.selectedPrestation1.priceTeam +
-//                  // tslint:disable-next-line:max-line-length
-//                   +newForfaitForm.value.selectedPrestation2.priceDavid +
-//                   +newForfaitForm.value.selectedPrestation2.priceTeam +
-//                  // tslint:disable-next-line:max-line-length
-//                  +newForfaitForm.value.selectedPrestation3.priceDavid +
-//                  +newForfaitForm.value.selectedPrestation3.priceTeam +
-
-//                  +newForfaitForm.value.selectedPrestation4.priceDavid +
-//                  +newForfaitForm.value.selectedPrestation4.priceTeam
-                 
-//                  +newForfaitForm.value.selectedPrestation5.priceDavid +
-//                  +newForfaitForm.value.selectedPrestation5.priceTeam  +
-
-//                  +newForfaitForm.value.selectedPrestation5.priceDavid +
-//                  +newForfaitForm.value.selectedPrestation5.priceTeam ;
-    
-//         newForfaitData['price'] = price;
-
-
-//       }
-    
-//     // fin
-
-//     // Insertion dans le noeud forfait
-//     var keyNewForfait = this.forfaitsRef.push(newForfaitData).key;
-
-//      // Insertion dans le noeud prestation (denormalisation)
-//     var updatePrestationsData = {};
-
-//     if (numberKey === '2') {
-//       var prestationkey1 = newForfaitForm.value.selectedPrestation1.key;
-//       updatePrestationsData["prestations/"+ prestationkey1 +"/forfaits/"+keyNewForfait] = true;
-//       // Insert in LookUp
-//       this.db.list('/lookUpPrestationForfait').update(prestationkey1, {[keyNewForfait]:true});
-  
-//       var prestationkey2 = newForfaitForm.value.selectedPrestation2.key;
-//       updatePrestationsData["prestations/"+ prestationkey2 +"/forfaits/"+keyNewForfait] = true;
-//       // Insert in LookUp
-//       this.db.list('/lookUpPrestationForfait').update(prestationkey2, {[keyNewForfait]:true});
-//     }
-
-//    else if (numberKey === '3') {
-//       var prestationkey1 = newForfaitForm.value.selectedPrestation1.key;
-//       updatePrestationsData["prestations/"+ prestationkey1 +"/forfaits/"+keyNewForfait] = true;
-//       // Insert in LookUp
-//       this.db.list('/lookUpPrestationForfait').update(prestationkey1, {[keyNewForfait]:true});
-  
-//       var prestationkey2 = newForfaitForm.value.selectedPrestation2.key;
-//       updatePrestationsData["prestations/"+ prestationkey2 +"/forfaits/"+keyNewForfait] = true;
-//       // Insert in LookUp
-//       this.db.list('/lookUpPrestationForfait').update(prestationkey2, {[keyNewForfait]:true});
-  
-//       var prestationkey3 = newForfaitForm.value.selectedPrestation3.key;
-//       updatePrestationsData["prestations/"+ prestationkey3 +"/forfaits/"+keyNewForfait] = true;
-//       // Insert in LookUp
-//       this.db.list('/lookUpPrestationForfait').update(prestationkey3, {[keyNewForfait]:true});
-//     }
-//     else if (numberKey === '4') {
-//       var prestationkey1 = newForfaitForm.value.selectedPrestation1.key;
-//       updatePrestationsData["prestations/"+ prestationkey1 +"/forfaits/"+keyNewForfait] = true;
-//       // Insert in LookUp
-//       this.db.list('/lookUpPrestationForfait').update(prestationkey1, {[keyNewForfait]:true});
-  
-//       var prestationkey2 = newForfaitForm.value.selectedPrestation2.key;
-//       updatePrestationsData["prestations/"+ prestationkey2 +"/forfaits/"+keyNewForfait] = true;
-//       // Insert in LookUp
-//       this.db.list('/lookUpPrestationForfait').update(prestationkey2, {[keyNewForfait]:true});
-  
-//       var prestationkey3 = newForfaitForm.value.selectedPrestation3.key;
-//       updatePrestationsData["prestations/"+ prestationkey3 +"/forfaits/"+keyNewForfait] = true;
-//       // Insert in LookUp
-//       this.db.list('/lookUpPrestationForfait').update(prestationkey3, {[keyNewForfait]:true});
-
-//       var prestationkey4 = newForfaitForm.value.selectedPrestation4.key;
-//       updatePrestationsData["prestations/"+ prestationkey3 +"/forfaits/"+keyNewForfait] = true;
-//       // Insert in LookUp
-//       this.db.list('/lookUpPrestationForfait').update(prestationkey4, {[keyNewForfait]:true});
-//     }
-
-//     else if (numberKey === '5') {
-//       var prestationkey1 = newForfaitForm.value.selectedPrestation1.key;
-//       updatePrestationsData["prestations/"+ prestationkey1 +"/forfaits/"+keyNewForfait] = true;
-//       // Insert in LookUp
-//       this.db.list('/lookUpPrestationForfait').update(prestationkey1, {[keyNewForfait]:true});
-  
-//       var prestationkey2 = newForfaitForm.value.selectedPrestation2.key;
-//       updatePrestationsData["prestations/"+ prestationkey2 +"/forfaits/"+keyNewForfait] = true;
-//       // Insert in LookUp
-//       this.db.list('/lookUpPrestationForfait').update(prestationkey2, {[keyNewForfait]:true});
-  
-//       var prestationkey3 = newForfaitForm.value.selectedPrestation3.key;
-//       updatePrestationsData["prestations/"+ prestationkey3 +"/forfaits/"+keyNewForfait] = true;
-//       // Insert in LookUp
-//       this.db.list('/lookUpPrestationForfait').update(prestationkey3, {[keyNewForfait]:true});
-
-//       var prestationkey4 = newForfaitForm.value.selectedPrestation4.key;
-//       updatePrestationsData["prestations/"+ prestationkey3 +"/forfaits/"+keyNewForfait] = true;
-//       // Insert in LookUp
-//       this.db.list('/lookUpPrestationForfait').update(prestationkey4, {[keyNewForfait]:true});
-
-//       var prestationkey5 = newForfaitForm.value.selectedPrestation4.key;
-//       updatePrestationsData["prestations/"+ prestationkey3 +"/forfaits/"+keyNewForfait] = true;
-//       // Insert in LookUp
-//       this.db.list('/lookUpPrestationForfait').update(prestationkey5, {[keyNewForfait]:true});
-//     }
-
-//     else {
-//       var prestationkey1 = newForfaitForm.value.selectedPrestation1.key;
-//       updatePrestationsData["prestations/"+ prestationkey1 +"/forfaits/"+keyNewForfait] = true;
-//       // Insert in LookUp
-//       this.db.list('/lookUpPrestationForfait').update(prestationkey1, {[keyNewForfait]:true});
-  
-//       var prestationkey2 = newForfaitForm.value.selectedPrestation2.key;
-//       updatePrestationsData["prestations/"+ prestationkey2 +"/forfaits/"+keyNewForfait] = true;
-//       // Insert in LookUp
-//       this.db.list('/lookUpPrestationForfait').update(prestationkey2, {[keyNewForfait]:true});
-  
-//       var prestationkey3 = newForfaitForm.value.selectedPrestation3.key;
-//       updatePrestationsData["prestations/"+ prestationkey3 +"/forfaits/"+keyNewForfait] = true;
-//       // Insert in LookUp
-//       this.db.list('/lookUpPrestationForfait').update(prestationkey3, {[keyNewForfait]:true});
-
-//       var prestationkey4 = newForfaitForm.value.selectedPrestation4.key;
-//       updatePrestationsData["prestations/"+ prestationkey3 +"/forfaits/"+keyNewForfait] = true;
-//       // Insert in LookUp
-//       this.db.list('/lookUpPrestationForfait').update(prestationkey4, {[keyNewForfait]:true});
-
-//       var prestationkey5 = newForfaitForm.value.selectedPrestation4.key;
-//       updatePrestationsData["prestations/"+ prestationkey3 +"/forfaits/"+keyNewForfait] = true;
-//       // Insert in LookUp
-//       this.db.list('/lookUpPrestationForfait').update(prestationkey5, {[keyNewForfait]:true});
-
-//       var prestationkey6 = newForfaitForm.value.selectedPrestation4.key;
-//       updatePrestationsData["prestations/"+ prestationkey3 +"/forfaits/"+keyNewForfait] = true;
-//       // Insert in LookUp
-//       this.db.list('/lookUpPrestationForfait').update(prestationkey6, {[keyNewForfait]:true});
-//     }
-   
-//     this.db.object("/").update(updatePrestationsData).then(_=>'Prestations Saved');
-//     this.router.navigate(['/forfaits']);
-//     console.log(newForfaitData, keyNewForfait);
-//   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-///////////////////////////////////////////////////////////////////////////
   /////////////// D E L E T E ///////////////////////
-///////////////////////////////////////////////////////////////////////////
-
 
 
   deleteForfait(forfait): void {
@@ -606,11 +222,7 @@ export class ForfaitService {
   }
 
 
-
-///////////////////////////////////////////////////////////////////////////
   ///////////// U P D A T E ////////////////
-///////////////////////////////////////////////////////////////////////////
- 
 
   // Update Member's data
   updateForfait(forfait,field,value): void {
@@ -631,6 +243,4 @@ export class ForfaitService {
     );
   }
 
-
-
-  }
+}
