@@ -25,27 +25,42 @@
 	</mat-card-header>
 
 	<mat-card-content>
+
 		<br>
+
+		<mat-chip-list>
+		  <mat-chip *ngFor="let type of types | async">
+		  	{{ type.title }}
+		  </mat-chip>
+		</mat-chip-list>
+
+		<br>
+
 		<mat-list dense>
 			<mat-list-item *ngFor="let presta of prestations">
 				<mat-icon matListIcon>local_offer</mat-icon>
 				<!-- <p matLine> {{ presta.title }} {{ presta.details }}</p> -->
+					<!-- 					
 					<mat-form-field class="field-acro" *ngIf="presta.acronyme">
 						<input matInput maxlength="3" placeholder="Acronyme" 
 							[(ngModel)]="presta.acronyme"
 							(ngModelChange)=updateField(presta,acronymeField,presta.acronyme)>
 		  			<mat-hint align="end">{{presta.acronyme.length}} / 2</mat-hint>
-					</mat-form-field>
+					</mat-form-field> 
+					-->
+				<div class="d-b">
 					<mat-form-field class="field-title">
 	  				<input matInput placeholder="Title"
 	  					[(ngModel)]="presta.title"
 	  					(ngModelChange)="updateField(presta,titleField,presta.title)">
 					</mat-form-field>
+					<!-- 					
 					<mat-form-field class="field-details">
 	  				<input matInput placeholder="Details"
 	  					[(ngModel)]="presta.details"
 	  					(ngModelChange)="updateField(presta,detailsField,presta.details)">
-					</mat-form-field>
+					</mat-form-field> 
+					-->
 					<mat-form-field class="field-price">
 	  				<input matInput placeholder="Prix Équipe" type="number"
 	  					[(ngModel)]="presta.priceTeam"
@@ -58,28 +73,55 @@
 	  					(ngModelChange)="updateField(presta,priceDavidField,presta.priceDavid)">
 	  				<mat-icon matSuffix>euro_symbol</mat-icon>
 					</mat-form-field>
-					<span class="time" *ngIf="presta.time">
-						{{ presta.time }} min
-					</span>
-				
-				<!-- 
+				</div>
+								 
  				<div *ngIf="presta.types">
 					<mat-chip-list>
+						
+						<mat-chip *ngIf="presta.time">
+							<strong>{{ presta.time }} min</strong>
+						</mat-chip>
+
 					  <mat-chip *ngFor="let type of presta.types">
-					  	{{ type }}
-					  </mat-chip>					  
+					  	{{ type[1] }}
+					  	<mat-icon matChipRemove (click)="removeTypeFromPresta(presta,type)">cancel</mat-icon>
+					  </mat-chip>
+						
+<!-- 						<mat-chip color="primary">
+							<strong>Add</strong>
+							<mat-icon matChipRemove
+								(click)="showTypeSelect=true;showPrestaTypeList=false">add_circle</mat-icon>
+						</mat-chip>	 -->				  			  
 					</mat-chip-list>
-				</div>  
-				-->
+				</div>
+
+<!-- 				<div *ngIf="showTypeSelect">
+					<mat-form-field class="full-width">
+					  <mat-select 
+					  	placeholder="Select Type" 
+					  	class="full-width"
+					  	[(ngModel)]="newType"
+					  	(ngModelChange)="addTypeToPresta(presta,newType);showTypeSelect=false;ShowAddTypeBut=true">
+					    <mat-option 
+					    	*ngFor="let newType of types | async" 
+					    	[value]="newType">
+					    	{{ newType.title }}
+					    </mat-option>
+					  </mat-select>						  
+					</mat-form-field>						
+				</div> -->
+				
 				
 				<div class="pull-right">
-					<!--
+					
+					 
 					<button mat-icon-button
 						[routerLink]="['./../prestation', presta.$key]">
 				     <mat-icon>info</mat-icon>
-				  </button>
-					-->
-				  <button mat-icon-button color="warn" disabled 
+				  </button> 
+					
+					
+				  <button mat-icon-button color="warn" 
 							(click)="deletePrestation(presta)">
 			        <mat-icon>remove_circle</mat-icon>
 			    </button>

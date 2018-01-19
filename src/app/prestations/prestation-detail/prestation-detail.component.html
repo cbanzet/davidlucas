@@ -1,16 +1,17 @@
-<mat-card *ngIf="prestation | async as prestation">
+<mat-card *ngIf="prestation | async as prestation" mat-card-900>
 	<br>
 	<mat-card-header>
 		<div mat-card-avatar class="example-header-image">
 			<mat-icon matListIcon>content_cut</mat-icon>
 		</div>	
-		<mat-card-title>Modifier la Prestation</mat-card-title>
+		<mat-card-title>Modifier la prestation : <strong>{{ prestation.title }}</strong></mat-card-title>
 		<mat-card-subtitle>Modifier les informations de la prestation<br>
 			<span class="keystyle">{{ prestation.$key }}</span>
 		</mat-card-subtitle>
 	</mat-card-header>
 	<mat-card-content>
-		<table cellspacing="0">
+		<table cellspacing="0" class="full-width mw-900">
+			<!-- 			
 			<tr>
 				<td>
 					<mat-form-field>
@@ -31,17 +32,18 @@
 	    			<mat-hint align="end">{{prestation.acronyme.length}} / 3</mat-hint>
 					</mat-form-field>
 				</td>
-			</tr>
+			</tr> 
+			-->
 			<tr>
 				<td>
-					<mat-form-field>
+					<mat-form-field class="full-width">
 	  				<input matInput placeholder="Title" required
 	  					[(ngModel)]="prestation.title"
 	  					(ngModelChange)="updateField(prestation,titleField,prestation.title)">
 					</mat-form-field>
 				</td>
 				<td>
-					<mat-form-field>
+					<mat-form-field class="full-width">
 	  				<input matInput placeholder="Details" required
 	  				[(ngModel)]="prestation.details"
 	  				(ngModelChange)="updateField(prestation,detailsField,prestation.details)">
@@ -50,7 +52,7 @@
 			</tr>
 			<tr>
 				<td>
-					<mat-form-field>
+					<mat-form-field class="full-width">
 	  				<input matInput placeholder="Prix Équipe" required
 	  					type="number"
 	  					[(ngModel)]="prestation.priceTeam"
@@ -59,7 +61,7 @@
 					</mat-form-field>
 				</td>
 				<td>
-					<mat-form-field>
+					<mat-form-field class="full-width">
 	  				<input matInput placeholder="Prix David" required
 	  					type="number"
 	  					[(ngModel)]="prestation.priceDavid"
@@ -85,18 +87,46 @@
 			</tr>
 			<tr>
 				<td colspan="2">
-					<mat-form-field class="field-types">
-					  <mat-select [compareWith]="compareFn" [(ngModel)]="prestation.types" placeholder="Types de prestations" multiple>
+					<mat-chip-list>
+					  <mat-chip *ngFor="let prestatype of prestation.arrtypes">
+					  	{{ prestatype[1] }}
+					  	<mat-icon matChipRemove 
+					  		(click)="removeTypeFromPresta(prestation,prestatype[0])">cancel</mat-icon>
+					  </mat-chip>
+					   
+						<mat-chip color="primary"
+							*ngIf="showAddTypeButton">
+							<strong>Add</strong>
+							<mat-icon matChipRemove
+								(click)="
+									showTypeSelect=true;
+									showAddTypeButton=false
+									">add_circle</mat-icon>
+						</mat-chip> 
+					
+					</mat-chip-list>
+
+					<mat-form-field class="full-width"
+						*ngIf="showTypeSelect">
+					  <mat-select 
+					  	placeholder="Select Type" 
+					  	class="full-width"
+					  	[(ngModel)]="newType"
+					  	(ngModelChange)="
+					  		addTypeToPresta(prestation,newType);
+					  		showTypeSelect=false;
+					  		showAddTypeButton=true
+					  	">
 					    <mat-option 
-					    	*ngFor="let prestatype of prestatypes | async" 
-					    	[value]="prestatype">
-					    	{{prestatype.title}} {{prestatype.key}}
+					    	*ngFor="let newType of types | async" 
+					    	[value]="newType">
+					    	{{ newType.title }}
 					    </mat-option>
-					  </mat-select>
-					</mat-form-field>					
-					{{ prestation.types.snapshot }}
+					  </mat-select>						  
+					</mat-form-field>						
+
 				</td>
-			</tr>				
+			</tr>
 		</table>		
 	</mat-card-content>
 

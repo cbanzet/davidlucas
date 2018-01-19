@@ -11,7 +11,8 @@ import { PrestationService } from './../shared/prestation.service';
 export class PrestationListComponent implements OnInit {
 
   prestations: Observable<any[]>;
-  oldprestas: Observable<any[]>;
+  // oldprestas: Observable<any[]>;
+  types: Observable<any[]>;
 
   titleField = "title";
   detailsField = "details";
@@ -20,10 +21,15 @@ export class PrestationListComponent implements OnInit {
   priceTeamField = "priceTeam";
   acronymeField = "acronyme";
 
+  ShowAddTypeBut:boolean = true;
+  showTypeSelect:boolean = false;
+  showPrestaTypeList:boolean = true;
+
   constructor(private prestationService: PrestationService) 
   {
     this.prestations = this.prestationService.getPrestationsList();
-    this.oldprestas = this.prestationService.getServicesList();
+    this.types = this.prestationService.getPrestaTypeList();
+    // this.oldprestas = this.prestationService.getServicesList();
   }
 
   ngOnInit() {

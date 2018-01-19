@@ -15,7 +15,8 @@ import 'rxjs/add/operator/startWith';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/observable/of';
-import "rxjs/add/operator/switchMap";
+import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/operator/take';
 
 
 import * as moment from 'moment'; 
@@ -60,10 +61,83 @@ export class EventService {
     })
   }
 
+  getFormatEventsList() {
+    return this.eventsRef.snapshotChanges().map(arr => {
+      return arr.map(snap => Object
+        .assign(
+          // snap.payload.val(), 
+        { 
+          $key: snap.key,
+          clientfullname: `${snap.payload.val().clientFirstname} ${snap.payload.val().clientLastname}`,
+          statut: snap.payload.val().statut,
+          memberfirstname: snap.payload.val().memberFirstname,
+          time: snap.payload.val().time,
+          multievent: snap.payload.val().multiEvent,
+        }
+    ))})
+  }
+
+
+
+
   getMembersList() {
     return this.db.list('members').snapshotChanges().map(arr => {
       return arr.map(snap => Object.assign(snap.payload.val(), { $key: snap.key }) )
     })
+  }
+
+  // getClientsList() {
+  //   return this.db.list('clientes').snapshotChanges().map(arr => {
+  //     return arr.map(snap => Object.assign(snap.payload.val(), { $key: snap.key }) )
+  //   })
+  // }
+
+
+  getMembersListForDayViewCalendar() {
+    return this.db.list('members').snapshotChanges().map(arr => {
+      return arr.map(snap => Object
+        .assign(
+          // snap.payload.val(), 
+        { 
+          $key: snap.key,
+          firstname: snap.payload.val().firstname, 
+          lastname: snap.payload.val().lastname,
+          fullname: `${snap.payload.val().firstname} ${snap.payload.val().lastname}`,
+          rolekey: snap.payload.val().role.key,             
+        }
+    ))})
+  }
+
+  getFormatClientsList() {
+    return this.db.list('clientes').snapshotChanges().map(arr => {
+      return arr.map(snap => Object
+        .assign(
+        { 
+          $key: snap.key,
+          firstname: snap.payload.val().firstname, 
+          lastname: snap.payload.val().lastname,
+          email: snap.payload.val().email,
+          phone: snap.payload.val().phone
+          // lastname: snap.payload.val().lastname             
+        }
+    ))})
+  }
+
+  getTitlePrestationsList() {
+    return this.db.list('prestations').snapshotChanges().map(arr => {
+      return arr.map(snap => Object
+        .assign(
+        { 
+          $key: snap.key,
+          acronyme: snap.payload.val().acronyme, 
+          title: snap.payload.val().title, 
+          details: snap.payload.val().details,             
+          time: snap.payload.val().time,
+          priceDavid: snap.payload.val().priceDavid,
+          priceTeam: snap.payload.val().priceTeam,
+          salonkey: snap.payload.val().salon.key             
+        }
+    ))})    
   }
 
 
@@ -104,14 +178,14 @@ export class EventService {
 
   formatEventForCreation(data,client) {
 
-    console.log(data);
-    console.log(client);
+    // console.log(data);
+    // console.log(client);
 
     const memberkey = data?data.member.$key:0;
-    const prestakey = data?data.prestation.key:0;
-    const clientkey = client?client.key:0;
-    const salonkey = data.member.salon?data.member.salon.key:0;
-    const rolekey = data.member.role?data.member.role.key:0;
+    const prestakey = data?data.prestation.$key:0;
+    const clientkey = client?client.$key:0;
+    const salonkey = data.prestation?data.prestation.salonkey:0;
+    const rolekey = data.member.rolekey?data.member.rolekey:0;
 
     const dateFormat = this.getDate(data.date);
     const timestamp = moment(data.date).unix()*1000;
@@ -164,9 +238,7 @@ export class EventService {
       default:
         console.log("No event to create"); 
     }
-
-    console.log(newEventData);    
-
+    // console.log(newEventData);    
   }
 
   loopToAddMultipleEvent(

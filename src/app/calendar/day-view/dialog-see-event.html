@@ -1,11 +1,13 @@
 <!-- {{ suitemeeting | async | json }} -->
-<!-- {{ meeting | async | json }} -->
+<!-- <pre>{{ meeting | async | json }}</pre> -->
+
+<!-- <div *ngIf="dev"> -->
 <div *ngIf="meeting | async as meeting">
 	<div mat-dialog-title class="display-block">
 		<h1>
 			RDV de {{ meeting.memberFirstname }}
-			<span
-				[ngClass]="{'ongoingclass':meeting.statut=='ongoing'}" class="al smalldate"
+			<span class="al smalldate"
+				[ngClass]="{'ongoingclass':meeting.statut=='ongoing'}"
 				*ngIf="showSavedDate">
 				{{ meeting.timestamp | date }} - {{ meeting.time }}
 				<mat-icon (click)="showDatePicker=true;showSavedDate=false" class="cursor-pointer">
@@ -15,11 +17,13 @@
 		</h1>
 
 
+		<!-- 		
 		<mat-form-field *ngIf="showDatePicker" class="fl-right">
 		  <input matInput [matDatepicker]="myDatepicker">
 		  <mat-datepicker-toggle matSuffix [for]="myDatepicker"></mat-datepicker-toggle>
 		  <mat-datepicker #myDatepicker></mat-datepicker>
-		</mat-form-field>
+		</mat-form-field> 
+		-->
 
 	</div>
 

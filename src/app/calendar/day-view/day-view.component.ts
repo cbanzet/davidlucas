@@ -30,17 +30,9 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 export class DayViewComponent implements OnInit {
 
   selectedCoiffeur: Observable<any[]>;
-  memberfromtable: Observable<any[]>;
-
-  private clientsRef: AngularFireList<any>;
-  clients: Observable<any[]>;  
-  private prestationsRef: AngularFireList<any>;
-  prestations: Observable<any[]>;
 
   members: Observable<any[]>;
-  coiffeurs: Observable<any[]>;
   events: Observable<any[]>;
-  presta: any;
 
   calendarDate:any;
   dateForQuery:any;
@@ -100,32 +92,29 @@ export class DayViewComponent implements OnInit {
     public dialog: MatDialog,
     private db: AngularFireDatabase) 
   {
-
-    this.members = this.eventService.getMembersList();
-
+    this.members = this.eventService.getMembersListForDayViewCalendar();
     this.date$ = new BehaviorSubject(null);
-
     this.events$ = this.date$.switchMap(date => db.list('/events', ref =>
         date ? ref.orderByChild('date').equalTo(date) : ref
-      ).snapshotChanges()
+      ).snapshotChanges().map(arr => {
+          return arr.map(snap => Object
+            .assign(
+              // snap.payload.val(), 
+            { 
+              $key: snap.key,
+              clientfullname: `${snap.payload.val().clientFirstname} ${snap.payload.val().clientLastname}`,
+              statut: snap.payload.val().statut,
+              memberfirstname: snap.payload.val().memberFirstname,
+              time: snap.payload.val().time,
+              multievent: snap.payload.val().multiEvent,
+              firstofmulti: snap.payload.val().multiEvent[0],
+              lastofmulti:  snap.payload.val().multiEvent[0]!='1'
+                &&
+                snap.payload.val().multiEvent[0]==snap.payload.val().multiEvent.substr(snap.payload.val().multiEvent.length - 1)
+                ?'1':'0'
+            }
+        ))})
     );
-
-
-    // Chantier Optimisation
-    // this.events$ = this.date$.switchMap(date => db.list('/events', ref =>
-    //   date ? ref.orderByChild('date').equalTo(date) : ref)
-    //   .snapshotChanges()
-    //   .map(arr => 
-    //   {
-    //   return arr.map(snap => Object
-    //     .assign(
-    //       snap.payload.val(), 
-    //       { 
-    //         key: snap.key,
-    //         clientFullname: `${snap.payload.val().clientFirstname} ${snap.payload.val().clientLastname}`
-    //       }
-    //     )
-    //   })
   }
 
 
@@ -171,11 +160,15 @@ export class DayViewComponent implements OnInit {
   }  
 
   openDialogSeeEvent(event, data): void {
+    // console.log(event);
+    // console.log(data);
+
     event.stopPropagation();
     let dialogSeeEventRef = this.dialog.open(DialogSeeEvent, {
       width: '400px',
       data: { 
-        key: data.payload.key
+        key: data.key,
+        event: data
       }
     });
     dialogSeeEventRef.afterClosed().subscribe(result => {
@@ -238,15 +231,25 @@ export class DialogNewEvent implements OnInit {
 
       this.forfaits = this.forfaitService.getForfaitsList();
 
-      this.members = db.list('members').snapshotChanges().map(arr => {
-        return arr.map(snap => Object.assign(snap.payload.val(), { key: snap.key }) )
-      })
-      this.prestations = db.list('prestations').snapshotChanges().map(arr => {
-        return arr.map(snap => Object.assign(snap.payload.val(), { key: snap.key }) )
-      })
-      this.clients = db.list('clientes').snapshotChanges().map(arr => {
-        return arr.map(snap => Object.assign(snap.payload.val(), { key: snap.key }) )
-      })
+      // this.members = db.list('members').snapshotChanges().map(arr => {
+      //   return arr.map(snap => Object.assign(snap.payload.val(), { key: snap.key }) )
+      // })
+
+      // this.clients = db.list('clientes').snapshotChanges().map(arr => {
+      //   return arr.map(snap => Object.assign(snap.payload.val(), { key: snap.key }) )
+      // })
+
+      // this.prestations = db.list('prestations').snapshotChanges().map(arr => {
+      //   return arr.map(snap => Object.assign(snap.payload.val(), { key: snap.key }) )
+      // })
+
+      this.members = this.eventService.getMembersListForDayViewCalendar();
+      
+      this.clients = this.eventService.getFormatClientsList();
+      // this.clients = this.eventService.getClientsList();
+
+      this.prestations = this.eventService.getTitlePrestationsList();
+
     }
 
 
@@ -255,10 +258,11 @@ export class DialogNewEvent implements OnInit {
   }
 
   filterClients(val: string) {
+    console.log(val);
     return this.clients
-      .map(response => response.filter(client => { 
-        return client.firstname.toLowerCase().indexOf(val.toLowerCase()) === 0
-      }));
+    .map(response => response.filter(client => { 
+      return client.lastname.toLowerCase().indexOf(val.toLowerCase()) === 0
+    }));
   }
 
   displayFn(client) {
@@ -274,13 +278,12 @@ export class DialogNewEvent implements OnInit {
       .startWith(null)
       .switchMap(client => {
         if(client) {
-          if(client.insertdate) { 
+          if(client.lastname) { 
             this.selectedClient = client;
             return this.clients;
           }
           else return this.filterClients(client)
         } else {
-          // do something better here :P
           return this.filterClients('something');
         }
       })    
@@ -289,7 +292,6 @@ export class DialogNewEvent implements OnInit {
 
   saveEvent(data,client) {
     // this.eventService.createEvent(data,client);
-
     this.eventService.formatEventForCreation(data,client);
     this.dialogRef.close();
   }
@@ -331,9 +333,9 @@ export class DialogSeeEvent implements OnInit {
     public dialogRef: MatDialogRef<DialogNewEvent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
 
-    this.key = data.key;
+    this.key = data.event.$key;
     this.meeting = this.eventService.getEventWithKey(this.key);
-    this.suitemeeting = this.eventService.getEventsSerie(this.key,data.date,data.time);
+    // this.suitemeeting = this.eventService.getEventsSerie(this.key,data.date,data.time);
 
   }
 
@@ -358,6 +360,7 @@ export class DialogSeeEvent implements OnInit {
   }  
 
   ngOnInit() {
+    // console.log(this.data.event);
   }
 
 }

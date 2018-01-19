@@ -19,15 +19,18 @@ export class PrestationDetailComponent implements OnInit {
 	prestation: Observable<any>;
   salons: Observable<any[]>;  
   prestatypes: Observable<any[]>;
+  types: Observable<any[]>;
 
   titleField = "title";
   detailsField = "details";
   timeField = "time";
-  priceDavidField = "pricedavid";
+  priceDavidField = "priceDavid";
   priceTeamField = "priceTeam";
   acronymeField = "acronyme";
 
   times = ['15','30','45','60'];
+
+  showAddTypeButton:boolean=true;
 
   constructor(
   	private prestationService: PrestationService,
@@ -35,10 +38,10 @@ export class PrestationDetailComponent implements OnInit {
   	private router: Router,
   	private location: Location) 
   {
-    // this.prestatypes = this.prestationService.getPrestaTypeSnapshotList();    
   }
 
   ngOnInit() {
+    this.types = this.prestationService.getPrestaTypeList();    
     this.salons = this.prestationService.getSalonsList();    
   	this.prestation = this.route.paramMap
   		.switchMap((params: ParamMap)=>
@@ -57,12 +60,20 @@ export class PrestationDetailComponent implements OnInit {
 		this.prestationService.updatePrestation(key,field,value);
 	}
 
-  compareFn(t1: Type, t2: Type): boolean {
-    return t1 && t2 ? t1.key === t2.key : t1 === t2;
+  // compareFn(t1: Type, t2: Type): boolean {
+  //   return t1 && t2 ? t1.key === t2.key : t1 === t2;
+  // }
+
+  addTypeToPresta(prestation,type) {
+    this.prestationService.addTypeToPrestation(prestation,type);
   }
 
   deleteForever(prestation) {
     this.prestationService.deletePrestation(prestation);
   }	
+
+  removeTypeFromPresta(prestation,typekey) {
+    this.prestationService.removeTypeFromPresta(prestation,typekey);    
+  }
 
 }

@@ -34,10 +34,14 @@ export class PrestationService {
 
   constructor(private db: AngularFireDatabase, private router: Router) {
 
-  	this.prestationsRef = db.list('/prestations')
+  	this.prestationsRef = db.list('/prestations', ref => ref.orderByChild('title'))
     this.prestaTypeRef = db.list('/prestationType')
   	this.servicesRef = db.list('/services')
     this.salonsRef = db.list('/salons')
+
+
+    // this.coiffeursRef = db.list('/role/1/members', ref => ref.orderByChild('firstname'));    
+
 
   }
 
@@ -49,17 +53,33 @@ export class PrestationService {
     this.prestation = this.db.object(prestaPath)
       .snapshotChanges().map(action => {
         const $key = action.payload.key;
-        const data = { $key, ...action.payload.val() };
+        const arrtypes = action.payload.val().types?Object.entries(action.payload.val().types):null;        
+        const data = { 
+          $key, 
+          arrtypes,
+          ...action.payload.val() 
+        };
         return data;
       });
     return this.prestation
   }
 
+  // getPrestationsList() {
+  //   return this.prestationsRef.snapshotChanges().map(arr => {
+  //     return arr.map(snap => Object.assign(snap.payload.val(), { $key: snap.key }) )
+  //   })
+  // }
   getPrestationsList() {
     return this.prestationsRef.snapshotChanges().map(arr => {
-      return arr.map(snap => Object.assign(snap.payload.val(), { $key: snap.key }) )
+      return arr.map(snap => Object.assign(
+        snap.payload.val(), 
+        { types: snap.payload.val().types?Object.entries(snap.payload.val().types):null},
+        { $key: snap.key }) )
     })
   }
+
+
+
 
   getPrestaTypeList() {
     return this.prestaTypeRef.snapshotChanges().map(arr => {
@@ -96,9 +116,9 @@ export class PrestationService {
       key: keysalon,
       title: newPrestaForm?newPrestaForm.value.selectedSalon.title:0
     };
-    newPrestaData['acronyme'] = newPrestaForm?newPrestaForm.value.newPrestaAcronyme:0;
+    newPrestaData['acronyme'] = newPrestaForm.value.newPrestaAcronyme?newPrestaForm.value.newPrestaAcronyme:null;
     newPrestaData['title'] = newPrestaForm?newPrestaForm.value.newPrestaTitle:0;
-    newPrestaData['details'] = newPrestaForm?newPrestaForm.value.newPrestaDetail:0;
+    newPrestaData['details'] = newPrestaForm.value.newPrestaDetail?newPrestaForm.value.newPrestaDetail:null;
     newPrestaData['time'] = newPrestaForm?newPrestaForm.value.selectedTime:0;
     newPrestaData['priceTeam'] = newPrestaForm?newPrestaForm.value.newPrestaPrix:0;
     newPrestaData['priceDavid'] = newPrestaForm?newPrestaForm.value.newPrestaPrixDavid:0;
@@ -128,17 +148,49 @@ export class PrestationService {
         var typekey = newPrestaForm.value.selectedTypes[i].key;
         updateTypesData["prestationType/"+ typekey +"/prestations/"+keyNewPresta] = true;
         // Insert in LookUp
-        this.db.list('/lookUpTypesPrestation').update(typekey, {[keyNewPresta]:true});
+        this.db.list('/lookUpTypePrestations').update(typekey, {[keyNewPresta]:true});
       }
       this.db.object("/").update(updateTypesData).then(_=>'Types Saved');
     }
 
     // Insert in LookUp
-    this.db.list('/lookUpSalonPrestation').update(keysalon, {[keyNewPresta]:true});
+    this.db.list('/lookUpSalonPrestations').update(keysalon, {[keyNewPresta]:true});
     this.router.navigate(['/prestations']);  	
 
     // console.log(keyNewPresta);  
     console.log(newPrestaData,keyNewPresta);   
+  }
+
+
+
+  addTypeToPrestation(prestation,type) {
+    console.log(prestation); console.log(type);
+
+    var prestakey = prestation.$key;
+    var typekey = type.$key;
+    var salonkey = prestation.salon?prestation.salon.key:null;
+    var typetitle = `${type.title}`;
+
+    var newTypePresta = {
+      key: typekey,
+      title: typetitle
+    }    
+    const typePath = `prestationType/${typekey}/prestations/${prestakey}`;    
+    const typeInPrestaPath = `prestations/${prestakey}/types/${typekey}`;
+    const typeInPrestaInSalonPath = `salons/${salonkey}/prestations/${prestakey}/types/${typekey}`;
+    const typePrestaLookUpath = `lookUpTypePrestations/${typekey}/${prestakey}`;
+
+    var updateData = {};
+    updateData[typePath] = newTypePresta;
+    updateData[typeInPrestaPath] = typetitle;
+    if(salonkey) { updateData[typeInPrestaInSalonPath] = typetitle; }
+    updateData[typePrestaLookUpath] = true;  
+
+    // console.log(updateData);
+    this.db.object("/").update(updateData).then(_=>
+       console.log(updateData)
+    );
+
   }
 
 
@@ -180,20 +232,24 @@ export class PrestationService {
   // Update Member's data
   updatePrestation(prestation,field,value): void {
 
-    var prestaKey = prestation.$key;
-    var salonKey = prestation.salon.key;
+    if(value) 
+    {
+      var prestaKey = prestation.$key;
+      var salonKey = prestation.salon.key;
 
-    const prestaPath = `${this.prestaPath}/${prestaKey}/${field}`;
-    const prestaInSalonPath = `${this.salonPath}/${salonKey}/prestations/${prestaKey}/${field}`;
+      const prestaPath = `${this.prestaPath}/${prestaKey}/${field}`;
+      const prestaInSalonPath = `${this.salonPath}/${salonKey}/prestations/${prestaKey}/${field}`;
 
-    var updateField = {};
-    updateField[prestaPath]= value;
-    updateField[prestaInSalonPath]= value;
+      var updateField = {};
+      updateField[prestaPath]= value;
+      updateField[prestaInSalonPath]= value;
 
-    console.log(updateField);
-    this.db.object("/").update(updateField).then(_=>
-       console.log('Prestation MAJ dans ' + prestaPath + prestaInSalonPath)
-    );
+      console.log(updateField);
+      this.db.object("/").update(updateField).then(_=>
+         console.log('Prestation MAJ dans ' + prestaPath + prestaInSalonPath)
+      );
+     }
+     else { console.log("Delete Impossible Value Empty") }
   }
 
 
@@ -203,20 +259,61 @@ export class PrestationService {
 
 
   deletePrestation(prestation): void {
-  	var keyPresta = prestation.$key;
-    const prestaPath = `prestations/${keyPresta}`;
-    const prestaInSalonPath = `salons/1/prestations/${keyPresta}`;    
-    const prestaInLookUpSalonPath = `lookUpSalonPrestation/1/${keyPresta}`;    
 
-    this.db.object(prestaPath).remove().then(_=>
-      console.log(prestation + 'Deleted In Prestations DB')
+  	var prestakey = prestation.$key;
+    var salonkey = prestation.salon.key;
+    var types = prestation.types?prestation.types:null;
+
+    const prestaPath = `prestations/${prestakey}`;
+    const prestaInSalonPath = `salons/${salonkey}/prestations/${prestakey}`;    
+    const prestaInSalonLookUpPath = `lookUpSalonPrestations/${salonkey}/${prestakey}`; 
+
+    var deleteData = {};
+    deleteData[prestaPath] = null;
+    deleteData[prestaInSalonPath] = null;
+    deleteData[prestaInSalonLookUpPath] = null;
+
+    if(types) {
+      var arrayLength = types.length;
+      for (var i = 0; i < arrayLength; i++) {
+        var typekey = types[i][0];
+        var prestaInTypePath = `prestationType/${typekey}/prestations/${prestakey}`;
+        var prestaInTypeLookUpPath = `lookUpTypePrestations/${typekey}/${prestakey}`;
+        deleteData[prestaInTypePath] = null;
+        deleteData[prestaInTypeLookUpPath] = null;
+      }
+    }
+    // console.log(deleteData);
+    this.db.object("/").update(deleteData).then(_=>
+       console.log(deleteData)
     );
-    this.db.object(prestaInSalonPath).remove().then(_=>
-      console.log(prestation + 'Deleted In Salons DB')
+  }
+
+  removeTypeFromPresta(prestation,typekey) {
+
+    console.log(prestation);
+    console.log(typekey);
+
+    var prestakey = prestation.$key;
+    var typekey = typekey;
+    var salonkey = prestation.salon?prestation.salon.key:null;
+
+    const prestaPath = `prestations/${prestakey}/types/${typekey}`;
+    const typePath = `prestationType/${typekey}/prestations/${prestakey}`;
+    const salonPath = `salons/${salonkey}/prestations/${prestakey}/types/${typekey}`;
+    const typePrestaLookUpath = `lookUpTypePrestations/${typekey}/${prestakey}`;
+
+    var deleteData = {};
+    deleteData[prestaPath] = null;
+    deleteData[typePath] = null;
+    deleteData[salonPath] = null;
+    deleteData[typePrestaLookUpath] = null;
+
+    // console.log(deleteData);
+    this.db.object("/").update(deleteData).then(_=>
+       console.log(deleteData)
     );
-    this.db.object(prestaInLookUpSalonPath).remove().then(_=>
-      console.log(prestation + 'Deleted In LookUp')
-    );    
+
   }
 
   

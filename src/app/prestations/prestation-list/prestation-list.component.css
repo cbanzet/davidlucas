@@ -23,6 +23,19 @@ mat-spinner {
 	margin: 0 auto;
 }
 
+.presta-types {
+	display: block;
+	clear: both;
+	margin-top: 30px !important;
+}
+.presta-types li {
+	display: inline;
+	padding: 3px 5px;
+}	
+
+.d-b {
+	display: block;
+}
 
 
 .time {

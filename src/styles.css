@@ -10,3 +10,11 @@
 td:focus, td:active {
 		outline: none;
 }
+
+.full-width {
+	width: 100%;
+}
+
+.mw-900 {
+	max-width: 900px;
+}

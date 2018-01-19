@@ -1,34 +1,3 @@
-<!-- <mat-card *ngIf="addPrestations">
-	<mat-card-header>
-		<div mat-card-avatar class="example-header-image">
-			<mat-icon matListIcon>add</mat-icon>
-		</div>			
-		<mat-card-title>Ajouter des Pprestations</mat-card-title>
-		<mat-card-subtitle>Copy/Paste des prestations en format CSV (tab limited) to import them in Database</mat-card-subtitle>		
-	</mat-card-header>
-
-	<mat-card-content>
-		<mat-form-field class="example-full-width">
-			<textarea matInput
-								rows="10" 
-								placeholder="Copy-paste your list of prestations : title lastname : One Composer per line"
-								name="newPrestations"
-								ngModel #newPrestations="ngModel"></textarea>
-		</mat-form-field>
-		<button mat-fab color="accent" (click)="importPrestations(newPrestations)">
-			<mat-icon>file_upload</mat-icon>
-		</button>		
-		<button mat-fab routerLink="./../prestations" type="button" color="black">
-			<mat-icon>search</mat-icon>
-		</button>		
-		<button mat-fab (click)="addPrestation=true;addPrestations=false" type="button" color="black">
-			<mat-icon>add</mat-icon>
-		</button>			
-	</mat-card-content>
-</mat-card> -->
-
-
-
 
 
 <mat-card *ngIf="addPrestation">
@@ -43,9 +12,10 @@
 	<mat-card-content>
 	<form #newPrestaForm="ngForm" (ngSubmit)="onSubmit(newPrestaForm)">
 		<table>
-			<tr>
-				<td>
-					<mat-form-field>
+
+ 			<tr>
+				<td colspan="2">
+					<mat-form-field class="full-width">
 					  <mat-select required placeholder="Salons"
 					  	ngModel #selectedSalon="ngModel" name="selectedSalon">
 					    <mat-option *ngFor="let salon of salons | async" 
@@ -55,6 +25,8 @@
 					  </mat-select>
 					</mat-form-field>
 				</td>
+			</tr>
+			<!--
 				<td>					
 					<mat-form-field>
 						<input matInput maxlength="2" placeholder="Acronyme" 
@@ -63,24 +35,27 @@
 	    			<mat-hint align="end">{{newPrestaAcronyme.value.length}} / 2</mat-hint>
 					</mat-form-field>
 				</td>
-			</tr>
+			</tr> 
+			-->
 			<tr>
-				<td>
-					<mat-form-field>
+				<td colspan="2">
+					<mat-form-field class="full-width">
 						<input matInput placeholder="Title" 
 							required
 							ngModel #newPrestaTitle="ngModel"
 							name="newPrestaTitle">
 					</mat-form-field>					
 				</td>
-				<td>
+				<!--
+ 				<td>
 					<mat-form-field>
 						<input matInput placeholder="Details" 
 							required
 							ngModel #newPrestaDetail="ngModel"
 							name="newPrestaDetail">
 					</mat-form-field>					
-				</td>
+				</td> 
+				-->
 			</tr>
 			<tr>
 				<td>

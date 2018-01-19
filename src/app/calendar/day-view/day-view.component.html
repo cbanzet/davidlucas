@@ -21,8 +21,8 @@
   <!-- <div *ngIf="events.length === 0">No results, try clearing filters</div> -->
 <!-- </div> -->
 
+<!-- <mat-card *ngIf="dev"> -->
 <mat-card *ngIf="events$ | async; let events; else loading" class="calendar-card">
-	<!-- <mat-card-content *ngIf="members | async; let members; else loading">	 -->
 	<mat-card-content>
 		<table>
 			<tr>
@@ -53,37 +53,23 @@
 					*ngFor="let member of members | async"
 					(click)="openDialogNewEvent(calendarDate,time,member)">
 						<div class="rdv" *ngFor="let event of events">
-							
-							<!-- 	
-								CHANTIER OPTIMISATION
-							<span 
-								[ngClass]="
-								{
-									'waiting-event':event.statut=='waiting',
-									'ongoing-event':event.statut=='ongoing'
-								}"
-						 		*ngIf="event.memberFirstname===member.firstname&&event.time===time"
-								(click)="openDialogSeeEvent($event,event)">								
-									{{ event.clientFullname | limitTo: 10 }} NEED TO CREATE PIPE
-								</span>
-							-->
-
-
-									<!-- 'round-top-event':checkIfFirstMultiEvent(event.payload.val().multiEvent), -->
-
-
 								<span 
 								[ngClass]="
 								{
-									'waiting-event':event.payload.val().statut=='waiting',
-									'ongoing-event':event.payload.val().statut=='ongoing'
+									'waiting-event':event.statut=='waiting',
+									'ongoing-event':event.statut=='ongoing',
+									'round-top-event':event.firstofmulti=='1',
+									'round-bottom-event':event.lastofmulti=='1'
 								}"
-						 		*ngIf="event.payload.val().memberFirstname===member.firstname&&event.payload.val().time===time"
+						 		*ngIf="event.memberfirstname===member.firstname&&event.time===time"
 								(click)="openDialogSeeEvent($event,event)">
 									<!-- {{ event.payload.val().prestationAcronyme }} -->
-									{{ event.payload.val().clientFirstname }}									
-									{{ event.payload.val().clientLastname }}
-									{{ event.payload.val().multiEvent }}
+									{{ 	
+										(event.clientfullname.length>15) ? 
+										(event.clientfullname | slice:0:15)+'...':(event.clientfullname) 
+									}}									
+									<!-- {{ event.multievent }} -->
+									<!-- {{ event.lastofmulti }} -->
 								</span> 
 						</div>
 				</td>
