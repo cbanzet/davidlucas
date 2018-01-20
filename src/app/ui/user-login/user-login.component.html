@@ -71,15 +71,15 @@
   </mat-card-content>
 
   <mat-card-footer>
-    <button mat-raised-button (click)="signInAnonymously()" color="warn">
+    <button mat-raised-button (click)="signInAnonymously()" disabled color="warn">
       <mat-icon>account_circle</mat-icon>
       <span> Anonymous Login</span>
     </button>
-    <button mat-raised-button (click)="signInWithGoogle()" color="black">
+    <button mat-raised-button (click)="signInWithGoogle()" color="warn">
       <mat-icon>public</mat-icon>
       <span> Signin with Google</span>
     </button> 
-    <button mat-raised-button color="black">
+    <button mat-raised-button color="black" disabled>
       <mat-icon>check</mat-icon>
       <span> Signin with Email</span>
     </button>   

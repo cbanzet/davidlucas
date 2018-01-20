@@ -4,7 +4,7 @@ import { HttpModule } from '@angular/http';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AngularMaterialModule } from './ui/angularmaterial.module';
-
+import { FlexLayoutModule } from '@angular/flex-layout';
 import { AppRoutingModule } from './app-routing.module';
 import { PageNotFoundComponent } from './ui/not-found.component';
 import { AppComponent } from './app.component';
@@ -27,8 +27,8 @@ import { PrestationModule } from './prestations/shared/prestation.module';
 import { ForfaitModule } from './forfaits/shared/forfait.module';
 import { CalendarModule } from './calendar/shared/calendar.module'
 import { EventModule } from './events/shared/event.module';
+import { CartModule } from './cart/shared/cart.module';
 import { FacturationModule } from './facturation/shared/facturation.module';
-
 
 @NgModule({
   imports: [
@@ -36,18 +36,20 @@ import { FacturationModule } from './facturation/shared/facturation.module';
     HttpModule,
     BrowserAnimationsModule,
     AngularMaterialModule,
+    FlexLayoutModule,
     AppRoutingModule,
     CoreModule,
     SharedModule,
     AdminModule,
     UiModule,
     ClientModule,
-    FacturationModule,
     MemberModule,
     PrestationModule,
     ForfaitModule,
     CalendarModule,
     EventModule,
+    CartModule,
+    FacturationModule,
     AngularFireModule.initializeApp(environment.firebaseConfig)    
   ],
   declarations: [

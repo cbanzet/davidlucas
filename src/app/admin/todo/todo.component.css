@@ -50,3 +50,34 @@ mat-spinner {
 .task-done {
 	color: #ccc !important;
 }
+
+
+.formfield-100px {
+	width: 100px;
+}
+
+
+.usrname, .bubble {
+  background-color: #000;
+  color: #fff;
+  font-weight: bold;
+	-webkit-border-radius: 13px;-moz-border-radius: 13px;border-radius: 13px;  
+  text-align: center;
+  display: block;
+  font-size: 0.7em;
+  line-height: 26px;
+	height: 26px;	  
+}
+
+.usrname {
+	padding: 0 10px;
+	text-transform: uppercase;
+}
+
+.bubble {
+  background-color: #000;
+  color: #fff;
+  font-weight: bold;
+  width: 32px;
+  margin-right: 5px;
+}

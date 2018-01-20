@@ -6,6 +6,9 @@
 	<br><br>
 </ng-template>
 
+
+
+
 <mat-card *ngIf="taskList">
   <mat-card-header>
     <div mat-card-avatar class="example-header-image">
@@ -23,13 +26,34 @@
     <mat-list dense>
       <mat-list-item *ngFor="let task of tasks">
         <h4 mat-line [ngClass]="task.status==2 ? 'task-done' : 'task-waiting'">
-        	<span class="task-title"> {{ task.component }} : {{ task.action }} : {{ task.details }}</span><br>
+        	<span class="task-title"> {{ task.title }} {{ task.component }} : {{ task.action }} : {{ task.details }}</span><br>
         	<span *ngIf="task.timestamp" class="task-date">{{ task.timestamp | date}} </span>
         	<span *ngIf="task.time" class="task-date"> | Estimated Time : <strong>{{ task.time }}H</strong></span>
         	<span *ngIf="task.startdate" class="task-date"> | Start: <strong>{{ task.startdate | date: 'MM-dd HH:mm' }}</strong></span>
         	<span *ngIf="task.enddate" class="task-date"> | Complete: <strong>{{ task.enddate | date: 'MM-dd HH:mm' }}</strong></span>
         	<span *ngIf="task.length" class="task-date"> | Time Spent : <strong>{{ task.length }}H</strong></span>
         </h4>
+
+				<mat-form-field *ngIf="!task.timespent" class="formfield-100px">
+					<input matInput placeholder="Time spent on task in hours"
+						ngModel #timeSpent="ngModel"
+						name="timeSpent">
+					<button mat-button matSuffix mat-icon-button aria-label="Save" 
+						(click)="saveTimeSpent(task,timeSpent,auth.currentUserId,auth.currentUserDisplayName)">
+					  <mat-icon>save</mat-icon>
+					</button>
+				</mat-form-field>
+
+				<span *ngIf="task.usrname" class="usrname">
+					{{ task.usrname }}
+				</span>
+									
+				<span *ngIf="task.timespent" class="bubble">
+					{{ task.timespent }}H
+				</span>
+
+
+
         <!-- TASK WAITING -->
 				<button mat-icon-button color="warn"
 					*ngIf="task.status==0"
@@ -63,15 +87,6 @@
 <mat-card *ngIf="addtaskForm">
 	<form #newtaskForm="ngForm" (ngSubmit)="onSubmit(newtaskForm)">
 	<mat-card-content>
-
-			<!-- 			
-			<mat-form-field>
-				<input matInput placeholder="Task Title" required 
-					ngModel #newTaskTitle="ngModel"
-					name="newTaskTitle">
-			</mat-form-field> 
-			-->
-
 
 			<mat-form-field>
 			  <mat-select placeholder="Select Action"

@@ -25,6 +25,10 @@ import { ForfaitListComponent } from './forfaits/forfait-list/forfait-list.compo
 import { ForfaitFormComponent } from './forfaits/forfait-form/forfait-form.component';
 import { ForfaitDetailComponent } from './forfaits/forfait-detail/forfait-detail.component';
 
+import { CartFormComponent } from './cart/cart-form/cart-form.component';
+import { CartListComponent } from './cart/cart-list/cart-list.component';
+import { CartDetailComponent } from './cart/cart-detail/cart-detail.component';
+
 import { FacturationListComponent } from './facturation/facturation-list/facturation-list.component';
 import { FacturationFormComponent } from './facturation/facturation-form/facturation-form.component';
 import { FacturationDetailComponent } from './facturation/facturation-detail/facturation-detail.component';
@@ -56,6 +60,10 @@ const routes: Routes = [
   { path: 'forfaits', component: ForfaitListComponent },
   { path: 'forfaitform', component: ForfaitFormComponent },
   { path: 'forfait/:id', component: ForfaitDetailComponent },  
+  ////////////////////////////////////////////////////////////////
+  { path: 'carts', component: CartListComponent },
+  { path: 'cart/:id', component: CartDetailComponent },
+  { path: 'cartform', component: CartFormComponent },
   ////////////////////////////////////////////////////////////////
   { path: 'facturations', component: FacturationListComponent },
   { path: 'facturationform', component: FacturationFormComponent },

@@ -50,3 +50,19 @@ mat-chip md-icon {
   right: 20px;
   top: 20px;
 }
+
+
+.main-menu .close, .main-menu .close span {
+  color: #eee !important
+}
+
+.main-menu mat-list-item span {
+  color: #999;
+  font-size: 0.8em;
+  text-transform: uppercase;
+  padding-left: 10px;
+  transition: all 0.2s; 
+}
+.main-menu mat-list-item:hover span {
+  color: #000;
+}

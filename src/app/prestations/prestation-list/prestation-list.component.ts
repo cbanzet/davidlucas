@@ -14,6 +14,10 @@ export class PrestationListComponent implements OnInit {
   // oldprestas: Observable<any[]>;
   types: Observable<any[]>;
 
+  typelist: Observable<any[]>;
+
+
+
   titleField = "title";
   detailsField = "details";
   timeField = "time";
@@ -28,6 +32,8 @@ export class PrestationListComponent implements OnInit {
   constructor(private prestationService: PrestationService) 
   {
     this.prestations = this.prestationService.getPrestationsList();
+    // this.types = this.prestationService.getPrestaTypeListWithPrestaDetails();
+
     this.types = this.prestationService.getPrestaTypeList();
     // this.oldprestas = this.prestationService.getServicesList();
   }

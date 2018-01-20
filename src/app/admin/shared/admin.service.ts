@@ -20,7 +20,7 @@ export class AdminService {
     private db: AngularFireDatabase,
     private router: Router) 
   { 
-    this.tasksRef = db.list('/tasks', ref => ref.orderByChild('timestamp').limitToLast(50));
+    this.tasksRef = db.list('/tasks', ref => ref.orderByChild('status').limitToLast(150));
   }
 
 
@@ -77,6 +77,24 @@ export class AdminService {
     console.log(updateData);
     this.db.object("/").update(updateData).then(_=>console.log('Task Updated!'));
   } 
+
+
+  // SAVE TIME SPENT ON TASK
+  saveTimeSpent(task, time, usrid, usrname):void {
+    var taskkey = task.$key; 
+    var spenttime = time.value?time.value:0;  
+    var usrname = usrname?usrname:"No one";
+    if(spenttime) {
+      var updateData = {};
+      updateData[`tasks/${taskkey}/usrname`] = usrname; 
+      updateData[`tasks/${taskkey}/usrid`] = usrid; 
+      updateData[`tasks/${taskkey}/timespent`] = spenttime; 
+      this.db.object("/").update(updateData).then(_=>console.log('Task Time Spent Saved!'));         
+    }
+    else {
+      console.log("No time specify")
+    }
+  }
 
 
 

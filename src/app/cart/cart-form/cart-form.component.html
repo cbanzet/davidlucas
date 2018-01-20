@@ -1,0 +1,64 @@
+<h1>Shopping Time</h1>
+
+<div class="content" 
+ fxLayout="row" 
+ fxLayout.xs="column" 
+ fxLayoutAlign="end start"
+ fxLayoutGap="10px"
+ fxFlexFill
+	>
+	<div class="sec1"
+	fxFlex="50"
+ 	fxLayout="row" 	
+	fxLayoutWrap
+	fxLayout.xs="column">
+
+		<div
+		fxFlex="100">
+			<h2>Fill you cart with</h2>
+		</div>
+
+		<div
+		fxFlex="80">
+			<h3>Prestations</h3>
+		</div>
+		<div
+		fxFlex="20"
+		fxLayoutAlign="end center">
+			<button mat-mini-fab color="black"
+			*ngIf="showAddPrestaSectionButton">
+				<mat-icon>add</mat-icon>
+			</button>
+			<button mat-mini-fab color="black"
+			*ngIf="showRemovePrestaSectionButton">
+				<mat-icon>remove</mat-icon>
+			</button>			
+		</div>
+
+		<div 
+		fxFlex="100"
+		*ngIf="showAddPrestaSection">
+			<ng-template #loading><br><br><mat-spinner color="warn"></mat-spinner><br><br></ng-template>		
+      <mat-chip-list *ngIf="prestations | async; let prestations; else loading">
+        <mat-chip *ngFor="let prestation of prestations ">
+          {{ prestation.title }} <br>
+	        <strong>{{ prestation.time }} min {{ prestation.priceTeam }} €</strong>
+	        <mat-icon matChipRemove>add_circle</mat-icon>
+        </mat-chip>
+      </mat-chip-list>		    
+		</div>
+
+		<h3>Forfaits</h3>
+
+  </div>
+  <div class="sec2 contacts"
+  	fxFlex="50"
+  	fxLayout="row"
+  	>
+  		<h2>Cart content</h2>
+			<button mat-fab color="warn" 
+				matTooltip="Pay" matTooltipPosition="after">
+				<mat-icon>payment</mat-icon>
+			</button>	  		
+  </div>
+</div>    

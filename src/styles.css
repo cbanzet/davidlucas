@@ -15,6 +15,25 @@ td:focus, td:active {
 	width: 100%;
 }
 
+.half-width {
+	width: 40%;
+}
+
 .mw-900 {
 	max-width: 900px;
+}
+
+mat-spinner {
+	margin: 0 auto;
+}
+
+
+mat-card-header button {
+  margin-left: 10px !important;
+}
+
+mat-card-title {
+	font-size: 1.2em !important;
+	line-height: 0.5em;
+	font-weight: 300;
 }

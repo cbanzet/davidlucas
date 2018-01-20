@@ -4,6 +4,8 @@ import { Location } from '@angular/common';
 import { NgForm } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 
+import { AuthService } from './../../core/auth.service';
+
 import { AdminService } from './../shared/admin.service';
 
 @Component({
@@ -16,6 +18,7 @@ export class TodoComponent implements OnInit {
 	tasks: Observable<any[]>;
 	taskList:boolean=true;
 	addtaskForm:boolean=false;	
+  usrid: string;
 
   times = [
     "1",
@@ -29,7 +32,7 @@ export class TodoComponent implements OnInit {
   components = [
     "Admin Component",    
     "Calendar Component",
-    "Card Component",    
+    "Cart Component",    
     "Clients Component",
     "Core Component",
     "Events Component",
@@ -45,7 +48,7 @@ export class TodoComponent implements OnInit {
     "Bug Fixing",  
     "Création Component",
     "Création Fonction",
-    "Création Autocomplete MatFormField", 
+    "Création Module",    
     "Database",
     "Développement",
     "Navigation",
@@ -55,16 +58,28 @@ export class TodoComponent implements OnInit {
 
   constructor(private router: Router,
               private location: Location,
-              private adminService: AdminService) { }
+              private auth: AuthService,
+              private adminService: AdminService) 
+  {
+    // this.usrId = this.auth.currentUserId();    
+  }
 
   ngOnInit() {
-  	this.tasks = this.adminService.getTasksList();  	
+  	this.tasks = this.adminService.getTasksList();
+    // this.usrid = this.auth.currentUserId();
   }
 
   onSubmit(newtaskForm: NgForm) {
     this.adminService.createTask(newtaskForm);
     this.addtaskForm=false;
     this.taskList=true;
+  }
+
+  saveTimeSpent(task,time,usrid,usrname) {
+    // console.log(task);
+    // console.log(time.value);
+    // console.log(usrid);
+    this.adminService.saveTimeSpent(task,time,usrid,usrname);
   } 
 
   changeTaskStatus(task) {

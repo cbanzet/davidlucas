@@ -87,17 +87,33 @@ export class PrestationService {
     })
   }  
 
-  getPrestaTypeSnapshotList() {
+
+  getPrestaTypeListWithPrestaDetails() {
     return this.prestaTypeRef.snapshotChanges().map(arr => {
-      return arr.map(snap => Object.assign(snap.payload.val(), { key: snap.key }) )
+      return arr.map(snap => Object.assign(
+        // snap.payload.val(), 
+        { 
+          key: snap.key, 
+          // prestations: snap.payload.val().prestations,
+          prestations: snap.payload.val().prestations?Object.keys(snap.payload.val().prestations)):null,
+        }) 
+      )
     })
   }  
 
-  getServicesList() {
-    return this.servicesRef.snapshotChanges().map(arr => {
-      return arr.map(snap => Object.assign(snap.payload.val(), { $key: snap.key }) )
-    })
-  }
+
+
+  // getPrestaTypeSnapshotList() {
+  //   return this.prestaTypeRef.snapshotChanges().map(arr => {
+  //     return arr.map(snap => Object.assign(snap.payload.val(), { key: snap.key }) )
+  //   })
+  // }  
+
+  // getServicesList() {
+  //   return this.servicesRef.snapshotChanges().map(arr => {
+  //     return arr.map(snap => Object.assign(snap.payload.val(), { $key: snap.key }) )
+  //   })
+  // }
 
   getSalonsList() {
     return this.salonsRef.snapshotChanges().map(arr => {

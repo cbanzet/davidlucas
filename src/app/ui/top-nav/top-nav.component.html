@@ -1,78 +1,71 @@
-<!-- <mat-toolbar id="mainToolbarDLAPP" *ngIf="auth.currentUser">  -->
+<!-- <button mat-icon-button [matMenuTriggerFor]="appMenu"> -->
+<button mat-fab class="main-menu-trigger-button"
+  *ngIf="auth.currentUser" color="warn"
+  [matMenuTriggerFor]="appMenu">
+  <mat-icon>menu</mat-icon>
+</button>
 
-<!-- <mat-toolbar id="mainToolbarDLAPP"> -->
 
-  <mat-menu #appMenu="matMenu" yPosition="below" xPosition="before">
-    
-<!--     <button mat-menu-item routerLink="./dashboard">
-        <mat-icon> dashboard </mat-icon>
-        <span>Dashboard</span>
-    </button> -->
+<mat-menu #appMenu="matMenu" yPosition="below" xPosition="before">
 
-    <button mat-menu-item routerLink="./calendar">
+  <mat-nav-list class="main-menu">
+
+    <mat-list-item routerLink="./calendar">
         <mat-icon> today </mat-icon>
         <span>Calendar</span>
-    </button>
+    </mat-list-item>
 
-    <button mat-menu-item routerLink="./clientsearch">
+    <mat-list-item routerLink="./clientsearch">
         <mat-icon> face </mat-icon>
         <span>Clients</span>
-    </button>
+    </mat-list-item>
 
-    <button mat-menu-item routerLink="./members" 
-      [routerLinkActive]="['matl-button--colored']">
+    <mat-list-item routerLink="./members">
         <mat-icon>people</mat-icon>
         <span>Members</span>
-    </button>    
+    </mat-list-item>
         
-    <button mat-menu-item routerLink="./prestations">
+    <mat-list-item routerLink="./prestations">
         <mat-icon>content_cut</mat-icon>
         <span>Prestations</span>
-    </button>
+    </mat-list-item>
 
-    <button mat-menu-item routerLink="./forfaits">
+    <mat-list-item routerLink="./forfaits">
         <mat-icon>content_cut</mat-icon>
         <span>Forfaits</span>
-    </button>    
+    </mat-list-item>    
 
-    <button mat-menu-item routerLink="./facturations">
+    <mat-list-item routerLink="./carts">
+        <mat-icon>shopping_cart</mat-icon>
+        <span>Shopping Cart</span>
+    </mat-list-item> 
+
+    <mat-list-item routerLink="./facturations">
         <mat-icon>payment</mat-icon>
         <span>Facturation</span>
-    </button>    
+    </mat-list-item>    
 
-    
-<!--     <button mat-menu-item routerLink="./salon" 
-      [routerLinkActive]="['matl-button--colored']">
-        <mat-icon>weekend</mat-icon>
-        <span>Salons</span>
-    </button>
- -->
-    <button mat-menu-item disabled>
+    <mat-list-item disabled class="close">
         <mat-icon> chrome_reader_mode </mat-icon>
         <span>Report</span>
-    </button>
+    </mat-list-item>
    
-
     <mat-divider></mat-divider>
 
-    <button mat-menu-item (click)="gotoUserProfile()">
+    <mat-list-item (click)="gotoUserProfile()">
       <mat-icon>person</mat-icon>
       <span>{{ auth.currentUserDisplayName }}</span>
-    </button>
+    </mat-list-item>
 
-    <button mat-menu-item (click)="logout()" color="accent">
+    <mat-list-item (click)="logout()" color="accent">
       <mat-icon>power_settings_new</mat-icon>
       <span> Sign out</span>      
-    </button>
-    
-  </mat-menu>
+    </mat-list-item>
 
-  <!-- <button mat-icon-button [matMenuTriggerFor]="appMenu"> -->
-  <button mat-fab class="main-menu-trigger-button"
-    *ngIf="auth.currentUser" color="warn"
-    [matMenuTriggerFor]="appMenu">
-    <mat-icon>menu</mat-icon>
-  </button>
+  </mat-nav-list>
+  
+</mat-menu>
+
 
 
   <!-- <h1>David Lucas App</h1> -->
