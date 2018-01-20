@@ -83,7 +83,13 @@ export class PrestationService {
 
   getPrestaTypeList() {
     return this.prestaTypeRef.snapshotChanges().map(arr => {
-      return arr.map(snap => Object.assign(snap.payload.val(), { $key: snap.key }) )
+      return arr.map(snap => Object.assign(
+        snap.payload.val(), 
+        { 
+          $key: snap.key, 
+          title: snap.payload.val().title,
+        }) 
+      )
     })
   }  
 
@@ -94,8 +100,9 @@ export class PrestationService {
         // snap.payload.val(), 
         { 
           key: snap.key, 
+          title: snap.payload.val().title
           // prestations: snap.payload.val().prestations,
-          prestations: snap.payload.val().prestations?Object.keys(snap.payload.val().prestations)):null,
+          // prestations: snap.payload.val().prestations?Object.keys(snap.payload.val().prestations)):null,
         }) 
       )
     })
