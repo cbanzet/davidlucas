@@ -45,7 +45,11 @@ export class PrestationService {
 
   }
 
+////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////
   ///////////////// G E T ///////////////////////
+////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////  
 
   // Return Member with Key
   getPrestationWithKey(key: string): Observable<Prestation> {
@@ -64,6 +68,29 @@ export class PrestationService {
     return this.prestation
   }
 
+
+  // getPriceWithKey(key:string,firstname:string) {
+  //   const prestaPath = `${this.prestaPath}/${key}/priceTeam`;
+  //   var prestation = this.db.object(prestaPath).valueChanges().subscribe(data=> {
+  //     //do something with your data;
+  //     // console.log(data)
+  //     return data;
+  //   });
+
+  //   // console.log(prestation);
+  //   return prestation;
+  // }
+
+// constructor(afDb: AngularFireDatabase) {
+//   afDb.list('items').snapshotChanges().map(actions => {
+//     return actions.map(action => ({ key: action.key, ...action.payload.val() }));
+//   }).subscribe(items => {
+//     return items.map(item => item.key);
+//   });
+// }
+
+
+
   // getPrestationsList() {
   //   return this.prestationsRef.snapshotChanges().map(arr => {
   //     return arr.map(snap => Object.assign(snap.payload.val(), { $key: snap.key }) )
@@ -78,9 +105,6 @@ export class PrestationService {
     })
   }
 
-
-
-
   getPrestaTypeList() {
     return this.prestaTypeRef.snapshotChanges().map(arr => {
       return arr.map(snap => Object.assign(
@@ -93,42 +117,20 @@ export class PrestationService {
     })
   }  
 
-
-  getPrestaTypeListWithPrestaDetails() {
-    return this.prestaTypeRef.snapshotChanges().map(arr => {
-      return arr.map(snap => Object.assign(
-        // snap.payload.val(), 
-        { 
-          key: snap.key, 
-          title: snap.payload.val().title
-          // prestations: snap.payload.val().prestations,
-          // prestations: snap.payload.val().prestations?Object.keys(snap.payload.val().prestations)):null,
-        }) 
-      )
-    })
-  }  
-
-
-
-  // getPrestaTypeSnapshotList() {
-  //   return this.prestaTypeRef.snapshotChanges().map(arr => {
-  //     return arr.map(snap => Object.assign(snap.payload.val(), { key: snap.key }) )
-  //   })
-  // }  
-
-  // getServicesList() {
-  //   return this.servicesRef.snapshotChanges().map(arr => {
-  //     return arr.map(snap => Object.assign(snap.payload.val(), { $key: snap.key }) )
-  //   })
-  // }
-
   getSalonsList() {
     return this.salonsRef.snapshotChanges().map(arr => {
       return arr.map(snap => Object.assign(snap.payload.val(), { $key: snap.key }) )
     })
   }  
 
+
+////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////
   /////////////// C R E A T E ///////////////////////
+////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////
+
+
 
   createPrestation(newPrestaForm: NgForm): void {
   	// console.log(newPrestaForm.value);
@@ -247,9 +249,11 @@ export class PrestationService {
 
 
 
-
+////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////
   ///////////// U P D A T E ////////////////
-
+////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////
  
 
   // Update Member's data
@@ -277,9 +281,11 @@ export class PrestationService {
 
 
 
-
+////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////
   /////////////// D E L E T E ///////////////////////
-
+////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////
 
   deletePrestation(prestation): void {
 
@@ -339,8 +345,12 @@ export class PrestationService {
 
   }
 
-  
+////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////  
   /////////////// M I G R A T E ///////////////////////
+////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////
+
 
   migratePresta(prestas): void {
     var salonkey = "1";

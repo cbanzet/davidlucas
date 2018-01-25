@@ -6,6 +6,7 @@ import { AuthService } from '../../core/auth.service';
 import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AngularMaterialModule } from './../../ui/angularmaterial.module';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 // FIREBASE
 import { AngularFireModule } from 'angularfire2';
@@ -18,7 +19,8 @@ import { EventService } from './event.service';
 import { EventDetailComponent } from './../event-detail/event-detail.component';
 import { EventFormComponent } from './../event-form/event-form.component';
 import { EventListComponent } from './../event-list/event-list.component';
-
+import { EventsDayviewComponent } from './../events-dayview/events-dayview.component';
+import { DialogNewEvent, DialogSeeEvent } from './../events-dayview/events-dayview.component';
 
 @NgModule({
   imports: [
@@ -29,16 +31,21 @@ import { EventListComponent } from './../event-list/event-list.component';
     AngularMaterialModule,
     AngularFireDatabaseModule,
     BrowserAnimationsModule,
-    AngularMaterialModule 
+    AngularMaterialModule,
+    FlexLayoutModule 
   ],
   declarations: [
   	EventDetailComponent,
   	EventFormComponent,
-  	EventListComponent
+  	EventListComponent,
+    EventsDayviewComponent,
+    DialogNewEvent,
+    DialogSeeEvent    
   ],
   providers: [
     EventService,
     AuthService
-  ]  
+  ],
+  entryComponents: [DialogNewEvent, DialogSeeEvent]      
 })
 export class EventModule { }

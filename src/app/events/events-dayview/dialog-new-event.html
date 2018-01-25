@@ -1,0 +1,186 @@
+<ng-template #loading>								
+	<br><br>
+	<mat-spinner color="warn"></mat-spinner>
+	<br><br>
+</ng-template>
+
+
+<!-- <div *ngIf="dev"> -->
+<div *ngIf="filteredClients | async; let clients; else loading">
+  <div
+	fxLayout="row"
+	fxLayout.xs="column"
+	fxFlexFill
+	fxLayoutWrap
+  	>
+		<div 
+		fxFlex="70"
+		fxFlexAlign="start start">
+			<h1 *ngIf="data.selectedCoiffeur" mat-dialog-title>
+				Rendez-vous de <strong>{{data.selectedCoiffeur.firstname}} </strong>
+				<span *ngIf="selectedClient">avec <strong>{{ selectedClient.firstname}} {{ selectedClient.lastname }}</strong></span>
+			</h1>				
+		</div>
+		<div class="datatime"
+		fxFlex="30"
+		fxFlexAlign="center center">
+			<span>le {{ data.date | date:'d MMM' }}. à {{data.time}}</span>
+		</div>
+
+
+		<!-- {{data.selectedCoiffeur.$key}} -->
+<!-- 		<h1 *ngIf="data.selectedCoiffeur" mat-dialog-title>
+			Rendez-vous pour <strong>{{data.selectedCoiffeur.firstname}} </strong>
+			<span *ngIf="selectedClient">avec <strong>{{ selectedClient.firstname}} {{ selectedClient.lastname }}</strong></span>
+			<br>
+
+		</h1> -->
+		<!-- <h1 *ngIf="data.memberfromtable" mat-dialog-title>Rendez-vous pour {{data.memberfromtable.firstname}}</h1> -->
+		<!-- <h2 *ngIf="selectedClient">avec {{ selectedClient.firstname}} {{ selectedClient.lastname}}</h2> -->
+		<!-- <h3 *ngIf="data.prestation">{{ data.prestation.title }} - {{ data.prestation.time }} min</h3> -->
+		<!-- <h3 *ngIf="data.forfait">{{ data.forfait.title }} - {{ data.forfait.time }} min</h3> -->
+
+
+		<div class="pt-20"
+		fxFlex="100"
+		fxLayoutAlign="center start">
+
+			<mat-form-field class="full-width"
+			*ngIf="!selectedClient">
+			  <input 
+			  		matInput 
+			  		placeholder="Chercher une Client" aria-label="Client"
+			  		[matAutocomplete]="auto" 
+			  		[formControl]="clientCtrl">
+			  <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+			    <mat-option *ngFor="let client of clients" 
+			    	[value]="client">
+			      <span>{{ client.firstname }} {{ client.lastname }}</span>
+			    </mat-option>
+			  </mat-autocomplete>
+			  <mat-icon matSuffix>search</mat-icon>
+			  <mat-icon matSuffix 
+			  	(click)="onNoClick()"
+			  	routerLink="./../clientform">add</mat-icon>
+			</mat-form-field>
+
+		</div>
+
+<!-- 		<div 
+		fxFlex="30"
+		fxLayoutAlign="center end">
+
+			<button mat-mini-fab *ngIf="!selectedClient" 
+				routerLink="./../clientform" (click)="onNoClick()" color="black">
+					<mat-icon>add</mat-icon>
+			</button>
+
+		</div>
+ -->
+		<!-- 		
+		<mat-grid-list *ngIf="selectPrestaOrForfait&&selectedClient" class="presta-forfait" cols="2" rowHeight="40px">
+		  <mat-grid-tile (click)="selectPrestaOrForfait=false;showPrestaSelect=true">Prestation</mat-grid-tile>
+		  <mat-grid-tile (click)="selectPrestaOrForfait=false;showForfaitsSelect=true">Forfait</mat-grid-tile>
+		</mat-grid-list>
+
+		<mat-select
+			*ngIf="!data.prestation&&showPrestaSelect"
+			[(ngModel)]="data.prestation"
+			placeholder="Selectionner une prestations">
+				<mat-option *ngFor="let presta of prestations | async" [value]="presta">
+					<strong>{{presta.title}}</strong> {{presta.details}}
+				</mat-option>		
+		</mat-select>
+
+		<mat-select
+			*ngIf="!data.forfait&&showForfaitsSelect"
+			[(ngModel)]="data.forfait"
+			placeholder="Selectionner un Forfait">
+				<mat-option *ngFor="let forfait of forfaits | async" [value]="forfait">
+					<strong>{{forfait.time}} min</strong> : {{forfait.title}}
+				</mat-option>		
+		</mat-select>	 
+		-->
+
+	  <div
+	  	*ngIf="selectedClient"
+	  	fxLayout="row"
+			fxLayout.xs="column"
+	  	fxFlexFill
+	  	fxLayoutWrap
+			fxLayoutAlign="start start"
+	  	>
+
+			<div fxFlex="100"><h4>Ajouter un élément au rendez-vous</h4></div>
+
+			<div 
+			fxFlex="100">
+				<ng-template #loading><br><br><mat-spinner color="warn"></mat-spinner><br><br></ng-template>		
+	      <mat-chip-list *ngIf="prestations | async; let prestations; else loading">
+					<mat-chip 
+						*ngFor="let prestation of prestations"
+						(click)="formatBeforeInsert(data.selectedCoiffeur.firstname,'prestation',prestation)">
+						{{ prestation.title }}&nbsp;<strong>{{ prestation.time }} min</strong>
+					</mat-chip>
+	      </mat-chip-list>		    
+			</div>
+
+			<div fxFlex="100"><h4>Déroulé du rendez-vous</h4></div>
+
+			<div class="event-program"
+			fxLayoutWrap
+			fxFlex="100"
+			*ngFor="let element of cartData ;let i = index ">
+				<div
+				fxFlex="80"
+				fxLayoutAlign="start center">
+					<span class="buble-16 mr-10">{{ (i+1) }}</span>
+					{{ element.title }}
+				</div>
+				<div
+				fxFlex="10"
+				fxLayoutAlign="start end">
+					<strong>{{ element.time }} min</strong>
+				</div>
+				<div
+				fxFlex="10"
+				fxLayoutAlign="start end">
+					<mat-icon 
+					(click)="removeElement(i)">clear</mat-icon>
+				</div>
+			</div>
+
+			<div *ngIf="totalHT!=0" fxFlex="33" class="tt-pr br-bt">TOTAL HT : {{ totalHT }} €</div>
+			<div *ngIf="totalHT!=0" fxFlex="33" class="tt-pr br-bt">TAX 20% : {{ totalTAX }} €</div>
+			<div *ngIf="totalHT!=0" fxFlex="33" class="tt-pr br-bt">TOTAL TTC : {{ totalTTC }} €</div>
+
+		</div>
+
+	</div>
+
+	<div mat-dialog-actions>
+
+		<button mat-fab (click)="onNoClick()" type="button" tabindex="-1" color="black">
+			<mat-icon>close</mat-icon>
+	  </button>
+
+		<button mat-fab 
+			[disabled]="cartData.length==0||!data.selectedCoiffeur||!selectedClient"
+			(click)="saveEvent(data,selectedClient)"
+			type="button" tabindex="2" color="warn">
+			<mat-icon>check</mat-icon>
+	  </button>
+
+
+		<!-- 		
+		<button mat-fab 
+			[disabled]="!data.prestation||!data.selectedCoiffeur||!selectedClient"
+			(click)="saveEvent(data,selectedClient)"
+			type="button" tabindex="2" color="warn">
+			<mat-icon>check</mat-icon>
+	  </button> 
+		-->
+
+	</div>
+	<br>
+</div>

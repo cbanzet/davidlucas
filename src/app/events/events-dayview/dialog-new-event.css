@@ -2,11 +2,20 @@ mat-spinner {
 	margin: 0 auto;
 }
 
+mat-chip {
+  margin: 2px !important;
+  padding: 3px 10px !important;
+  background-color: #eee !important;
+}
+
+
+
 h1 {
 	font-size: 1.1em !important;
 	color: #000;
-	font-weight: bold;
+	font-weight: 400;
 	margin-bottom: 0;
+	line-height: 1.2em;
 }
 h2 {
 	font-size: 1.1em !important;
@@ -23,19 +32,45 @@ h3 {
 	padding: 0 10px;
 	margin: 0;	
 }
+h4 {
+	padding: 10px 0;
+	margin: 0;
+}
 
 button {
 	margin-right: 15px;
 }
 
-.datatime {
-	font-size: 0.8em;
+.datatime span {
+	font-size: 1em;
 	background-color: #000;
 	color: #fff;
-	padding: 0 10px;
-
+	display: block;
+	width: 100%;
+	text-align: center;
 }
 
+.event-program {
+	color: #333;
+	font-size: 0.8em;
+}
+
+.mr-10 {
+	margin-right: 10px;
+}
+
+.pt-20 {
+	padding-top: 15px
+}
+
+.tt-pr {
+	font-size: 10px;
+	margin-top: 10px;
+	border-top: 1px dotted #eee;
+	text-transform: uppercase;
+	color: #666;
+	padding: 5px 10px;
+}
 
 .presta-forfait {
 	margin-bottom: 10px;

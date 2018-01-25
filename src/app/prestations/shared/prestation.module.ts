@@ -19,7 +19,6 @@ import { PrestationListComponent } from './../prestation-list/prestation-list.co
 import { PrestationFormComponent } from './../prestation-form/prestation-form.component';
 import { PrestationDetailComponent } from './../prestation-detail/prestation-detail.component';
 
-
 @NgModule({
   declarations: [
     PrestationListComponent,

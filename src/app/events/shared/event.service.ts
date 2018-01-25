@@ -18,9 +18,10 @@ import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/take';
 
-
 import * as moment from 'moment'; 
 
+import { CartService } from './../../cart/shared/cart.service';
+import { PrestationService } from './../../prestations/shared/prestation.service';
 
 @Injectable()
 export class EventService {
@@ -35,14 +36,19 @@ export class EventService {
 	eventsRef: AngularFireList<any>;
   meeting:  Observable<any>;
   date;
+  
+  starttime;endtime;
 
 
-  constructor(private db: AngularFireDatabase, private router: Router) 
+  constructor(
+    private db: AngularFireDatabase, 
+    private cartService: CartService,
+    // private prestationService: PrestationService,    
+    private router: Router) 
   { 
   	this.eventsRef = db.list('events');
     // this.coiffeursRef = db.list('members');
     // this.coiffeursRef = db.list('/role/1/members', ref => ref.orderByChild('firstname'));    
-
   }
 
 //////////////////////////////////////////////////////////////////
@@ -78,20 +84,11 @@ export class EventService {
   }
 
 
-
-
   getMembersList() {
     return this.db.list('members').snapshotChanges().map(arr => {
       return arr.map(snap => Object.assign(snap.payload.val(), { $key: snap.key }) )
     })
   }
-
-  // getClientsList() {
-  //   return this.db.list('clientes').snapshotChanges().map(arr => {
-  //     return arr.map(snap => Object.assign(snap.payload.val(), { $key: snap.key }) )
-  //   })
-  // }
-
 
   getMembersListForDayViewCalendar() {
     return this.db.list('members').snapshotChanges().map(arr => {
@@ -140,35 +137,19 @@ export class EventService {
     ))})    
   }
 
-
-  // getCoiffeursList() {
-  //   return this.coiffeursRef.snapshotChanges().map(arr => {
-  //     return arr.map(snap => Object.assign(
-  //       snap.payload.val(), 
-  //       // { musicians: snap.payload.val().artists?Object.values(snap.payload.val().artists):0},
-  //       { $key: snap.key }) )
-  //   })
-  // }
-
   // Return Member with Key
   getEventWithKey(key: string) {
     this.meeting = this.db.object('events/'+ key)
       .snapshotChanges().map(action => {
         const $key = action.payload.key;
-        const data = { $key, ...action.payload.val() };
+        // const prestations = Object.values(action.payload.val().prestations);
+        const data = { 
+          $key, 
+          ...action.payload.val() };
         return data;
       });
     return this.meeting
   } 
-
-  getEventWithInfo(date, time, coiffeur) {
-    // thi
-  }
-
-  getEventsSerie(key:string, date, time) {
-    // console.log(key, date, time);
-
-  }
 
 
 //////////////////////////////////////////////////////////////////
@@ -176,64 +157,96 @@ export class EventService {
 //////////////////////////////////////////////////////////////////
 
 
-  formatEventForCreation(data,client) {
+  formatEventsCartForCreation(cart,data,client,totalHT,totalTAX,totalTTC) {
 
-    // console.log(data);
-    // console.log(client);
+    var dateFormat = this.getDate(data.date);
+    var timestamp = moment(data.date).unix()*1000;
+    this.starttime = data.time?data.time:0;
 
-    const memberkey = data?data.member.$key:0;
-    const prestakey = data?data.prestation.$key:0;
-    const clientkey = client?client.$key:0;
-    const salonkey = data.prestation?data.prestation.salonkey:0;
-    const rolekey = data.member.rolekey?data.member.rolekey:0;
+    var dataNewEvent = {};
 
-    const dateFormat = this.getDate(data.date);
-    const timestamp = moment(data.date).unix()*1000;
+    dataNewEvent['cartkey'] = this.cartService.createCart(client,dateFormat,cart,totalHT,totalTAX,totalTTC);
 
-    var timelength = data?data.prestation.time:0;
-    var starttime = data?data.time:0;
+    dataNewEvent['date'] = dateFormat;
+    dataNewEvent['timestamp'] = timestamp;
 
-    var newEventData = {}
-    newEventData['date'] = dateFormat;
-    newEventData['timestamp'] = timestamp;
-    newEventData['memberFirstname'] = data?data.member.firstname:0;
-    newEventData['memberLastname'] = data?data.member.lastname:0;
-    newEventData['memberKey'] = memberkey;
-    newEventData['memberRoleKey'] = rolekey;
-    newEventData['prestationTitle'] = data?data.prestation.title:0;
-    newEventData['prestationDetails'] = data?data.prestation.details:"";
-    newEventData['prestationKey'] = prestakey;
-    newEventData['prestationAcronyme'] = data?data.prestation.acronyme:0;
-    newEventData['prestationPriceTeam'] = data?data.prestation.priceTeam:0;
-    newEventData['prestationPriceDavid'] = data?data.prestation.priceDavid:0;
-    newEventData['clientKey'] = clientkey;
-    newEventData['clientFirstname'] = client?client.firstname:0;
-    newEventData['clientLastname'] = client?client.lastname:0;
-    newEventData['clientPhone'] = client?client.phone:0;
-    newEventData['clientEmail'] = client?client.email:0;
-    newEventData['salonKey'] = salonkey;
-    newEventData['statut'] = "waiting";
+    dataNewEvent['clientkey'] = client?client.$key:0;
+    dataNewEvent['clientFirstname'] = client?client.firstname:0;
+    dataNewEvent['clientLastname'] = client?client.lastname:0;
+    dataNewEvent['clientPhone'] = client?client.phone:0;
+    dataNewEvent['clientEmail'] = client?client.email:0;    
+
+    dataNewEvent['memberkey'] = data.selectedCoiffeur?data.selectedCoiffeur.$key:0;
+    dataNewEvent['memberFirstname'] = data.selectedCoiffeur?data.selectedCoiffeur.firstname:0;
+    dataNewEvent['memberLastname'] = data.selectedCoiffeur?data.selectedCoiffeur.lastname:0;
+    dataNewEvent['rolekey'] = data.selectedCoiffeur?data.selectedCoiffeur.rolekey:0;    
+    dataNewEvent['statut'] = "waiting";
+
+    if (cart.length) 
+    {
+      var dataPresta = {};
+      for(var i=0; i < cart.length; i++) 
+      {
+        dataPresta['prestationKey'] = cart[i].key?cart[i].key:null;
+        dataPresta['prestationTitle'] = cart[i].title?cart[i].title:null;
+        dataPresta['price'] = cart[i].price?cart[i].price:null;
+        dataPresta['salonkey'] = cart[i].salonkey?cart[i].salonkey:null;        
+        dataPresta['timelength'] = cart[i].time?cart[i].time:null;
+        dataPresta['starttime'] = this.starttime;
+
+        this.starttime = this.changeStartTime(dateFormat,this.starttime,cart[i].time);
+        this.formatEventForMutliEventsCreation(dataNewEvent,dataPresta);
+      }
+    }
+    else { console.log('Cart Empty'); }
+  }
+
+
+  changeStartTime(date,starttime,n) {
+    if(date&&starttime&&n) {
+      var dateandtime = `${date} ${starttime}`;
+      var newdateandtime = moment(dateandtime,'YYYY-MM-DD hh:mm').add(n, 'minutes');
+      var hour = moment(newdateandtime).hour(); 
+      var min = moment(newdateandtime).minute(); 
+      if(min==0) { var newtime = `${hour}:00`; }
+      else { var newtime = `${hour}:${min}`; }
+      return newtime;
+    }
+    else { console.log('Miss parameter to change time') }
+  }
+
+
+  formatEventForMutliEventsCreation(data,presta) {
+
+    var newEventData = data;
+    var dateFormat = data.date;
+    var starttime = data.starttime;
+    var clientkey = data.clientkey;
+    var memberkey = data.memberkey;
+    var salonkey = data.salonkey;
+    var starttime = presta.starttime;
+    var timelength = presta.timelength;
 
     switch(timelength) {
       case '15':
        // newEventData['multiEvent'] = 0;
-       this.loopToAddMultipleEvent(newEventData,0,dateFormat,starttime,clientkey,memberkey,salonkey);       
+       this.loopToAddMultipleEvent(presta,newEventData,0,dateFormat,starttime,clientkey,memberkey,salonkey);       
        break;
       case '30':
        // newEventData['multiEvent'] = 2;
-       this.loopToAddMultipleEvent(newEventData,1,dateFormat,starttime,clientkey,memberkey,salonkey);
+       this.loopToAddMultipleEvent(presta,newEventData,1,dateFormat,starttime,clientkey,memberkey,salonkey);
        break;
       case '45':
        // newEventData['multiEvent'] = 3;      
-       this.loopToAddMultipleEvent(newEventData,2,dateFormat,starttime,clientkey,memberkey,salonkey);       
+       this.loopToAddMultipleEvent(presta,newEventData,2,dateFormat,starttime,clientkey,memberkey,salonkey);       
        break;
       case '60':
        // newEventData['multiEvent'] = 4;            
-       this.loopToAddMultipleEvent(newEventData,3,dateFormat,starttime,clientkey,memberkey,salonkey);              
+       this.loopToAddMultipleEvent(presta,newEventData,3,dateFormat,starttime,clientkey,memberkey,salonkey);              
        break;
       case '90':
        // newEventData['multiEvent'] = 6;            
-       this.loopToAddMultipleEvent(newEventData,5,dateFormat,starttime,clientkey,memberkey,salonkey);              
+       this.loopToAddMultipleEvent(presta,newEventData,5,dateFormat,starttime,clientkey,memberkey,salonkey);              
        break;       
       default:
         console.log("No event to create"); 
@@ -242,7 +255,7 @@ export class EventService {
   }
 
   loopToAddMultipleEvent(
-    newEventData,
+    presta,newEventData,
     n,date,time,
     clientkey,memberkey,salonkey) 
   {
@@ -250,6 +263,9 @@ export class EventService {
      var nextstarttime = this.changeStartTimeEvent(date,time,i);
      newEventData['time'] = nextstarttime;
      newEventData['multiEvent'] = `${i+1}/${n+1}`;
+     newEventData['prestationkey'] = presta.prestationKey?presta.prestationKey:0;
+     newEventData['prestationtitle'] = presta.prestationTitle?presta.prestationTitle:0;
+     newEventData['prestationprice'] = presta.price?presta.price:0;
 
      this.createSingleEvent(newEventData,clientkey,memberkey,salonkey)
      console.log("Create Event n°" + i + " at " + nextstarttime);         
@@ -269,12 +285,8 @@ export class EventService {
 
   createSingleEvent(newEventData,clientkey,memberkey,salonkey) {
 
-    console.log(newEventData);
-   
     // INSERT EVENT IN EVENTS NODE
     var eventkey = this.eventsRef.push(newEventData).key;
-    // INSERT EVENT IN EVENTS LITE NODE
-    // this.db.list('eventsLiteRef').update(eventkey,newLiteEventData);
 
     // INSERT EVENT IN CLIENT/COIFFEUR/SALON/ TAB
     const clientPath = `clientes/${clientkey}/events/${eventkey}/`;
@@ -287,76 +299,14 @@ export class EventService {
     updateData[coiffeurPath]= true;
     updateData[salonPath]= true;
     updateData[coiffeurInRolePath]= true;
+    updateData['/lookUpSalonEvents'+salonkey+'/'+eventkey]= true;
+    updateData['/lookUpMemberEvents'+memberkey+'/'+eventkey]= true;
+    updateData['/lookUpClientEvents'+clientkey+'/'+eventkey]= true;
+
     console.log(updateData);
     this.db.object("/").update(updateData).then(_=> console.log('EVENT SAVED!'+ newEventData));
-    
-    // INSERT IN LOOK UP
-    this.db.list('/lookUpSalonEvents').update(salonkey, {[eventkey]:true});
-    this.db.list('/lookUpMemberEvents').update(memberkey, {[eventkey]:true});
-    this.db.list('/lookUpClientEvents').update(clientkey, {[eventkey]:true});
 
   }
-
-
-  // createEvent(data,client) {
-  //   // console.log(data);
-  //   // console.log(client);
-
-  //   const memberkey = data?data.member.$key:0;
-  //   const prestakey = data?data.prestation.key:0;
-  //   const clientkey = client?client.key:0;
-  //   const salonkey = data.member.salon?data.member.salon.key:0;
-  //   const rolekey = data.member.role?data.member.role.key:0;
-    
-  //   const dateFormat = this.getDate(data.date);
-  //   const timestamp = moment(data.date).unix()*1000;
-
-  //   var newEventData = {}
-  //   newEventData['time'] = data?data.time:0;
-  //   newEventData['date'] = dateFormat;
-  //   newEventData['timestamp'] = timestamp;
-  //   newEventData['memberFirstname'] = data?data.member.firstname:0;
-  //   newEventData['memberLastname'] = data?data.member.lastname:0;
-  //   newEventData['memberKey'] = memberkey;
-  //   newEventData['memberRoleKey'] = rolekey;
-  //   newEventData['prestationTitle'] = data?data.prestation.title:0;
-  //   newEventData['prestationDetails'] = data?data.prestation.details:"";
-  //   newEventData['prestationKey'] = prestakey;
-  //   newEventData['prestationAcronyme'] = data?data.prestation.acronyme:0;
-  //   newEventData['prestationPriceTeam'] = data?data.prestation.priceTeam:0;
-  //   newEventData['prestationPriceDavid'] = data?data.prestation.priceDavid:0;
-  //   newEventData['clientKey'] = clientkey;
-  //   newEventData['clientFirstname'] = client?client.firstname:0;
-  //   newEventData['clientLastname'] = client?client.lastname:0;
-  //   newEventData['clientPhone'] = client?client.phone:0;
-  //   newEventData['clientEmail'] = client?client.email:0;
-  //   newEventData['salonKey'] = salonkey;
-  //   newEventData['salon'] = data.member.salon?data.member.salon.title:0;
-  //   newEventData['statut'] = "waiting";
-  //   console.log(newEventData);
-   
-  //   // INSERT EVENT IN EVENTS TAB
-  //   var eventkey = this.eventsRef.push(newEventData).key;
-
-  //   // INSERT EVENT IN CLIENT/COIFFEUR/SALON/ TAB
-  //   const clientPath = `clientes/${clientkey}/events/${eventkey}/`;
-  //   const coiffeurPath = `members/${memberkey}/events/${eventkey}/`;
-  //   const coiffeurInRolePath = `memberRole/3/members/${memberkey}/events/${eventkey}/`;
-  //   const salonPath = `salons/${salonkey}/events/${eventkey}/`;
-
-  //   var updateData = {};
-  //   updateData[clientPath]= newEventData;
-  //   updateData[coiffeurPath]= newEventData;
-  //   updateData[salonPath]= newEventData;
-  //   updateData[coiffeurInRolePath]= newEventData;
-  //   console.log(updateData);
-  //   this.db.object("/").update(updateData).then(_=> console.log('EVENT SAVED!'+ newEventData));
-    
-  //   // INSERT IN LOOK UP
-  //   this.db.list('/lookUpSalonEvents').update(salonkey, {[eventkey]:true});
-  //   this.db.list('/lookUpMemberEvents').update(memberkey, {[eventkey]:true});
-  //   this.db.list('/lookUpClientEvents').update(clientkey, {[eventkey]:true});
-  // }
 
 
 

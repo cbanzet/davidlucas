@@ -42,7 +42,7 @@ export class PrestationFormComponent implements OnInit {
   						private prestationService: PrestationService) { 
     this.salons = this.prestationService.getSalonsList();
     // this.prestatypes = this.prestationService.getPrestaTypeList();
-    this.prestatypes = this.prestationService.getPrestaTypeSnapshotList();
+    this.prestatypes = this.prestationService.getPrestaTypeList();
   }
 
   ngOnInit() {

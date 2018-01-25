@@ -29,6 +29,20 @@ button {
 }
 
 
+.intro-see-dialog div {
+	font-weight: 700;
+	text-transform: uppercase;
+	background-color: #eee;
+	color: #333;
+	text-align: center;
+	padding: 40px 0;
+	border: 1px solid #FFF;
+}
+.intro-see-dialog div:hover {
+	background-color: #666;
+	color: #FFF;
+}
+
 .fl-right {
 	float: right;
 	text-align: right;

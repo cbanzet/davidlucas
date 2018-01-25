@@ -37,10 +37,10 @@ import { FacturationEventComponent } from './facturation/facturation-event/factu
 import { EventDetailComponent } from './events/event-detail/event-detail.component';
 import { EventFormComponent } from './events/event-form/event-form.component';
 import { EventListComponent } from './events/event-list/event-list.component';
+import { EventsDayviewComponent } from './events/events-dayview/events-dayview.component';
 
 import { TodoComponent } from './admin/todo/todo.component';
-import { DayViewComponent } from './calendar/day-view/day-view.component';
-
+// import { DayViewComponent } from './calendar/day-view/day-view.component';
 // import { SalonsComponent } from './salons/salons.component';
 import { CoreModule } from './core/core.module'
 
@@ -48,7 +48,7 @@ const routes: Routes = [
   // { path: '', redirectTo: 'login',pathMatch: 'full'},
   { path: 'todo', component: TodoComponent, canActivate: [AuthGuard] },  
   ////////////////////////////////////////////////////////////////
-  { path: 'calendar', component: DayViewComponent },
+  { path: 'calendar', component: EventsDayviewComponent },
   { path: 'events', component: EventListComponent },
   { path: 'event/:id', component: EventDetailComponent },
   { path: 'eventform', component: EventFormComponent },

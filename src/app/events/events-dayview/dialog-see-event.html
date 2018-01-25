@@ -1,0 +1,114 @@
+<!-- {{ suitemeeting | async | json }} -->
+<pre>{{ meeting | async | json }}</pre>
+<!-- <div *ngIf="dev"> -->
+
+<ng-template #loading>								
+	<br><br>
+	<mat-spinner color="warn"></mat-spinner>
+	<br><br>
+</ng-template>
+
+<!-- <div *ngIf="dev"> -->
+<div *ngIf="whatSee" class="intro-see-dialog"
+	fxLayout="row"
+	fxLayout.xs="column"
+	fxLayoutAlign="center center"
+	fxFlexFill
+	fxLayoutWrap
+  >
+	<div 
+	fxFlex="50"
+	(click)="seePresta=true;whatSee=false"
+	>
+		Voir la prestation
+	</div>
+	<div 
+	fxFlex="50"
+	(click)="seeFullMeeting=true;whatSee=false"
+	>
+		Voir le rendez-vous
+	</div>
+</div>
+
+
+<div 
+	*ngIf="seeFullMeeting"
+	fxLayout="row"
+	fxLayout.xs="column"
+	fxLayoutAlign="center center"
+	fxFlexFill
+	fxLayoutWrap>
+	<div 
+		fxFlex="100"
+		*ngIf="meeting | async; let meeting; else loading">
+		Rendez-vous de 
+		<strong>{{ meeting.memberFirstname }}</strong> 
+		avec
+		<strong>{{ meeting.clientFirstname }} {{ meeting.clientLastname }}</strong> 
+		<mat-icon class="cur-point" *ngIf="!showclientdetail" (click)="showclientdetail=true">add_circle</mat-icon><br>
+		<div *ngIf="showclientdetail" class="client-detail">
+			<a *ngIf="meeting.clientPhone" href="tel:{{meeting.clientPhone}}">{{ meeting.clientPhone }} </a>
+			<a *ngIf="meeting.clientEmail" href="mailto:{{meeting.clientEmail}}">{{meeting.clientEmail}}</a>
+			<mat-icon class="cur-point" (click)="onNoClick()" [routerLink]="['./../client', meeting.clientKey]">remove_red_eye</mat-icon>
+		</div>
+		le <strong>{{ meeting.timestamp | date }}</strong> à <strong>{{ meeting.time }}</strong>
+
+
+	</div>
+
+</div>
+
+<div *ngIf="seePresta">
+
+
+	<div mat-dialog-title
+	*ngIf="meeting | async; let meeting; else loading">
+		<h1>
+			RDV de {{ meeting.memberFirstname }}
+			<span class="al smalldate"
+				[ngClass]="{'ongoingclass':meeting.statut=='ongoing'}"
+				*ngIf="showSavedDate">
+				{{ meeting.timestamp | date }} - {{ meeting.time }}
+				<mat-icon (click)="showDatePicker=true;showSavedDate=false" class="cursor-pointer">
+					clear
+				</mat-icon>
+			</span>
+		</h1>
+	</div>
+
+		<!-- 		
+		<mat-form-field *ngIf="showDatePicker" class="fl-right">
+		  <input matInput [matDatepicker]="myDatepicker">
+		  <mat-datepicker-toggle matSuffix [for]="myDatepicker"></mat-datepicker-toggle>
+		  <mat-datepicker #myDatepicker></mat-datepicker>
+		</mat-form-field> 
+		-->
+
+	<div mat-dialog-actions class="mt30">
+ 
+		<button mat-fab type="button" tabindex="-1" color="black"
+			(click)="onNoClick()">
+			<mat-icon>close</mat-icon>
+	  </button>
+
+		<button mat-fab type="button" tabindex="-1" color="black"
+			*ngIf="meeting.statut=='waiting'"
+			(click)="deleteEvent(meeting)">
+			<mat-icon>delete</mat-icon>
+	  </button>
+
+		<button mat-fab type="button" tabindex="2" color="green"
+			*ngIf="meeting.statut=='waiting'"
+			(click)="doingEvent(meeting,'ongoing')">
+			<mat-icon>check</mat-icon>
+	  </button>
+
+		<button mat-fab type="button" tabindex="2" color="warn"
+			*ngIf="meeting.statut=='ongoing'"
+			(click)="doingEvent(meeting,'done')">
+			<mat-icon>payment</mat-icon>
+	  </button>
+		 
+	</div>
+	<br>
+</div>

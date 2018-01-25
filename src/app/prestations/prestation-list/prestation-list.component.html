@@ -4,13 +4,8 @@
 	<br><br>
 </ng-template>
 
-<!-- <pre>{{ prestations | async | json }}</pre> -->
-
-H
-<pre>{{ types | async | json }}</pre>
-
-
-
+<pre>{{ prestations | async | json }}</pre>
+<!-- <pre>{{ types | async | json }}</pre> -->
 
 <mat-card *ngIf="dev">
 <!-- <mat-card *ngIf="prestations | async; let prestations; else loading"> -->
@@ -33,7 +28,9 @@ H
 		<br>
 
 		<mat-chip-list>
-		  <mat-chip *ngFor="let type of types | async">
+		  <mat-chip 
+		  	*ngFor="let type of types | async"
+		  	(click)="typeShow=type.title">
 		  	{{ type.title }}
 		  </mat-chip>
 		</mat-chip-list>

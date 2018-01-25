@@ -16,7 +16,7 @@ import "rxjs/add/operator/switchMap";
 
 import { EventService } from './../../events/shared/event.service';
 import { ForfaitService } from './../../forfaits/shared/forfait.service';
-
+import { Cart } from './../shared/cart';
 
 // import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AngularMaterialModule } from './../../ui/angularmaterial.module';
@@ -24,10 +24,10 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 
 @Component({
   selector: 'app-day-view',
-  templateUrl: './day-view.component.html',
-  styleUrls: ['./day-view.component.css']
+  templateUrl: './events-dayview.component.html',
+  styleUrls: ['./events-dayview.component.css']
 })
-export class DayViewComponent implements OnInit {
+export class EventsDayviewComponent implements OnInit {
 
   selectedCoiffeur: Observable<any[]>;
 
@@ -38,7 +38,7 @@ export class DayViewComponent implements OnInit {
   dateForQuery:any;
 
   events$: Observable<AngularFireAction<any>[]>;
-  date$: BehaviorSubject<string|null>;
+  date$: BehaviorSubject<string|null>;  
 
   times = [
     "8:00",
@@ -106,24 +106,16 @@ export class DayViewComponent implements OnInit {
               statut: snap.payload.val().statut,
               memberfirstname: snap.payload.val().memberFirstname,
               time: snap.payload.val().time,
+              cartkey: snap.payload.val().cartkey?snap.payload.val().cartkey:null,
               multievent: snap.payload.val().multiEvent,
               firstofmulti: snap.payload.val().multiEvent[0],
-              lastofmulti:  snap.payload.val().multiEvent[0]!='1'
-                &&
+              lastofmulti:
                 snap.payload.val().multiEvent[0]==snap.payload.val().multiEvent.substr(snap.payload.val().multiEvent.length - 1)
                 ?'1':'0'
             }
         ))})
     );
   }
-
-
-  checkIfFirstMultiEvent(s) {
-    // console.log(s);
-    // if
-  }
-
-
 
   filterEventsBy(date: string|null) {
     this.date$.next(date);
@@ -146,7 +138,7 @@ export class DayViewComponent implements OnInit {
   openDialogNewEvent(date,time,member): void {
     let dialogNewEventRef = this.dialog.open(DialogNewEvent, 
     {
-      width: '400px',
+      width: '600px',
       data: { 
         time: time,
         date: date,
@@ -165,7 +157,7 @@ export class DayViewComponent implements OnInit {
 
     event.stopPropagation();
     let dialogSeeEventRef = this.dialog.open(DialogSeeEvent, {
-      width: '400px',
+      width: '500px',
       data: { 
         key: data.key,
         event: data
@@ -222,34 +214,25 @@ export class DialogNewEvent implements OnInit {
   showPrestaSelect:boolean=false;
   showForfaitsSelect:boolean=false;
 
+  composeCart:boolean=false;
+
+  cartData: Array<Cart> = [];
+  cartFull:boolean=false;
+
+  totalHT:number=0;
+  totalTAX:number=0;
+  totalTTC:number=0;
+
   constructor(
     private eventService: EventService,
     private forfaitService: ForfaitService,    
     private db: AngularFireDatabase,
     public dialogRef: MatDialogRef<DialogNewEvent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
-
       this.forfaits = this.forfaitService.getForfaitsList();
-
-      // this.members = db.list('members').snapshotChanges().map(arr => {
-      //   return arr.map(snap => Object.assign(snap.payload.val(), { key: snap.key }) )
-      // })
-
-      // this.clients = db.list('clientes').snapshotChanges().map(arr => {
-      //   return arr.map(snap => Object.assign(snap.payload.val(), { key: snap.key }) )
-      // })
-
-      // this.prestations = db.list('prestations').snapshotChanges().map(arr => {
-      //   return arr.map(snap => Object.assign(snap.payload.val(), { key: snap.key }) )
-      // })
-
       this.members = this.eventService.getMembersListForDayViewCalendar();
-      
       this.clients = this.eventService.getFormatClientsList();
-      // this.clients = this.eventService.getClientsList();
-
       this.prestations = this.eventService.getTitlePrestationsList();
-
     }
 
 
@@ -274,6 +257,9 @@ export class DialogNewEvent implements OnInit {
   }
 
   ngOnInit() {
+
+  	this.cartData["totalHT"]=0;
+
     this.filteredClients = this.clientCtrl.valueChanges
       .startWith(null)
       .switchMap(client => {
@@ -289,10 +275,56 @@ export class DialogNewEvent implements OnInit {
       })    
   }
 
+	/////////////////////////////////////////////////////////////////
+  // CART 
+  insertItemInCart(key,title,time,price,salonkey){
+    this.cartData.push(new Cart(key,title,time,price,salonkey));
+    this.sumTablePrice('add',price);
+    console.log(this.cartData);
+  }
+  formatBeforeInsert(isDavid,type,data) {
+    var key = data.$key?data.$key:0;
+    var title = data.title?data.title:0;
+    var time = data.time?data.time:0;
+    var price = isDavid=="David" ? data.priceDavid:data.priceTeam;
+    var salonkey = data.salonkey?data.salonkey:0;
+    if(key&&title&&time&&price) {
+    	this.insertItemInCart(key,title,time,price,salonkey);
+    }
+    else {console.log("Entrée incomplète")}
+  }
+  removeElement(index: number) {
+    this.cartData.splice(index, 1);
+  }
+
+  getTotalHT(addOrRemove,px) {
+    if(addOrRemove=='add'){
+      this.totalHT = Math.round((px+this.totalHT)*100)/100;
+    }
+    else if(addOrRemove=='remove') {
+      this.totalHT = Math.round((this.totalHT-px)*100)/100;
+    }
+  }
+  getTotalTAX() {
+    this.totalTAX = Math.round((this.totalHT*0.2)*100)/100;    
+  }
+  getTotalTTC() {
+    this.totalTTC = this.totalTAX + this.totalHT;
+  }
+  sumTablePrice(addOrRemove,px) {
+    this.getTotalHT(addOrRemove,px);
+    this.getTotalTAX();
+    this.getTotalTTC();
+  }
+
+
+	/////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////
+
+
 
   saveEvent(data,client) {
-    // this.eventService.createEvent(data,client);
-    this.eventService.formatEventForCreation(data,client);
+    this.eventService.formatEventsCartForCreation(this.cartData,data,client,this.totalHT,this.totalTAX,this.totalTTC);
     this.dialogRef.close();
   }
 }
@@ -325,6 +357,10 @@ export class DialogSeeEvent implements OnInit {
   key: any;
   showDatePicker:boolean=false;
   showSavedDate:boolean=true;
+
+  whatSee:boolean=true;
+  seeFullMeeting:boolean=false;
+  seePresta:boolean=false;
 
   constructor(
     private eventService: EventService,

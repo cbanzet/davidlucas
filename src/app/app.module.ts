@@ -25,7 +25,6 @@ import { ClientModule } from './clients/shared/client.module';
 import { MemberModule } from './members/shared/member.module';
 import { PrestationModule } from './prestations/shared/prestation.module';
 import { ForfaitModule } from './forfaits/shared/forfait.module';
-import { CalendarModule } from './calendar/shared/calendar.module'
 import { EventModule } from './events/shared/event.module';
 import { CartModule } from './cart/shared/cart.module';
 import { FacturationModule } from './facturation/shared/facturation.module';
@@ -46,7 +45,6 @@ import { FacturationModule } from './facturation/shared/facturation.module';
     MemberModule,
     PrestationModule,
     ForfaitModule,
-    CalendarModule,
     EventModule,
     CartModule,
     FacturationModule,

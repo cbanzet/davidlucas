@@ -11,12 +11,11 @@ import { PrestationService } from './../shared/prestation.service';
 export class PrestationListComponent implements OnInit {
 
   prestations: Observable<any[]>;
-  // oldprestas: Observable<any[]>;
   types: Observable<any[]>;
 
   typelist: Observable<any[]>;
 
-
+  typeShow:any;
 
   titleField = "title";
   detailsField = "details";
