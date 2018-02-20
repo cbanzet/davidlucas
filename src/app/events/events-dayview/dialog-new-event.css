@@ -88,3 +88,38 @@ button {
 	border: 1px solid #333;
 	background-color: #000;
 }
+
+.type-list {
+	margin-bottom: 10px;
+}
+.type-list mat-grid-tile {
+  text-align: center;
+  line-height: 1em;
+  background-color: #333;
+  color: #eee;
+  font-size: 10px;
+  text-transform: uppercase;
+	cursor: pointer;
+}
+.type-list mat-grid-tile:hover {
+	background-color: #000;
+}
+
+
+.genre-list {
+	margin-bottom: 2px;
+}
+.genre-list mat-grid-tile {
+  background-color: #191919;	
+  color: #eee;
+  text-transform: uppercase;
+	cursor: pointer;  
+}
+.genre-list mat-grid-tile:hover {
+  background-color: #191919;	
+  color: #eee;
+}
+
+
+
+

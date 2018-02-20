@@ -29,6 +29,14 @@ button {
 }
 
 
+
+.member-name {
+	background-color: #000;
+	color: #eee;
+	padding: 0px 15px;
+	font-weight: 500;
+}
+
 .intro-see-dialog div {
 	font-weight: 700;
 	text-transform: uppercase;

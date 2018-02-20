@@ -6,8 +6,6 @@ import {MatChipInputEvent} from '@angular/material';
 import {ENTER, COMMA} from '@angular/cdk/keycodes';
 import { Router, ActivatedRoute, Params, ParamMap } from '@angular/router';
 
-
-
 @Component({
   selector: 'app-forfait-list',
   templateUrl: './forfait-list.component.html',
@@ -45,10 +43,6 @@ export class ForfaitListComponent implements OnInit {
   {
     this.forfaits = this.forfaitService.getForfaitsList();
     // console.log(this.prestations);
-
-
-    
-
   }
 
   ngOnInit() {

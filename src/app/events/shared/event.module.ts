@@ -22,6 +22,8 @@ import { EventListComponent } from './../event-list/event-list.component';
 import { EventsDayviewComponent } from './../events-dayview/events-dayview.component';
 import { DialogNewEvent, DialogSeeEvent } from './../events-dayview/events-dayview.component';
 
+import { FilterPipe } from './../events-dayview/filter';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -40,7 +42,8 @@ import { DialogNewEvent, DialogSeeEvent } from './../events-dayview/events-dayvi
   	EventListComponent,
     EventsDayviewComponent,
     DialogNewEvent,
-    DialogSeeEvent    
+    DialogSeeEvent,
+    FilterPipe    
   ],
   providers: [
     EventService,

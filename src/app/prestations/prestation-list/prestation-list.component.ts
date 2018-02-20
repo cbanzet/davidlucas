@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { Prestation} from './../shared/prestation';
+import { Type } from './../shared/type';
 
 import { PrestationService } from './../shared/prestation.service';
+
+
 
 @Component({
   selector: 'app-prestation-list',
@@ -27,6 +31,8 @@ export class PrestationListComponent implements OnInit {
   ShowAddTypeBut:boolean = true;
   showTypeSelect:boolean = false;
   showPrestaTypeList:boolean = true;
+  typeselected: string ;
+  filtre: Object;
 
   constructor(private prestationService: PrestationService) 
   {
@@ -38,6 +44,8 @@ export class PrestationListComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.typeselected = '';
+    this.showTypeSelect = true;    
   }
 
   migratePresta(prestas) {
@@ -51,5 +59,14 @@ export class PrestationListComponent implements OnInit {
   updateField(key,field,value) {
     this.prestationService.updatePrestation(key,field,value);
   }
+
+  typeSelected(type: Type) {
+    this.typeselected = type.title;
+    this.showTypeSelect = true;
+    this.filtre = {
+      types: [[ '' , this.typeselected ]]
+    };
+    console.log( this.typeselected);
+  }  
 
 }

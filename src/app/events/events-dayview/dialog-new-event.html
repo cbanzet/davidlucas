@@ -28,19 +28,6 @@
 		</div>
 
 
-		<!-- {{data.selectedCoiffeur.$key}} -->
-<!-- 		<h1 *ngIf="data.selectedCoiffeur" mat-dialog-title>
-			Rendez-vous pour <strong>{{data.selectedCoiffeur.firstname}} </strong>
-			<span *ngIf="selectedClient">avec <strong>{{ selectedClient.firstname}} {{ selectedClient.lastname }}</strong></span>
-			<br>
-
-		</h1> -->
-		<!-- <h1 *ngIf="data.memberfromtable" mat-dialog-title>Rendez-vous pour {{data.memberfromtable.firstname}}</h1> -->
-		<!-- <h2 *ngIf="selectedClient">avec {{ selectedClient.firstname}} {{ selectedClient.lastname}}</h2> -->
-		<!-- <h3 *ngIf="data.prestation">{{ data.prestation.title }} - {{ data.prestation.time }} min</h3> -->
-		<!-- <h3 *ngIf="data.forfait">{{ data.forfait.title }} - {{ data.forfait.time }} min</h3> -->
-
-
 		<div class="pt-20"
 		fxFlex="100"
 		fxLayoutAlign="center start">
@@ -77,31 +64,7 @@
 
 		</div>
  -->
-		<!-- 		
-		<mat-grid-list *ngIf="selectPrestaOrForfait&&selectedClient" class="presta-forfait" cols="2" rowHeight="40px">
-		  <mat-grid-tile (click)="selectPrestaOrForfait=false;showPrestaSelect=true">Prestation</mat-grid-tile>
-		  <mat-grid-tile (click)="selectPrestaOrForfait=false;showForfaitsSelect=true">Forfait</mat-grid-tile>
-		</mat-grid-list>
-
-		<mat-select
-			*ngIf="!data.prestation&&showPrestaSelect"
-			[(ngModel)]="data.prestation"
-			placeholder="Selectionner une prestations">
-				<mat-option *ngFor="let presta of prestations | async" [value]="presta">
-					<strong>{{presta.title}}</strong> {{presta.details}}
-				</mat-option>		
-		</mat-select>
-
-		<mat-select
-			*ngIf="!data.forfait&&showForfaitsSelect"
-			[(ngModel)]="data.forfait"
-			placeholder="Selectionner un Forfait">
-				<mat-option *ngFor="let forfait of forfaits | async" [value]="forfait">
-					<strong>{{forfait.time}} min</strong> : {{forfait.title}}
-				</mat-option>		
-		</mat-select>	 
-		-->
-
+	
 	  <div
 	  	*ngIf="selectedClient"
 	  	fxLayout="row"
@@ -113,16 +76,31 @@
 
 			<div fxFlex="100"><h4>Ajouter un élément au rendez-vous</h4></div>
 
-			<div 
-			fxFlex="100">
-				<ng-template #loading><br><br><mat-spinner color="warn"></mat-spinner><br><br></ng-template>		
-	      <mat-chip-list *ngIf="prestations | async; let prestations; else loading">
-					<mat-chip 
-						*ngFor="let prestation of prestations"
-						(click)="formatBeforeInsert(data.selectedCoiffeur.firstname,'prestation',prestation)">
-						{{ prestation.title }}&nbsp;<strong>{{ prestation.time }} min</strong>
-					</mat-chip>
-	      </mat-chip-list>		    
+			<div fxFlex="100">
+				<mat-grid-list class="genre-list" cols="2" rowHeight="30px">
+					<mat-grid-tile>Forfaits</mat-grid-tile>
+					<mat-grid-tile>Prestations</mat-grid-tile>
+				</mat-grid-list>
+				<mat-grid-list class="type-list" cols="5" rowHeight="20px">
+					<mat-grid-tile 
+						*ngFor="let type of types | async"
+						(click)="typeSelected(type)">
+						{{ type.title }}
+					</mat-grid-tile>
+				</mat-grid-list>
+			</div>
+
+			<div fxFlex="100">
+				<ng-template #loading><br><br><mat-spinner color="warn"></mat-spinner><br><br></ng-template>
+					<div *ngIf="showTypeSelect" >
+						<mat-chip-list *ngIf="prestations | async ; let prestations; else loading">
+							<mat-chip 
+								*ngFor="let prestation of prestations | filter : filtre"
+								(click)="formatBeforeInsert(data.selectedCoiffeur.firstname,'prestation',prestation)">
+								{{ prestation.title }}&nbsp;<strong>{{ prestation.time }} min</strong>
+							</mat-chip>
+						</mat-chip-list>	
+					</div>
 			</div>
 
 			<div fxFlex="100"><h4>Déroulé du rendez-vous</h4></div>
@@ -170,7 +148,6 @@
 			type="button" tabindex="2" color="warn">
 			<mat-icon>check</mat-icon>
 	  </button>
-
 
 		<!-- 		
 		<button mat-fab 

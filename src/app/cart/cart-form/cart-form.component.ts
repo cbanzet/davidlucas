@@ -84,7 +84,8 @@ export class CartFormComponent implements OnInit {
 
   createCart() {
     // console.log(this.data);
-    this.cartService.createCart('','',this.data,this.totalHT,this.totalTAX,this.totalTTC);    
+    // Empty Space for Cart created from Calendar Module
+    // this.cartService.createCartFromCartForm(this.data,this.totalHT,this.totalTAX,this.totalTTC);    
   }
 
   deleteProduct(index: number, px:number) {

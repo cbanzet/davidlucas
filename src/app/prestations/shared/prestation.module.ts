@@ -19,11 +19,14 @@ import { PrestationListComponent } from './../prestation-list/prestation-list.co
 import { PrestationFormComponent } from './../prestation-form/prestation-form.component';
 import { PrestationDetailComponent } from './../prestation-detail/prestation-detail.component';
 
+import { FilterPipe } from './../prestation-list/filter';
+
 @NgModule({
   declarations: [
     PrestationListComponent,
     PrestationFormComponent,
-    PrestationDetailComponent
+    PrestationDetailComponent,
+    FilterPipe
   ],
   imports: [
     CommonModule,

@@ -8,4 +8,5 @@ export class Prestation {
   city: string;
   birthdate: string;
   role: string;
+	types: Array<Array<any>>;
 }
