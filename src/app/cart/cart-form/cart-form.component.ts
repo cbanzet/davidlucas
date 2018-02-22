@@ -12,7 +12,6 @@ import { Cart } from './../../cart/shared/cart';
   styleUrls: ['./cart-form.component.css']
 })
 export class CartFormComponent implements OnInit {
-
   
 	prestations: any;
   forfaits: any;

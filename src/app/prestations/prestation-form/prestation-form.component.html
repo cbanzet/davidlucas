@@ -1,6 +1,6 @@
 
 
-<mat-card *ngIf="addPrestation">
+<mat-card  class="br-20" *ngIf="addPrestation">
 	<mat-card-header>
 		<div mat-card-avatar class="example-header-image">
 			<mat-icon matListIcon>content_cut</mat-icon>
@@ -14,7 +14,8 @@
 		<table>
 
  			<tr>
-				<td colspan="2">
+	 			<!-- 				
+	 			<td colspan="2">
 					<mat-form-field class="full-width">
 					  <mat-select required placeholder="Salons"
 					  	ngModel #selectedSalon="ngModel" name="selectedSalon">
@@ -24,19 +25,9 @@
 					    </mat-option>
 					  </mat-select>
 					</mat-form-field>
-				</td>
+				</td> 
+				-->
 			</tr>
-			<!--
-				<td>					
-					<mat-form-field>
-						<input matInput maxlength="2" placeholder="Acronyme" 
-							required
-							ngModel #newPrestaAcronyme name="newPrestaAcronyme">
-	    			<mat-hint align="end">{{newPrestaAcronyme.value.length}} / 2</mat-hint>
-					</mat-form-field>
-				</td>
-			</tr> 
-			-->
 			<tr>
 				<td colspan="2">
 					<mat-form-field class="full-width">
@@ -46,21 +37,11 @@
 							name="newPrestaTitle">
 					</mat-form-field>					
 				</td>
-				<!--
- 				<td>
-					<mat-form-field>
-						<input matInput placeholder="Details" 
-							required
-							ngModel #newPrestaDetail="ngModel"
-							name="newPrestaDetail">
-					</mat-form-field>					
-				</td> 
-				-->
 			</tr>
 			<tr>
 				<td>
 					<mat-form-field>
-						<input matInput placeholder="Prix Équipe" type="number"
+						<input matInput placeholder="Prix Équipe"
 							required 
 							ngModel #newPrestaPrix="ngModel"
 							name="newPrestaPrix">
@@ -69,7 +50,7 @@
 				</td>
 				<td>
 					<mat-form-field>
-						<input matInput placeholder="Prix David" type="number"
+						<input matInput placeholder="Prix David"
 							ngModel #newPrestaPrixDavid="ngModel"
 							name="newPrestaPrixDavid">
 						<mat-icon matSuffix>euro_symbol</mat-icon>
@@ -99,75 +80,8 @@
 			</tr>
 		</table>
 
-		<br><br>
+		<br><br><br>
 
-		<!-- 		
-		<mat-accordion>
-		  <mat-expansion-panel (opened)="panelOpenState = true"
-		                       (closed)="panelOpenState = false">
-		    <mat-expansion-panel-header>
-		      <mat-panel-title>
-		        Séquençage
-		      </mat-panel-title>
-		      <mat-panel-description>
-		        Préciser le séquençage de la prestation
-		      </mat-panel-description>
-		    </mat-expansion-panel-header>
-
-				<mat-grid-list class="sequence" cols="4" rowHeight="2:1">
-				  <mat-grid-tile>1</mat-grid-tile>
-				  <mat-grid-tile>2</mat-grid-tile>
-				  <mat-grid-tile>3</mat-grid-tile>
-				  <mat-grid-tile>4</mat-grid-tile>
-				</mat-grid-list>
-
-		  </mat-expansion-panel>
-		</mat-accordion>
-
-			<br><br> 
-		-->
-
-
-<!-- 		<mat-accordion>
-		  <mat-expansion-panel (opened)="panelOpenState = true"
-		                       (closed)="panelOpenState = false">
-		    <mat-expansion-panel-header>
-		      <mat-panel-title>
-		        Catégories
-		      </mat-panel-title>
-		      <mat-panel-description>
-		        Préciser les catégories de la prestation
-		      </mat-panel-description>
-		    </mat-expansion-panel-header>
-
-				<mat-form-field class="field-types">
-				  <mat-select ngModel required 
-				  	#selectedTypes="ngModel" name="selectedTypes" placeholder="Types de prestations" multiple>
-				    <mat-option *ngFor="let prestatype of prestatypes | async" [value]="prestatype">{{prestatype.title}}</mat-option>
-				  </mat-select>
-				</mat-form-field>
-
-		  </mat-expansion-panel>
-		</mat-accordion> -->
-
-
-
-<!-- 		<mat-chip-list ngModel #selectedTypes="ngModel" name="selectedTypes"
-			selectable="false" 
-			*ngIf="prestatypes | async; let prestatypes" [multiple]="true">
-			<mat-chip *ngFor="let prestatype of prestatypes"
-				[selectable]="true"
-				[value]="prestatype"
-				[color]="prestatype.color"
-				(click)="selectPrestaType(prestatype)">
-				{{ prestatype.title }}
-			</mat-chip>
-		</mat-chip-list>			
- -->
-
-
-
-		<br>
 		<button mat-fab (click)="goBack()" type="button" color="black">
 			<mat-icon>keyboard_arrow_left</mat-icon>
 		</button>
@@ -179,8 +93,4 @@
 	</mat-card-content>
 </mat-card>
 
-<mat-card>
 
-<!-- <pre>{{ services | async | json }}</pre> -->
-
-</mat-card>

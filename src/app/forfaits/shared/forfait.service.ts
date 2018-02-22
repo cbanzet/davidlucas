@@ -21,17 +21,17 @@ export class ForfaitService {
   forfaitsRef: AngularFireList<any>;
   prestationRef: AngularFireList<any>;
   forfait:  Observable<any>;
+  forfaitTypeRef: AngularFireList<any>;
 
   constructor(private db: AngularFireDatabase, private router: Router) {
-
-    // this.prestationsRef = db.list('/prestations')
-    this.forfaitsRef = db.list('/forfaits');
-    this.prestationRef = db.list('/prestations');
-    
-
+    this.forfaitsRef = db.list('/forfaits', ref => ref.orderByChild('title'));
+    this.prestationRef = db.list('/prestations', ref => ref.orderByChild('title'));
+    this.forfaitTypeRef = db.list('/forfaitTypes');
   }
 
+////////////////////////////////////////////////////
   ///////////////////// GET /////////////////////////
+////////////////////////////////////////////////////
 
   getPrestaTypeSnapshotList() {
     return this.prestationRef.snapshotChanges().map(arr => {
@@ -41,12 +41,13 @@ export class ForfaitService {
 
   getForfaitsList() {
     return this.forfaitsRef.snapshotChanges().map(arr => {
-     // console.log(arr[1].payload.val().prestations);
       return arr.map(snap => Object.assign(
         { prestations: Object.values(snap.payload.val().prestations)},
         { title: snap.payload.val().title },
         { time: snap.payload.val().time },
-        { price: snap.payload.val().price },
+        { priceDavid: snap.payload.val().priceDavid },
+        { priceTeam: snap.payload.val().priceTeam },
+        { type: snap.payload.val().type.title },
         { $key: snap.key }) );
     });
   }
@@ -68,8 +69,23 @@ export class ForfaitService {
     });
   }
 
+  getForfaitTypeList() {
+    return this.forfaitTypeRef.snapshotChanges().map(arr => {
+      return arr.map(snap => Object.assign(
+        snap.payload.val(), 
+        { 
+          $key: snap.key, 
+          title: snap.payload.val().title,
+        }) 
+      )
+    })
+  } 
 
+
+
+////////////////////////////////////////////////////
   /////////////// C R E A T E ///////////////////////
+////////////////////////////////////////////////////
 
   createForfait(newForfaitForm: NgForm): void {
     // console.log(newForfaitForm.value);
@@ -85,6 +101,14 @@ export class ForfaitService {
     var updatePrestationsData = {};
 
     var forfaitTabPrice = [];
+
+   // var nbTypes = newForfaitForm.value.selectedTypes?newForfaitForm.value.selectedTypes.length:0;
+   var newForfaitTypes = {
+     key: newForfaitForm.value.selectedTypes.key,
+     title: newForfaitForm.value.selectedTypes.title
+   };
+   newForfaitData['type'] = newForfaitTypes;
+
 
       if (numberKey) {
         // INITIALISATION DU TABLEAU POUR CHAQUE CAS
@@ -155,9 +179,8 @@ export class ForfaitService {
           times = times + +forfaitTabData[i].times;
           priceD = priceD + +forfaitTabData[i].priceD;
           priceT = priceT + +forfaitTabData[i].priceT;
+         }
 
-        
-        }
         newForfaitData['prestations'] = newPrestation ;
         newForfaitData['time'] = times;
         newForfaitData['priceDavid'] = priceD;
@@ -185,7 +208,9 @@ export class ForfaitService {
    // console.log(newForfaitForm.value.forfair.title);
   }
 
+////////////////////////////////////////////////////
   /////////////// D E L E T E ///////////////////////
+////////////////////////////////////////////////////
 
 
   deleteForfait(forfait): void {
@@ -221,8 +246,9 @@ export class ForfaitService {
 
   }
 
-
+////////////////////////////////////////////////////
   ///////////// U P D A T E ////////////////
+////////////////////////////////////////////////////
 
   // Update Member's data
   updateForfait(forfait,field,value): void {

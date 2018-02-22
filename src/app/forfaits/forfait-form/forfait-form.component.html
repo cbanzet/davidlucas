@@ -1,4 +1,4 @@
-<mat-card *ngIf="addForfait">
+<mat-card class="br-20" *ngIf="addForfait">
 
   <mat-card-header>
     <div mat-card-avatar class="example-header-image">
@@ -13,14 +13,21 @@
   <mat-card-content>
 
     <div class="full-width">
-
       <mat-form-field>
         <input matInput placeholder="Title"  class="full-width"
           required
           ngModel #newForfaitTitle="ngModel"
           name="newForfaitTitle">
       </mat-form-field>
+    </div>
 
+    <div class="full-width">
+      <mat-form-field class="field-types">
+        <mat-select ngModel required 
+          #selectedTypes="ngModel" name="selectedTypes" placeholder="Types de forfaits">
+          <mat-option *ngFor="let forfaitType of forfaitTypes | async" [value]="forfaitType">{{forfaitType.title}}</mat-option>
+        </mat-select>
+      </mat-form-field>         
     </div>
 
     <h5>Sélectionner une série de prestations</h5>		
@@ -35,9 +42,9 @@
       </mat-radio-button>
     </mat-radio-group>
 
-<!-- --------------------------- -->
-<!--  Show Prestation Select *2  -->
-<!-- --------------------------- -->
+    <!-- --------------------------- -->
+    <!--  Show Prestation Select *2  -->
+    <!-- --------------------------- -->
 
     <div *ngIf="showPrestaList1" class="full-width">
 
@@ -47,7 +54,8 @@
           #selectedPrestation1="ngModel" name="selectedPrestation1" placeholder="Choisir la premiere prestation">
           <mat-option *ngFor="let prestation of prestations | async" [value]="prestation">
             <strong>{{ prestation.time }} min</strong> -
-          	{{ prestation.title }} : {{ prestation.priceTeam }}
+          	<strong>{{ prestation.title }}</strong> / Prix Equipe : 
+            <strong>{{ prestation.priceTeam }} €</strong>
           </mat-option>
         </mat-select>
       </mat-form-field>
@@ -58,16 +66,16 @@
           #selectedPrestation2="ngModel" name="selectedPrestation2" placeholder="Choisir la seconde prestation">
           <mat-option *ngFor="let prestation of prestations | async" [value]="prestation">
           	<strong>{{ prestation.time }} min</strong> -
-          	{{ prestation.title }} : {{ prestation.priceTeam }}
+          	{{ prestation.title }} / Prix Equipe : {{ prestation.priceTeam }}
           </mat-option>
         </mat-select>
       </mat-form-field>
 
     </div>
 
-<!-- --------------------------- -->
-<!--  Show Prestation Select *3  -->
-<!-- --------------------------- -->
+    <!-- --------------------------- -->
+    <!--  Show Prestation Select *3  -->
+    <!-- --------------------------- -->
 
     <div *ngIf="showPrestaList2" class="full-width">
 
@@ -76,8 +84,9 @@
         <mat-select ngModel required 
           #selectedPrestation1="ngModel" name="selectedPrestation1" placeholder="Choisir la premiere prestation">
           <mat-option *ngFor="let prestation of prestations | async" [value]="prestation">
-          	<strong>{{ prestation.time }} min</strong> -
-          	{{ prestation.title }} : {{ prestation.priceTeam }}
+            <strong>{{ prestation.time }} min</strong> -
+            <strong>{{ prestation.title }}</strong> / Prix Equipe : 
+            <strong>{{ prestation.priceTeam }} €</strong>
           </mat-option>
         </mat-select>
       </mat-form-field>
@@ -87,8 +96,9 @@
         <mat-select ngModel required 
           #selectedPrestation2="ngModel" name="selectedPrestation2" placeholder="Choisir la seconde prestation">
           <mat-option *ngFor="let prestation of prestations | async" [value]="prestation">
-          	<strong>{{ prestation.time }} min</strong> -
-          	{{ prestation.title }} : {{ prestation.priceTeam }}
+            <strong>{{ prestation.time }} min</strong> -
+            <strong>{{ prestation.title }}</strong> / Prix Equipe : 
+            <strong>{{ prestation.priceTeam }} €</strong>
           </mat-option>
         </mat-select>
       </mat-form-field>
@@ -98,18 +108,18 @@
         <mat-select ngModel required 
           #selectedPrestation3="ngModel" name="selectedPrestation3" placeholder="Choisir la troisieme prestation">
           <mat-option *ngFor="let prestation of prestations | async" [value]="prestation">
-          	<strong>{{ prestation.time }} min</strong> -
-          	{{ prestation.title }} : {{ prestation.priceTeam }}
+            <strong>{{ prestation.time }} min</strong> -
+            <strong>{{ prestation.title }}</strong> / Prix Equipe : 
+            <strong>{{ prestation.priceTeam }} €</strong>
           </mat-option>
         </mat-select>
       </mat-form-field> 
 
     </div>
 
-
-<!-- --------------------------- -->
-<!--  Show Prestation Select *4  -->
-<!-- --------------------------- -->
+    <!-- --------------------------- -->
+    <!--  Show Prestation Select *4  -->
+    <!-- --------------------------- -->
 
     <div *ngIf="showPrestaList3" class="full-width">
 
@@ -118,8 +128,9 @@
         <mat-select ngModel required 
           #selectedPrestation1="ngModel" name="selectedPrestation1" placeholder="Choisir la premiere prestation">
           <mat-option *ngFor="let prestation of prestations | async" [value]="prestation">
-          	<strong>{{ prestation.time }} min</strong> -
-          	{{ prestation.title }} : {{ prestation.priceTeam }}
+            <strong>{{ prestation.time }} min</strong> -
+            <strong>{{ prestation.title }}</strong> / Prix Equipe : 
+            <strong>{{ prestation.priceTeam }} €</strong>
           </mat-option>
         </mat-select>
       </mat-form-field>
@@ -129,8 +140,9 @@
         <mat-select ngModel required 
           #selectedPrestation2="ngModel" name="selectedPrestation2" placeholder="Choisir la seconde prestation">
           <mat-option *ngFor="let prestation of prestations | async" [value]="prestation">
-          	<strong>{{ prestation.time }} min</strong> -
-          	{{ prestation.title }} : {{ prestation.priceTeam }}
+            <strong>{{ prestation.time }} min</strong> -
+            <strong>{{ prestation.title }}</strong> / Prix Equipe : 
+            <strong>{{ prestation.priceTeam }} €</strong>
           </mat-option>
         </mat-select>
       </mat-form-field>
@@ -140,8 +152,9 @@
         <mat-select ngModel required 
           #selectedPrestation3="ngModel" name="selectedPrestation3" placeholder="Choisir la troisieme prestation">
           <mat-option *ngFor="let prestation of prestations | async" [value]="prestation">
-          	<strong>{{ prestation.time }} min</strong> -
-          	{{ prestation.title }} : {{ prestation.priceTeam }}
+            <strong>{{ prestation.time }} min</strong> -
+            <strong>{{ prestation.title }}</strong> / Prix Equipe : 
+            <strong>{{ prestation.priceTeam }} €</strong>
           </mat-option>
         </mat-select>
       </mat-form-field>
@@ -151,8 +164,9 @@
         <mat-select ngModel required 
           #selectedPrestation3="ngModel" name="selectedPrestation4" placeholder="Choisir la quatrieme prestation">
           <mat-option *ngFor="let prestation of prestations | async" [value]="prestation">
-        	<strong>{{ prestation.time }} min</strong> -
-        	{{ prestation.title }} : {{ prestation.priceTeam }}
+            <strong>{{ prestation.time }} min</strong> -
+            <strong>{{ prestation.title }}</strong> / Prix Equipe : 
+            <strong>{{ prestation.priceTeam }} €</strong>
         </mat-option>
         </mat-select>
       </mat-form-field>
@@ -160,10 +174,9 @@
 
     </div>
 
-<!-- --------------------------- -->
-<!--  Show Prestation Select *5  -->
-<!-- --------------------------- -->
-
+    <!-- --------------------------- -->
+    <!--  Show Prestation Select *5  -->
+    <!-- --------------------------- -->
 
     <div *ngIf="showPrestaList4" class="full-width">
 
@@ -172,8 +185,9 @@
         <mat-select ngModel required 
           #selectedPrestation1="ngModel" name="selectedPrestation1" placeholder="Choisir la premiere prestation">
           <mat-option *ngFor="let prestation of prestations | async" [value]="prestation">
-          	<strong>{{ prestation.time }} min</strong> -
-          	{{ prestation.title }} : {{ prestation.priceTeam }}
+            <strong>{{ prestation.time }} min</strong> -
+            <strong>{{ prestation.title }}</strong> / Prix Equipe : 
+            <strong>{{ prestation.priceTeam }} €</strong>
           </mat-option>
         </mat-select>
       </mat-form-field>
@@ -183,8 +197,9 @@
         <mat-select ngModel required 
           #selectedPrestation2="ngModel" name="selectedPrestation2" placeholder="Choisir la seconde prestation">
           <mat-option *ngFor="let prestation of prestations | async" [value]="prestation">
-          	<strong>{{ prestation.time }} min</strong> -
-          	{{ prestation.title }} : {{ prestation.priceTeam }}
+            <strong>{{ prestation.time }} min</strong> -
+            <strong>{{ prestation.title }}</strong> / Prix Equipe : 
+            <strong>{{ prestation.priceTeam }} €</strong>
           </mat-option>
         </mat-select>
       </mat-form-field>
@@ -194,8 +209,9 @@
         <mat-select ngModel required 
           #selectedPrestation3="ngModel" name="selectedPrestation3" placeholder="Choisir la troisieme prestation">
           <mat-option *ngFor="let prestation of prestations | async" [value]="prestation">
-          	<strong>{{ prestation.time }} min</strong> -
-          	{{ prestation.title }} : {{ prestation.priceTeam }}
+            <strong>{{ prestation.time }} min</strong> -
+            <strong>{{ prestation.title }}</strong> / Prix Equipe : 
+            <strong>{{ prestation.priceTeam }} €</strong>
           </mat-option>
         </mat-select>
       </mat-form-field>
@@ -205,8 +221,9 @@
         <mat-select ngModel required 
           #selectedPrestation3="ngModel" name="selectedPrestation4" placeholder="Choisir la quatrieme prestation">
           <mat-option *ngFor="let prestation of prestations | async" [value]="prestation">
-          	<strong>{{ prestation.time }} min</strong> -
-          	{{ prestation.title }} : {{ prestation.priceTeam }}
+            <strong>{{ prestation.time }} min</strong> -
+            <strong>{{ prestation.title }}</strong> / Prix Equipe : 
+            <strong>{{ prestation.priceTeam }} €</strong>
           </mat-option>
         </mat-select>
       </mat-form-field>
@@ -216,8 +233,9 @@
         <mat-select ngModel required 
           #selectedPrestation3="ngModel" name="selectedPrestation5" placeholder="Choisir la cinquieme prestation">
         <mat-option *ngFor="let prestation of prestations | async" [value]="prestation">
-        	<strong>{{ prestation.time }} min</strong> -
-        	{{ prestation.title }} : {{ prestation.priceTeam }}
+            <strong>{{ prestation.time }} min</strong> -
+            <strong>{{ prestation.title }}</strong> / Prix Equipe : 
+            <strong>{{ prestation.priceTeam }} €</strong>
         </mat-option>
         </mat-select>   
       </mat-form-field>

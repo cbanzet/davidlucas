@@ -13,7 +13,6 @@ import { ForfaitService } from './../shared/forfait.service';
   styleUrls: ['./forfait-form.component.css']
 })
 export class ForfaitFormComponent implements OnInit {
-
  
   addForfait = true;
   addPrestations = false;
@@ -29,6 +28,7 @@ export class ForfaitFormComponent implements OnInit {
   panelOpenState: boolean = false;
   
   prestatypes: Observable<any[]>;
+  forfaitTypes: Observable<any[]>;  
 
   selectedPrestations: Observable<any[]>;
 
@@ -50,8 +50,9 @@ export class ForfaitFormComponent implements OnInit {
   constructor( private router: Router,
     private location: Location,
     private forfaitService: ForfaitService ) {
+      this.forfaitTypes = this.forfaitService.getForfaitTypeList();
       this.prestations = this.forfaitService.getPrestaTypeSnapshotList();
-    }
+   }
 
   ngOnInit() {
   }

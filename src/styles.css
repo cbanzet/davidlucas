@@ -62,3 +62,33 @@ mat-card-title {
 border-bottom-right-radius: 5px;
 border-bottom-left-radius: 5px;
 }
+
+.br-tl {
+  -webkit-border-top-left-radius: 10px;
+  -moz-border-radius-topleft: 10px;
+  border-top-left-radius: 10px;
+}
+
+cdk-overlay-pane {
+  -webkit-border-top-left-radius: 10px;
+  -moz-border-radius-topleft: 10px;
+  border-top-left-radius: 10px;  
+}
+
+.br-tr {
+  -webkit-border-top-right-radius: 10px;
+  -moz-border-radius-topright: 10px;
+  border-top-right-radius: 10px;
+}
+.cur-point {
+  cursor: pointer;
+}
+
+
+
+.br-20 {
+  -webkit-border-radius: 20px !important;
+  -moz-border-radius: 20px !important;
+  border-radius: 20px !important;
+}
+

@@ -8,6 +8,7 @@ import { 	AngularFireDatabase,
 import { Observable } from 'rxjs/Observable';
 import { NgForm } from '@angular/forms';
 import { Facture } from './facture';
+import { CartService } from './../../cart/shared/cart.service';
 
 import { Http,Response } from '@angular/http';
 import 'rxjs/add/operator/map';
@@ -20,7 +21,10 @@ export class FacturationService {
   dataFromEventKey: Observable<any>;
   eventPrice: Observable<any>;
 
-  constructor(private db: AngularFireDatabase, private router: Router) 
+  constructor(
+    private cartService: CartService,
+    private db: AngularFireDatabase, 
+    private router: Router) 
   {
   	this.facturesRef= db.list('/factures', ref => ref.orderByChild('timestamp').limitToLast(50));
   }
@@ -95,8 +99,8 @@ export class FacturationService {
     newFactureData['priceTAX'] = pxTAX;
     newFactureData['priceTTC'] = pxTTC;
 
-    newFactureData['clientKey'] = client.$key;
-    newFactureData['clientFullName'] = `${client.firstname} ${client.lastname}`;
+    newFactureData['clientkey'] = client.$key;
+    newFactureData['clientfullname'] = `${client.firstname} ${client.lastname}`;
     newFactureData['clientFullAdress'] = `${client.street}, ${client.zip} ${client.city}`;
     newFactureData['clientPhone'] = client.phone;
     newFactureData['clientEmail'] = client.email;
@@ -108,7 +112,7 @@ export class FacturationService {
     newFactureData['coiffeurFullName'] = `${coiffeur.firstname} ${coiffeur.lastname}`;    
 
     newFactureData['eventKey'] = null;
-    newFactureData['status'] = '0';
+    newFactureData['statut'] = '0';
     newFactureData['moyenDePaiement'] = moyenDePaiement?moyenDePaiement:"";
 
     console.log(newFactureData);
@@ -130,8 +134,8 @@ export class FacturationService {
     newFactureData['priceTAX'] = pxTAX;
     newFactureData['priceTTC'] = pxTTC;
 
-    newFactureData['clientKey'] = event.clientKey;
-    newFactureData['clientFullName'] = `${event.clientFirstname} ${event.clientLastname}`;
+    newFactureData['clientkey'] = event.clientKey;
+    newFactureData['clientfullname'] = `${event.clientFirstname} ${event.clientLastname}`;
     // newFactureData['clientFullAdress'] = `${client.street}, ${client.zip} ${client.city}`;
     newFactureData['clientPhone'] = event.clientPhone;
     newFactureData['clientEmail'] = event.clientEmail;
@@ -143,14 +147,40 @@ export class FacturationService {
     newFactureData['coiffeurFullName'] = `${event.memberFirstname} ${event.memberLastname}`;    
 
     newFactureData['eventKey'] = eventkey?eventkey:0;
-    newFactureData['status'] = '0';
+    newFactureData['statut'] = '0';
     newFactureData['moyenDePaiement'] = moyenDePaiement?moyenDePaiement:"";
 
     console.log(newFactureData);
     this.facturesRef.push(newFactureData).then(_=>
-      // console.log('Facture Added');
       this.router.navigate(['/facturations'])
     );
+  }
+
+  createBillFromCart(cart,moypay,promo) {
+    console.log(cart);
+    var newFactureData = {}
+
+    newFactureData['timestamp'] = Date.now();    
+    newFactureData['ref'] = "XXXXXXXXX";    
+    newFactureData['date'] = cart.date;
+    newFactureData['cartkey'] = cart.$key;
+    newFactureData['starttime'] = cart.cartstarttime;
+    newFactureData['totalHT'] = cart.totalHT;
+    newFactureData['totalTAX'] = cart.totalTAX;
+    newFactureData['totalTTC'] = cart.totalTTC;
+    newFactureData['clientkey'] = cart.clientkey;
+    newFactureData['clientfullname'] = cart.clientfullname;
+    newFactureData['clientphone'] = cart.clientphone;
+    newFactureData['clientemail'] = cart.clientemail;
+    newFactureData['statut'] = '0';
+    newFactureData['moyendepaiement'] = moypay?moypay:"";    
+
+    console.log(newFactureData);
+    this.facturesRef.push(newFactureData).then(_=>
+      this.router.navigate(['/facturations'])
+    );
+
+    this.cartService.doCart(cart,'paid');
   }
 
 
@@ -160,13 +190,13 @@ export class FacturationService {
 /////////////////////////////////////////////////
 
   // CHANGE FACTURE STATUS
-  changeFactureStatus(facture): void {
+  changeFactureStatut(facture): void {
     var facturekey = facture.$key;
-    var currentstatus:number = facture.status;
-    var newstatus = currentstatus+1;
+    var currentstatut:number = facture.statut;
+    var newstatut = currentstatut+1;
     var date = Date.now();
     var updateData = {};
-    updateData[`factures/${facturekey}/status`] = newstatus;
+    updateData[`factures/${facturekey}/statut`] = newstatut;
     // if(!currentstatus) {
     //   updateData[`factures/${facturekey}/startdate`] = date;
     // }
@@ -174,7 +204,7 @@ export class FacturationService {
     //   updateData[`factures/${facturekey}/enddate`] = date;
     // }
     console.log(updateData);
-    this.db.object("/").update(updateData).then(_=>console.log('Facture Status Updated!'));
+    this.db.object("/").update(updateData).then(_=>console.log('Facture Statut Updated!'));
   } 
 
 /////////////////////////////////////////////////

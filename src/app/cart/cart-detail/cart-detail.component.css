@@ -1,0 +1,230 @@
+.sec1, .sec2 {
+	border: 1px dotted #ccc;
+	padding:10px;
+	border-radius: 20px;
+	background: rgba(255,255,255,1);
+	background: -moz-radial-gradient(center, ellipse cover, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%);
+	background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, rgba(255,255,255,1)), color-stop(47%, rgba(246,246,246,1)), color-stop(100%, rgba(237,237,237,1)));
+	background: -webkit-radial-gradient(center, ellipse cover, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%);
+	background: -o-radial-gradient(center, ellipse cover, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%);
+	background: -ms-radial-gradient(center, ellipse cover, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%);
+	background: radial-gradient(ellipse at center, rgba(255,255,255,1) 0%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ededed', GradientType=1 );
+}
+
+
+
+h1 {
+	font-weight: 200;
+	padding: 0 0 0 10px;
+	color: #000000
+}
+
+h2 {
+	font-weight: 300;
+	padding: 0 0 5px 10px;
+	text-shadow: 3px 3px 3px rgba(255, 255, 255, 1);
+	color: #333333;
+	border-bottom: 1px solid #FFF;
+}
+h3 {
+	color: #666666;
+	font-weight: 400;
+	padding: 0 0 0 10px;
+}
+
+
+.client {
+	text-align: right;
+  font-size: 0.9em;
+  color: #333;
+  line-height: 1.2em;
+}
+
+
+mat-chip {
+  margin: 2px !important;
+  background-color: #FFF !important;
+}
+
+
+
+button {
+	margin-left: 10px !important;
+  }
+  
+mat-card-title {
+  font-size: 1.5em !important;
+  line-height: 0.5em;
+  font-weight: 300;
+}
+  
+h5 {
+  font-weight: 200;
+  font-size: 0.9em;
+  text-transform: uppercase;
+  padding: 20px 0 10px;
+  margin: 20px 0 0;
+}
+
+.mode-A4 {
+width: 768px;
+margin: 20px auto;
+height: 1024px;
+}
+
+.header-image {
+  width: 350px;
+}
+
+.header-image img {
+  width: 300px;
+   padding-top: 5px;
+  height: auto;
+}
+
+
+.full-width {
+  width: 100%
+}
+
+.prestation-option-list {
+  font-size: 0.8em;
+}
+
+
+.command-td {
+  text-align: right;
+}
+
+
+.moy-paie mat-grid-tile {
+/*background: lightgrey;*/
+border: 1px dotted #ccc;
+color: #ccc;
+cursor: pointer;
+text-transform: uppercase;
+font-size: 0.8em;
+text-align: center;
+width: 200px;
+} 
+.moy-paie mat-grid-tile:hover {
+  border: 1px solid #333;
+  background-color: #333;
+}
+
+
+.example-spacer {
+flex: 1 1 auto;
+}
+
+.qty-ctrl {
+  display: inline-block;
+  height: 35px;width: 15px;
+}
+.qty-ctrl span{
+  cursor: pointer;
+  display: block;
+  font-weight: 200;font-size: 0.8em;
+  text-align: center;
+  line-height: 14px;
+  margin-bottom: 1px;
+  width: 14px;
+  height: 14px;
+  background-color: #ccc;
+  color: #fff;
+  -webkit-border-radius: 7px;
+  -moz-border-radius: 7px;
+  border-radius: 7px;	
+}
+.qty-ctrl span:hover{
+  background: #000;
+}
+
+
+.bg-grey {
+  background-color: #333;
+  color: #FFF;
+}
+.bg-black {
+  background-color: #000;
+  color: #FFF;
+  height: 40px;
+}
+.ta-l {
+  padding-left: 10px;
+  font-weight: 400;
+  text-align: left;
+}
+
+.br-20 {
+  -webkit-border-radius: 20px;
+-moz-border-radius: 20px;
+border-radius: 20px;
+}
+
+.gridSelected {
+  background-color: #000 !important;
+}
+  
+
+.table-header, .table-footer {
+	font-size: 0.8em;
+  text-transform: uppercase;
+  font-weight: 300;
+}
+.table-header td, .table-footer td, .items-info td{
+  padding-left: 5px;
+}
+.dark-cell {
+  background-color: #000;
+	color: #FFF;	
+}
+
+.items-info {
+	font-size: 0.8em;
+}
+
+
+.td-a-r {
+  font-size: 0.8em;
+  font-weight: 700;
+  text-align: right;
+  padding-right: 10px;
+}
+.td-a-l {
+  text-align: left;	
+}
+.td-a-c {
+  text-align: center;	
+}
+
+.pt-20 {
+	padding-top: 20px;
+}
+
+.bt-white {
+	border-top: 1px solid #fff;
+}
+
+.smaller {
+  font-size: 0.9em;
+  color: #666;
+}
+
+.br-top, .br-top td {
+	-webkit-border-top-left-radius: 5px;
+-webkit-border-top-right-radius: 5px;
+-moz-border-radius-topleft: 5px;
+-moz-border-radius-topright: 5px;
+border-top-left-radius: 5px;
+border-top-right-radius: 5px;
+}
+.br-bot, .br-bot td {
+	-webkit-border-bottom-right-radius: 5px;
+-webkit-border-bottom-left-radius: 5px;
+-moz-border-radius-bottomright: 5px;
+-moz-border-radius-bottomleft: 5px;
+border-bottom-right-radius: 5px;
+border-bottom-left-radius: 5px;
+}

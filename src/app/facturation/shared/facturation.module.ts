@@ -19,6 +19,7 @@ import { FacturationListComponent } from './../facturation-list/facturation-list
 import { FacturationDetailComponent } from './../facturation-detail/facturation-detail.component';
 import { FacturationFormComponent } from './../facturation-form/facturation-form.component';
 import { FacturationEventComponent } from './../facturation-event/facturation-event.component';
+import { FacturationCartComponent } from './../facturation-cart/facturation-cart.component';
 
 @NgModule({
   imports: [
@@ -35,7 +36,8 @@ import { FacturationEventComponent } from './../facturation-event/facturation-ev
   	FacturationListComponent,
   	FacturationDetailComponent,
   	FacturationFormComponent,
-    FacturationEventComponent
+    FacturationEventComponent,
+    FacturationCartComponent
   ],
   providers: [
   	FacturationService

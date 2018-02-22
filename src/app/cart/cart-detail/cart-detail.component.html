@@ -1,3 +1,201 @@
-<p>
-  cart-detail works!
-</p>
+
+<mat-card *ngIf="cart | async as cart" class="br-20">
+
+	<!-- <pre>{{ cart | json }}</pre> -->
+
+	<h1>Shopping Time</h1>
+
+	<div class="content" 
+	 fxLayout="row" 
+	 fxLayout.xs="column" 
+	 fxLayoutAlign="end start"
+	 fxLayoutGap="10px"
+	 fxFlexFill
+		>
+		<div class="sec1"
+		fxFlex="50"
+	 	fxLayout="row" 	
+		fxLayoutWrap
+		fxLayout.xs="column">
+
+			<div
+			fxFlex="100">
+				<h2>Fill you cart with</h2>
+			</div>
+
+			<div
+			fxFlex="80">
+				<h3>Prestations</h3>
+			</div>
+			<div
+			fxFlex="20"
+			fxLayoutAlign="end center">
+				<button mat-mini-fab color="black"
+					(click)="
+						showAddPrestaSection=true;
+						showRemovePrestaSectionButton=true;
+						showAddPrestaSectionButton=false"
+						*ngIf="showAddPrestaSectionButton">
+					<mat-icon>add</mat-icon>
+				</button>
+				<button mat-mini-fab color="black"
+					(click)="
+						showAddPrestaSection=false;
+						showRemovePrestaSectionButton=false;
+						showAddPrestaSectionButton=true"
+					*ngIf="showRemovePrestaSectionButton">
+					<mat-icon>remove</mat-icon>
+				</button>			
+			</div>
+
+			<div
+			fxFlex="100"
+			*ngIf="showAddPrestaSection">
+				<ng-template #loading><br><br><mat-spinner color="warn"></mat-spinner><br><br></ng-template>		
+	      <mat-chip-list *ngIf="prestations | async; let prestations; else loading">
+					<mat-chip 
+						*ngFor="let prestation of prestations"
+						(click)="formatBeforeInsert('prestation',prestation)">
+						{{ prestation.title }}
+						(<strong>{{ prestation.time }} min / {{ prestation.priceTeam }} €</strong>)
+					</mat-chip>
+	      </mat-chip-list>		    
+			</div>
+
+			<div
+			fxFlex="80">
+				<h3>Forfaits</h3>
+			</div>
+
+			<div
+			fxFlex="20"
+			fxLayoutAlign="end center">
+				<button mat-mini-fab color="black"
+					(click)="
+						showAddForfaitSection=true;
+						showRemoveForfaitSectionButton=true;
+						showAddForfaitSectionButton=false"
+						*ngIf="showAddForfaitSectionButton">
+					<mat-icon>add</mat-icon>
+				</button>
+				<button mat-mini-fab color="black"
+					(click)="
+						showAddForfaitSection=false;
+						showRemoveForfaitSectionButton=false;
+						showAddForfaitSectionButton=true"
+					*ngIf="showRemoveForfaitSectionButton">
+					<mat-icon>remove</mat-icon>
+				</button>			
+			</div>
+
+			<div
+			fxFlex="100" 
+			*ngIf="showAddForfaitSection">
+				<ng-template #loading><br><br><mat-spinner color="warn"></mat-spinner><br><br></ng-template>		
+	      <mat-chip-list *ngIf="forfaits | async; let forfaits; else loading">
+	        <mat-chip 
+	        	*ngFor="let forfait of forfaits"
+	        	(click)="formatBeforeInsert('forfait',forfait)">
+	          {{ forfait.title }} 
+		        (<strong *ngIf="forfait.price&&forfait.time">{{ forfait.time }} min / {{ forfait.price }} €)</strong>
+						<!-- <mat-icon (click)="formatBeforeInsert('forfait',forfait)" matChipRemove>add_circle</mat-icon>-->
+	        </mat-chip>
+	      </mat-chip-list>		    
+			</div>
+
+			<div
+			fxFlex="80">
+				<h3>Produits</h3>
+			</div>
+
+			<div
+			fxFlex="20"
+			fxLayoutAlign="end center">
+				<button mat-mini-fab color="black">
+					<mat-icon>add</mat-icon>
+				</button>
+			</div>
+
+
+	  </div>
+	  <div class="sec2 contacts"
+	  	fxFlex="50"
+	  	fxLayout="row"
+			fxLayoutWrap
+			fxLayout.xs="column"
+	  	>
+
+			<div
+			fxFlex="100">
+				<h2>Cart content</h2>
+
+				<p class="client">
+					Rendez vous du <strong>{{ cart.date }}</strong> à <strong>{{ cart.cartstarttime }}</strong><br>
+					<strong>{{ cart.clientfullname }}</strong><br>
+					<span class="smaller">{{ cart.clientphone }} <br>
+					{{ cart.clientemail }}</span>
+				</p>
+			</div>
+
+			<div
+			fxFlex="100"
+			fxLayoutAlign="center center">
+				<table class="full-width">
+					<tr class="table-header dark-cell br-top">
+						<td class="td-a-l">Description</td>
+						<td width="80px" class="td-a-c">Price</td>
+						<td width="40px"></td>
+					</tr>
+
+					<tr class="items-info" *ngFor="let prestation of cart.prestas">
+						<td><strong>{{ prestation.prestationtitle }}</strong></td>
+						<td class="td-a-c">{{ prestation.price }} €</td>
+						<td class="td-a-c">
+							<mat-icon (click)="deleteProduct(i,presta.prix)">clear</mat-icon>
+						</td>
+					</tr>
+
+
+					<tr class="items-info"
+						*ngFor="let presta of data ;let i =index
+					">
+						<td>
+							<strong>{{ presta.title }}</strong> 
+							<i>({{ presta.time }} minutes)</i>
+						</td>
+						<td class="td-a-c">{{presta.prix}} €</td>
+						<td class="td-a-c">
+							<mat-icon (click)="deleteProduct(i,presta.prix)">clear</mat-icon>
+						</td>
+					</tr>
+
+
+					<tr class="table-footer">
+						<td class="td-a-r">TOTAL HT</td>
+						<td class="td-a-c dark-cell">{{ cart.totalHT }} €</td>
+						<td></td>
+					</tr>
+					<tr class="table-footer">
+						<td class="td-a-r">TAX 20%</td>
+						<td class="td-a-c dark-cell">{{ cart.totalTAX }} €</td>
+						<td></td>
+					</tr>
+					<tr class="table-footer br-bot">
+						<td class="td-a-r">TOTAL TTC</td>
+						<td class="td-a-c dark-cell">{{ cart.totalTTC }} €</td>
+						<td></td>
+					</tr>				
+				</table>
+			</div>
+
+			<div class="pt-20 bt-white"
+			fxFlex="100"
+			fxLayoutAlign="end end">
+				<button mat-fab color="warn" matTooltip="Pay" matTooltipPosition="after" 
+					(click)="goToBill(cart)"><mat-icon>payment</mat-icon>
+				</button>	
+			</div>		
+	  </div>
+	</div>    
+
+</mat-card>								   

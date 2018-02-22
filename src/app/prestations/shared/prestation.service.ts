@@ -69,6 +69,13 @@ export class PrestationService {
   }
 
 
+  getPrestaTime(key:string) {
+    const prestaPath = `${this.prestaPath}/${key}/time`;
+    var time = this.db.object(prestaPath).valueChanges();
+    return time;
+  }
+
+
   // getPriceWithKey(key:string,firstname:string) {
   //   const prestaPath = `${this.prestaPath}/${key}/priceTeam`;
   //   var prestation = this.db.object(prestaPath).valueChanges().subscribe(data=> {
@@ -115,7 +122,19 @@ export class PrestationService {
         }) 
       )
     })
-  }  
+  }
+
+  getPrestaTypeNameList() {
+    return this.prestaTypeRef.snapshotChanges().map(arr => {
+      return arr.map(snap => Object.assign(
+        // snap.payload.val(), 
+        { 
+          $key: snap.key, 
+          title: snap.payload.val().title,
+        }) 
+      )
+    })
+  }    
 
   getSalonsList() {
     return this.salonsRef.snapshotChanges().map(arr => {
@@ -133,14 +152,14 @@ export class PrestationService {
 
 
   createPrestation(newPrestaForm: NgForm): void {
-  	// console.log(newPrestaForm.value);
-    var keysalon:string = newPrestaForm?newPrestaForm.value.selectedSalon.$key:0;
+    // var keysalon:string = newPrestaForm?newPrestaForm.value.selectedSalon.$key:0;
+
     var newPrestaData = {}
     newPrestaData['timestamp'] = Date.now();
-    newPrestaData['salon'] = {
-      key: keysalon,
-      title: newPrestaForm?newPrestaForm.value.selectedSalon.title:0
-    };
+    // newPrestaData['salon'] = {
+      // key: keysalon,
+      // title: newPrestaForm?newPrestaForm.value.selectedSalon.title:0
+    // };
     newPrestaData['acronyme'] = newPrestaForm.value.newPrestaAcronyme?newPrestaForm.value.newPrestaAcronyme:null;
     newPrestaData['title'] = newPrestaForm?newPrestaForm.value.newPrestaTitle:0;
     newPrestaData['details'] = newPrestaForm.value.newPrestaDetail?newPrestaForm.value.newPrestaDetail:null;
@@ -152,38 +171,34 @@ export class PrestationService {
     if (nbTypes) { 
       var newPrestaTypes = {};
       for(var i=0;i<nbTypes;i++) {
-        console.log(newPrestaForm.value.selectedTypes[i]);
-        console.log(newPrestaForm.value.selectedTypes[i].key);
-        // newPrestaTypes[newPrestaForm.value.selectedTypes[i].key] = true;
-        newPrestaTypes[newPrestaForm.value.selectedTypes[i].key] = newPrestaForm.value.selectedTypes[i].title;
+        console.log(newPrestaForm.value.selectedTypes[i].$key);
+        newPrestaTypes[newPrestaForm.value.selectedTypes[i].$key] = newPrestaForm.value.selectedTypes[i].title;
       }
       newPrestaData['types'] = newPrestaTypes;
     }
     // Insert in Prestations Node and Get New Key
     var keyNewPresta = this.prestationsRef.push(newPrestaData).key;
+
+
     // Insert in Salon Node
-    const prestaInSalonPath = `salons/${keysalon}/prestations`;
-    this.db.list(prestaInSalonPath).update(keyNewPresta, newPrestaData).then(_=>
-      console.log(newPrestaData + 'Imported In Salon Node')
-    );
+    // const prestaInSalonPath = `salons/${keysalon}/prestations`;
+    // this.db.list(prestaInSalonPath).update(keyNewPresta, newPrestaData).then(_=>
+      // console.log(newPrestaData + 'Imported In Salon Node')
+    // );
+
+
+
     if (nbTypes) {
       // Insert In Types Node
       var updateTypesData = {};
       for(var i=0;i<nbTypes;i++) {
-        var typekey = newPrestaForm.value.selectedTypes[i].key;
+        var typekey = newPrestaForm.value.selectedTypes[i].$key;
         updateTypesData["prestationType/"+ typekey +"/prestations/"+keyNewPresta] = true;
-        // Insert in LookUp
-        this.db.list('/lookUpTypePrestations').update(typekey, {[keyNewPresta]:true});
+        updateTypesData["lookUpTypePrestations/"+ typekey +"/"+keyNewPresta] = true;
       }
       this.db.object("/").update(updateTypesData).then(_=>'Types Saved');
     }
-
-    // Insert in LookUp
-    this.db.list('/lookUpSalonPrestations').update(keysalon, {[keyNewPresta]:true});
     this.router.navigate(['/prestations']);  	
-
-    // console.log(keyNewPresta);  
-    console.log(newPrestaData,keyNewPresta);   
   }
 
 
@@ -288,19 +303,18 @@ export class PrestationService {
 ////////////////////////////////////////////////////////////////////
 
   deletePrestation(prestation): void {
-
   	var prestakey = prestation.$key;
-    var salonkey = prestation.salon.key;
+    // var salonkey = prestation.salon.key;
     var types = prestation.types?prestation.types:null;
 
     const prestaPath = `prestations/${prestakey}`;
-    const prestaInSalonPath = `salons/${salonkey}/prestations/${prestakey}`;    
-    const prestaInSalonLookUpPath = `lookUpSalonPrestations/${salonkey}/${prestakey}`; 
+    // const prestaInSalonPath = `salons/${salonkey}/prestations/${prestakey}`;    
+    // const prestaInSalonLookUpPath = `lookUpSalonPrestations/${salonkey}/${prestakey}`; 
 
     var deleteData = {};
     deleteData[prestaPath] = null;
-    deleteData[prestaInSalonPath] = null;
-    deleteData[prestaInSalonLookUpPath] = null;
+    // deleteData[prestaInSalonPath] = null;
+    // deleteData[prestaInSalonLookUpPath] = null;
 
     if(types) {
       var arrayLength = types.length;

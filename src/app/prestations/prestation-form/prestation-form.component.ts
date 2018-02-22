@@ -26,7 +26,6 @@ export class PrestationFormComponent implements OnInit {
   panelOpenState: boolean = false;
   
   prestatypes: Observable<any[]>;
-
   selectedTypes: Observable<any[]>;
 
   savedSelectTypes: any;
@@ -42,7 +41,7 @@ export class PrestationFormComponent implements OnInit {
   						private prestationService: PrestationService) { 
     this.salons = this.prestationService.getSalonsList();
     // this.prestatypes = this.prestationService.getPrestaTypeList();
-    this.prestatypes = this.prestationService.getPrestaTypeList();
+    this.prestatypes = this.prestationService.getPrestaTypeNameList();
   }
 
   ngOnInit() {
@@ -51,17 +50,7 @@ export class PrestationFormComponent implements OnInit {
   onSubmit(newPrestaForm: NgForm) {
     // console.log(newPrestaForm.value);
   	this.prestationService.createPrestation(newPrestaForm);
-  	// this.addPrestation = false;
-  }  
-
-  // selectPrestaType(type) {
-  //   console.log(type);
-  //   this.savedSelectTypes = `${this.selectedTypes},${type}`;
-  //   console.log(this.savedSelectTypes);
-  // }
-
-
- 
+  }   
 
  
   goBack(): void {

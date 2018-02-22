@@ -235,6 +235,11 @@ export class DialogNewEvent implements OnInit {
   typeselected: string ;
   filtre: Object;
 
+  forfaitTypes: Observable<any[]>;
+  typeselectedforfait: string;
+  showTypeSelectForfait: boolean;
+  filtreForfait: object;
+
   constructor(
     private eventService: EventService,
     private prestationService: PrestationService,
@@ -248,6 +253,7 @@ export class DialogNewEvent implements OnInit {
      // this.prestations = this.eventService.getTitlePrestationsList();
       this.prestations = this.prestationService.getPrestationsList();
       this.types = this.prestationService.getPrestaTypeList();
+      this.forfaitTypes = this.forfaitService.getForfaitTypeList();
     }
 
 
@@ -299,6 +305,16 @@ export class DialogNewEvent implements OnInit {
     console.log( this.typeselected);
   }
 
+  typeSelectedForfait(type: Type) {
+    this.typeselectedforfait = type.title;
+    this.showTypeSelectForfait = true;
+    this.showTypeSelect = false;
+    this.filtreForfait = {
+        type: this.typeselectedforfait
+    };
+    console.log( this.typeselectedforfait);
+  }
+
 
 	/////////////////////////////////////////////////////////////////
   // CART 
@@ -306,7 +322,7 @@ export class DialogNewEvent implements OnInit {
     this.cartData.push(new Cart(key,title,time,price,salonkey));
     this.sumTablePrice('add',price);
   }
-  formatBeforeInsert(isDavid,type,data) {
+  formatPrestaBeforeInsert(isDavid,data) {
     var key = data.$key?data.$key:0;
     var title = data.title?data.title:0;
     var time = data.time?data.time:0;
@@ -317,8 +333,39 @@ export class DialogNewEvent implements OnInit {
     }
     else {console.log("Entrée incomplète")}
   }
-  removeElement(index: number) {
+
+  formatForfaitBeforeInsert(isDavid,data) {
+    
+    // console.log(isDavid);
+    // console.log(data);
+
+    var nbprestas = data.prestations.length;
+
+    console.log(nbprestas);
+    for(var i=0;i<nbprestas;i++) {
+      
+      console.log(data.prestations[i].key, data.prestations[i].title);
+      var time = this.prestationService.getPrestaTime(data.prestations[i].key);
+
+      console.log(time);
+    }
+
+    var key = data.$key?data.$key:0;
+    var title = data.title?data.title:0;
+    var time = data.time?data.time:0;
+    var price = isDavid=="David" ? data.priceDavid:data.priceTeam;
+    var salonkey = data.salonkey?data.salonkey:0;
+
+    if(key&&title&&time&&price) {
+      // this.insertItemInCart(key,title,time,price,salonkey);
+    }
+    else {console.log("Entrée incomplète")}
+  }
+
+  removeElement(index: number,px: number) {
+    this.sumTablePrice('remove',px);
     this.cartData.splice(index, 1);
+    // console.log(index,element);
   }
 
   getTotalHT(addOrRemove,px) {
@@ -402,11 +449,12 @@ export class DialogSeeEvent implements OnInit {
     this.dialogRef.close();
   }
 
-  doingEvent(meeting,action) {
-    this.eventService.doingEvent(meeting,action);
+  doingCart(cart,action) {
     if(action=='done') { 
-      console.log("go to facturation"); 
-      this.router.navigate(['/facturationevent/'+this.key])
+      this.router.navigate(['/cart/'+cart.$key])
+    }
+    else if(action=='ongoing') {
+      this.cartService.doCart(cart,'ongoing');
     }
     this.dialogRef.close();
   }

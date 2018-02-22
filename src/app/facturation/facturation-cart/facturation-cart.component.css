@@ -1,0 +1,129 @@
+button {
+  margin-left: 10px !important;
+}
+
+mat-card-title {
+	font-size: 1.5em !important;
+	line-height: 0.5em;
+	font-weight: 300;
+}
+
+h5 {
+	font-weight: 200;
+	font-size: 0.9em;
+	text-transform: uppercase;
+	padding: 20px 0 10px;
+	margin: 20px 0 0;
+}
+
+.mode-A4 {
+  width: 768px;
+  margin: 20px auto;
+  height: 1024px;
+}
+
+.header-image {
+	width: 350px;
+}
+
+.header-image img {
+	width: 300px;
+ 	padding-top: 5px;
+	height: auto;
+}
+
+
+.full-width {
+	width: 100%
+}
+
+.prestation-option-list {
+	font-size: 0.8em;
+}
+
+
+.command-td {
+	text-align: right;
+}
+
+.facture-price-header {
+	background-color: #000;
+	text-transform: uppercase;
+	color: #fff;
+	font-weight: 300;
+}
+
+.facture-price-header td{
+	padding-left: 5px;
+}
+
+.td-a-l {
+	text-align: left;	
+}
+.td-a-c {
+	text-align: center;	
+}
+
+.moy-paie mat-grid-tile {
+  /*background: lightgrey;*/
+  border: 1px dotted #ccc;
+  color: #ccc;
+  cursor: pointer;
+  text-transform: uppercase;
+  font-size: 0.8em;
+  text-align: center;
+  width: 200px;
+} 
+.moy-paie mat-grid-tile:hover {
+	border: 1px solid #333;
+	background-color: #333;
+}
+
+
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+.qty-ctrl {
+	display: inline-block;
+	height: 35px;width: 15px;
+}
+.qty-ctrl span{
+	cursor: pointer;
+	display: block;
+	font-weight: 200;font-size: 0.8em;
+	text-align: center;
+	line-height: 14px;
+	margin-bottom: 1px;
+	width: 14px;
+	height: 14px;
+	background-color: #ccc;
+	color: #fff;
+	-webkit-border-radius: 7px;
+	-moz-border-radius: 7px;
+	border-radius: 7px;	
+}
+.qty-ctrl span:hover{
+	background: #000;
+}
+
+
+.bg-grey {
+	background-color: #333;
+	color: #FFF;
+}
+.bg-black {
+	background-color: #000;
+	color: #FFF;
+	height: 40px;
+}
+.ta-l {
+	padding-left: 10px;
+	font-weight: 400;
+	text-align: left;
+}
+
+.gridSelected {
+	background-color: #000 !important;
+}
+

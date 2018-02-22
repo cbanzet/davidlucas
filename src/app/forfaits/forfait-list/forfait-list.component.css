@@ -21,3 +21,23 @@ mat-card-title {
 .ml-10 {
 	margin-left: 10px;
 }
+
+.forfait-title {
+	display: inline-block;
+	width: 200px;
+	font-size: 1.1em;
+}
+.forfait-detail {
+	display: inline-block;
+	width: 70px;
+	text-align: right;
+	font-size: 1.3em;
+	font-weight: 800;
+}
+.forfait-detail mat-icon{
+	padding: 0 5px;
+}
+
+.chip-fixed-width {
+	width: 130px;
+}

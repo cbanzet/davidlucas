@@ -1,5 +1,3 @@
-<!-- <pre>{{ members | async | json }}</pre> -->
-
 <ng-template #loading>				
 	<br><br>
 	<mat-spinner color="warn"></mat-spinner>
@@ -58,6 +56,7 @@
 								{
 									'waiting-event':event.statut=='waiting',
 									'ongoing-event':event.statut=='ongoing',
+									'paid-event':event.statut=='paid',
 									'round-top-event':event.firstofmulti=='1',
 									'round-bottom-event':event.lastofmulti=='1'
 								}"

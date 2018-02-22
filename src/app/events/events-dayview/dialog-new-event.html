@@ -77,31 +77,56 @@
 			<div fxFlex="100"><h4>Ajouter un élément au rendez-vous</h4></div>
 
 			<div fxFlex="100">
+
 				<mat-grid-list class="genre-list" cols="2" rowHeight="30px">
-					<mat-grid-tile>Forfaits</mat-grid-tile>
-					<mat-grid-tile>Prestations</mat-grid-tile>
+					<mat-grid-tile (click)="showPrestaSelect=false;showForfaitsSelect=true;showTypeSelect=false;showTypeSelectForfait=true">
+					Forfaits</mat-grid-tile>
+					<mat-grid-tile (click)="showPrestaSelect=true;showForfaitsSelect=false;showTypeSelect=true;showTypeSelectForfait=false">Prestations</mat-grid-tile>
 				</mat-grid-list>
-				<mat-grid-list class="type-list" cols="5" rowHeight="20px">
+
+				<mat-grid-list *ngIf="showPrestaSelect" class="type-list" cols="5" rowHeight="20px">
 					<mat-grid-tile 
 						*ngFor="let type of types | async"
 						(click)="typeSelected(type)">
 						{{ type.title }}
 					</mat-grid-tile>
 				</mat-grid-list>
+
+				<mat-grid-list class="type-list" cols="5" rowHeight="20px" *ngIf="showForfaitsSelect">
+					<mat-grid-tile 
+						*ngFor="let typef of forfaitTypes | async"
+						(click)="typeSelectedForfait(typef)">
+						{{ typef.title }}
+					</mat-grid-tile>
+				</mat-grid-list>			
+
 			</div>
 
-			<div fxFlex="100">
+			<div fxFlex="100" *ngIf="showTypeSelect">
 				<ng-template #loading><br><br><mat-spinner color="warn"></mat-spinner><br><br></ng-template>
-					<div *ngIf="showTypeSelect" >
+					<div>
 						<mat-chip-list *ngIf="prestations | async ; let prestations; else loading">
 							<mat-chip 
 								*ngFor="let prestation of prestations | filter : filtre"
-								(click)="formatBeforeInsert(data.selectedCoiffeur.firstname,'prestation',prestation)">
+								(click)="formatPrestaBeforeInsert(data.selectedCoiffeur.firstname,prestation)">
 								{{ prestation.title }}&nbsp;<strong>{{ prestation.time }} min</strong>
 							</mat-chip>
 						</mat-chip-list>	
 					</div>
 			</div>
+
+
+			<div fxFlex="100" *ngIf="showTypeSelectForfait" >
+				<ng-template #loading><br><br><mat-spinner color="warn"></mat-spinner><br><br></ng-template>				
+				<mat-chip-list *ngIf="forfaits | async ; let forfaits; else loading">
+					<mat-chip
+						*ngFor="let forfait of forfaits | filterForfait : filtreForfait"
+						(click)="formatForfaitBeforeInsert(data.selectedCoiffeur.firstname,forfait)">
+						{{ forfait.title }}
+					</mat-chip>
+				</mat-chip-list>
+			</div>
+
 
 			<div fxFlex="100"><h4>Déroulé du rendez-vous</h4></div>
 
@@ -123,8 +148,8 @@
 				<div
 				fxFlex="10"
 				fxLayoutAlign="start end">
-					<mat-icon 
-					(click)="removeElement(i)">clear</mat-icon>
+					<mat-icon class="cur-point"
+					(click)="removeElement(i,element.price)">clear</mat-icon>
 				</div>
 			</div>
 

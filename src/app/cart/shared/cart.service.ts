@@ -157,6 +157,48 @@ export class CartService {
 
 
 
+//////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
+///////////////// U P D A T E ////////////////////////////
+//////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
+
+
+  doCart(cart,newstatut) {
+    console.log(cart);    
+    var cartkey = cart.$key;
+    var clientkey = cart.clientkey;
+
+    var events = cart.eventstodelete?cart.eventstodelete:null;
+    const cartPath = `carts/${cartkey}/statut`;
+
+    var updateData = {};
+    updateData[cartPath] = newstatut;
+    if(events) 
+    {
+      var arrayLength = events.length;
+      for (var i = 0; i < arrayLength; i++) 
+      {
+        var objectArray = Object.keys(events[i]);
+        var objectLength = objectArray.length;
+        for (var j = 0; j < objectLength; j++) 
+        {
+          var eventkey = objectArray[j];
+          var eventPath = `events/${eventkey}/statut/`;
+          updateData[eventPath] = newstatut;
+        }
+      }
+    }
+
+    console.log(updateData);
+    this.db.object("/").update(updateData).then(_=>
+       console.log(updateData)
+    );
+  }
+
+
+
+
 
 
 //////////////////////////////////////////////////////////

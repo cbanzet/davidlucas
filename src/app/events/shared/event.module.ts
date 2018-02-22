@@ -23,6 +23,7 @@ import { EventsDayviewComponent } from './../events-dayview/events-dayview.compo
 import { DialogNewEvent, DialogSeeEvent } from './../events-dayview/events-dayview.component';
 
 import { FilterPipe } from './../events-dayview/filter';
+import { FilterForfaitPipe } from './../events-dayview/filterForfait';
 
 @NgModule({
   imports: [
@@ -43,7 +44,8 @@ import { FilterPipe } from './../events-dayview/filter';
     EventsDayviewComponent,
     DialogNewEvent,
     DialogSeeEvent,
-    FilterPipe    
+    FilterPipe,
+    FilterForfaitPipe  
   ],
   providers: [
     EventService,

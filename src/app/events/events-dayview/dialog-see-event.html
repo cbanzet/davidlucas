@@ -14,14 +14,21 @@
 	fxFlexFill
 	fxLayoutWrap>
 	<div 
-		fxFlex="100"
+		fxFlex="70"
 		[ngStyle]="{'font-size': '1.2em'}"
-		>
-		Rendez-vous	avec
+	>
+		Rendez-vous de
 		<strong>{{ cart.clientfullname }}</strong> 
 		<mat-icon class="cur-point" *ngIf="!showclientdetail&&cart.clientPhone" (click)="showclientdetail=true">add_circle</mat-icon>
-		le <strong>{{ cart.date }}</strong> à <strong>{{ cart.cartstarttime }}</strong>		
 	</div>
+	<div 
+		fxFlex="30"
+		[ngStyle]="{'font-size': '1em'}"
+		class="bg-black"
+	>
+		<strong>{{ cart.date }}</strong> à <strong>{{ cart.cartstarttime }}</strong>
+	</div>
+
 
 	<div *ngIf="showclientdetail" class="client-detail"
 	fxFlex="100">
@@ -48,7 +55,8 @@
 		fxLayoutAlign="start center">
 			<span class="buble-16 mr-10">{{ (i+1) }}</span>
 			<strong>{{ element.starttime }} &nbsp;&nbsp;</strong>
-			{{ element.prestationtitle }}
+			<span
+			[ngStyle]="{'font-size': '0.8em'}">{{ element.prestationtitle }}</span>
 		</div>	
 		<div
 		fxFlex="20"
@@ -66,8 +74,7 @@
 		<div
 		fxFlex="10"
 		fxLayoutAlign="start end">
-			<mat-icon 
-			(click)="removeElement(i)">clear</mat-icon>
+			<mat-icon (click)="removeElement(i)">clear</mat-icon>
 		</div>
 
 	</div>		
@@ -105,19 +112,18 @@
 		<button mat-fab type="button" tabindex="-1" color="warn"
 			*ngIf="cart.statut=='waiting'"
 			(click)="deleteCart(cart)">
-			<!-- (click)="deleteEvent(meeting)"> -->
 			<mat-icon>delete</mat-icon>
 	  </button>
 
 		<button mat-fab type="button" tabindex="2" color="green"
 			*ngIf="cart.statut=='waiting'"
-			(click)="doingEvent(meeting,'ongoing')">
+			(click)="doingCart(cart,'ongoing')">
 			<mat-icon>check</mat-icon>
 	  </button>
 
 		<button mat-fab type="button" tabindex="2" color="warn"
 			*ngIf="cart.statut=='ongoing'"
-			(click)="doingEvent(meeting,'done')">
+			(click)="doingCart(cart,'done')">
 			<mat-icon>payment</mat-icon>
 	  </button>
 

@@ -116,6 +116,10 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 .ongoing-event {
 	color: white !important;	background-color: green !important;	
 }
+.paid-event {
+	color: white !important;	background-color: #eee !important;		
+}
+
 
 .rdv span:hover{
 	background-color: black !important;

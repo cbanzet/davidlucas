@@ -95,7 +95,7 @@ button {
 .type-list mat-grid-tile {
   text-align: center;
   line-height: 1em;
-  background-color: #333;
+  background-color: #999999;
   color: #eee;
   font-size: 10px;
   text-transform: uppercase;
@@ -110,7 +110,7 @@ button {
 	margin-bottom: 2px;
 }
 .genre-list mat-grid-tile {
-  background-color: #191919;	
+  background-color: #7F7F7F;	
   color: #eee;
   text-transform: uppercase;
 	cursor: pointer;  

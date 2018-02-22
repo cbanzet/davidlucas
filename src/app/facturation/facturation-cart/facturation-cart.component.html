@@ -1,0 +1,152 @@
+<!-- <pre>{{ cart | async | json }}</pre> -->
+
+<!-- <mat-card *ngIf="dev"> -->
+<mat-card *ngIf="cart | async as cart" class="mode-A4">
+	<br><br><br>
+	<mat-card-header>
+		<div mat-card-avatar class="header-image">
+			<img src="http://www.davidlucas.fr/img/David-Lucas-LOGO-2015-black.png">
+		</div>			
+		<mat-card-title>Facture n° 20170104-0002</mat-card-title>
+		<mat-card-subtitle>
+			<strong>Salon David Lucas Paris</strong><br>
+			20 Rue Danielle Casanova, 75002 Paris <br>
+			01 47 03 92 04
+		</mat-card-subtitle>	
+	</mat-card-header>
+
+
+	<mat-card-content>
+		<table>
+			<tr>
+				<td width="300px">
+					<h5>Date</h5>
+
+					<span *ngIf="cart">
+						<strong>{{ cart.date }}</strong> à 
+						<strong>{{ cart.cartstarttime }}</strong>
+					</span>
+
+					<h5>Client(e)</h5>
+
+					<span *ngIf="cart">
+						<strong>{{ cart.clientfullname }}</strong><br>
+						<!-- 						
+						<span *ngIf="selectedClient.street">{{ selectedClient.street }} <br></span>
+						<span *ngIf="selectedClient.zip">{{ selectedClient.zip }} {{ selectedClient.city }} <br></span> 
+						-->
+						<span>{{ cart.clientphone }} <br></span>
+						<span>{{ cart.clientemail }}</span>
+					</span>
+					
+				</td>
+				<td width="435px">
+					<br><br><br><br><br>
+					<table>
+						<tr class="facture-price-header">
+							<td width="255" class="td-a-l">Description</td>
+							<td width="50" class="td-a-c">QTY</td>
+							<td width="60" class="td-a-c">PRICE</td>
+							<td width="70" class="td-a-c">AMOUNT</td>
+						</tr>
+						<tr class="items-info"
+							*ngFor="let presta of cart.prestas ;let i =index
+						">
+							<td>
+								<strong>{{ presta.prestationtitle }}</strong><br>
+								<i>({{ presta.membername }} - {{ presta.timelength }} minutes)</i>
+							</td>
+							<td>
+								<!-- 
+								<span>
+									<span>{{ selectedQty }}</span>
+									<span class="qty-ctrl">
+										<span class="qty-plus" (click)="changeQty(+1)">+</span>
+										<span class="qty-moint" (click)="changeQty(-1)">-</span>
+									</span>
+								</span>	 
+								-->								
+							</td>								
+							<td class="td-a-c">{{ presta.price }} €</td>
+							<td class="td-a-c">{{ presta.price }} €</td>								
+						</tr>
+						<tr>
+							<td></td>
+							<td colspan="2" class="bg-grey ta-l">TOTAL HT</td>
+							<td class="td-a-c">{{ cart.totalHT }} €
+							</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td colspan="2" class="ta-l">TAX 20%</td>
+							<td class="td-a-c">{{ cart.totalTAX }} €
+							</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td colspan="2" class="bg-black ta-l">TOTAL TTC</td>
+							<td class="td-a-c"><strong>{{ cart.totalTTC }} €</strong></td>
+						</tr>														
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<br><br>
+					<h5>Appliquer une réduction</h5>
+					<mat-grid-list class="moy-paie" cols="4" rowHeight="40px">
+					  <mat-grid-tile [ngClass]="promo==0.05 ? 'gridSelected' : 'gridNotSelected'" 
+					  	(click)="applyPromo(0.05)">5%</mat-grid-tile>
+					  <mat-grid-tile [ngClass]="promo==0.1 ? 'gridSelected' : 'gridNotSelected'" 
+					  	(click)="applyPromo(0.1)">10%</mat-grid-tile>
+					  <mat-grid-tile [ngClass]="promo==0.5 ? 'gridSelected' : 'gridNotSelected'"  
+					  	(click)="applyPromo(0.5)">50%</mat-grid-tile>
+					  <mat-grid-tile (click)="promo=null;promoEuros=0;sumTablePrice()">
+					  	<mat-icon>clear</mat-icon>
+					  </mat-grid-tile>
+					</mat-grid-list>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<h5>Choisir le Moyen de Réglement</h5>
+					<mat-grid-list class="moy-paie" cols="4" rowHeight="40px">
+					  <mat-grid-tile [ngClass]="moypay==1 ? 'gridSelected' : 'gridNotSelec'" 
+					  	(click)="applyMoyPaiement(1)">Carte Bancaire</mat-grid-tile>
+					  <mat-grid-tile [ngClass]="moypay==2 ? 'gridSelected' : 'gridNotSelec'" 
+					  	(click)="applyMoyPaiement(2)">Espèces</mat-grid-tile>
+					  <mat-grid-tile [ngClass]="moypay==3 ? 'gridSelected' : 'gridNotSelec'" 
+					  	(click)="applyMoyPaiement(3)">Carte Cadeaux</mat-grid-tile>
+					  <mat-grid-tile [ngClass]="moypay==4 ? 'gridSelected' : 'gridNotSelec'" 
+					  	(click)="applyMoyPaiement(4)">Virement Bancaire</mat-grid-tile>
+					</mat-grid-list>
+				</td>	
+			</tr>
+		</table>	
+			
+
+
+	</mat-card-content>
+  <mat-card-footer>
+		<mat-toolbar>
+			<!-- 		
+			<button mat-fab (click)="goBack()" type="button" color="black">
+				<mat-icon>keyboard_arrow_left</mat-icon>
+			</button> -->				
+			<button mat-raised-button type="button" color="black"
+				(click)="goBack()">
+				RETOUR
+			</button>
+			<span class="example-spacer"></span>
+			<button mat-raised-button type="button" color="black"
+				routerLink="./../../facturationform">
+				RESET
+			</button>
+			<button mat-raised-button type="button" color="warn"
+				(click)="getBill(cart)"
+				[disabled]="!billready">
+				ENCAISSER
+			</button>				
+		</mat-toolbar>
+  </mat-card-footer>  	
+</mat-card>

@@ -8,7 +8,7 @@
 <!-- <pre>{{ types | async | json }}</pre> -->
 
 <!-- <mat-card *ngIf="dev"> -->
-<mat-card *ngIf="prestations | async; let prestations; else loading">
+<mat-card class="br-20" *ngIf="prestations | async; let prestations; else loading">
 	<mat-card-header class="example-full-width">
 		<div mat-card-avatar class="example-header-image">
 			<mat-icon matListIcon>content_cut</mat-icon>

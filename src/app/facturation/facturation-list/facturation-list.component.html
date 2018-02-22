@@ -4,7 +4,8 @@
 	<br><br>
 </ng-template>
 
-<mat-card *ngIf="factures | async; let factures; else loading">
+<mat-card class="br-20" 
+*ngIf="factures | async; let factures; else loading" >
   <mat-card-header>
     <div mat-card-avatar class="example-header-image">
       <mat-icon matListIcon>receipt</mat-icon>
@@ -25,31 +26,28 @@
         <!-- <h4 mat-line [ngClass]="facture.status==2 ? 'facture-done' : 'facture-waiting'"> -->
 				<h4 mat-line>        	
         	<span class="facture-title">
-        		<strong>{{ facture.prestationFullTitle }}</strong> pour 
-        		<strong>{{ facture.clientFullName }}</strong> par 
-        		<strong>{{ facture.coiffeurFullName }}</strong>
+        		<strong>Fac. n°{{ facture.ref }}</strong> du 
+            <strong>{{ facture.date }}</strong> à 
+            <strong>{{ facture.starttime }}</strong> | Client :
+        		<strong>{{ facture.clientfullname }}</strong> 
         	</span><br>
-        	<span *ngIf="facture.timestamp" class="facture-date">{{ facture.timestamp | date}} </span>
-        	<span *ngIf="facture.startdate" class="facture-date"> | Start: <strong>{{ facture.startdate | date: 'MM-dd HH:mm' }}</strong></span>
-        	<span *ngIf="facture.enddate" class="facture-date"> | Complete: <strong>{{ facture.enddate | date: 'MM-dd HH:mm' }}</strong></span>
-        	<span *ngIf="facture.length" class="facture-date"> | Time Spent : <strong>{{ facture.length }}H</strong></span>
-            <!-- <strong>{{ facture.status }}</strong> -->
+        	<span *ngIf="facture.timestamp" class="facture-date">{{ facture.timestamp | date}} | Réglement: <strong>{{ facture.moyendepaiement }}</strong> | Statut : <strong>{{ facture.statut }}</strong></span>
         </h4>
         <!-- facture WAITING -->
 				<button mat-icon-button color="warn"
-					*ngIf="facture.status==0"
-					(click)="changeFactureStatus(facture)">
+					*ngIf="facture.statut==0"
+					(click)="changeFactureStatut(facture)">
 		        <mat-icon>hourglass_empty</mat-icon>
 		    </button>
-        <!-- facture ON GOING -->		    
+        <!-- facture ON GOING -->
 				<button mat-icon-button
-					*ngIf="facture.status==1"
-					(click)="changeFactureStatus(facture)">
+					*ngIf="facture.statut==1"
+					(click)="changeFactureStatut(facture)">
 		        <mat-icon>hourglass_full</mat-icon>
 		    </button>
         <!-- facture DONE -->		    		    
 				<button mat-icon-button
-					*ngIf="facture.status==11">
+					*ngIf="facture.statut==11">
 		        <mat-icon>done</mat-icon>
 		    </button>		     
 				<button mat-icon-button color="warn"

@@ -24,9 +24,9 @@ export class FacturationListComponent implements OnInit {
   	this.factures = this.facturationService.getFacturesList();  	  	
   }
 
-  changeFactureStatus(facture) {
+  changeFactureStatut(facture) {
     // console.log(facture);
-    this.facturationService.changeFactureStatus(facture);	
+    this.facturationService.changeFactureStatut(facture);	
   }
 
   deleteFacture(facture) {

@@ -5,7 +5,7 @@
 </ng-template>
           
                     
-<mat-card *ngIf="forfaits | async; let forfaits; else loading">
+<mat-card class="br-20" *ngIf="forfaits | async; let forfaits; else loading">
   <mat-card-header class="example-full-width">
     <mat-card-title>Forfaits</mat-card-title>
     <mat-card-subtitle>Liste des Forfaits proposés au Salon</mat-card-subtitle>
@@ -23,37 +23,19 @@
       <mat-list-item *ngFor="let forfait of forfaits ">
         <mat-icon matListIcon>local_offer</mat-icon>
           
-        <mat-form-field class="field-title" >
-          <input matInput placeholder="title" type="text"
-            [(ngModel)]="forfait.title"
-            (ngModelChange)=updateField(forfait,titleField,forfait.title)>
-          <!-- <mat-hint align="end">{{forfait.title.length}} / 2</mat-hint> -->
-        </mat-form-field>
-
-        <mat-form-field class="field-price">
-          <input matInput maxlength="3" placeholder="time"  type="number"
-            [(ngModel)]="forfait.time"
-            (ngModelChange)=updateField(forfait,timeField,forfait.time)>
-            <mat-icon matSuffix>access_time</mat-icon>
-        </mat-form-field>
-
-        <mat-form-field class="field-price">
-            <input matInput maxlength="3" placeholder="price" type="number"
-              [(ngModel)]="forfait.price"
-              (ngModelChange)=updateField(forfait,priceField,forfait.price)>
-              <mat-icon matSuffix>euro_symbol</mat-icon>
-            <!-- <mat-hint align="end">{{forfait.price.length}} / 2</mat-hint> -->
-        </mat-form-field>
-
-        <!-- {{forfait | json}} -->
+        <span class="forfait-title"><strong>{{ forfait.title }}</strong></span>
+        <span class="forfait-detail">{{ forfait.time }}<mat-icon>access_time</mat-icon></span>
+        <span class="forfait-detail">{{ forfait.priceTeam }}<mat-icon>euro_symbol</mat-icon></span>
           
         <mat-chip-list *ngIf="forfait.prestations" class="ml-10">
-            <mat-chip *ngFor="let prestation of forfait.prestations ">
-              {{prestation.title}}
-            </mat-chip>
-           
+          <mat-chip color="primary" selected="true" class="chip-fixed-width">
+            {{ forfait.type }}
+          </mat-chip>
+          <mat-chip *ngFor="let prestation of forfait.prestations ">
+            {{ prestation.title }}
+          </mat-chip>
         </mat-chip-list>
-         
+
           <!--
           <button mat-icon-button
             [routerLink]="['./../forfait', forfait.$key]">
