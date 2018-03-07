@@ -199,15 +199,17 @@ export class EventService {
 
         // Change Start Time for next prestation
         this.starttime = this.changeStartTime(dateFormat,this.starttime,cart[i].time);
+
+        // Ajout de la prestation dans le panier déjà créé
+        if (cartkey&&prestationkey) { 
+          this.cartService.createPrestaInCart(cartkey,prestationkey,memberkey,memberfirstname,dataPresta); 
+        }
+
         // Création des events de la prestation
         this.formatEventForMultiEventsCreation(dataNewEvent,dataPresta);
-        // Ajout de la prestation dans le panier déjà créé
-        if (cartkey&&prestationkey) { this.cartService.createPrestaInCart(cartkey,prestationkey,memberkey,memberfirstname,dataPresta); }
       }
     }
     else { console.log('Cart Empty'); }
-    // console.log(dataNewEvent);
-    // console.log(dataPresta);
   }
 
 
@@ -252,23 +254,22 @@ export class EventService {
       default:
         console.log("No event to create"); 
     }
-    // console.log(newEventData);    
   }
 
   loopToAddMultipleEvent(
     presta,newEventData,
     n,date,time) 
   {
+    var tabeventkeys = [];
     for (var i=0; i<=n; i++) {
      var nextstarttime = this.changeStartTimeEvent(date,time,i);
      newEventData['time'] = nextstarttime;
      newEventData['multiEvent'] = `${i+1}/${n+1}`;
      newEventData['prestationkey'] = presta.prestationKey?presta.prestationKey:0;
-     // newEventData['prestationtitle'] = presta.prestationTitle?presta.prestationTitle:0;
-     // newEventData['prestationprice'] = presta.price?presta.price:0;
      this.createSingleEvent(newEventData);
-     console.log("Create Event n°" + i + " at " + nextstarttime);         
+     // console.log("Create Event n°" + i + " at " + nextstarttime);         
     }
+    return tabeventkeys;
   }
 
   changeStartTimeEvent(date,starttime,n) {
@@ -290,6 +291,8 @@ export class EventService {
     var cartkey = newEventData.cartkey;
     var prestationkey = newEventData.prestationkey;
 
+    console.log(prestationkey);
+
     // INSERT EVENT IN EVENTS NODE
     var eventkey = this.eventsRef.push(newEventData).key;
 
@@ -299,25 +302,28 @@ export class EventService {
     const coiffeurInRolePath = `memberRole/3/members/${memberkey}/events/${eventkey}/`;
     // const salonPath = `salons/${salonkey}/events/${eventkey}/`;
     // const eventsInPrestaInCart = `carts/${cartkey}/events/${eventkey}`;
-    const eventsInPrestaInCart = `carts/${cartkey}/prestaevents/${prestationkey}/${eventkey}`;
 
-    // const eventsInPrestaInCart = `carts/${cartkey}/prestations/${prestationkey}/events/`;
+    // Keep Event Key for removing presta from cart and for changing hairdresser's presta
+    const eventsInPrestaInCart = `carts/${cartkey}/prestations/${prestationkey}/events/${eventkey}`;
+    // Keep All Events Key For Deleting Cart Button in Modal See Cart
+    // const allEventsLinkedToCart = `carts/${cartkey}/alleventslinked/${eventkey}`;
+
+    // const membersWithEventsCart = `carts/${cartkey}/membersevents/${memberkey}/${eventkey}`;
 
     var updateData = {};
     updateData[clientPath]= true;
     updateData[coiffeurPath]= true;
     // updateData[salonPath]= true;
-    updateData[eventsInPrestaInCart]= true;
+    updateData[eventsInPrestaInCart]= eventkey;
+    // updateData[membersWithEventsCart]= true;
     // updateData[coiffeurInRolePath]= true;
     // updateData['/lookUpSalonEvents/'+salonkey+'/'+eventkey]= true;
     updateData['/lookUpMemberEvents/'+memberkey+'/'+eventkey]= true;
     updateData['/lookUpClientEvents/'+clientkey+'/'+eventkey]= true;
 
-    console.log(updateData);
     this.db.object("/").update(updateData).then(_=> console.log(updateData));
 
     return eventkey;
-
   }
 
 

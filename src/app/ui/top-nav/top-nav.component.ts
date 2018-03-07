@@ -12,11 +12,10 @@ export class TopNavComponent implements OnInit {
 	today: number = Date.now();
 	showtime;
 
-  constructor(private auth: AuthService, private router: Router) {}
+  constructor(public auth: AuthService, private router: Router) {}
 
 
   ngOnInit() {
-  	// this.showtime = this.datePipe.transform(new Date());
   }
 
   gotoUserProfile() {

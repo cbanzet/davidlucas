@@ -39,12 +39,11 @@ export class CartService {
     this.cart = this.db.object('carts/'+ key).snapshotChanges().map(action => {
       const $key = action.payload.key;
       const prestas = action.payload.val() ? Object.values(action.payload.val().prestations) : null;
-      const eventstodelete = action.payload.val() ? Object.values(action.payload.val().prestaevents) : null;
+      // const alleventslinked = action.payload.val().alleventslinked ? Object.values(action.payload.val().alleventslinked) : null;
       const data = 
       { 
         $key, 
         prestas,
-        eventstodelete,
         ...action.payload.val() 
       };
       return data;
@@ -165,32 +164,32 @@ export class CartService {
 
 
   doCart(cart,newstatut) {
-    console.log(cart);    
     var cartkey = cart.$key;
     var clientkey = cart.clientkey;
 
-    var events = cart.eventstodelete?cart.eventstodelete:null;
     const cartPath = `carts/${cartkey}/statut`;
+    var prestations = cart.prestations?Object.values(cart.prestations):null;
 
     var updateData = {};
     updateData[cartPath] = newstatut;
-    if(events) 
-    {
-      var arrayLength = events.length;
-      for (var i = 0; i < arrayLength; i++) 
-      {
-        var objectArray = Object.keys(events[i]);
-        var objectLength = objectArray.length;
-        for (var j = 0; j < objectLength; j++) 
+
+    if(prestations) {
+      var nbOfPrestas = prestations.length;
+      for (var i = 0; i < nbOfPrestas; i++) {
+        var prestameta = prestations[i];
+        var presta = Object.entries(prestameta); 
+        var events = Object.values(presta[0][1]);
+        var nbOfEvents = events.length;
+        for (var j = 0; j < nbOfEvents; j++) 
         {
-          var eventkey = objectArray[j];
+          var eventkey = events[j];
           var eventPath = `events/${eventkey}/statut/`;
           updateData[eventPath] = newstatut;
         }
       }
     }
 
-    console.log(updateData);
+    // console.log(updateData);
     this.db.object("/").update(updateData).then(_=>
        console.log(updateData)
     );
@@ -208,11 +207,11 @@ export class CartService {
 //////////////////////////////////////////////////////////
 
   deleteCart(cart) {
-    console.log(cart);
+    // console.log(cart);
     var cartkey = cart.$key;
     var clientkey = cart.clientkey;
-    // var memberkey = cart.clientkey; ?????????????????
-    var events = cart.eventstodelete?cart.eventstodelete:null;
+
+    var prestations = cart.prestations?Object.values(cart.prestations):null;
 
     const cartPath = `carts/${cartkey}`;
     const cartlookupPath = `lookUpCartPrestations/${cartkey}`;
@@ -221,28 +220,49 @@ export class CartService {
     deleteData[cartPath] = null;
     deleteData[cartlookupPath] = null;
 
-    if(events) {
-      var arrayLength = events.length;
-      for (var i = 0; i < arrayLength; i++) {
-        var objectArray = Object.keys(events[i]);
-        var objectLength = objectArray.length;
-        for (var j = 0; j < objectLength; j++) {
-          var eventkey = objectArray[j];
-          console.log(eventkey);
+    if(prestations) {
+      var nbOfPrestas = prestations.length;
+      for (var i = 0; i < nbOfPrestas; i++) {
+        var prestameta = prestations[i];
+        var presta = Object.entries(prestameta); 
+        
+        var memberkey = presta[1][1];
+        var prestakey = presta[3][1];
+        
+        var events = Object.values(presta[0][1]);
+        var nbOfEvents = events.length;
+        for (var j = 0; j < nbOfEvents; j++) 
+        {
+          var eventkey = events[j];
+
           var eventPath = `events/${eventkey}`;
-          var eventInCientPath = `clientes/${clientkey}/events/${eventkey}/`;
+          var eventInClientPath = `clientes/${clientkey}/events/${eventkey}/`;
+          var eventInMemberPath = `members/${memberkey}/events/${eventkey}/`;
+          var lookUpClientEvents = `lookUpClientEvents/${clientkey}/${eventkey}/`;
+          var lookUpMemberEvents = `lookUpMemberEvents/${memberkey}/${eventkey}/`;
+
           deleteData[eventPath] = null;
-          deleteData[eventInCientPath] = null;
+          deleteData[eventInClientPath] = null;
+          deleteData[eventInMemberPath] = null;
+          deleteData[lookUpClientEvents] = null;
+          deleteData[lookUpMemberEvents] = null;
         }
       }
     }
 
-    // console.log(deleteData);
+    console.log(deleteData);
     this.db.object("/").update(deleteData).then(_=>
        console.log(deleteData)
     );
-
   }
+
+
+
+  removePrestaFromCart(presta,cart) {
+    console.log(presta);
+    console.log(cart);
+  }
+
 
 
 

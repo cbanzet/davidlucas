@@ -109,22 +109,21 @@ export class ForfaitService {
    };
    newForfaitData['type'] = newForfaitTypes;
 
+   if (numberKey) 
+   {
+    // INITIALISATION DU TABLEAU POUR CHAQUE CAS
+    var forfaitTabData = [ {key: newForfaitForm.value.selectedPrestation1.key,
+                            title: newForfaitForm.value.selectedPrestation1.title,
+                            times: newForfaitForm.value.selectedPrestation1.time,
+                            priceD: newForfaitForm.value.selectedPrestation1.priceDavid,
+                            priceT: newForfaitForm.value.selectedPrestation1.priceTeam},
 
-      if (numberKey) {
-        // INITIALISATION DU TABLEAU POUR CHAQUE CAS
-
-        var forfaitTabData = [ {key: newForfaitForm.value.selectedPrestation1.key,
-                                title: newForfaitForm.value.selectedPrestation1.title,
-                                times: newForfaitForm.value.selectedPrestation1.time,
-                                priceD: newForfaitForm.value.selectedPrestation1.priceDavid,
-                                priceT: newForfaitForm.value.selectedPrestation1.priceTeam},
-
-                                {key: newForfaitForm.value.selectedPrestation2.key,
-                                  title: newForfaitForm.value.selectedPrestation2.title,
-                                  times: newForfaitForm.value.selectedPrestation2.time,
-                                  priceD: newForfaitForm.value.selectedPrestation2.priceDavid,
-                                  priceT: newForfaitForm.value.selectedPrestation2.priceTeam}
-                               ]
+                            {key: newForfaitForm.value.selectedPrestation2.key,
+                              title: newForfaitForm.value.selectedPrestation2.title,
+                              times: newForfaitForm.value.selectedPrestation2.time,
+                              priceD: newForfaitForm.value.selectedPrestation2.priceDavid,
+                              priceT: newForfaitForm.value.selectedPrestation2.priceTeam}
+                           ]
 
         if(numberKey === '3'){
             forfaitTabData.push( {key: newForfaitForm.value.selectedPrestation3.key,
@@ -170,16 +169,19 @@ export class ForfaitService {
         }
        
 
-        for( var i=0; i < numberKey ; i++ ){
+        for( var i=0; i < numberKey ; i++ ) {
             newPrestation[i+1] = {
             key: forfaitTabData[i].key,
             title: forfaitTabData[i].title,
+            time: forfaitTabData[i].times,
+            priceDavid: forfaitTabData[i].priceD,
+            priceTeam: forfaitTabData[i].priceT,
             order:  i+1
           };
           times = times + +forfaitTabData[i].times;
           priceD = priceD + +forfaitTabData[i].priceD;
           priceT = priceT + +forfaitTabData[i].priceT;
-         }
+        }
 
         newForfaitData['prestations'] = newPrestation ;
         newForfaitData['time'] = times;

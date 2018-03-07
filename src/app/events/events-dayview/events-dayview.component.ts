@@ -110,6 +110,7 @@ export class EventsDayviewComponent implements OnInit {
               clientfullname: snap.payload.val().clientfullname,
               statut: snap.payload.val().statut,
               memberfirstname: snap.payload.val().memberfirstname,
+              tempsdepause: snap.payload.val().prestationkey=='-L20Nk3i1W6f-41KvCbw'? '1':'0',
               time: snap.payload.val().time,
               cartkey: snap.payload.val().cartkey?snap.payload.val().cartkey:null,
               multievent: snap.payload.val().multiEvent,
@@ -329,38 +330,31 @@ export class DialogNewEvent implements OnInit {
     var price = isDavid=="David" ? data.priceDavid:data.priceTeam;
     var salonkey = data.salonkey?data.salonkey:0;
     if(key&&title&&time&&price) {
-    	this.insertItemInCart(key,title,time,price,salonkey);
+      this.insertItemInCart(key,title,time,+price,'1');
     }
     else {console.log("Entrée incomplète")}
   }
 
   formatForfaitBeforeInsert(isDavid,data) {
-    
-    // console.log(isDavid);
-    // console.log(data);
-
     var nbprestas = data.prestations.length;
-
+    var key =[];
+    var price =[];
+    var title =[];
+    var time = [];
     console.log(nbprestas);
     for(var i=0;i<nbprestas;i++) {
-      
-      console.log(data.prestations[i].key, data.prestations[i].title);
-      var time = this.prestationService.getPrestaTime(data.prestations[i].key);
-
-      console.log(time);
-    }
-
-    var key = data.$key?data.$key:0;
-    var title = data.title?data.title:0;
-    var time = data.time?data.time:0;
-    var price = isDavid=="David" ? data.priceDavid:data.priceTeam;
-    var salonkey = data.salonkey?data.salonkey:0;
-
-    if(key&&title&&time&&price) {
-      // this.insertItemInCart(key,title,time,price,salonkey);
-    }
-    else {console.log("Entrée incomplète")}
+      key[i] = data.prestations[i].key ? data.prestations[i].key:0;
+      title[i] = data.prestations[i].title ? data.prestations[i].title:0;
+      time[i] = data.prestations[i].time ? data.prestations[i].time:0;
+      price[i] = isDavid=="David" ? data.prestations[i].priceDavid:data.prestations[i].priceTeam;
+      if(key[i] && title[i] && time[i] && price[i]) {
+        this.insertItemInCart(key[i] ,title[i],time[i], +price[i],'null');
+     }
+     else {console.log('Entrée incomplète')}
+   }
+    console.log(this.cartData);
   }
+
 
   removeElement(index: number,px: number) {
     this.sumTablePrice('remove',px);
@@ -459,18 +453,27 @@ export class DialogSeeEvent implements OnInit {
     this.dialogRef.close();
   }
 
-  deleteEvent(event) {
-    this.eventService.deleteEvent(event);
-    this.dialogRef.close();
-  }  
+  // deleteEvent(event) {
+  //   this.eventService.deleteEvent(event);
+  //   this.dialogRef.close();
+  // }  
 
   deleteCart(cart) {
     this.cartService.deleteCart(cart);
     this.dialogRef.close();
-  }    
+  }
+
+  removePrestaFromCart(presta,card) {
+    this.cartService.removePrestaFromCart(presta,card);
+  }  
+
+  changeCoiffeur(element) {
+    console.log(element);
+  }
+
 
   ngOnInit() {
-  	console.log(this.cartkey);
+  	// console.log(this.cartkey);
     // console.log(this.data.event);
   }
 

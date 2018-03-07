@@ -60,15 +60,17 @@
 									'round-top-event':event.firstofmulti=='1',
 									'round-bottom-event':event.lastofmulti=='1'
 								}"
-						 		*ngIf="event.memberfirstname===member.firstname&&event.time===time"
+						 		*ngIf="
+						 			event.memberfirstname===member.firstname
+						 			&&
+						 			event.time===time
+						 			&&
+						 			event.tempsdepause=='0'"
 								(click)="openDialogSeeEvent($event,event)">
-									<!-- {{ event.payload.val().prestationAcronyme }} -->
 									{{ 	
 										(event.clientfullname.length>15) ? 
 										(event.clientfullname | slice:0:15)+'...':(event.clientfullname) 
 									}}									
-									<!-- {{ event.multievent }} -->
-									<!-- {{ event.lastofmulti }} -->
 								</span> 
 						</div>
 				</td>

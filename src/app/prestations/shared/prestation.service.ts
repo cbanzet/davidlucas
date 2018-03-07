@@ -12,6 +12,7 @@ import { Prestation } from './prestation';
 import { Http,Response } from '@angular/http';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/take';
 
 @Injectable()
 export class PrestationService {
@@ -70,9 +71,9 @@ export class PrestationService {
 
 
   getPrestaTime(key:string) {
-    const prestaPath = `${this.prestaPath}/${key}/time`;
-    var time = this.db.object(prestaPath).valueChanges();
-    return time;
+    // const prestaPath = `${this.prestaPath}/${key}/time`;
+    // var time = this.db.object(prestaPath).query();
+    return true;
   }
 
 

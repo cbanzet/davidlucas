@@ -1,7 +1,6 @@
-<!-- <button mat-icon-button [matMenuTriggerFor]="appMenu"> -->
 <button mat-fab class="main-menu-trigger-button"
-  *ngIf="auth.currentUser" color="warn"
-  [matMenuTriggerFor]="appMenu">
+  [matMenuTriggerFor]="appMenu" color="warn"
+  *ngIf="auth.authenticated">
   <mat-icon>menu</mat-icon>
 </button>
 
@@ -65,51 +64,3 @@
   </mat-nav-list>
   
 </mat-menu>
-
-
-
-  <!-- <h1>David Lucas App</h1> -->
-
-  <!-- This fills the remaining space of the current row -->
-  <!-- <span class="example-fill-remaining-space"></span> -->
-
-
-<!--   <mat-form-field class="day-cal">
-    <input matInput [matDatepicker]="picker">
-    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-datepicker #picker></mat-datepicker>
-  </mat-form-field>  -->
-
-  <!-- 
-  <mat-chip-list>  
-    <mat-chip>
-      <mat-icon>access_time</mat-icon>
-      <span> Today</span>
-    </mat-chip>        
-    <mat-chip>
-      <mat-icon>keyboard_arrow_left</mat-icon>
-      <span></span>
-    </mat-chip>
-    <mat-chip>
-      <mat-icon>today</mat-icon>
-      <span> {{today | date}}</span>
-    </mat-chip>
-    <mat-chip>
-      <mat-icon>keyboard_arrow_right</mat-icon>
-    </mat-chip>  
-
-    <mat-chip 
-      (click)="gotoUserProfile()">
-      <mat-icon>person</mat-icon>
-      <span>{{ auth.currentUserDisplayName }}</span>
-    </mat-chip>
-    <mat-chip class="hoverpointer" color="accent" selected="true"
-      (click)="logout()">
-        <mat-icon>power_settings_new</mat-icon>
-        <span> Sign out</span>
-    </mat-chip>
-  </mat-chip-list>
-  -->
- 
-
-<!-- </mat-toolbar> -->

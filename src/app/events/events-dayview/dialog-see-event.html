@@ -39,6 +39,7 @@
 
 	<br><br>
 
+
 	<div class="event-program"
 	fxLayoutWrap
 	fxFlex="100"
@@ -65,7 +66,8 @@
 		</div>
 		<div 
 		fxFlex="10"
-		fxLayoutAlign="start start">&nbsp;<mat-icon>cached</mat-icon></div>		
+		fxLayoutAlign="start start">&nbsp;
+			<mat-icon (click)="changeCoiffeur(element)">cached</mat-icon></div>		
 		<div
 		fxFlex="20"
 		fxLayoutAlign="start end">
@@ -74,7 +76,7 @@
 		<div
 		fxFlex="10"
 		fxLayoutAlign="start end">
-			<mat-icon (click)="removeElement(i)">clear</mat-icon>
+			<mat-icon (click)="removePrestaFromCart(element,cart)">clear</mat-icon>
 		</div>
 
 	</div>		
