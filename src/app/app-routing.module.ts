@@ -21,6 +21,10 @@ import { PrestationListComponent } from './prestations/prestation-list/prestatio
 import { PrestationFormComponent } from './prestations/prestation-form/prestation-form.component';
 import { PrestationDetailComponent } from './prestations/prestation-detail/prestation-detail.component';
 
+import { ProductsListComponent } from './products/products-list/products-list.component';
+import { ProductFormComponent } from './products/product-form/product-form.component';
+import { ProductDetailComponent } from './products/product-detail/product-detail.component';
+
 import { ForfaitListComponent } from './forfaits/forfait-list/forfait-list.component';
 import { ForfaitFormComponent } from './forfaits/forfait-form/forfait-form.component';
 import { ForfaitDetailComponent } from './forfaits/forfait-detail/forfait-detail.component';
@@ -58,6 +62,10 @@ const routes: Routes = [
   { path: 'prestationform', component: PrestationFormComponent },
   { path: 'prestation/:id', component: PrestationDetailComponent },
   ////////////////////////////////////////////////////////////////
+  { path: 'products', component: ProductsListComponent },
+  { path: 'productform', component: ProductFormComponent },
+  { path: 'product/:id', component: ProductDetailComponent },
+  ////////////////////////////////////////////////////////////////  
   { path: 'forfaits', component: ForfaitListComponent },
   { path: 'forfaitform', component: ForfaitFormComponent },
   { path: 'forfait/:id', component: ForfaitDetailComponent },  

@@ -1,0 +1,86 @@
+<mat-card class="br-20">
+	<mat-card-header>
+		<div mat-card-avatar class="example-header-image">
+			<mat-icon matListIcon>content_cut</mat-icon>
+		</div>			
+		<mat-card-title>Ajouter un Produit</mat-card-title>
+		<mat-card-subtitle>Ajouter un produit dans la boutique</mat-card-subtitle>
+		<button mat-fab type="button" color="black"><mat-icon>playlist_add</mat-icon></button>						
+	</mat-card-header>
+
+
+	<mat-card-content>
+
+		<form #pdctForm="ngForm" (ngSubmit)="onSubmit(pdctForm)">
+
+			<mat-form-field class="full-width">
+			  <mat-select placeholder="Select Product Brand" required
+			  	ngModel #pdctBrand="ngModel" name="pdctBrand">
+			    <mat-option *ngFor="let brand of brands" 
+			    	[value]="brand">
+			    	{{ brand }}
+			    </mat-option>
+			  </mat-select>						  
+			</mat-form-field>
+
+			<mat-form-field class="full-width">
+				<input matInput placeholder="Code EAN" 
+					required
+					ngModel #pdctEAN="ngModel"
+					name="pdctEAN">
+			</mat-form-field>
+
+			<mat-form-field class="full-width">
+				<input matInput placeholder="Référence" 
+					required
+					ngModel #pdctRef="ngModel"
+					name="pdctRef">
+			</mat-form-field>
+
+			<mat-form-field class="full-width">
+				<input matInput placeholder="Titre" 
+					required
+					ngModel #pdctTitle="ngModel"
+					name="pdctTitle">
+			</mat-form-field>
+
+			<mat-form-field class="third-full-width">
+				<input matInput placeholder="Prix Unitaire"
+					required 
+					ngModel #pdctPrice="ngModel"
+					name="pdctPrice">
+				<mat-icon matSuffix>euro_symbol</mat-icon>							
+			</mat-form-field>
+
+			<mat-form-field class="third-full-width">
+				<input matInput placeholder="Prix Remisé"
+					required 
+					ngModel #pdctPxRemise="ngModel"
+					name="pdctPxRemise">
+				<mat-icon matSuffix>euro_symbol</mat-icon>							
+			</mat-form-field>			
+
+			<mat-form-field class="third-full-width">
+				<input matInput placeholder="Contenant en ML"
+					required 
+					ngModel #pdctCont="ngModel"
+					name="pdctCont">
+			</mat-form-field>
+
+			<mat-card-actions>
+			
+				<button mat-fab (click)="goBack()" type="button" color="black">
+					<mat-icon>keyboard_arrow_left</mat-icon>
+				</button>
+				<button mat-fab type="submit" color="warn"
+					[disabled]="!pdctForm.form.valid">
+					<mat-icon>save</mat-icon>
+				</button>	
+
+			</mat-card-actions>
+
+		</form>
+
+	</mat-card-content>
+
+</mat-card>

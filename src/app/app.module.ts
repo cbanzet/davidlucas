@@ -25,6 +25,7 @@ import { environment } from '../environments/environment';
 import { ClientModule } from './clients/shared/client.module';
 import { MemberModule } from './members/shared/member.module';
 import { PrestationModule } from './prestations/shared/prestation.module';
+import { ProductsModule } from './products/shared/products.module';
 import { ForfaitModule } from './forfaits/shared/forfait.module';
 import { EventModule } from './events/shared/event.module';
 import { CartModule } from './cart/shared/cart.module';
@@ -45,6 +46,7 @@ import { FacturationModule } from './facturation/shared/facturation.module';
     ClientModule,
     MemberModule,
     PrestationModule,
+    ProductsModule,
     ForfaitModule,
     EventModule,
     CartModule,
@@ -53,7 +55,7 @@ import { FacturationModule } from './facturation/shared/facturation.module';
   ],
   declarations: [
     PageNotFoundComponent,
-    AppComponent,
+    AppComponent
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -48,7 +48,7 @@
 				'margin-top': '5px',
 				'padding-top': '5px',
 				'border-top': '1px dotted #eee'
-			}"	
+			}"
 	*ngFor="let element of cart.prestas ;let i = index ">
 
 		<div
@@ -64,20 +64,41 @@
 		fxLayoutAlign="end start">
 			<span class="member-name">{{ element.membername }}</span>
 		</div>
+
 		<div 
 		fxFlex="10"
 		fxLayoutAlign="start start">&nbsp;
-			<mat-icon (click)="changeCoiffeur(element)">cached</mat-icon></div>		
+		<!-- <mat-icon (click)="changeCoiffeur(element)">cached</mat-icon> -->
+		<mat-select 	
+		  [(ngModel)]="member"
+		  (ngModelChange)="changeCoiffeur(element,member,cart)">
+				<mat-option *ngFor="let member of members | async" [value]="member">
+				  {{ member.firstname }}
+				</mat-option>
+			  </mat-select>
+		</div>
+
 		<div
 		fxFlex="20"
 		fxLayoutAlign="start end">
 			<strong>{{ element.timelength }} </strong>&nbsp; min
 		</div>
+		
+		<div
+		fxFlex="10"
+		fxLayoutAlign="start end">
+			<mat-icon (click)="onNoClick();removePrestaFromCart(element,cart)">clear</mat-icon>
+		</div>
+
+
+		<!-- 		
 		<div
 		fxFlex="10"
 		fxLayoutAlign="start end">
 			<mat-icon (click)="removePrestaFromCart(element,cart)">clear</mat-icon>
-		</div>
+		</div> 
+		-->
+
 
 	</div>		
 

@@ -92,3 +92,13 @@ cdk-overlay-pane {
   border-radius: 20px !important;
 }
 
+.mat-menu-panel {
+  -webkit-border-radius: 20px !important;
+  -moz-border-radius: 20px !important;
+  border-radius: 20px !important;
+  background: #ffffff; /* Old browsers */
+  background: -moz-linear-gradient(45deg, #ffffff 0%, #e8e8e8 100%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(45deg, #ffffff 0%,#e8e8e8 100%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(45deg, #ffffff 0%,#e8e8e8 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#e8e8e8',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+}

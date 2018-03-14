@@ -163,6 +163,38 @@ export class CartService {
 //////////////////////////////////////////////////////////
 
 
+ changeCoiffeurIncart(prestation, member, cart) {
+    var cartkey = cart.$key;
+    var prestakey = prestation.prestationkey? prestation.prestationkey:null;
+    var memberkey = member.$key?member.$key:null;
+    var memberFirstName = member.firstname?member.firstname:null;
+    var eventkeys = prestation.events?Object.values(prestation.events):null;
+    
+    const cartMemberPath = `carts/${cartkey}/prestations/${prestakey}/membername`;
+    const cartMemberKeyPath = `carts/${cartkey}/prestations/${prestakey}/memberkey`;
+   
+    var updateData = {};
+    if (eventkeys) {
+      for (let i = 0 ; i < eventkeys.length ; i++ ) {
+        const eventPath =  `events/${eventkeys[i]}/memberfirstname`;        
+        updateData[eventPath] = member.firstname;
+      }
+      updateData[cartMemberKeyPath] = memberkey;
+      updateData[cartMemberPath] =  memberFirstName;
+
+
+    }
+
+    this.db.object("/").update(updateData).then(_=>
+      console.log(updateData)
+   );
+
+  }
+
+
+
+
+
   doCart(cart,newstatut) {
     var cartkey = cart.$key;
     var clientkey = cart.clientkey;
@@ -258,15 +290,41 @@ export class CartService {
 
 
 
-  removePrestaFromCart(presta,cart) {
-    console.log(presta);
-    console.log(cart);
+removePrestaFromCart(presta,cart) {
+
+    var deleteData = {};
+
+    var cartkey = cart.$key?cart.$key:null;
+    var eventkeys = presta.events?Object.values(presta.events):null;
+    var prestakey = presta.prestationkey? presta.prestationkey:null;
+    var clientkey = cart.clientkey?cart.clientkey:null;
+    var memberkey = presta.memberkey?presta.memberkey:null;
+
+    const prestaPath = `carts/${cartkey}/prestations/${prestakey}`;
+    console.log(prestakey);
+    console.log(eventkeys);
+    for ( let i = 0; i < eventkeys.length ; i++) {
+        var eventkey = eventkeys[i] ;
+        const eventPath = `events/${eventkey}`;
+        const clientPath = `clientes/${clientkey}/events/${eventkey}`;
+        const membersPath = `members/${memberkey}/events/${eventkey}`;
+        const memberRole = `members/3/events/${eventkey}`;
+        const lookUpClientEvents = `lookUpClientEvents/${clientkey}/${eventkey}/`;
+        const lookUpMemberEvents = `lookUpMemberEvents/${memberkey}/${eventkey}/`;
+
+        deleteData[eventPath] = null;
+        deleteData[clientPath] = null;
+        deleteData[membersPath] = null;
+        deleteData[lookUpClientEvents] = null;
+        deleteData[lookUpMemberEvents] = null;
+        deleteData[memberRole] = null;
+    }
+    deleteData[prestaPath] = null;
+
+    console.log(deleteData);
+    this.db.object("/").update(deleteData).then(_=>
+       console.log(deleteData)
+    );
+
   }
-
-
-
-
-
-
-
 }

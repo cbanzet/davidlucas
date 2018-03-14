@@ -1,0 +1,71 @@
+<ng-template #loading>				
+	<br><br>
+	<mat-spinner color="warn"></mat-spinner>
+	<br><br>
+</ng-template>
+
+<!-- <pre>{{ products | async | json }}</pre> -->
+<!-- <pre>{{ types | async | json }}</pre> -->
+
+<!-- <mat-card *ngIf="dev"> -->
+<mat-card class="br-20" *ngIf="products | async; let products; else loading">
+	<mat-card-header class="example-full-width">
+		<div mat-card-avatar class="example-header-image">
+			<mat-icon matListIcon>content_cut</mat-icon>
+		</div>
+		<mat-card-title>Products</mat-card-title>
+		<mat-card-subtitle>Liste des produits proposés au Salon</mat-card-subtitle>
+	  <span class="example-fill-remaining-space"></span>
+		<button mat-fab routerLink="./../productform" type="button" color="black"><mat-icon>add</mat-icon></button>						
+	</mat-card-header>
+
+	<mat-card-content>
+
+		<br>
+
+		<mat-chip-list>
+		  <mat-chip 
+		  	*ngFor="let type of types | async"
+		  	(click)="typeSelected(type)">
+		  	{{ type.title }}
+		  </mat-chip>
+		</mat-chip-list>
+
+		<br>
+
+		<div *ngIf="showTypeSelect" >
+			<div *ngIf="typeselected != ''">
+					<mat-card-title >
+						<strong>{{ typeselected }}</strong>
+					</mat-card-title>
+			</div>
+			<mat-list dense>
+				<mat-list-item *ngFor="let product of products | filter : filtre">
+					<mat-icon matListIcon>local_offer</mat-icon>
+					<div class="d-b">
+						<span class="brand">{{ product.brand }}</span>
+						<span class="pdct-info">{{ product.codeEAN }}</span>
+						<span class="pdct-info">{{ product.ref }}</span>
+						<span class="pdct-info">{{ product.title }}</span>
+						<span class="pdct-info"><strong>{{ product.price }}</strong> €</span>
+						<span class="pdct-info"><strong>{{ product.pxremise }}</strong> €</span>
+						<span class="pdct-info">{{ product.cont }} ML</span>
+					</div>
+					<div class="pull-right">											 
+						<!-- 
+						<button mat-icon-button
+							[routerLink]="['./../product', product.$key]">
+					     <mat-icon>info</mat-icon>
+					  </button> 
+						--> 
+					  <button mat-icon-button color="warn" 
+								(click)="deleteProduct(product)">
+				        <mat-icon>remove_circle</mat-icon>
+				    </button>
+				  </div>
+
+				</mat-list-item>
+			</mat-list>
+		</div>
+	</mat-card-content>
+</mat-card>

@@ -5,8 +5,6 @@ import { Type } from './../shared/type';
 
 import { PrestationService } from './../shared/prestation.service';
 
-
-
 @Component({
   selector: 'app-prestation-list',
   templateUrl: './prestation-list.component.html',

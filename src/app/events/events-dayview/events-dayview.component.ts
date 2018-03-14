@@ -15,6 +15,7 @@ import 'rxjs/add/operator/map';
 import "rxjs/add/operator/switchMap";
 
 import { EventService } from './../../events/shared/event.service';
+import { MemberService } from './../../members/shared/member.service';
 import { ForfaitService } from './../../forfaits/shared/forfait.service';
 import { CartService } from './../../cart/shared/cart.service';
 import { Cart } from './../shared/cart';
@@ -419,6 +420,7 @@ export class DialogSeeEvent implements OnInit {
   meeting: Observable<any[]>;
   cart:Observable<any[]>;
   suitemeeting: any;
+  members: Observable<any[]>;
   paymentbutton:boolean=true;
   key: any; cartkey:any;
   showDatePicker:boolean=false;
@@ -427,6 +429,7 @@ export class DialogSeeEvent implements OnInit {
   constructor(
     private cartService: CartService,
     private eventService: EventService,
+    private memberService: MemberService,
     private router: Router,    
     private db: AngularFireDatabase,
     public dialogRef: MatDialogRef<DialogNewEvent>,
@@ -436,6 +439,7 @@ export class DialogSeeEvent implements OnInit {
     this.cartkey = data.event.cartkey;
     this.meeting = this.eventService.getEventWithKey(this.key);
     this.cart = this.cartService.getCartWithKey(this.cartkey);
+    this.members = this.memberService.getMembersList();
     // this.suitemeeting = this.eventService.getEventsSerie(this.key,data.date,data.time);
   }
 
@@ -460,15 +464,18 @@ export class DialogSeeEvent implements OnInit {
 
   deleteCart(cart) {
     this.cartService.deleteCart(cart);
-    this.dialogRef.close();
-  }
-
-  removePrestaFromCart(presta,card) {
-    this.cartService.removePrestaFromCart(presta,card);
+    this.dialogRef.close();    
   }  
 
-  changeCoiffeur(element) {
-    console.log(element);
+  removePrestaFromCart(presta,card) {
+    if(card.prestas.length === 1) {
+      this.deleteCart(card);
+    }
+    this.cartService.removePrestaFromCart(presta,card);
+  }
+
+  changeCoiffeur(element,member,cart) {
+    this.cartService.changeCoiffeurIncart(element,member,cart);
   }
 
 
