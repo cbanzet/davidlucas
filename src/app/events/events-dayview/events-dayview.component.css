@@ -66,6 +66,7 @@ font-size: 0.8em;
 	cursor: pointer;	
 }
 
+
 .cal-cell-hour {
 	text-align: center;
 	font-size: 0.7em;
@@ -127,6 +128,10 @@ font-size: 0.8em;
 .ongoing-event {
 	color: white !important;	background-color: green !important;	
 }
+.fillcart-event {
+	color: white !important;	background-color: black !important;		
+}
+
 .paid-event {
 	color: white !important;	background-color: #eee !important;		
 }

@@ -2,9 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Router, ActivatedRoute, Params, ParamMap } from '@angular/router';
 import 'rxjs/add/operator/switchMap';
+
 import { ForfaitService } from './../../forfaits/shared/forfait.service';
 import { PrestationService } from './../../prestations/shared/prestation.service';
 import { CartService  } from './../../cart/shared/cart.service';
+import { ProductsService } from './../../products/shared/products.service';
+
 import { NgForm } from '@angular/forms';
 import { Cart } from './../../cart/shared/cart';
 
@@ -18,6 +21,7 @@ export class CartDetailComponent implements OnInit {
   cart: Observable<any>;
 
 	prestations: any;
+  products: any;
   forfaits: any;
   data: Array<Cart> = [];
   tab = ['un', 'deux'];
@@ -35,9 +39,14 @@ export class CartDetailComponent implements OnInit {
   showAddForfaitSectionButton:boolean=true;
   showRemoveForfaitSectionButton:boolean=false;
 
+  showAddProductSection:boolean=false;
+  showAddProductSectionButton:boolean=true;
+  showRemoveProductSectionButton:boolean=false;
+
   constructor(
     private prestationService: PrestationService,
     private forfaitService: ForfaitService ,
+    private productsService: ProductsService,
     private cartService: CartService,
   	private route: ActivatedRoute,
     private router: Router,    
@@ -45,6 +54,7 @@ export class CartDetailComponent implements OnInit {
   {
   	this.prestations = this.prestationService.getPrestationsList();
     this.forfaits = this.forfaitService.getForfaitsList();
+    this.products = this.productsService.getProductsList();
   }
 
   ngOnInit() {
@@ -55,6 +65,10 @@ export class CartDetailComponent implements OnInit {
 
   goToBill(cart) {
     this.router.navigate(['/facturationcart/'+cart.$key])  	
+  }
+
+  insertInOldCart(element, cart, data) {
+    this.cartService.updateInCart(cart, data, element);
   }
 
 }

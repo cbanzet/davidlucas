@@ -195,6 +195,88 @@ export class CartService {
 
 
 
+  updateInCart(cart,data,element) {
+    var cartKey = cart.$key;
+    var prestaKey = data.$key;
+    var prestaTitle = data.title;
+    var prestaPrice = data.priceDavid?data.priceDavid:data.priceDavid;
+    var starttime = '';
+    var timelength = data.time;
+    var memberKey =cart.prestas[0].memberkey;
+    var membername = cart.prestas[0].membername;
+
+    var prestaInCartPath =  `carts/${cartKey}/prestations/${prestaKey}`;
+
+    var totalHtInCart = cart.totalHT;
+    var totalTaxInCart = cart.totalTAX;
+    var totalTtcInCart = cart.totalTTC;
+
+    var newTotalHT = Math.round((totalHtInCart+prestaPrice)*100)/100;
+    var newTotalTax = Math.round((newTotalHT*0.2)*100)/100;
+    var newTotalTtc =  newTotalTax + newTotalHT;
+
+    const prestaPath = `carts/${cartKey}/prestations/${prestaKey}`;
+    const totalHTPath = `carts/${cartKey}/totalHT`;
+    const totalTAXPath = `carts/${cartKey}/totalTAX`;
+    const totalTTCPath = `carts/${cartKey}/totalTTC`;
+   
+    var newPrestaData = {};
+    var updateData = {};
+    newPrestaData['prestationkey'] =  prestaKey;
+    newPrestaData['prestationtitle'] = prestaTitle;
+    newPrestaData['price'] = prestaPrice;
+    newPrestaData['starttime'] = starttime;
+    newPrestaData['timelength'] = timelength;
+    newPrestaData['memberkey'] = memberKey;
+    newPrestaData['membername'] = membername;
+
+    updateData[prestaInCartPath]= newPrestaData;
+    updateData[totalHTPath] = newTotalHT;
+    updateData[totalTAXPath] = newTotalTax;
+    updateData[totalTTCPath] = newTotalTtc;
+    if(element === 'prestation') {
+      this.db.object('/').update(updateData).then(_=>
+        console.log(updateData)
+     );
+    } 
+    else {
+      // Intégration Forfait
+      if(data.prestations.length){
+        var total = 0;
+        var updateDatas = {};
+        for (let i = 0 ; i < data.prestations.length ; i++ ) {
+          var dataPresta = {};
+          var price = +data.prestations[i].priceDavid ? +data.prestations[i].priceDavid: +data.prestations[i].priceTeam;
+          var prestationkey = data.prestations[i].key?data.prestations[i].key:null;
+               dataPresta['prestationKey'] = prestationkey;
+               dataPresta['prestationTitle'] = data.prestations[i].title?data.prestations[i].title:null;
+               dataPresta['price'] =  price;
+               dataPresta['starttime'] = starttime;
+               dataPresta['timelength'] = data.prestations[i].time?data.prestations[i].time:null;
+               dataPresta['memberkey'] = memberKey;
+               dataPresta['membername'] = membername;
+
+               this.createPrestaInCart(cartKey,prestationkey,memberKey,membername,dataPresta);
+                total = total + price;
+        }
+        var newTotalGroupHT =  Math.round((totalHtInCart+total)*100)/100;
+        var newTotalTax = Math.round((newTotalGroupHT*0.2)*100)/100;
+        var newTotalTtc =  newTotalTax + newTotalGroupHT;
+              updateDatas[totalHTPath] = newTotalGroupHT;
+              updateDatas[totalTAXPath] = newTotalTax;
+              updateDatas[totalTTCPath] = newTotalTtc;
+        this.db.object('/').update(updateDatas).then(_=>
+          console.log(updateDatas)
+        );
+      }
+    }
+  }
+
+
+
+
+
+
   doCart(cart,newstatut) {
     var cartkey = cart.$key;
     var clientkey = cart.clientkey;
@@ -290,7 +372,7 @@ export class CartService {
 
 
 
-removePrestaFromCart(presta,cart) {
+  removePrestaFromCart(presta,cart) {
 
     var deleteData = {};
 
@@ -299,10 +381,28 @@ removePrestaFromCart(presta,cart) {
     var prestakey = presta.prestationkey? presta.prestationkey:null;
     var clientkey = cart.clientkey?cart.clientkey:null;
     var memberkey = presta.memberkey?presta.memberkey:null;
+    var prestaPrice = presta.price;
+    var totalHtInCart = cart.totalHT;
+    var totalTaxInCart = cart.totalTAX;
+    var totalTtcInCart = cart.totalTTC;
+
+    var newTotalHT = Math.round((totalHtInCart-prestaPrice)*100)/100;
+    var newTotalTax = Math.round((newTotalHT*0.2)*100)/100;
+    var newTotalTtc =  newTotalTax + newTotalHT;
 
     const prestaPath = `carts/${cartkey}/prestations/${prestakey}`;
-    console.log(prestakey);
-    console.log(eventkeys);
+    const totalHTPath = `carts/${cartkey}/totalHT`;
+    const totalTAXPath = `carts/${cartkey}/totalTAX`;
+    const totalTTCPath = `carts/${cartkey}/totalTTC`;
+    
+    // console.log("price: ",presta.price);
+    // console.log("old totalHT", cart.totalHT);
+    // console.log("old totalTax",cart.totalTAX);
+    // console.log("old totalTTC", cart.totalTTC);
+    // console.log("new totalHT: ", newTotalHT);
+    // console.log("new totalTax",newTotalTax);
+    // console.log("new totalTTC", newTotalTtc);
+    
     for ( let i = 0; i < eventkeys.length ; i++) {
         var eventkey = eventkeys[i] ;
         const eventPath = `events/${eventkey}`;
@@ -320,6 +420,14 @@ removePrestaFromCart(presta,cart) {
         deleteData[memberRole] = null;
     }
     deleteData[prestaPath] = null;
+    if(cart.prestas.length !== 1) {
+         deleteData[totalHTPath] = newTotalHT;
+        deleteData[totalTAXPath] = newTotalTax;
+        deleteData[totalTTCPath] = newTotalTtc;
+    }
+   
+
+    
 
     console.log(deleteData);
     this.db.object("/").update(deleteData).then(_=>
@@ -327,4 +435,9 @@ removePrestaFromCart(presta,cart) {
     );
 
   }
+
+
+
+
+
 }

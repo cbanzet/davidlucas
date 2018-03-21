@@ -14,8 +14,12 @@ import { ProductsService } from './../shared/products.service';
 })
 export class ProductFormComponent implements OnInit {
 
+	addprdct:boolean=true;
+	addprdcts:boolean=false;
+
   brands = [
   	"David Lucas",
+  	"Deuxs1",
     "Kerastase",
     "Leonor Greyl",
     "Shu Uemura"
@@ -30,6 +34,10 @@ export class ProductFormComponent implements OnInit {
 
   onSubmit(pdctForm: NgForm) {
   	this.productsService.createProduct(pdctForm);
+  } 
+
+  onSubmits(pdctsForm: NgForm) {
+  	this.productsService.createProducts(pdctsForm);
   } 
 
   goBack(): void {

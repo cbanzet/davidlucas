@@ -1,0 +1,27 @@
+
+
+BUGS
+
+- Ajout de Prestation dans un Cadi : 
+	Prévoir une variable quantité dans le sous-noeud des cadi>prestations
+	Correction Bug Plusieurs fois la même prestation dans un cadi
+- Vérifier la récupération du prix david ou equipe selon le coiffeur
+
+DEV
+
+Corentin:
+- Produits : Ajout des produits dans le cadi et calcul du montant total
+- Inversion TTC / HT 
+- Module Facturation : Encaissement avec attribution de chaque prestation au coiffeur
+- Module Report : Affichage du chiffre d'affaire par jour/mois par coiffeur ou tous coiffeur
+- Module Liste Cadis
+
+Fabrice:
+1- Suppression de prestation
+2- Ajout du type de prestation dans l'affichage du catalogue des prestations
+3- Ajout du type de forfait dans l'affichage du catalogue des forfaits
+4- Ajout de "Brand" pour filtrer les produit dans l'affichage du catalogue de produits
+5- Modification du coiffeur dans chaque prestation du cadi
+
+C&F
+- Suppression de produit

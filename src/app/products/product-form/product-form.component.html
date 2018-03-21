@@ -1,11 +1,12 @@
-<mat-card class="br-20">
+<mat-card class="br-20" *ngIf="addprdct">
 	<mat-card-header>
 		<div mat-card-avatar class="example-header-image">
 			<mat-icon matListIcon>content_cut</mat-icon>
 		</div>			
 		<mat-card-title>Ajouter un Produit</mat-card-title>
 		<mat-card-subtitle>Ajouter un produit dans la boutique</mat-card-subtitle>
-		<button mat-fab type="button" color="black"><mat-icon>playlist_add</mat-icon></button>						
+		<button mat-fab type="button" color="black"
+			(click)="addprdcts=true;addprdct=false"><mat-icon>playlist_add</mat-icon></button>						
 	</mat-card-header>
 
 
@@ -84,3 +85,61 @@
 	</mat-card-content>
 
 </mat-card>
+
+
+<mat-card class="br-20" *ngIf="addprdcts">
+	<mat-card-header>
+		<div mat-card-avatar class="example-header-image">
+			<mat-icon matListIcon>content_cut</mat-icon>
+		</div>			
+		<mat-card-title>Ajouter des Produits</mat-card-title>
+		<mat-card-subtitle>Coper Coller une liste de produit à intégrer dans la boutique</mat-card-subtitle>
+		<button mat-fab type="button" color="black"
+			(click)="addprdcts=false;addprdct=true">
+				<mat-icon>add</mat-icon>
+		</button>						
+	</mat-card-header>
+
+
+	<mat-card-content>
+
+		<form #pdctsForm="ngForm" (ngSubmit)="onSubmits(pdctsForm)">
+
+			<mat-form-field class="full-width">
+			  <mat-select placeholder="Select Product Brand" required
+			  	ngModel #pdctBrand="ngModel" name="pdctBrand">
+			    <mat-option *ngFor="let brand of brands" 
+			    	[value]="brand">
+			    	{{ brand }}
+			    </mat-option>
+			  </mat-select>						  
+			</mat-form-field>
+
+			<mat-form-field class="full-width">
+				<textarea matInput
+					rows="10" 
+					placeholder="Copy-paste the list of product : CodeEAN	Référence	Titre	ContenantML		PrixUnitaireHT	PrixTTC : Un Produit par ligne"
+					name="newProducts"
+					ngModel #newProducts="ngModel"></textarea>
+			</mat-form-field>
+
+			<mat-card-actions>
+			
+				<button mat-fab (click)="goBack()" type="button" color="black">
+					<mat-icon>keyboard_arrow_left</mat-icon>
+				</button>
+				<button mat-fab type="submit" color="warn"
+					[disabled]="!pdctsForm.form.valid">
+					<mat-icon>save</mat-icon>
+				</button>	
+
+			</mat-card-actions>
+
+		</form>
+
+	</mat-card-content>
+
+</mat-card>
+
+
+

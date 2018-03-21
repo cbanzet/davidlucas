@@ -13,8 +13,9 @@
 	fxFlexFill
 	fxLayoutWrap
   	>
+		
 		<div 
-		fxFlex="70"
+		fxFlex="70%"
 		fxFlexAlign="start start">
 			<h1 *ngIf="data.selectedCoiffeur" mat-dialog-title>
 				Rendez-vous de <strong>{{data.selectedCoiffeur.firstname}} </strong>
@@ -22,16 +23,14 @@
 			</h1>				
 		</div>
 		<div class="datatime"
-		fxFlex="30"
+		fxFlex="30%"
 		fxFlexAlign="center center">
 			<span>le {{ data.date | date:'d MMM' }}. à {{data.time}}</span>
 		</div>
-
-
+		
 		<div class="pt-20"
-		fxFlex="100"
+		fxFlex="100%"
 		fxLayoutAlign="center start">
-
 			<mat-form-field class="full-width"
 			*ngIf="!selectedClient">
 			  <input 
@@ -50,20 +49,7 @@
 			  	(click)="onNoClick()"
 			  	routerLink="./../clientform">add</mat-icon>
 			</mat-form-field>
-
 		</div>
-
-<!-- 		<div 
-		fxFlex="30"
-		fxLayoutAlign="center end">
-
-			<button mat-mini-fab *ngIf="!selectedClient" 
-				routerLink="./../clientform" (click)="onNoClick()" color="black">
-					<mat-icon>add</mat-icon>
-			</button>
-
-		</div>
- -->
 	
 	  <div
 	  	*ngIf="selectedClient"
@@ -74,9 +60,9 @@
 			fxLayoutAlign="start start"
 	  	>
 
-			<div fxFlex="100"><h4>Ajouter un élément au rendez-vous</h4></div>
+			<div fxFlex="100%"><h4>Ajouter un élément au rendez-vous</h4></div>
 
-			<div fxFlex="100">
+			<div fxFlex="100%">
 
 				<mat-grid-list class="genre-list" cols="2" rowHeight="30px">
 					<mat-grid-tile (click)="showPrestaSelect=false;showForfaitsSelect=true;showTypeSelect=false;showTypeSelectForfait=true">
@@ -102,7 +88,7 @@
 
 			</div>
 
-			<div fxFlex="100" *ngIf="showTypeSelect">
+			<div fxFlex="100%" *ngIf="showTypeSelect">
 				<ng-template #loading><br><br><mat-spinner color="warn"></mat-spinner><br><br></ng-template>
 					<div>
 						<mat-chip-list *ngIf="prestations | async ; let prestations; else loading">
@@ -116,7 +102,7 @@
 			</div>
 
 
-			<div fxFlex="100" *ngIf="showTypeSelectForfait" >
+			<div fxFlex="100%" *ngIf="showTypeSelectForfait" >
 				<ng-template #loading><br><br><mat-spinner color="warn"></mat-spinner><br><br></ng-template>				
 				<mat-chip-list *ngIf="forfaits | async ; let forfaits; else loading">
 					<mat-chip
@@ -128,34 +114,34 @@
 			</div>
 
 
-			<div fxFlex="100"><h4>Déroulé du rendez-vous</h4></div>
+			<div fxFlex="100%"><h4>Déroulé du rendez-vous</h4></div>
 
 			<div class="event-program"
 			fxLayoutWrap
-			fxFlex="100"
+			fxFlex="100%"
 			*ngFor="let element of cartData ;let i = index ">
 				<div
-				fxFlex="80"
+				fxFlex="80%"
 				fxLayoutAlign="start center">
 					<span class="buble-16 mr-10">{{ (i+1) }}</span>
 					{{ element.title }}
 				</div>
 				<div
-				fxFlex="10"
+				fxFlex="10%"
 				fxLayoutAlign="start end">
 					<strong>{{ element.time }} min</strong>
 				</div>
 				<div
-				fxFlex="10"
+				fxFlex="10%"
 				fxLayoutAlign="start end">
 					<mat-icon class="cur-point"
 					(click)="removeElement(i,element.price)">clear</mat-icon>
 				</div>
 			</div>
 
-			<div *ngIf="totalHT!=0" fxFlex="33" class="tt-pr br-bt">TOTAL HT : {{ totalHT }} €</div>
-			<div *ngIf="totalHT!=0" fxFlex="33" class="tt-pr br-bt">TAX 20% : {{ totalTAX }} €</div>
-			<div *ngIf="totalHT!=0" fxFlex="33" class="tt-pr br-bt">TOTAL TTC : {{ totalTTC }} €</div>
+			<div *ngIf="totalHT!=0" fxFlex="33%" class="tt-pr br-bt">TOTAL HT : {{ totalHT }} €</div>
+			<div *ngIf="totalHT!=0" fxFlex="33%" class="tt-pr br-bt">TAX 20% : {{ totalTAX }} €</div>
+			<div *ngIf="totalHT!=0" fxFlex="33%" class="tt-pr br-bt">TOTAL TTC : {{ totalTTC }} €</div>
 
 		</div>
 

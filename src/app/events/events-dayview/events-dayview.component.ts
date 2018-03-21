@@ -96,6 +96,7 @@ export class EventsDayviewComponent implements OnInit {
   constructor(
     private eventService: EventService,
     public dialog: MatDialog,
+    private router: Router,    
     private db: AngularFireDatabase) 
   {
     this.members = this.eventService.getMembersListForDayViewCalendar();
@@ -159,21 +160,27 @@ export class EventsDayviewComponent implements OnInit {
   }  
 
   openDialogSeeEvent(event, data): void {
-    // console.log(event);
-    // console.log(data);
+    var statut = data.statut;
+    var cartkey = data.cartkey;
 
-    event.stopPropagation();
-    let dialogSeeEventRef = this.dialog.open(DialogSeeEvent, {
-      width: '600px',
-      data: { 
-        key: data.key,
-        event: data,
-        cartkey: data.cartkey
-      }
-    });
-    dialogSeeEventRef.afterClosed().subscribe(result => {
-      console.log('The event dialog was closed');
-    });
+    if(statut=='filled') {
+      this.router.navigate(['/cart/'+cartkey]);
+    }
+
+    else {
+      event.stopPropagation();
+      let dialogSeeEventRef = this.dialog.open(DialogSeeEvent, {
+        width: '600px',
+        data: { 
+          key: data.key,
+          event: data,
+          cartkey: data.cartkey
+        }
+      });
+      dialogSeeEventRef.afterClosed().subscribe(result => {
+        console.log('The event dialog was closed');
+      });
+    }
   }  
 
   ngOnInit() {
@@ -449,13 +456,17 @@ export class DialogSeeEvent implements OnInit {
 
   doingCart(cart,action) {
     if(action=='done') { 
-      this.router.navigate(['/cart/'+cart.$key])
+      this.cartService.doCart(cart,'filled');
+      this.router.navigate(['/cart/'+cart.$key]);
     }
     else if(action=='ongoing') {
       this.cartService.doCart(cart,'ongoing');
     }
     this.dialogRef.close();
   }
+
+
+
 
   // deleteEvent(event) {
   //   this.eventService.deleteEvent(event);

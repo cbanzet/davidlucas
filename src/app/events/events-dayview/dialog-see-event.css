@@ -28,7 +28,14 @@ button {
 	margin-right: 15px;
 }
 
-
+.cursor-pointer {
+	cursor:pointer;
+	color: #ccc;
+}
+.cursor-pointer:hover {
+	cursor:pointer;
+	color: #000;
+}
 
 .member-name {
 	background-color: #000;

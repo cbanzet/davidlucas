@@ -51,11 +51,13 @@
 					*ngFor="let member of members | async"
 					(click)="openDialogNewEvent(calendarDate,time,member)">
 						<div class="rdv" *ngFor="let event of events">
+								<!-- EVENT EN COURS (Statut : waiting, ongoing) -->
 								<span 
 								[ngClass]="
 								{
 									'waiting-event':event.statut=='waiting',
 									'ongoing-event':event.statut=='ongoing',
+									'fillcart-event':event.statut=='filled',
 									'paid-event':event.statut=='paid',
 									'round-top-event':event.firstofmulti=='1',
 									'round-bottom-event':event.lastofmulti=='1'
@@ -71,7 +73,7 @@
 										(event.clientfullname.length>15) ? 
 										(event.clientfullname | slice:0:15)+'...':(event.clientfullname) 
 									}}									
-								</span> 
+								</span>
 						</div>
 				</td>
 			</tr>

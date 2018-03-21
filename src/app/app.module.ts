@@ -19,7 +19,6 @@ import { AdminModule } from './admin/shared/admin.module';
 import { AngularFireModule } from 'angularfire2';
 // import { environment } from '../environments/environment.prod';
 import { environment } from '../environments/environment';
-// export const firebaseConfig = environment.firebaseConfig;
 
 ///// Special Modules
 import { ClientModule } from './clients/shared/client.module';

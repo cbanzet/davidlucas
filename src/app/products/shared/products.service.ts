@@ -85,8 +85,8 @@ export class ProductsService {
     newproductData['codeEAN']   = pdctForm.value.pdctEAN?pdctForm.value.pdctEAN:null;
     newproductData['ref']       = pdctForm.value.pdctRef?pdctForm.value.pdctRef:null;
     newproductData['title']     = pdctForm.value.pdctTitle?pdctForm.value.pdctTitle:null;
-    newproductData['price']     = pdctForm.value.pdctPrice?pdctForm.value.pdctPrice:null;
-    newproductData['pxremise']     = pdctForm.value.pdctPxRemise?pdctForm.value.pdctPxRemise:null;
+    newproductData['pxUHT']     = pdctForm.value.pdctPrice?pdctForm.value.pdctPrice:null;
+    newproductData['pxUTTC']     = pdctForm.value.pdctPxRemise?pdctForm.value.pdctPxRemise:null;
     newproductData['cont']     = pdctForm.value.pdctCont?pdctForm.value.pdctCont:null;
     
     // Insert in products Node
@@ -94,6 +94,33 @@ export class ProductsService {
     this.router.navigate(['/products']);  	
   }
 
+
+  createProducts(pdctsForm: NgForm): void {
+
+    var brand = pdctsForm.value.pdctBrand;
+    var pdctsValue = pdctsForm.value.newProducts;
+    var nbOfLine = (pdctsValue.match(/\n/g)||[]).length;
+
+    for(var i=0;i<=nbOfLine;i++)
+    {
+      var newPrdctData = {}
+      var line = pdctsValue.split('\n')[i];
+      var tabs = line.split('\t');  
+
+      newPrdctData['timestamp'] = Date.now();
+      newPrdctData['brand'] = tabs[0];
+      newPrdctData['codeEAN'] = tabs[1];
+      newPrdctData['reference'] = tabs[2];
+      newPrdctData['title'] = tabs[3];
+      newPrdctData['cont'] = tabs[4];
+      newPrdctData['pxUHT'] = tabs[5];
+      newPrdctData['pxUTTC'] = tabs[6];
+
+      this.productsRef.push(newPrdctData);
+      this.router.navigate(['/products']);    
+      // console.log(newPrdctData);
+    }
+  }
 
 
 ////////////////////////////////////////////////////////////////////
@@ -134,28 +161,10 @@ export class ProductsService {
 
   deleteProduct(product): void {
   	var productkey = product.$key;
-    // var salonkey = product.salon.key;
-    var types = product.types?product.types:null;
-
     const productPath = `products/${productkey}`;
-    // const productInSalonPath = `salons/${salonkey}/products/${productkey}`;    
-    // const productInSalonLookUpPath = `lookUpSalonproducts/${salonkey}/${productkey}`; 
-
     var deleteData = {};
     deleteData[productPath] = null;
-    // deleteData[productInSalonPath] = null;
-    // deleteData[productInSalonLookUpPath] = null;
 
-    if(types) {
-      var arrayLength = types.length;
-      for (var i = 0; i < arrayLength; i++) {
-        var typekey = types[i][0];
-        var productInTypePath = `productType/${typekey}/products/${productkey}`;
-        var productInTypeLookUpPath = `lookUpTypeproducts/${typekey}/${productkey}`;
-        deleteData[productInTypePath] = null;
-        deleteData[productInTypeLookUpPath] = null;
-      }
-    }
     // console.log(deleteData);
     this.db.object("/").update(deleteData).then(_=>
        console.log(deleteData)

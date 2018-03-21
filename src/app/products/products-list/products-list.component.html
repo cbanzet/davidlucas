@@ -21,8 +21,8 @@
 
 	<mat-card-content>
 
-		<br>
 
+		<!-- 		
 		<mat-chip-list>
 		  <mat-chip 
 		  	*ngFor="let type of types | async"
@@ -30,8 +30,8 @@
 		  	{{ type.title }}
 		  </mat-chip>
 		</mat-chip-list>
+		-->
 
-		<br>
 
 		<div *ngIf="showTypeSelect" >
 			<div *ngIf="typeselected != ''">
@@ -44,12 +44,12 @@
 					<mat-icon matListIcon>local_offer</mat-icon>
 					<div class="d-b">
 						<span class="brand">{{ product.brand }}</span>
-						<span class="pdct-info">{{ product.codeEAN }}</span>
-						<span class="pdct-info">{{ product.ref }}</span>
-						<span class="pdct-info">{{ product.title }}</span>
-						<span class="pdct-info"><strong>{{ product.price }}</strong> €</span>
-						<span class="pdct-info"><strong>{{ product.pxremise }}</strong> €</span>
-						<span class="pdct-info">{{ product.cont }} ML</span>
+						<span class="pdct-info width-100">{{ product.codeEAN }}</span>
+						<span class="pdct-info width-100">{{ product.reference }}</span>
+						<span class="pdct-info width-150">{{ product.title }}</span>
+						<span class="pdct-info width-50"><strong>{{ product.pxUHT }}</strong> €</span>
+						<span class="pdct-info width-50"><strong>{{ product.pxUTTC }}</strong> €</span>
+						<span class="pdct-info width-50">{{ product.cont }} ML</span>
 					</div>
 					<div class="pull-right">											 
 						<!-- 

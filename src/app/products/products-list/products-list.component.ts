@@ -42,12 +42,9 @@ export class ProductsListComponent implements OnInit {
     this.showTypeSelect = true;    
   }
 
-  migratePresta(prestas) {
-  	// this.productService.migratePresta(prestas);
-  }
 
-  deleteproduct(presta) {
-  	this.productService.deleteProduct(presta);
+  deleteProduct(product) {
+  	this.productService.deleteProduct(product);
   }
 
   updateField(key,field,value) {
