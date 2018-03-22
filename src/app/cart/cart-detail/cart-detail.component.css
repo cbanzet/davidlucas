@@ -44,9 +44,9 @@ h3 {
 
 mat-chip {
   margin: 2px !important;
-  background-color: #FFF !important;
+  cursor: pointer !important;
+  background-color: #E6E6E6 !important;
 }
-
 
 
 button {
@@ -90,6 +90,15 @@ height: 1024px;
 
 .prestation-option-list {
   font-size: 0.8em;
+}
+
+.cursor-pointer {
+  cursor:pointer;
+  color: #ccc;
+}
+.cursor-pointer:hover {
+  cursor:pointer;
+  color: #000;
 }
 
 

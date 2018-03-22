@@ -39,25 +39,29 @@
 						<strong>{{ typeselected }}</strong>
 					</mat-card-title>
 			</div>
-			<mat-list dense>
+			<mat-list dense >
 				<mat-list-item *ngFor="let product of products | filter : filtre">
 					<mat-icon matListIcon>local_offer</mat-icon>
-					<div class="d-b">
+					<div class="d-b" *ngIf="product.px">
 						<span class="brand">{{ product.brand }}</span>
 						<span class="pdct-info width-100">{{ product.codeEAN }}</span>
 						<span class="pdct-info width-100">{{ product.reference }}</span>
 						<span class="pdct-info width-150">{{ product.title }}</span>
-						<span class="pdct-info width-50"><strong>{{ product.pxUHT }}</strong> €</span>
-						<span class="pdct-info width-50"><strong>{{ product.pxUTTC }}</strong> €</span>
+						<!-- <span class="pdct-info width-50"><strong>{{ product.pxUHT }}</strong> €</span> -->
+						
+						<span *ngIf="product.px" class="pdct-info width-50"><strong>{{ product.px }}</strong> € </span>
+
+						<span *ngIf="!product.px">{{ updatePriceProduct(product.$key,product.pxUTTC) }}</span>
+						<!-- <span class="pdct-info width-50"><strong>{{ product.pxUTTC }}</strong> €</span> -->
 						<span class="pdct-info width-50">{{ product.cont }} ML</span>
 					</div>
 					<div class="pull-right">											 
-						<!-- 
+						 
 						<button mat-icon-button
 							[routerLink]="['./../product', product.$key]">
 					     <mat-icon>info</mat-icon>
 					  </button> 
-						--> 
+						 
 					  <button mat-icon-button color="warn" 
 								(click)="deleteProduct(product)">
 				        <mat-icon>remove_circle</mat-icon>

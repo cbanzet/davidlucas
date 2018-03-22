@@ -196,6 +196,7 @@ export class EventService {
         dataPresta['timelength'] = cart[i].time?cart[i].time:null;
         dataPresta['starttime'] = this.starttime;
         dataPresta['statut'] = 'waiting';
+        dataPresta['fromcalendar'] = true;
 
         // Change Start Time for next prestation
         this.starttime = this.changeStartTime(dateFormat,this.starttime,cart[i].time);

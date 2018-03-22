@@ -42,6 +42,9 @@ export class ProductsListComponent implements OnInit {
     this.showTypeSelect = true;    
   }
 
+  updatePriceProduct(key,price) {
+    this.productService.updatePriceProduct(key,price);
+  }
 
   deleteProduct(product) {
   	this.productService.deleteProduct(product);

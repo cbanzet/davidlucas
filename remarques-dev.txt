@@ -11,13 +11,18 @@ DEV
 
 Corentin:
 - Produits : Ajout des produits dans le cadi et calcul du montant total
-- Inversion TTC / HT 
+	-> Correction dans les prix des produits les "virgules" en "point"
+	-> Ajout du component "product-detail" pour l'édition d'un produit
+OK
+
 - Module Facturation : Encaissement avec attribution de chaque prestation au coiffeur
+- Inversion TTC / HT dans l'ajout des prestations et forfait
 - Module Report : Affichage du chiffre d'affaire par jour/mois par coiffeur ou tous coiffeur
-- Module Liste Cadis
+- Module Liste Cadi
 
 Fabrice:
 1- Suppression de prestation
+1.1- Correction des Prix TTC/HT/TVA à l'ajout d'une prestation ou d'un forfait dans un cadi
 2- Ajout du type de prestation dans l'affichage du catalogue des prestations
 3- Ajout du type de forfait dans l'affichage du catalogue des forfaits
 4- Ajout de "Brand" pour filtrer les produit dans l'affichage du catalogue de produits
@@ -25,3 +30,4 @@ Fabrice:
 
 C&F
 - Suppression de produit
+OK

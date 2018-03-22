@@ -64,11 +64,24 @@ export class CartDetailComponent implements OnInit {
   }
 
   goToBill(cart) {
+    this.cartService.doCart(cart,'billing');
     this.router.navigate(['/facturationcart/'+cart.$key])  	
   }
 
   insertInOldCart(element, cart, data) {
     this.cartService.updateInCart(cart, data, element);
+  }
+
+  addProductToCart(product,cart) {
+    this.cartService.addProductToCart(product,cart);
+  }
+
+  deletePresta(presta, cart) {
+     this.cartService.removePrestaFromCart(presta, cart);
+  }
+
+  deleteProduct(product, cart) {
+     this.cartService.removeProductFromCart(product, cart);
   }
 
 }

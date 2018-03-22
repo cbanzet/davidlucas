@@ -162,6 +162,7 @@ export class FacturationService {
 
     newFactureData['timestamp'] = Date.now();    
     newFactureData['ref'] = "XXXXXXXXX";    
+    newFactureData['promo'] = promo ? promo:0;    
     newFactureData['date'] = cart.date;
     newFactureData['cartkey'] = cart.$key;
     newFactureData['starttime'] = cart.cartstarttime;

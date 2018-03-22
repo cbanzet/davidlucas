@@ -38,12 +38,13 @@ export class CartService {
   getCartWithKey(key:string) {
     this.cart = this.db.object('carts/'+ key).snapshotChanges().map(action => {
       const $key = action.payload.key;
-      const prestas = action.payload.val() ? Object.values(action.payload.val().prestations) : null;
-      // const alleventslinked = action.payload.val().alleventslinked ? Object.values(action.payload.val().alleventslinked) : null;
+      const prestas = action.payload.val().prestations ? Object.values(action.payload.val().prestations) : null;
+      const pdcts = action.payload.val().products ? Object.values(action.payload.val().products) : null;
       const data = 
       { 
         $key, 
         prestas,
+        pdcts,
         ...action.payload.val() 
       };
       return data;
@@ -142,6 +143,7 @@ export class CartService {
     newPrestaData['timelength'] = dataPresta.timelength;
     newPrestaData['memberkey'] = memberkey;
     newPrestaData['membername'] = membername;
+    newPrestaData['fromcalendar'] = dataPresta.fromcalendar;
 
     const cartPath = `carts/${cartkey}/prestations/${prestationkey}/`;
 
@@ -192,7 +194,41 @@ export class CartService {
   }
 
 
+  addProductToCart(product,cart) {
 
+    var cartkey = cart.$key;
+    var productkey = product.$key;
+
+    var cartNewPriceTTC = Math.round((parseFloat(cart.totalTTC)+parseFloat(product.px))*100)/100;
+    var cartNewPriceHT = Math.round((cartNewPriceTTC/1.2)*100)/100;
+    var cartNewTVA = Math.round((cartNewPriceTTC-cartNewPriceHT)*100)/100;
+
+    var newPdct = {};
+    newPdct['key'] =       productkey;
+    newPdct['title'] =     product.title;
+    newPdct['brand'] =     product.brand;
+    newPdct['code'] =      product.codeEAN;
+    newPdct['ref'] =       product.reference;
+    newPdct['price'] =     product.px;
+
+    var productInCartPath = `carts/${cartkey}/products/${productkey}`;
+    var TTCCartPath       = `carts/${cartkey}/totalTTC/`;
+    var HTCartPath        = `carts/${cartkey}/totalHT/`;
+    var TVACartPath       = `carts/${cartkey}/totalTAX/`;
+
+    var updateData = {};
+    updateData[productInCartPath]= newPdct;
+    updateData[TTCCartPath]= cartNewPriceTTC;
+    updateData[HTCartPath]= cartNewPriceHT;
+    updateData[TVACartPath]= cartNewTVA;
+
+    console.log(updateData);
+
+    this.db.object('/').update(updateData).then(_=>
+      console.log(updateData)
+    );
+
+  }
 
 
   updateInCart(cart,data,element) {
@@ -229,6 +265,7 @@ export class CartService {
     newPrestaData['timelength'] = timelength;
     newPrestaData['memberkey'] = memberKey;
     newPrestaData['membername'] = membername;
+    newPrestaData['fromcalendar'] = false;
 
     updateData[prestaInCartPath]= newPrestaData;
     updateData[totalHTPath] = newTotalHT;
@@ -255,6 +292,8 @@ export class CartService {
                dataPresta['timelength'] = data.prestations[i].time?data.prestations[i].time:null;
                dataPresta['memberkey'] = memberKey;
                dataPresta['membername'] = membername;
+               dataPresta['fromcalendar'] = false;
+
 
                this.createPrestaInCart(cartKey,prestationkey,memberKey,membername,dataPresta);
                 total = total + price;
@@ -372,7 +411,7 @@ export class CartService {
 
 
 
-  removePrestaFromCart(presta,cart) {
+ removePrestaFromCart(presta,cart) {
 
     var deleteData = {};
 
@@ -395,15 +434,8 @@ export class CartService {
     const totalTAXPath = `carts/${cartkey}/totalTAX`;
     const totalTTCPath = `carts/${cartkey}/totalTTC`;
     
-    // console.log("price: ",presta.price);
-    // console.log("old totalHT", cart.totalHT);
-    // console.log("old totalTax",cart.totalTAX);
-    // console.log("old totalTTC", cart.totalTTC);
-    // console.log("new totalHT: ", newTotalHT);
-    // console.log("new totalTax",newTotalTax);
-    // console.log("new totalTTC", newTotalTtc);
-    
-    for ( let i = 0; i < eventkeys.length ; i++) {
+    if(presta.fromcalendar) {
+      for ( let i = 0; i < eventkeys.length ; i++) {
         var eventkey = eventkeys[i] ;
         const eventPath = `events/${eventkey}`;
         const clientPath = `clientes/${clientkey}/events/${eventkey}`;
@@ -418,17 +450,16 @@ export class CartService {
         deleteData[lookUpClientEvents] = null;
         deleteData[lookUpMemberEvents] = null;
         deleteData[memberRole] = null;
+      }
     }
+    
     deleteData[prestaPath] = null;
     if(cart.prestas.length !== 1) {
-         deleteData[totalHTPath] = newTotalHT;
-        deleteData[totalTAXPath] = newTotalTax;
-        deleteData[totalTTCPath] = newTotalTtc;
+      deleteData[totalHTPath] = newTotalHT;
+      deleteData[totalTAXPath] = newTotalTax;
+      deleteData[totalTTCPath] = newTotalTtc;
     }
    
-
-    
-
     console.log(deleteData);
     this.db.object("/").update(deleteData).then(_=>
        console.log(deleteData)
@@ -436,6 +467,35 @@ export class CartService {
 
   }
 
+  removeProductFromCart(product, cart) {
+
+    var cartkey              = cart.$key?cart.$key:null;
+    var productkey           = product.key?product.key:null;
+    var productPrice         = product.price;
+    var totalHtInCart        = cart.totalHT;
+    var totalTaxInCart       = cart.totalTAX;
+    var totalTtcInCart       = cart.totalTTC;
+
+    var newTotalTTC          =  Math.round((totalTtcInCart-productPrice)*100)/100;
+    var newTotalHT           = Math.round((newTotalTTC/1.2)*100)/100;
+    var newTotalTax          = Math.round((newTotalTTC-newTotalHT)*100)/100;
+
+    const pdtCartPath        = `carts/${cartkey}/products/${productkey}`;
+    const totalHTPath        = `carts/${cartkey}/totalHT`;
+    const totalTAXPath       = `carts/${cartkey}/totalTAX`;
+    const totalTTCPath       = `carts/${cartkey}/totalTTC`;
+
+    var deleteData           = {};
+    deleteData[pdtCartPath]  = null;
+    deleteData[totalHTPath]  = newTotalHT;
+    deleteData[totalTAXPath] = newTotalTax;
+    deleteData[totalTTCPath] = newTotalTTC;
+
+    this.db.object("/").update(deleteData).then(_=>
+       console.log(deleteData)
+    );
+
+  }
 
 
 

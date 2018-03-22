@@ -29,7 +29,8 @@
         		<strong>Fac. n°{{ facture.ref }}</strong> du 
             <strong>{{ facture.date }}</strong> à 
             <strong>{{ facture.starttime }}</strong> | Client :
-        		<strong>{{ facture.clientfullname }}</strong> 
+        		<strong>{{ facture.clientfullname }}</strong> | Montant :
+            <strong>{{ facture.totalTTC }} </strong> €
         	</span><br>
         	<span *ngIf="facture.timestamp" class="facture-date">{{ facture.timestamp | date}} | Réglement: <strong>{{ facture.moyendepaiement }}</strong> | Statut : <strong>{{ facture.statut }}</strong></span>
         </h4>

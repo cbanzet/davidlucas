@@ -20,7 +20,7 @@
 		<table>
 			<tr>
 				<td width="300px">
-					<h5>Date</h5>
+					<h5>Date de la prestation</h5>
 
 					<span *ngIf="cart">
 						<strong>{{ cart.date }}</strong> à 
@@ -52,7 +52,7 @@
 						<tr class="items-info"
 							*ngFor="let presta of cart.prestas ;let i =index
 						">
-							<td>
+							<td class="article-detail">
 								<strong>{{ presta.prestationtitle }}</strong><br>
 								<i>({{ presta.membername }} - {{ presta.timelength }} minutes)</i>
 							</td>
@@ -67,9 +67,18 @@
 								</span>	 
 								-->								
 							</td>								
-							<td class="td-a-c">{{ presta.price }} €</td>
-							<td class="td-a-c">{{ presta.price }} €</td>								
+							<td class="td-a-c article-detail">{{ presta.price }} €</td>
+							<td class="td-a-c article-detail">{{ presta.price }} €</td>								
 						</tr>
+						<tr class="items-info"
+							*ngFor="let pdct of cart.pdcts ;let i =index
+						">
+							<td class="article-detail">
+								<strong>{{ pdct.brand }}</strong> {{ pdct.title  }}
+							</td>
+							<td></td>
+							<td class="td-a-c article-detail">{{ pdct.price }} €</td>
+							<td class="td-a-c article-detail">{{ pdct.price }} €</td>	
 						<tr>
 							<td></td>
 							<td colspan="2" class="bg-grey ta-l">TOTAL HT</td>

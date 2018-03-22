@@ -126,4 +126,8 @@ h5 {
 .gridSelected {
 	background-color: #000 !important;
 }
+.article-detail {
+	font-size: 0.8em;
+	color: #4C4C4C
+}
 

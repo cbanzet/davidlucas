@@ -338,7 +338,7 @@ export class DialogNewEvent implements OnInit {
     var price = isDavid=="David" ? data.priceDavid:data.priceTeam;
     var salonkey = data.salonkey?data.salonkey:0;
     if(key&&title&&time&&price) {
-      this.insertItemInCart(key,title,time,+price,'1');
+      this.insertItemInCart(key,title,time,price,'1');
     }
     else {console.log("Entrée incomplète")}
   }

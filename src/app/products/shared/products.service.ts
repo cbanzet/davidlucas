@@ -131,23 +131,34 @@ export class ProductsService {
  
 
   updateProduct(product,field,value): void {
-
     if(value) 
     {
       var productKey = product.$key;
-      var salonKey = product.salon.key;
-
       const productPath = `products/${productKey}/${field}`;
 
       var updateField = {};
       updateField[productPath]= value;
 
-      console.log(updateField);
       this.db.object("/").update(updateField).then(_=>
-         console.log('product MAJ dans ' + productPath)
+         console.log(updateField);
       );
      }
      else { console.log("Delete Impossible Value Empty") }
+  }
+
+  updatePriceProduct(productkey,oldprice): void {
+    // console.log(productkey, oldprice);
+    var newpx = oldprice.replace(",",".");
+    const path = `products/${productkey}/px/`;
+
+    var newpxData = {};
+    newpxData[path] = newpx;
+
+    // console.log(newpxData);
+
+    this.db.object("/").update(newpxData).then(_=>
+       console.log(newpxData)
+    );    
   }
 
 

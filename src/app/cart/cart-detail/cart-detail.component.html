@@ -1,7 +1,9 @@
+<!-- <pre>{{ cart | async | json }}</pre> -->
 
+
+
+<!-- <mat-card> -->
 <mat-card *ngIf="cart | async as cart" class="br-20">
-
-	<!-- <pre>{{ cart | json }}</pre> -->
 
 	<h1>Shopping Time</h1>
 
@@ -136,10 +138,9 @@
 	      <mat-chip-list *ngIf="products | async; let products; else loading">
 	        <mat-chip 
 	        	*ngFor="let product of products"
-	        	(click)="formatBeforeInsert('forfait',forfait)">
+	        	(click)="addProductToCart(product,cart)">
 	          {{ product.brand }} {{ product.title }} &nbsp;
 		        <strong>({{ product.pxUTTC }} €)</strong>
-						<!-- <mat-icon (click)="formatBeforeInsert('forfait',forfait)" matChipRemove>add_circle</mat-icon>-->
 	        </mat-chip>
 	      </mat-chip-list>		    
 			</div>
@@ -176,25 +177,18 @@
 					<tr class="items-info" *ngFor="let prestation of cart.prestas">
 						<td><strong>{{ prestation.prestationtitle }}</strong></td>
 						<td class="td-a-c">{{ prestation.price }} €</td>
-						<td class="td-a-c">
-							<mat-icon (click)="deleteProduct(i,presta.prix)">clear</mat-icon>
+						<td class="td-a-c" *ngIf="!prestation.fromcalendar"> 
+							<mat-icon class="cursor-pointer" (click)="deletePresta(prestation,cart)">clear</mat-icon>
 						</td>
 					</tr>
 
-
-					<tr class="items-info"
-						*ngFor="let presta of data ;let i =index
-					">
-						<td>
-							<strong>{{ presta.title }}</strong> 
-							<i>({{ presta.time }} minutes)</i>
-						</td>
-						<td class="td-a-c">{{presta.prix}} €</td>
+					<tr class="items-info" *ngFor="let pdct of cart.pdcts">
+						<td><strong>{{ pdct.brand }}</strong> {{ pdct.title }}</td>
+						<td class="td-a-c">{{ pdct.price }} €</td>
 						<td class="td-a-c">
-							<mat-icon (click)="deleteProduct(i,presta.prix)">clear</mat-icon>
+							<mat-icon class="cursor-pointer" (click)="deleteProduct(pdct,cart)">clear</mat-icon>
 						</td>
 					</tr>
-
 
 					<tr class="table-footer">
 						<td class="td-a-r">TOTAL HT</td>

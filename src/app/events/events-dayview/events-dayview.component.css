@@ -23,21 +23,21 @@ tr:nth-child(even) {
 	cursor: pointer;
 	text-align: center;
 	padding-left: 10px;
-	padding-bottom: 8px;
-background: #ffffff; /* Old browsers */
-background: -moz-linear-gradient(top, #ffffff 0%, #f6f6f6 47%, #ededed 100%); /* FF3.6-15 */
-background: -webkit-linear-gradient(top, #ffffff 0%,#f6f6f6 47%,#ededed 100%); /* Chrome10-25,Safari5.1-6 */
-background: linear-gradient(to bottom, #ffffff 0%,#f6f6f6 47%,#ededed 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ededed',GradientType=0 ); /* IE6-9 */
+	padding-bottom: 5px;
+background: #fcfcfc; /* Old browsers */
+background: -moz-linear-gradient(-45deg, #fcfcfc 0%, #fcfcfc 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(-45deg, #fcfcfc 0%,#fcfcfc 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(135deg, #fcfcfc 0%,#fcfcfc 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfcfc', endColorstr='#fcfcfc',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
 }
 
 .cal-cell:hover {
 	/*background-color: black;*/
-background: #ffffff; /* Old browsers */
-background: -moz-linear-gradient(top, #ffffff 0%, #f6f6f6 20%, #dddddd 100%); /* FF3.6-15 */
-background: -webkit-linear-gradient(top, #ffffff 0%,#f6f6f6 20%,#dddddd 100%); /* Chrome10-25,Safari5.1-6 */
-background: linear-gradient(to bottom, #ffffff 0%,#f6f6f6 20%,#dddddd 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#dddddd',GradientType=0 ); /* IE6-9 */	
+background: #fcfcfc; /* Old browsers */
+background: -moz-linear-gradient(-45deg, #fcfcfc 0%, #eaeaea 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(-45deg, #fcfcfc 0%,#eaeaea 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(135deg, #fcfcfc 0%,#eaeaea 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfcfc', endColorstr='#eaeaea',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
 }
 
 .cal-cell-name {
@@ -60,7 +60,6 @@ font-size: 0.8em;
 .cal-cell-name:hover {
 	min-width: 100px;
 	text-align: center;
-
 	font-size: 0.9em;
 	color: #FFF;
 	cursor: pointer;	
@@ -106,30 +105,53 @@ font-size: 0.8em;
 }
 
 .round-top-event {
-	-webkit-border-top-left-radius: 8px;
-	-webkit-border-top-right-radius: 8px;
-	-moz-border-radius-topleft: 8px;
-	-moz-border-radius-topright: 8px;
-	border-top-left-radius: 8px;
-	border-top-right-radius: 8px;	
+	-webkit-border-top-left-radius: 5px;
+	-webkit-border-top-right-radius: 5px;
+	-moz-border-radius-topleft: 5px;
+	-moz-border-radius-topright: 5px;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;	
 }
 .round-bottom-event {
-	-webkit-border-bottom-right-radius: 8px;
-	-webkit-border-bottom-left-radius: 8px;
-	-moz-border-radius-bottomright: 8px;
-	-moz-border-radius-bottomleft: 8px;
-	border-bottom-right-radius: 8px;
-	border-bottom-left-radius: 8px;
+	-webkit-border-bottom-right-radius: 5px;
+	-webkit-border-bottom-left-radius: 5px;
+	-moz-border-radius-bottomright: 5px;
+	-moz-border-radius-bottomleft: 5px;
+	border-bottom-right-radius: 5px;
+	border-bottom-left-radius: 5px;
 }
 
+
+
 .waiting-event {
-	color: white !important;	background-color: red !important;	
+	color: white !important;	
+	/*background-color: #A61D00 !important;	*/
+	background: #ff6140; /* Old browsers */
+	background: -moz-linear-gradient(-45deg, #ff6140 0%, #ff2c00 100%); /* FF3.6-15 */
+	background: -webkit-linear-gradient(-45deg, #ff6140 0%,#ff2c00 100%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(135deg, #ff6140 0%,#ff2c00 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff6140', endColorstr='#ff2c00',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */	
 }
 .ongoing-event {
-	color: white !important;	background-color: green !important;	
+	color: white !important;	
+	/*background-color: #00782D !important;	*/
+	background: #00b945; /* Old browsers */
+	background: -moz-linear-gradient(-45deg, #00b945 0%, #37dc74 100%); /* FF3.6-15 */
+	background: -webkit-linear-gradient(-45deg, #00b945 0%,#37dc74 100%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(135deg, #00b945 0%,#37dc74 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00b945', endColorstr='#37dc74',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
 }
 .fillcart-event {
-	color: white !important;	background-color: black !important;		
+	color: white !important;	
+	/*	background-color: #B3B3B3 !important;	*/	
+	background: #e5e5e5; /* Old browsers */
+	background: -moz-linear-gradient(-45deg, #e5e5e5 0%, #d3d3d3 100%); /* FF3.6-15 */
+	background: -webkit-linear-gradient(-45deg, #e5e5e5 0%,#d3d3d3 100%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(135deg, #e5e5e5 0%,#d3d3d3 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e5e5e5', endColorstr='#d3d3d3',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+}
+.billing-event {
+	color: white !important;	background-color: #000000 !important;		
 }
 
 .paid-event {
@@ -140,6 +162,11 @@ font-size: 0.8em;
 .rdv span:hover{
 	background-color: black !important;
 	color: white;
+	background: #070101!important; /* Old browsers */
+	background: -moz-linear-gradient(-45deg, #070101 0%, #000000 100%)!important; /* FF3.6-15 */
+	background: -webkit-linear-gradient(-45deg, #070101 0%,#000000 100%)!important; /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(135deg, #070101 0%,#000000 100%)!important; /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#070101', endColorstr='#000000',GradientType=1 ) !important; /* IE6-9 fallback on horizontal gradient */		
 }
 
 .nopad-nocell {
