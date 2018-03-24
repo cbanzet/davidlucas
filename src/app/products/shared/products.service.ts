@@ -140,7 +140,7 @@ export class ProductsService {
       updateField[productPath]= value;
 
       this.db.object("/").update(updateField).then(_=>
-         console.log(updateField);
+         console.log(updateField)
       );
      }
      else { console.log("Delete Impossible Value Empty") }

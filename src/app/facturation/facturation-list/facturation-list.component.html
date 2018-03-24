@@ -12,7 +12,7 @@
     </div>      
     <mat-card-title>Factures</mat-card-title>
     <mat-card-subtitle>Liste des Factures du Salon David Lucas Paris</mat-card-subtitle>
-		<button mat-fab type="button" color="black"
+		<button mat-fab type="button" color="black" disabled 
       routerLink="./../facturationform">
 			<!-- [routerLink]="['./../facturationform', '0']"> -->
 			<mat-icon>add</mat-icon>
@@ -26,11 +26,20 @@
         <!-- <h4 mat-line [ngClass]="facture.status==2 ? 'facture-done' : 'facture-waiting'"> -->
 				<h4 mat-line>        	
         	<span class="facture-title">
-        		<strong>Fac. n°{{ facture.ref }}</strong> du 
-            <strong>{{ facture.date }}</strong> à 
-            <strong>{{ facture.starttime }}</strong> | Client :
-        		<strong>{{ facture.clientfullname }}</strong> | Montant :
-            <strong>{{ facture.totalTTC }} </strong> €
+        		<span class="info-bill">
+              <strong>Fac. n°{{ facture.ref }}</strong> du 
+              <strong>{{ facture.date }}</strong> à 
+              <strong>{{ facture.starttime }}</strong>              
+            </span>
+        		<span class="client"> 
+              Client :
+              <strong>{{ facture.clientfullname }}</strong>
+            </span> 
+            <span class="montant">
+              Montant :
+              <strong>{{ facture.totalTTC }} </strong> €
+              {{ addToTotal(facture.$key,facture.totalTTC) }}
+            </span>
         	</span><br>
         	<span *ngIf="facture.timestamp" class="facture-date">{{ facture.timestamp | date}} | Réglement: <strong>{{ facture.moyendepaiement }}</strong> | Statut : <strong>{{ facture.statut }}</strong></span>
         </h4>
@@ -54,7 +63,20 @@
 				<button mat-icon-button color="warn"
 						(click)="deleteFacture(facture)">
 		        <mat-icon>remove_circle</mat-icon>
-		    </button>      
+		    </button>     
+      </mat-list-item>
+      <mat-list-item>
+        <h4 mat-line>         
+          <span class="facture-title">
+            <span class="info-bill">
+            </span>
+            <span class="client"> 
+            </span>
+            <span class="montant total-amount">
+              MONTANT TOTAL : <strong>{{ total }} €</strong>
+            </span>            
+          </span>
+        </h4>
       </mat-list-item>
     </mat-list>
   </mat-card-content>

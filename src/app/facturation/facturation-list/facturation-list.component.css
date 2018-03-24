@@ -49,3 +49,25 @@ mat-spinner {
 .facture-done {
 	color: #ccc !important;
 }
+
+
+
+.info-bill, .client, .montant {
+	display: inline-block;
+	border-left: 1px dotted #ccc;
+}
+.info-bill {
+	width: 300px;
+}
+.client {
+	width: 200px;
+}
+.montant {
+	width: 200px;
+}
+.total-amount {
+	background-color: #000;
+	color: #FFF;
+	padding: 5px;
+}
+

@@ -82,19 +82,26 @@
 						<tr>
 							<td></td>
 							<td colspan="2" class="bg-grey ta-l">TOTAL HT</td>
-							<td class="td-a-c">{{ cart.totalHT }} €
+							<td class="td-a-c">
+								<strong *ngIf="!newtotalHT">{{ cart.totalHT }} €</strong>
+								<strong *ngIf="newtotalHT">{{ newtotalHT }} €</strong>
 							</td>
 						</tr>
 						<tr>
 							<td></td>
 							<td colspan="2" class="ta-l">TAX 20%</td>
-							<td class="td-a-c">{{ cart.totalTAX }} €
+							<td class="td-a-c">
+								<strong *ngIf="!newtotalTAX">{{ cart.totalTAX }} €</strong>
+								<strong *ngIf="newtotalTAX">{{ newtotalTAX }} €</strong>
 							</td>
 						</tr>
 						<tr>
 							<td></td>
 							<td colspan="2" class="bg-black ta-l">TOTAL TTC</td>
-							<td class="td-a-c"><strong>{{ cart.totalTTC }} €</strong></td>
+							<td class="td-a-c">
+								<strong *ngIf="!newtotalTTC">{{ cart.totalTTC }} €</strong>
+								<strong *ngIf="newtotalTTC">{{ newtotalTTC }} €</strong>
+							</td>
 						</tr>														
 					</table>
 				</td>
@@ -103,14 +110,27 @@
 				<td colspan="2">
 					<br><br>
 					<h5>Appliquer une réduction</h5>
-					<mat-grid-list class="moy-paie" cols="4" rowHeight="40px">
+					<mat-grid-list class="moy-paie" cols="8" rowHeight="40px">
 					  <mat-grid-tile [ngClass]="promo==0.05 ? 'gridSelected' : 'gridNotSelected'" 
-					  	(click)="applyPromo(0.05)">5%</mat-grid-tile>
+					  	(click)="applyPromo(0.05,cart.totalTTC)">5%</mat-grid-tile>
 					  <mat-grid-tile [ngClass]="promo==0.1 ? 'gridSelected' : 'gridNotSelected'" 
-					  	(click)="applyPromo(0.1)">10%</mat-grid-tile>
+					  	(click)="applyPromo(0.1,cart.totalTTC)">10%</mat-grid-tile>
+					  <mat-grid-tile [ngClass]="promo==0.15 ? 'gridSelected' : 'gridNotSelected'" 
+					  	(click)="applyPromo(0.15,cart.totalTTC)">15%</mat-grid-tile>
+					  <mat-grid-tile [ngClass]="promo==0.2 ? 'gridSelected' : 'gridNotSelected'" 
+					  	(click)="applyPromo(0.2,cart.totalTTC)">20%</mat-grid-tile>
+					  <mat-grid-tile [ngClass]="promo==0.3 ? 'gridSelected' : 'gridNotSelected'" 
+					  	(click)="applyPromo(0.3,cart.totalTTC)">30%</mat-grid-tile>
+					  <mat-grid-tile [ngClass]="promo==0.4 ? 'gridSelected' : 'gridNotSelected'" 
+					  	(click)="applyPromo(0.4,cart.totalTTC)">40%</mat-grid-tile>
 					  <mat-grid-tile [ngClass]="promo==0.5 ? 'gridSelected' : 'gridNotSelected'"  
-					  	(click)="applyPromo(0.5)">50%</mat-grid-tile>
-					  <mat-grid-tile (click)="promo=null;promoEuros=0;sumTablePrice()">
+					  	(click)="applyPromo(0.5,cart.totalTTC)">50%</mat-grid-tile>
+					  <mat-grid-tile (click)="
+					  									newtotalTTC=null;
+					  									newtotalTAX=null;
+					  									newtotalHT=null;
+					  									promo=null
+					  									">
 					  	<mat-icon>clear</mat-icon>
 					  </mat-grid-tile>
 					</mat-grid-list>

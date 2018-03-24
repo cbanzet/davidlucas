@@ -8,6 +8,9 @@ import { PrestationService } from './../../prestations/shared/prestation.service
 import { CartService  } from './../../cart/shared/cart.service';
 import { ProductsService } from './../../products/shared/products.service';
 
+import { Type } from './../../prestations/shared/type';
+
+
 import { NgForm } from '@angular/forms';
 import { Cart } from './../../cart/shared/cart';
 
@@ -19,6 +22,34 @@ import { Cart } from './../../cart/shared/cart';
 export class CartDetailComponent implements OnInit {
 
   cart: Observable<any>;
+
+  Brands = [
+    {
+      id: 1,
+      title: 'Kérastase'
+    },
+    {
+      id: 2,
+      title: 'SHU UEMURA'
+    },
+    {
+      id: 3,
+      title: 'LEONOR GREYL'
+    },
+    {
+      id: 4,
+      title: 'DEUXS'
+    }
+  ];
+
+  forfaitTypes: Observable<any[]>;
+  types: Observable<any[]>;
+  typeselected: string;
+  typeselectedProduct: string;
+  typeselectedforfait: string;
+  filtre: Object;
+  filtreproduct: Object;
+  filtreForfait: Object;
 
 	prestations: any;
   products: any;
@@ -43,7 +74,7 @@ export class CartDetailComponent implements OnInit {
   showAddProductSectionButton:boolean=true;
   showRemoveProductSectionButton:boolean=false;
 
-  constructor(
+  constructor(   
     private prestationService: PrestationService,
     private forfaitService: ForfaitService ,
     private productsService: ProductsService,
@@ -55,6 +86,9 @@ export class CartDetailComponent implements OnInit {
   	this.prestations = this.prestationService.getPrestationsList();
     this.forfaits = this.forfaitService.getForfaitsList();
     this.products = this.productsService.getProductsList();
+
+    this.forfaitTypes = this.forfaitService.getForfaitTypeList();
+    this.types = this.prestationService.getPrestaTypeList();     
   }
 
   ngOnInit() {
@@ -62,6 +96,32 @@ export class CartDetailComponent implements OnInit {
       .switchMap((params: ParamMap) =>
         this.cartService.getCartWithKey(params.get('id')));  	
   }
+
+
+  typeSelected(type: Type) {
+    this.typeselected = type.title;
+    this.filtre = {
+      types: [[ '' , this.typeselected ]]
+    };
+    console.log( this.typeselected);
+  }
+
+  typeSelectedProduct(type: Type) {
+    this.typeselectedProduct = type.title;
+    this.filtreproduct = {
+      brand: this.typeselectedProduct
+    };
+    console.log( this.typeselectedProduct);
+  }
+
+  typeSelectedForfait(type: Type) {
+    this.typeselectedforfait = type.title;
+    this.filtreForfait = {
+        type: this.typeselectedforfait
+    };
+    console.log( this.typeselectedforfait);
+  }
+
 
   goToBill(cart) {
     this.cartService.doCart(cart,'billing');

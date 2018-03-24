@@ -184,7 +184,6 @@ export class CartService {
       updateData[cartMemberKeyPath] = memberkey;
       updateData[cartMemberPath] =  memberFirstName;
 
-
     }
 
     this.db.object("/").update(updateData).then(_=>
@@ -361,12 +360,10 @@ export class CartService {
 
   deleteCart(cart) {
     // console.log(cart);
-    var cartkey = cart.$key;
-    var clientkey = cart.clientkey;
-
-    var prestations = cart.prestations?Object.values(cart.prestations):null;
-
-    const cartPath = `carts/${cartkey}`;
+    var cartkey          = cart.$key;
+    var clientkey        = cart.clientkey;
+    var prestations      = cart.prestations?Object.values(cart.prestations):null;
+    const cartPath       = `carts/${cartkey}`;
     const cartlookupPath = `lookUpCartPrestations/${cartkey}`;
 
     var deleteData = {};
@@ -378,9 +375,11 @@ export class CartService {
       for (var i = 0; i < nbOfPrestas; i++) {
         var prestameta = prestations[i];
         var presta = Object.entries(prestameta); 
+
+        console.log(presta);
         
-        var memberkey = presta[1][1];
-        var prestakey = presta[3][1];
+        var memberkey = presta[2][1];
+        var prestakey = presta[4][1];
         
         var events = Object.values(presta[0][1]);
         var nbOfEvents = events.length;
@@ -403,7 +402,7 @@ export class CartService {
       }
     }
 
-    console.log(deleteData);
+    // console.log(deleteData);
     this.db.object("/").update(deleteData).then(_=>
        console.log(deleteData)
     );

@@ -60,10 +60,6 @@ export class MemberService {
     })
   }
 
-  // getEventsOfMember(key) {
-  //   return this.db.list('events/'+)
-  // }
-
   // Return a single observable member
   getMember(key: string): Observable<Member> {
     const memberPath = `${this.basePath}/${key}`;

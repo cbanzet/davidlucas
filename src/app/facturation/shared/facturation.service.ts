@@ -156,32 +156,50 @@ export class FacturationService {
     );
   }
 
-  createBillFromCart(cart,moypay,promo) {
+  createBillFromCart(cart,moypay,promo,ttc,ht,tva) {
     console.log(cart);
+
+    var cartkey = cart.$key;
+
     var newFactureData = {}
+    newFactureData['timestamp']       = Date.now();    
+    newFactureData['ref']             = "XXXXXXXXX";    
+    newFactureData['promo']           = promo ? promo:0;    
+    newFactureData['date']            = cart.date;
+    newFactureData['cartkey']         = cartkey;
+    newFactureData['starttime']       = cart.cartstarttime;
+    newFactureData['totalHT']         = ht ? ht : 0;
+    newFactureData['totalTAX']        = tva ? tva : 0;
+    newFactureData['totalTTC']        = ttc ? ttc : 0;
+    newFactureData['clientkey']       = cart.clientkey;
+    newFactureData['clientfullname']  = cart.clientfullname;
+    newFactureData['clientphone']     = cart.clientphone;
+    newFactureData['clientemail']     = cart.clientemail;
+    newFactureData['statut']          = '0';
+    newFactureData['moyendepaiement'] = moypay?moypay:"nc";    
 
-    newFactureData['timestamp'] = Date.now();    
-    newFactureData['ref'] = "XXXXXXXXX";    
-    newFactureData['promo'] = promo ? promo:0;    
-    newFactureData['date'] = cart.date;
-    newFactureData['cartkey'] = cart.$key;
-    newFactureData['starttime'] = cart.cartstarttime;
-    newFactureData['totalHT'] = cart.totalHT;
-    newFactureData['totalTAX'] = cart.totalTAX;
-    newFactureData['totalTTC'] = cart.totalTTC;
-    newFactureData['clientkey'] = cart.clientkey;
-    newFactureData['clientfullname'] = cart.clientfullname;
-    newFactureData['clientphone'] = cart.clientphone;
-    newFactureData['clientemail'] = cart.clientemail;
-    newFactureData['statut'] = '0';
-    newFactureData['moyendepaiement'] = moypay?moypay:"";    
+    var facturekey = this.facturesRef.push(newFactureData).key;
+    var updateData = {};
+    var clientPath         = `clientes/${cart.clientkey}/billhistory/${facturekey}`;
+    updateData[clientPath] = ttc;
 
-    console.log(newFactureData);
-    this.facturesRef.push(newFactureData).then(_=>
-      this.router.navigate(['/facturations'])
+    // Déroulement des Prestations
+    if(cart.prestas.length){
+      for (let i = 0 ; i < cart.prestas.length ; i++ ) 
+      {
+        var prestakey = cart.prestas[i].prestationkey ? cart.prestas[i].prestationkey : null;
+        var memberkey = cart.prestas[i].memberkey ? cart.prestas[i].memberkey : null;
+        var prestaprice = cart.prestas[i].price ? cart.prestas[i].price : null;
+        var memberPath = `members/${memberkey}/billhistory/${cartkey}/${prestakey}`;
+        updateData[memberPath] = prestaprice;
+      }
+    }
+
+    this.db.object("/").update(updateData).then(_=>
+      console.log(updateData)
     );
-
     this.cartService.doCart(cart,'paid');
+    this.router.navigate(['/facturations'])
   }
 
 

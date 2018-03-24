@@ -23,16 +23,16 @@ export class FacturationCartComponent implements OnInit {
   getEvent;
   cart;
   cartkey;
-  priceEvent: Observable<any>;
 
   moypay:any;
   promotion:Observable<any[]>;
 
   selectedPrice:number;
   selectedQty:number=1;
-  totalHT: number=0;
-  totalTAX: number=0;
-  totalTTC: number=0;
+  
+  newtotalTAX: number=0;
+  newtotalTTC: number=0;
+  newtotalHT: number=0;
 
   billready:boolean=false;
   promo: number;promoEuros:number;  
@@ -48,34 +48,18 @@ export class FacturationCartComponent implements OnInit {
 
 
   applyMoyPaiement(n) {
-    this.moypay = n;
-    this.billready=true;
+    this.moypay      = n;
+    this.billready   = true;
     console.log(this.moypay)
   }
 
-  applyPromo(n) {
-    this.promo=n;
-    this.promoEuros = Math.round((this.totalHT*n)*100)/100;
-    this.totalTAX = (Math.round((((this.selectedPrice*this.selectedQty)-this.promoEuros)*0.2)*100)/100);
-    this.totalHT = Math.round((this.selectedPrice*this.selectedQty*100)-this.promoEuros)/100;
-    this.totalTTC = this.totalTAX + this.totalHT;        
-  }
-
-
-  getTotalTAX() {
-    this.totalTAX = Math.round((this.selectedPrice*this.selectedQty*0.2)*100)/100;    
-  }
-  getTotalHT() {
-    this.totalHT = Math.round(this.selectedPrice*this.selectedQty*100)/100;
-  }
-  getTotalTTC() {
-    this.totalTTC = this.totalTAX + this.totalHT;
-  }
-  sumTablePrice() {
-    this.getTotalHT();
-    this.getTotalTAX();
-    this.getTotalTTC();
-    this.billready=true;
+  applyPromo(n,ttc) {
+    this.promo       = n;
+    this.promoEuros  = Math.round((ttc*n)*100)/100;
+ 
+    this.newtotalTTC = Math.round((ttc-this.promoEuros)*100)/100;
+    this.newtotalHT  = Math.round((this.newtotalTTC/1.2)*100)/100;
+    this.newtotalTAX = Math.round((this.newtotalTTC-this.newtotalHT)*100)/100;    
   }
 
   ngOnInit() {
@@ -92,7 +76,14 @@ export class FacturationCartComponent implements OnInit {
 
   getBill(cart) {
     var moyenDePaiement = this.moypay?this.moypay:"";
-    this.facturationService.createBillFromCart(cart,moyenDePaiement,this.promo);        
+    this.facturationService.createBillFromCart(
+                                cart,
+                                moyenDePaiement,
+                                this.promo,
+                                this.newtotalTTC,
+                                this.newtotalHT,
+                                this.newtotalTAX
+                            );        
   }
 
 

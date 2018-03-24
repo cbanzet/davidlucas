@@ -20,6 +20,10 @@ import { CartFormComponent } from './../cart-form/cart-form.component';
 import { CartListComponent } from './../cart-list/cart-list.component';
 import { CartDetailComponent } from './../cart-detail/cart-detail.component';
 
+import { FilterPipe } from './../cart-detail/filter';
+import { FilterProduct } from './../cart-detail/filterproduct';
+import { FilterForfaitPipe } from './../cart-detail/filterforfait';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -35,7 +39,10 @@ import { CartDetailComponent } from './../cart-detail/cart-detail.component';
   declarations: [
   	CartFormComponent,
   	CartListComponent,
-  	CartDetailComponent
+  	CartDetailComponent,
+    FilterPipe,
+    FilterProduct,
+    FilterForfaitPipe
   ],
   providers: [
     CartService,

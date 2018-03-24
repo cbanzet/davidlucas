@@ -6,6 +6,8 @@ BUGS
 	Prévoir une variable quantité dans le sous-noeud des cadi>prestations
 	Correction Bug Plusieurs fois la même prestation dans un cadi
 - Vérifier la récupération du prix david ou equipe selon le coiffeur
+- Error lors de la Suppression d'un rdv
+- concaténation des prix à la création du cadi
 
 DEV
 
@@ -16,6 +18,8 @@ Corentin:
 OK
 
 - Module Facturation : Encaissement avec attribution de chaque prestation au coiffeur
+	-> Gestion des Promotions
+	-> Correction Bug de la suppression d'un cadi sur la calendrier lié à l'ajout dans un cadi du champs "Source From Calendar"
 - Inversion TTC / HT dans l'ajout des prestations et forfait
 - Module Report : Affichage du chiffre d'affaire par jour/mois par coiffeur ou tous coiffeur
 - Module Liste Cadi

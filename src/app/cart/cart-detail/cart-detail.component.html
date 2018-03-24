@@ -53,10 +53,18 @@
 			<div
 			fxFlex="100"
 			*ngIf="showAddPrestaSection">
+
+				<mat-chip-list>
+					<mat-chip *ngFor="let type of types | async" 
+					    (click)="typeSelected(type)" >
+					   {{ type.title }}
+				        </mat-chip>	
+				</mat-chip-list>
+
 				<ng-template #loading><br><br><mat-spinner color="warn"></mat-spinner><br><br></ng-template>		
 	      <mat-chip-list *ngIf="prestations | async; let prestations; else loading">
 					<mat-chip 
-						*ngFor="let prestation of prestations"
+						*ngFor="let prestation of prestations | filter : filtre"
 						(click)="insertInOldCart('prestation',cart,prestation)">
 						{{ prestation.title }}
 						(<strong>{{ prestation.time }} min / {{ prestation.priceTeam }} €</strong>)
@@ -93,10 +101,18 @@
 			<div
 			fxFlex="100" 
 			*ngIf="showAddForfaitSection">
+
+				<mat-chip-list>
+					<mat-chip *ngFor="let type of forfaitTypes | async" 
+						(click)="typeSelectedForfait(type)" >
+						{{ type.title }}
+				       </mat-chip>	
+				</mat-chip-list>			
+
 				<ng-template #loading><br><br><mat-spinner color="warn"></mat-spinner><br><br></ng-template>		
 	      <mat-chip-list *ngIf="forfaits | async; let forfaits; else loading">
 	        <mat-chip 
-	        	*ngFor="let forfait of forfaits"
+						*ngFor="let forfait of forfaits | filterforfait : filtreForfait"
 						(click)="insertInOldCart('forfait',cart,forfait)">
 	          {{ forfait.title }} 
 		        <strong *ngIf="forfait.price&&forfait.time">({{ forfait.time }} min / {{ forfait.price }} €)</strong>
@@ -134,10 +150,19 @@
 			<div
 			fxFlex="100" 
 			*ngIf="showAddProductSection">
+
+				<mat-chip-list>
+					<mat-chip *ngFor="let brand of Brands" 
+					  (click)="typeSelectedProduct(brand)"
+					>
+					{{ brand.title }}
+					</mat-chip>	
+				</mat-chip-list>
+
 				<ng-template #loading><br><br><mat-spinner color="warn"></mat-spinner><br><br></ng-template>		
 	      <mat-chip-list *ngIf="products | async; let products; else loading">
 	        <mat-chip 
-	        	*ngFor="let product of products"
+						*ngFor="let product of products | filterproduct : filtreproduct"
 	        	(click)="addProductToCart(product,cart)">
 	          {{ product.brand }} {{ product.title }} &nbsp;
 		        <strong>({{ product.pxUTTC }} €)</strong>

@@ -20,7 +20,7 @@ export class ProductFormComponent implements OnInit {
   brands = [
   	"David Lucas",
   	"Deuxs1",
-    "Kerastase",
+    "Kérastase",
     "Leonor Greyl",
     "Shu Uemura"
   ]
