@@ -473,14 +473,14 @@ export class DialogSeeEvent implements OnInit {
   //   this.dialogRef.close();
   // }  
 
-  deleteCart(cart) {
-    this.cartService.deleteCart(cart);
+  deleteCart(cart,prestas) {
+    this.cartService.deleteCart(cart,prestas);
     this.dialogRef.close();    
   }  
 
   removePrestaFromCart(presta,card) {
     if(card.prestas.length === 1) {
-      this.deleteCart(card);
+      // this.deleteCart(card);
     }
     this.cartService.removePrestaFromCart(presta,card);
   }

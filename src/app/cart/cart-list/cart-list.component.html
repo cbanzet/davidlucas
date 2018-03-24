@@ -4,60 +4,46 @@
   <br><br>
 </ng-template>
           
-
-<mat-card>               
-<!-- <mat-card *ngIf="carts | async; let carts; else loading"> -->
+<mat-card  class="br-20" 
+  *ngIf="carts | async; let carts; else loading">
   <mat-card-header class="example-full-width">
     <mat-card-title>Carts</mat-card-title>
     <mat-card-subtitle>Liste des Paniers Vendus au Salon</mat-card-subtitle>
-    <button mat-fab routerLink="./../cartform" type="button" color="black">
+    <button mat-fab disabled routerLink="./../cartform" type="button" color="black">
       <mat-icon>add</mat-icon>
-    </button>
-    <!--     
-    <button mat-fab routerLink="./../calendar" type="button" color="black">
-      <mat-icon>today</mat-icon>
-    </button> 
-  	-->					
+    </button>		
   </mat-card-header>
 
   <mat-card-content>
     <br>
     <mat-list dense>
-<!--       <mat-list-item *ngFor="let cart of carts ">
+      <mat-list-item *ngFor="let cart of carts">
         <mat-icon matListIcon>local_offer</mat-icon>
-          
-        <mat-form-field class="field-title" >
-          <input matInput placeholder="title" type="text"
-            [(ngModel)]="cart.title"
-            (ngModelChange)=updateField(forfait,titleField,forfait.title)>
-        </mat-form-field>
+        <p mat-line>
+          <span class="statut"
+            [ngClass]="
+            {
+              'waiting-cart':cart.statut=='waiting',
+              'ongoing-cart':cart.statut=='ongoing',
+              'fillcart-cart':cart.statut=='filled',
+              'billing-cart':cart.statut=='billing',
+              'paid-cart':cart.statut=='paid'
+            }">
+            {{ cart.statut }}
+          </span>
+          <span>{{ cart.date }} - {{ cart.cartstarttime }}</span>
+          <span>{{ cart.clientfullname }}</span>
+        </p>
+        <p class="px-ttc">{{ cart.totalTTC }} €</p>
 
-        <mat-form-field class="field-price">
-          <input matInput maxlength="3" placeholder="time"  type="number"
-            [(ngModel)]="forfait.time"
-            (ngModelChange)=updateField(forfait,timeField,forfait.time)>
-            <mat-icon matSuffix>access_time</mat-icon>
-        </mat-form-field>
 
-        <mat-form-field class="field-price">
-            <input matInput maxlength="3" placeholder="price" type="number"
-              [(ngModel)]="forfait.price"
-              (ngModelChange)=updateField(forfait,priceField,forfait.price)>
-              <mat-icon matSuffix>euro_symbol</mat-icon>
-        </mat-form-field>
-          
-        <mat-chip-list *ngIf="forfait.prestations" class="ml-10">
-            <mat-chip *ngFor="let prestation of forfait.prestations ">
-              {{prestation.title}}
-            </mat-chip>
-        </mat-chip-list>
          
         <button mat-icon-button
-            (click)=" deleteForfait(forfait)">
+            (click)=" deleteCart(cart)">
             <mat-icon>remove_circle</mat-icon>
         </button>
 
-      </mat-list-item> -->
+      </mat-list-item>
    
     </mat-list>
   </mat-card-content>

@@ -2,12 +2,19 @@
 
 BUGS
 
+
 - Ajout de Prestation dans un Cadi : 
-	Prévoir une variable quantité dans le sous-noeud des cadi>prestations
-	Correction Bug Plusieurs fois la même prestation dans un cadi
-- Vérifier la récupération du prix david ou equipe selon le coiffeur
-- Error lors de la Suppression d'un rdv
+		Prévoir une variable quantité dans le sous-noeud des cadi>prestations
+		Correction Bug Plusieurs fois la même prestation dans un cadi
 - concaténation des prix à la création du cadi
+- Error lors de la Suppression d'un rdv : Bug supression des prestations avant la suppression du cadi
+
+
+
+- intervertir prix ttc et ht lors de l'ajout d'une prestation ou forfait dans un cadi
+- Bug création d'un rdv depuis David (à cause du prix)
+- Vérifier la récupération du prix david ou equipe selon le coiffeur
+
 
 DEV
 
@@ -16,22 +23,27 @@ Corentin:
 	-> Correction dans les prix des produits les "virgules" en "point"
 	-> Ajout du component "product-detail" pour l'édition d'un produit
 OK
+- Suppression de produit
+OK
 
+- Correction des Prix TTC/HT/TVA à l'ajout d'une prestation ou d'un forfait dans un cadi
+- Mise en forme filtres Presta/Forfait/Produit
 - Module Facturation : Encaissement avec attribution de chaque prestation au coiffeur
 	-> Gestion des Promotions
 	-> Correction Bug de la suppression d'un cadi sur la calendrier lié à l'ajout dans un cadi du champs "Source From Calendar"
-- Inversion TTC / HT dans l'ajout des prestations et forfait
 - Module Report : Affichage du chiffre d'affaire par jour/mois par coiffeur ou tous coiffeur
 - Module Liste Cadi
 
 Fabrice:
 1- Suppression de prestation
-1.1- Correction des Prix TTC/HT/TVA à l'ajout d'une prestation ou d'un forfait dans un cadi
+OK
 2- Ajout du type de prestation dans l'affichage du catalogue des prestations
+OK
 3- Ajout du type de forfait dans l'affichage du catalogue des forfaits
+OK
 4- Ajout de "Brand" pour filtrer les produit dans l'affichage du catalogue de produits
+OK
 5- Modification du coiffeur dans chaque prestation du cadi
 
 C&F
-- Suppression de produit
 OK

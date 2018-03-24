@@ -24,7 +24,8 @@ export class CartService {
   constructor(
     private db: AngularFireDatabase, 
     private router: Router) {
-    this.cartsRef = db.list('/carts', ref => ref.orderByChild('title'));
+      // this.cartsRef = db.list('/carts', ref => ref.orderByChild('title'));
+      this.cartsRef = db.list('/carts');
    }
 
 
@@ -33,6 +34,18 @@ export class CartService {
 ///////////////// G E T
 //////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////
+
+
+  getCartList() {
+    return this.cartsRef.snapshotChanges().map(arr => {
+      return arr.map(snap => Object.assign(
+        snap.payload.val(), 
+        // { musicians: snap.payload.val().artists?Object.values(snap.payload.val().artists):0},
+        { $key: snap.key }) )
+    })
+  }
+
+
 
 
   getCartWithKey(key:string) {
@@ -229,7 +242,7 @@ export class CartService {
 
   }
 
-
+  // Update Cart From Cart Module : Add Presta or Forfait
   updateInCart(cart,data,element) {
     var cartKey = cart.$key;
     var prestaKey = data.$key;
@@ -284,25 +297,23 @@ export class CartService {
           var dataPresta = {};
           var price = +data.prestations[i].priceDavid ? +data.prestations[i].priceDavid: +data.prestations[i].priceTeam;
           var prestationkey = data.prestations[i].key?data.prestations[i].key:null;
-               dataPresta['prestationKey'] = prestationkey;
-               dataPresta['prestationTitle'] = data.prestations[i].title?data.prestations[i].title:null;
-               dataPresta['price'] =  price;
-               dataPresta['starttime'] = starttime;
-               dataPresta['timelength'] = data.prestations[i].time?data.prestations[i].time:null;
-               dataPresta['memberkey'] = memberKey;
-               dataPresta['membername'] = membername;
-               dataPresta['fromcalendar'] = false;
-
-
-               this.createPrestaInCart(cartKey,prestationkey,memberKey,membername,dataPresta);
-                total = total + price;
+          dataPresta['prestationKey'] = prestationkey;
+          dataPresta['prestationTitle'] = data.prestations[i].title?data.prestations[i].title:null;
+          dataPresta['price'] =  price;
+          dataPresta['starttime'] = starttime;
+          dataPresta['timelength'] = data.prestations[i].time?data.prestations[i].time:null;
+          dataPresta['memberkey'] = memberKey;
+          dataPresta['membername'] = membername;
+          dataPresta['fromcalendar'] = false;
+          this.createPrestaInCart(cartKey,prestationkey,memberKey,membername,dataPresta);
+          total = total + price;
         }
         var newTotalGroupHT =  Math.round((totalHtInCart+total)*100)/100;
         var newTotalTax = Math.round((newTotalGroupHT*0.2)*100)/100;
         var newTotalTtc =  newTotalTax + newTotalGroupHT;
-              updateDatas[totalHTPath] = newTotalGroupHT;
-              updateDatas[totalTAXPath] = newTotalTax;
-              updateDatas[totalTTCPath] = newTotalTtc;
+        updateDatas[totalHTPath] = newTotalGroupHT;
+        updateDatas[totalTAXPath] = newTotalTax;
+        updateDatas[totalTTCPath] = newTotalTtc;
         this.db.object('/').update(updateDatas).then(_=>
           console.log(updateDatas)
         );
@@ -358,11 +369,11 @@ export class CartService {
 //////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////
 
-  deleteCart(cart) {
-    // console.log(cart);
-    var cartkey          = cart.$key;
-    var clientkey        = cart.clientkey;
-    var prestations      = cart.prestations?Object.values(cart.prestations):null;
+  deleteCart(cart,prestas) {
+
+    var cartkey    = cart.$key;
+    var clientkey  = cart.clientkey;
+
     const cartPath       = `carts/${cartkey}`;
     const cartlookupPath = `lookUpCartPrestations/${cartkey}`;
 
@@ -370,35 +381,30 @@ export class CartService {
     deleteData[cartPath] = null;
     deleteData[cartlookupPath] = null;
 
-    if(prestations) {
-      var nbOfPrestas = prestations.length;
-      for (var i = 0; i < nbOfPrestas; i++) {
-        var prestameta = prestations[i];
-        var presta = Object.entries(prestameta); 
-
-        console.log(presta);
-        
-        var memberkey = presta[2][1];
-        var prestakey = presta[4][1];
-        
-        var events = Object.values(presta[0][1]);
-        var nbOfEvents = events.length;
-        for (var j = 0; j < nbOfEvents; j++) 
+    if(prestas) 
+    {
+      for (var i = 0; i < prestas.length; i++) 
+      {
+        var prestakey = prestas[i].prestationkey;
+        var memberkey = prestas[i].memberkey;
+        var eventkeys  = prestas[i].events?Object.values(prestas[i].events):null;
+        for (var j = 0; j < eventkeys.length; j++) 
         {
-          var eventkey = events[j];
 
+          var eventkey = eventkeys[j];
           var eventPath = `events/${eventkey}`;
           var eventInClientPath = `clientes/${clientkey}/events/${eventkey}/`;
           var eventInMemberPath = `members/${memberkey}/events/${eventkey}/`;
           var lookUpClientEvents = `lookUpClientEvents/${clientkey}/${eventkey}/`;
           var lookUpMemberEvents = `lookUpMemberEvents/${memberkey}/${eventkey}/`;
-
+          
           deleteData[eventPath] = null;
           deleteData[eventInClientPath] = null;
           deleteData[eventInMemberPath] = null;
           deleteData[lookUpClientEvents] = null;
           deleteData[lookUpMemberEvents] = null;
-        }
+ 
+        }          
       }
     }
 
