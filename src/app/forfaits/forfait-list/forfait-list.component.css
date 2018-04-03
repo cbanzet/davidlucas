@@ -24,7 +24,7 @@ mat-card-title {
 
 .forfait-title {
 	display: inline-block;
-	width: 200px;
+	width: 260px;
 	font-size: 1.1em;
 }
 .forfait-detail {
@@ -40,4 +40,12 @@ mat-card-title {
 
 .chip-fixed-width {
 	width: 130px;
+}
+
+mat-chip {
+  font-size: 0.8em;
+  padding: 2px 5px 2px 8px !important;
+  margin: 0 0 0 3px !important;
+  text-transform: uppercase !important;
+  text-align: center !important;
 }

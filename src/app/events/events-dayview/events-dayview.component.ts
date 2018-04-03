@@ -112,7 +112,7 @@ export class EventsDayviewComponent implements OnInit {
               clientfullname: snap.payload.val().clientfullname,
               statut: snap.payload.val().statut,
               memberfirstname: snap.payload.val().memberfirstname,
-              tempsdepause: snap.payload.val().prestationkey=='-L20Nk3i1W6f-41KvCbw'? '1':'0',
+              tempsdepause: snap.payload.val().prestationkey=='-L88anNPIm-AOG3-Vqx9' ? '1':'0',
               time: snap.payload.val().time,
               cartkey: snap.payload.val().cartkey?snap.payload.val().cartkey:null,
               multievent: snap.payload.val().multiEvent,
@@ -234,7 +234,7 @@ export class DialogNewEvent implements OnInit {
   composeCart:boolean=false;
 
   // composeCart:boolean=false;
-  cartData: Array<Cart> = [];
+  cartData: Array<any> = [];
   cartFull:boolean=false;
 
   totalHT:number=0;
@@ -327,40 +327,97 @@ export class DialogNewEvent implements OnInit {
 
 	/////////////////////////////////////////////////////////////////
   // CART 
-  insertItemInCart(key,title,time,price,salonkey){
-    this.cartData.push(new Cart(key,title,time,price,salonkey));
-    this.sumTablePrice('add',price);
+  insertItemInCart(data) {
+    var isInCart:Boolean;
+    var id:number;
+    var newPrice:number;
+    length = this.cartData.length;
+    if(length)
+    {
+      for(var i = 0 ; i < length ;  i++) {
+        if(data.$key === this.cartData[i].$key  ) {
+          isInCart = true;
+          id = i;
+        }
+      }
+    }
+    if(!isInCart) 
+    {
+      this.cartData.push(data);
+      this.sumTablePrice('add', +data.price);
+    } 
+    else 
+    {
+      const oldPrice =  data.price;
+      this.cartData[id].quantity =  this.cartData[id].quantity + 1 ;
+      this.cartData[id].price =   oldPrice * this.cartData[id].quantity ;
+      newPrice = this.cartData[id].price?this.cartData[id].price:oldPrice;
+        // console.log(newPrice);
+      if(this.cartData[id].quantity > 2) 
+      {
+           this.sumTablePrice('add', +newPrice );
+           this.sumTablePrice('remove', +oldPrice * (this.cartData[id].quantity - 1 )  );
+            console.log( oldPrice * ( this.cartData[id].quantity - 1 ) );
+      } 
+      else 
+      {
+          this.sumTablePrice('add', +newPrice );
+          this.sumTablePrice('remove', oldPrice);
+      }
+    }
   }
+
+
   formatPrestaBeforeInsert(isDavid,data) {
     var key = data.$key?data.$key:0;
     var title = data.title?data.title:0;
     var time = data.time?data.time:0;
     var price = isDavid=="David" ? data.priceDavid:data.priceTeam;
     var salonkey = data.salonkey?data.salonkey:0;
+    var quantity = 1;
+    const prestation = {
+      $key: key,
+      title:title,
+      time:time,
+      price:price,
+      quantity: quantity
+    };
     if(key&&title&&time&&price) {
-      this.insertItemInCart(key,title,time,price,'1');
+      this.insertItemInCart( prestation);
+     console.log(this.cartData);
     }
-    else {console.log("Entrée incomplète")}
+    else {console.log("EntrÈe incomplËte")}
   }
 
   formatForfaitBeforeInsert(isDavid,data) {
+    var dataPresta:Prestation;
     var nbprestas = data.prestations.length;
     var key =[];
     var price =[];
     var title =[];
     var time = [];
-    console.log(nbprestas);
-    for(var i=0;i<nbprestas;i++) {
-      key[i] = data.prestations[i].key ? data.prestations[i].key:0;
-      title[i] = data.prestations[i].title ? data.prestations[i].title:0;
-      time[i] = data.prestations[i].time ? data.prestations[i].time:0;
-      price[i] = isDavid=="David" ? data.prestations[i].priceDavid:data.prestations[i].priceTeam;
-      if(key[i] && title[i] && time[i] && price[i]) {
-        this.insertItemInCart(key[i] ,title[i],time[i], +price[i],'null');
+    var quantity = [];
+     var isInCart = [];
+     var tab = [];
+     var k = 0;
+     length = this.cartData.length;
+     if(nbprestas) {
+       for( var i = 0 ; i < nbprestas ; i++) {
+         key[i] = data.prestations[i].key ? data.prestations[i].key:0;
+         title[i] = data.prestations[i].title ? data.prestations[i].title:0;
+         time[i] = data.prestations[i].time ? data.prestations[i].time:0;
+         quantity[i] = 1;
+         price[i] = isDavid=="David" ? data.prestations[i].priceDavid:data.prestations[i].priceTeam;
+        const prestation = {
+             $key: key[i],
+             title: title[i],
+             time: time[i],
+             price: price[i],
+             q: quantity[i]
+           };
+          this.insertItemInCart(prestation);
+       }
      }
-     else {console.log('Entrée incomplète')}
-   }
-    console.log(this.cartData);
   }
 
 

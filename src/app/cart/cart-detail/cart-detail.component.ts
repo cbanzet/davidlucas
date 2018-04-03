@@ -94,7 +94,7 @@ export class CartDetailComponent implements OnInit {
   ngOnInit() {
     this.cart = this.route.paramMap
       .switchMap((params: ParamMap) =>
-        this.cartService.getCartWithKey(params.get('id')));  	
+        this.cartService.getCartWithProductWithKey(params.get('id')));  	
   }
 
 

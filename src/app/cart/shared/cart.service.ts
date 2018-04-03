@@ -48,17 +48,38 @@ export class CartService {
 
 
 
+  // fonction utilise pour recuperer le caddy depuis le calendrier
   getCartWithKey(key:string) {
     this.cart = this.db.object('carts/'+ key).snapshotChanges().map(action => {
       const $key = action.payload.key;
-      const prestas = action.payload.val().prestations ? Object.values(action.payload.val().prestations) : null;
-      const pdcts = action.payload.val().products ? Object.values(action.payload.val().products) : null;
+      // const prestas = action.payload.val().prestations ? Object.values(action.payload.val().prestations) : null;
+      const prestas = action.payload.val() ? Object.values(action.payload.val().prestations) : null;
+    //  const pdcts =   Object.values(action.payload.val().products) ;
+      const data = 
+      { 
+        $key, 
+        prestas,
+      //  pdcts,
+        ...action.payload.val()
+      };
+      return data;
+    });
+  return this.cart
+  }
+
+  // fonction utilise pour recuperer le produit depuis le caddy
+  getCartWithProductWithKey(key:string) {
+    this.cart = this.db.object('carts/'+ key).snapshotChanges().map(action => {
+      const $key = action.payload.key;
+      // const prestas = action.payload.val().prestations ? Object.values(action.payload.val().prestations) : null;
+      const prestas = action.payload.val() ? Object.values(action.payload.val().prestations) : null;
+      const pdcts =  action.payload.val().products ? Object.values(action.payload.val().products): null ;
       const data = 
       { 
         $key, 
         prestas,
         pdcts,
-        ...action.payload.val() 
+        ...action.payload.val()
       };
       return data;
     });
@@ -157,6 +178,7 @@ export class CartService {
     newPrestaData['memberkey'] = memberkey;
     newPrestaData['membername'] = membername;
     newPrestaData['fromcalendar'] = dataPresta.fromcalendar;
+    newPrestaData['quantity'] = dataPresta.quantity;
 
     const cartPath = `carts/${cartkey}/prestations/${prestationkey}/`;
 
@@ -222,36 +244,80 @@ export class CartService {
     newPdct['code'] =      product.codeEAN;
     newPdct['ref'] =       product.reference;
     newPdct['price'] =     product.px;
+    newPdct['quantity'] =  1;
 
     var productInCartPath = `carts/${cartkey}/products/${productkey}`;
     var TTCCartPath       = `carts/${cartkey}/totalTTC/`;
     var HTCartPath        = `carts/${cartkey}/totalHT/`;
     var TVACartPath       = `carts/${cartkey}/totalTAX/`;
+    const productPathOld = `carts/${cartkey}/products/${productkey}/quantity`;
+    const productPathOldPrice = `carts/${cartkey}/products/${productkey}/price`;
+   
+   
 
     var updateData = {};
+    var updateDatas = {};
     updateData[productInCartPath]= newPdct;
-    updateData[TTCCartPath]= cartNewPriceTTC;
-    updateData[HTCartPath]= cartNewPriceHT;
-    updateData[TVACartPath]= cartNewTVA;
+    updateData[TTCCartPath]= +cartNewPriceTTC;
+    updateData[HTCartPath]= +cartNewPriceHT;
+    updateData[TVACartPath]= +cartNewTVA;
 
-    console.log(updateData);
+    if(cart.pdcts) 
+    {
+      let item = cart.pdcts.find((Obj) =>  Obj.key ===  productkey);
+      if(item === undefined) 
+      {
+        this.db.object('/').update(updateData).then(_=>
+         console.log(updateData)
+       );
+      }
+      // +oldPrice * (this.cartData[id].quantity - 1 
+      if(item)
+      {
+        var priceWithQte:number;
+        console.log(item.quantity > 2);
+        if(item.quantity > 2) 
+        {
+           priceWithQte = +(item.quantity + 1)* product.px - (item.quantity - 1)* product.px ;
+        } 
+        else 
+        {
+           priceWithQte = +(item.quantity + 1)* product.px - product.px ;
+        }
+        var cartNewPriceTTCQt = Math.round((parseFloat(cart.totalTTC) + priceWithQte)*100)/100;
+        var cartNewPriceHTQt = Math.round((cartNewPriceTTCQt/1.2)*100)/100;
+        var cartNewTVAQt = Math.round((cartNewPriceTTCQt-cartNewPriceHTQt)*100)/100;
 
-    this.db.object('/').update(updateData).then(_=>
-      console.log(updateData)
-    );
+        updateDatas[productPathOld]= item.quantity + 1;
+        updateDatas[productPathOldPrice]= (item.quantity + 1)* product.px;
+        updateDatas[TTCCartPath] = cartNewPriceTTCQt;
+        updateDatas[HTCartPath] =  cartNewPriceHTQt;
+        updateDatas[TVACartPath] =  cartNewTVAQt;
+        this.db.object('/').update(updateDatas).then(_=>
+          console.log( updateDatas)
+        );
 
+      }
+    } 
+    else 
+    {
+      this.db.object('/').update(updateData).then(_=>
+        console.log(updateData)
+      );
+    }
   }
 
   // Update Cart From Cart Module : Add Presta or Forfait
   updateInCart(cart,data,element) {
+    console.log(cart.prestations);
     var cartKey = cart.$key;
     var prestaKey = data.$key;
     var prestaTitle = data.title;
-    var prestaPrice = data.priceDavid?data.priceDavid:data.priceDavid;
     var starttime = '';
     var timelength = data.time;
     var memberKey =cart.prestas[0].memberkey;
     var membername = cart.prestas[0].membername;
+    var prestaPrice = membername=='David'?+data.priceDavid:+data.priceTeam;
 
     var prestaInCartPath =  `carts/${cartKey}/prestations/${prestaKey}`;
 
@@ -267,9 +333,16 @@ export class CartService {
     const totalHTPath = `carts/${cartKey}/totalHT`;
     const totalTAXPath = `carts/${cartKey}/totalTAX`;
     const totalTTCPath = `carts/${cartKey}/totalTTC`;
+    const prestaPathOld = `carts/${cartKey}/prestations/${prestaKey}/quantity`;
+    const prestaPathOldPrice = `carts/${cartKey}/prestations/${prestaKey}/price`;
    
     var newPrestaData = {};
     var updateData = {};
+    var dataPath = {
+      prestaPath : prestaPath,totalHTPath: totalHTPath,totalTAXPath: totalTAXPath, totalTTCPath: totalTTCPath,
+      prestaPathOld: prestaPathOld,prestaPathOldPrice:prestaPathOldPrice
+    };
+  
     newPrestaData['prestationkey'] =  prestaKey;
     newPrestaData['prestationtitle'] = prestaTitle;
     newPrestaData['price'] = prestaPrice;
@@ -278,48 +351,138 @@ export class CartService {
     newPrestaData['memberkey'] = memberKey;
     newPrestaData['membername'] = membername;
     newPrestaData['fromcalendar'] = false;
+    newPrestaData['quantity'] = 1;
 
     updateData[prestaInCartPath]= newPrestaData;
     updateData[totalHTPath] = newTotalHT;
     updateData[totalTAXPath] = newTotalTax;
     updateData[totalTTCPath] = newTotalTtc;
+
     if(element === 'prestation') {
+      this.updatePrestaInCart(cart,prestaKey,updateData,prestaPrice,dataPath);
+    }
+    else {
+      this.updateForfaitInCart(cart,data,starttime,memberKey,membername,cartKey,totalHTPath,totalTAXPath,totalTTCPath,totalHtInCart);
+    }
+  }
+
+
+
+  updatePrestaInCart(cart,prestaKey,updateData,prestaPrice,dataPath) {
+    var updateNewData = {};
+    let item = cart.prestas.find((Obj) =>  Obj.prestationkey === prestaKey);
+    console.log(item === undefined);
+    if(item === undefined) {
       this.db.object('/').update(updateData).then(_=>
         console.log(updateData)
      );
-    } 
-    else {
-      // Intégration Forfait
-      if(data.prestations.length){
-        var total = 0;
-        var updateDatas = {};
-        for (let i = 0 ; i < data.prestations.length ; i++ ) {
-          var dataPresta = {};
-          var price = +data.prestations[i].priceDavid ? +data.prestations[i].priceDavid: +data.prestations[i].priceTeam;
-          var prestationkey = data.prestations[i].key?data.prestations[i].key:null;
-          dataPresta['prestationKey'] = prestationkey;
-          dataPresta['prestationTitle'] = data.prestations[i].title?data.prestations[i].title:null;
-          dataPresta['price'] =  price;
-          dataPresta['starttime'] = starttime;
-          dataPresta['timelength'] = data.prestations[i].time?data.prestations[i].time:null;
-          dataPresta['memberkey'] = memberKey;
-          dataPresta['membername'] = membername;
-          dataPresta['fromcalendar'] = false;
+    }
+    if(item) {
+      var totale = cart.prestas
+     .map((Obj) => Obj.price)
+     .reduce((previous, current) => previous + current, 0) + prestaPrice;
+     var newTotalTaxQte = Math.round(( totale*0.2)*100)/100;
+     var newTotalTtcQte = newTotalTaxQte +  totale;
+     var TotalHTWithQte = Math.round(totale*100)/100;
+        updateNewData[dataPath.prestaPathOld] = item.quantity + 1 ;
+        updateNewData[dataPath.prestaPathOldPrice] = +(item.quantity + 1) * prestaPrice;
+        updateNewData[dataPath.totalHTPath] =  TotalHTWithQte;
+        updateNewData[dataPath.totalTAXPath] = newTotalTaxQte;
+        updateNewData[dataPath.totalTTCPath] = newTotalTtcQte;
+
+      this.db.object('/').update(updateNewData).then(_=>
+        console.log (updateNewData)
+     );
+    }
+  }
+
+
+
+
+  updateForfaitInCart(cart,data,starttime,memberKey,membername,cartKey,totalHTPath,totalTAXPath,totalTTCPath,totalHtInCart) {
+    if(data.prestations.length)
+    {
+      var total = 0;
+      var updateDatas = {};
+      var updateDateQte = {};
+      console.log(data.prestations);
+      var isInCart:Boolean;
+      var isNotInCart:Boolean;
+      var dataPrice = [];
+      for (let i = 0 ; i < data.prestations.length ; i++ ) {
+        var dataPresta = {};
+        var price = +data.prestations[i].priceDavid ? +data.prestations[i].priceDavid: +data.prestations[i].priceTeam;
+        var prestationkey = data.prestations[i].key?data.prestations[i].key:null;
+       // var quantity = data.prestations[i].quantity?data.prestations[i].quantity:0;
+        let item = cart.prestas.find((Obj) =>  Obj.prestationkey ===  prestationkey);
+        
+        dataPresta['prestationKey'] = prestationkey;
+        dataPresta['prestationTitle'] = data.prestations[i].title?data.prestations[i].title:null;
+        dataPresta['price'] =  price;
+        dataPresta['quantity'] =  1;
+        dataPresta['starttime'] = starttime;
+        dataPresta['timelength'] = data.prestations[i].time?data.prestations[i].time:null;
+        dataPresta['memberkey'] = memberKey;
+        dataPresta['membername'] = membername;
+        dataPresta['fromcalendar'] = false;
+        if(item === undefined) 
+        {
+          isNotInCart = true;
           this.createPrestaInCart(cartKey,prestationkey,memberKey,membername,dataPresta);
           total = total + price;
         }
-        var newTotalGroupHT =  Math.round((totalHtInCart+total)*100)/100;
-        var newTotalTax = Math.round((newTotalGroupHT*0.2)*100)/100;
-        var newTotalTtc =  newTotalTax + newTotalGroupHT;
+        if(item)
+        {
+          isInCart = true;
+          const prestaPathOldQte = `carts/${cartKey}/prestations/${prestationkey}/quantity`;
+          const prestaPathOldPriceDte = `carts/${cartKey}/prestations/${prestationkey}/price`;
+          updateDateQte[prestaPathOldQte] = item.quantity + 1 ;
+          updateDateQte[prestaPathOldPriceDte] = +(item.quantity + 1) * price;
+          dataPrice.push(price);
+          this.db.object('/').update(updateDateQte).then(_=>
+            console.log(updateDateQte)
+          );
+
+          var totaleItemInCart = cart.prestas
+          .map((Obj) => Obj.price)
+          .reduce((previous, current) => previous + current, 0);
+          var totaleItemAdded = dataPrice.reduce((previous, current) => previous + current, 0);
+          var totale = totaleItemInCart + totaleItemAdded;
+          console.log(item);
+        }
+      }
+      if(isInCart) 
+      {
+        var  updateTotal = {} ;
+        updateTotal[totalHTPath] = totale;
+        updateTotal[totalTAXPath] =  Math.round((totale*0.2)*100)/100;
+        updateTotal[totalTTCPath] =  totale + Math.round((totale*0.2)*100)/100;
+        console.log(dataPrice);
+        console.log(totaleItemInCart);
+        console.log( totaleItemAdded);
+        console.log( totale);
+
+        this.db.object('/').update( updateTotal).then(_=>
+          console.log( updateTotal)
+        );
+      }
+      if(isNotInCart) 
+      {
+         var newTotalGroupHT =  Math.round((totalHtInCart+total)*100)/100;
+         var newTotalTax = Math.round((newTotalGroupHT*0.2)*100)/100;
+         var newTotalTtc =  newTotalTax + newTotalGroupHT;
         updateDatas[totalHTPath] = newTotalGroupHT;
         updateDatas[totalTAXPath] = newTotalTax;
         updateDatas[totalTTCPath] = newTotalTtc;
         this.db.object('/').update(updateDatas).then(_=>
-          console.log(updateDatas)
-        );
+             console.log(updateDatas)
+           );
       }
     }
   }
+
+
+
 
 
 

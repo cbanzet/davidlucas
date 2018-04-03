@@ -121,16 +121,28 @@
 			fxFlex="100%"
 			*ngFor="let element of cartData ;let i = index ">
 				<div
-				fxFlex="80%"
+				fxFlex="50%"
 				fxLayoutAlign="start center">
 					<span class="buble-16 mr-10">{{ (i+1) }}</span>
 					{{ element.title }}
+				</div>
+				<div
+				fxFlex="20%"
+				fxLayoutAlign="start center">
+					<!-- <span class="buble-16 mr-10"></span> -->
+					{{ element.price }} €
+				</div>
+				<div
+				fxFlex="10%"
+				fxLayoutAlign="start end">
+					<strong>{{ element.quantity }} </strong>
 				</div>
 				<div
 				fxFlex="10%"
 				fxLayoutAlign="start end">
 					<strong>{{ element.time }} min</strong>
 				</div>
+				
 				<div
 				fxFlex="10%"
 				fxLayoutAlign="start end">

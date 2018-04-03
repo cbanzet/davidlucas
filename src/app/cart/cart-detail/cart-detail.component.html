@@ -195,12 +195,14 @@
 				<table class="full-width">
 					<tr class="table-header dark-cell br-top">
 						<td class="td-a-l">Description</td>
+						<td class="td-a-l">Qte</td>
 						<td width="80px" class="td-a-c">Price TTC</td>
 						<td width="40px"></td>
 					</tr>
 
 					<tr class="items-info" *ngFor="let prestation of cart.prestas">
 						<td><strong>{{ prestation.prestationtitle }}</strong></td>
+						<td>{{ prestation.quantity }}</td>
 						<td class="td-a-c">{{ prestation.price }} €</td>
 						<td class="td-a-c" *ngIf="!prestation.fromcalendar"> 
 							<mat-icon class="cursor-pointer" (click)="deletePresta(prestation,cart)">clear</mat-icon>
@@ -209,6 +211,7 @@
 
 					<tr class="items-info" *ngFor="let pdct of cart.pdcts">
 						<td><strong>{{ pdct.brand }}</strong> {{ pdct.title }}</td>
+						<td>{{ pdct.quantity }}</td>
 						<td class="td-a-c">{{ pdct.price }} €</td>
 						<td class="td-a-c">
 							<mat-icon class="cursor-pointer" (click)="deleteProduct(pdct,cart)">clear</mat-icon>

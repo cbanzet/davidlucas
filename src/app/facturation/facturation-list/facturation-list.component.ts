@@ -27,7 +27,7 @@ export class FacturationListComponent implements OnInit {
 
   ngOnInit() {
   	this.factures = this.facturationService.getFacturesList();  	  	
-    this.members = this.memberService.getMembersList();    
+    this.members = this.memberService.getMembersNameList();    
   }
 
   addToTotal(key:string, price:number):void {
@@ -45,6 +45,16 @@ export class FacturationListComponent implements OnInit {
   deleteFacture(facture) {
     this.facturationService.deleteFacture(facture);
   } 
+
+  updateDate(date) {
+    console.log(date);
+    var dateString = date;
+    var tabs = dateString.split(' ');  
+
+    console.log(tabs[3]);
+
+
+  }
 
 
 

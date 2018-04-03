@@ -48,6 +48,42 @@ export class MemberService {
     })    
   }
 
+  getMembersNameList() {
+    return this.membersRef.snapshotChanges().map(arr => {
+      return arr.map(snap => Object.assign(
+        // snap.payload.val(), 
+        { 
+          $key: snap.key,
+          name: snap.payload.val().firstname,
+        }) 
+      )
+    })    
+  }
+
+  // getForfaitTypeList() {
+  //   return this.forfaitTypeRef.snapshotChanges().map(arr => {
+  //     return arr.map(snap => Object.assign(
+  //       snap.payload.val(), 
+  //       { 
+  //         $key: snap.key, 
+  //         title: snap.payload.val().title,
+  //       }) 
+  //     )
+  //   })
+  // } 
+
+  // getFacturesList() {
+  //   return this.facturesRef.snapshotChanges().map(arr => {
+  //     return arr.map(snap => Object.assign(
+  //       snap.payload.val(), 
+  //       // { musicians: snap.payload.val().artists?Object.values(snap.payload.val().artists):0},
+  //       { $key: snap.key }) )
+  //   })
+  // }
+
+
+
+
   getCoiffeursList() {
     return this.coiffeursRef.snapshotChanges().map(arr => {
       return arr.map(snap => Object.assign(snap.payload.val(), { $key: snap.key }) )

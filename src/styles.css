@@ -69,6 +69,13 @@ border-bottom-left-radius: 5px;
   border-top-left-radius: 10px;
 }
 
+.br3 {
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+}
+
+
 .mat-dialog-container {
   -webkit-border-radius: 20px !important;
   -moz-border-radius: 20px !important;

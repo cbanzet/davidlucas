@@ -186,8 +186,10 @@ export class EventService {
       var dataPresta = {};
       for(var i=0; i < cart.length; i++) 
       {
-        var prestationkey = cart[i].key?cart[i].key:null;
+        // var prestationkey = cart[i].key?cart[i].key:null;
+        var prestationkey = cart[i].$key?cart[i].$key:null;
 
+        dataPresta['quantity'] = cart[i].quantity?cart[i].quantity:null; 
         dataPresta['cartkey'] = cartkey;
         dataPresta['prestationKey'] = prestationkey;
         dataPresta['prestationTitle'] = cart[i].title?cart[i].title:null;

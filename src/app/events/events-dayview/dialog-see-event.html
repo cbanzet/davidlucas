@@ -24,7 +24,7 @@
 	<div 
 		fxFlex="30"
 		[ngStyle]="{'font-size': '1em'}"
-		class="bg-black"
+		class="bg-black br3"
 	>
 		<strong>{{ cart.date }}</strong> à <strong>{{ cart.cartstarttime }}</strong>
 	</div>
@@ -52,21 +52,28 @@
 	*ngFor="let element of cart.prestas ;let i = index ">
 
 		<div
-		fxFlex="40"
+		fxFlex="60"
 		fxLayoutAlign="start center">
 			<span class="buble-16 mr-10">{{ (i+1) }}</span>
 			<strong>{{ element.starttime }} &nbsp;&nbsp;</strong>
 			<span
 			[ngStyle]="{'font-size': '0.8em'}">{{ element.prestationtitle }}</span>
-		</div>	
+		</div>
+
 		<div
-		fxFlex="20"
+		fxFlex="10"
+		fxLayoutAlign="start end" class="small">
+			<strong>{{ element.timelength }} </strong>&nbsp; min
+		</div>
+
+		<div
+		fxFlex="15"
 		fxLayoutAlign="end start">
 			<span class="member-name">{{ element.membername }}</span>
 		</div>
 
 		<div 
-		fxFlex="10"
+		fxFlex="5"
 		fxLayoutAlign="start start">&nbsp;
 		<!-- <mat-icon (click)="changeCoiffeur(element)">cached</mat-icon> -->
 		<mat-select 	
@@ -79,14 +86,14 @@
 		</div>
 
 		<div
-		fxFlex="20"
-		fxLayoutAlign="start end">
-			<strong>{{ element.timelength }} </strong>&nbsp; min
+		fxFlex="5"
+		fxLayoutAlign="end center">
+			<span class="qty">{{ element.quantity }}</span>
 		</div>
 		
 		<div
-		fxFlex="10"
-		fxLayoutAlign="start end">
+		fxFlex="5"
+		fxLayoutAlign="start center">
 			<mat-icon (click)="removePrestaFromCart(element,cart)" class="cursor-pointer">clear</mat-icon>
 		</div>
 
@@ -98,7 +105,6 @@
 			<mat-icon (click)="removePrestaFromCart(element,cart)">clear</mat-icon>
 		</div> 
 		-->
-
 
 	</div>		
 

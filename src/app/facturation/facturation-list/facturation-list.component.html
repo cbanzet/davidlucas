@@ -17,9 +17,28 @@
 			<!-- [routerLink]="['./../facturationform', '0']"> -->
 			<mat-icon>add</mat-icon>
 		</button>
+
+
+    <mat-form-field>
+      <input matInput placeholder="Select Date"
+      [matDatepicker]="picker"
+      [(ngModel)]="dateSelected"
+      (ngModelChange)="updateDate(dateSelected)">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+
+
   </mat-card-header>
 
   <mat-card-content>
+
+    <ul class="coiffeur-menu">
+      <li>ALL</li>
+      <li *ngFor="let member of members | async">{{ member.name }}</li>
+    </ul>
+
   	<br>
     <mat-list dense>
       <mat-list-item *ngFor="let facture of factures">
@@ -60,7 +79,7 @@
 					*ngIf="facture.statut==11">
 		        <mat-icon>done</mat-icon>
 		    </button>		     
-				<button mat-icon-button color="warn"
+				<button mat-icon-button
 						(click)="deleteFacture(facture)">
 		        <mat-icon>remove_circle</mat-icon>
 		    </button>     
@@ -72,7 +91,7 @@
             </span>
             <span class="client"> 
             </span>
-            <span class="montant total-amount">
+            <span class="montant total-amount br3">
               MONTANT TOTAL : <strong>{{ total }} €</strong>
             </span>            
           </span>

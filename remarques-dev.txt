@@ -1,14 +1,25 @@
+2018 04 03
+
+- Récupération dans les cadis d'un jour donné, 
+des montants des prestations liées à un coiffeur.
+ie. Récupération des listes de prestations à partir de l'id d'un cadi contenu dans une facture.
+
+
+
+
 
 
 BUGS
 
+- Error lors de la Suppression d'un rdv : Bug supression des prestations avant la suppression du cadi
+OK
 
 - Ajout de Prestation dans un Cadi : 
 		Prévoir une variable quantité dans le sous-noeud des cadi>prestations
 		Correction Bug Plusieurs fois la même prestation dans un cadi
+		
 - concaténation des prix à la création du cadi
-- Error lors de la Suppression d'un rdv : Bug supression des prestations avant la suppression du cadi
-
+- Erreur saisie statut update
 
 
 - intervertir prix ttc et ht lors de l'ajout d'une prestation ou forfait dans un cadi
