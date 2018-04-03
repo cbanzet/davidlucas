@@ -47,6 +47,23 @@ export class CartService {
 
 
 
+  getCartListForReport() {
+    return this.cartsRef.snapshotChanges().map(arr => {
+      return arr.map(snap => Object.assign(
+        snap.payload.val(), 
+        // { musicians: snap.payload.val().artists?Object.values(snap.payload.val().artists):0},
+        { 
+          $key           : snap.key,
+          date           : snap.payload.val().date,
+          clientfullname : snap.payload.val().clientfullname,
+          totalTTC       : snap.payload.val().totalTTC,          
+        }
+        { prestas: snap.payload.val().prestations?Object.values(snap.payload.val().prestations):0},        
+      ))
+    })
+  }
+
+
 
   // fonction utilise pour recuperer le caddy depuis le calendrier
   getCartWithKey(key:string) {
@@ -253,8 +270,6 @@ export class CartService {
     const productPathOld = `carts/${cartkey}/products/${productkey}/quantity`;
     const productPathOldPrice = `carts/${cartkey}/products/${productkey}/price`;
    
-   
-
     var updateData = {};
     var updateDatas = {};
     updateData[productInCartPath]= newPdct;

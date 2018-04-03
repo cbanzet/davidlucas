@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { FirebaseApp } from 'angularfire2';
 import { 	AngularFireDatabase, 
-					AngularFireList, 
+					AngularFireList,
 					AngularFireObject } from 'angularfire2/database';
 
 import { Observable } from 'rxjs/Observable';
@@ -87,6 +87,7 @@ export class FacturationService {
     // console.log(newFactureForm.value);
     console.log(date);
     console.log(client,coiffeur,prestation,pxHT,pxTAX,pxTTC);
+
     var newFactureData = {}
     newFactureData['timestamp'] = Date.now();    
     newFactureData['ref'] = "001";    

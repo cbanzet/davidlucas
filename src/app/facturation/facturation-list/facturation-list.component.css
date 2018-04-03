@@ -20,18 +20,48 @@ mat-spinner {
 	margin: 0 auto;
 }
 
+.date-move {
+	line-height: 1em;
+}
+
 .mb-20px {
 	margin-bottom: 40px;
 }
 
 
+.date-move {
+	background-color: #000;
+	color: #eee;
+	width: 250px;
+}
+.showdate {
+	display: inline-block;
+  margin-top: 5px;
+  vertical-align: top;
+  font-size: 1.2em;
+}
+
+
 .facture-title {
 	font-size: 1.2em;
+	line-height: 0.8em;
 }
 
 .coiffeur-menu {
 	padding: 0;
 	margin: 20px 0 0 !important;
+}
+
+
+.presta-membres {
+	margin: 0; padding: 0;
+	margin-bottom: 10px;	
+}
+.presta-membres li {
+	text-transform: uppercase;
+	font-size: 0.8em;
+	margin-left: 1px; padding: 0 10px;
+	background-color: #999999; color: #FFF;
 }
 
 .coiffeur-menu li {
@@ -46,6 +76,11 @@ mat-spinner {
 .coiffeur-menu li:hover {
 	background-color: #000;
 	color: #FFF;
+}
+
+.presta-membres li {
+	list-style-type: none;
+	display: inline;
 }
 
 
@@ -71,7 +106,7 @@ mat-spinner {
 
 
 
-.info-bill, .client, .montant {
+.client, .montant {
 	display: inline-block;
 	border-left: 1px dotted #ccc;
 }
@@ -80,11 +115,11 @@ mat-spinner {
 }
 .client {
 	padding-left: 10px;
-	width: 200px;
+	width: 250px;
 }
 .montant {
 	padding-left: 10px;
-	width: 220px;
+	width: 260px;
 }
 .total-amount {
 	background-color: #000;

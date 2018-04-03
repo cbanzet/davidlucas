@@ -5,98 +5,110 @@
 </ng-template>
 
 <mat-card class="br-20" 
-*ngIf="factures | async; let factures; else loading" >
+*ngIf="carts$ | async; let carts; else loading" >
   <mat-card-header>
     <div mat-card-avatar class="example-header-image">
       <mat-icon matListIcon>receipt</mat-icon>
     </div>      
     <mat-card-title>Factures</mat-card-title>
-    <mat-card-subtitle>Liste des Factures du Salon David Lucas Paris</mat-card-subtitle>
+    <mat-card-subtitle>
+      Liste des Factures du Salon David Lucas Paris <br>
+      {{ dateSelected }}
+   </mat-card-subtitle>
 		<button mat-fab type="button" color="black" disabled 
       routerLink="./../facturationform">
 			<!-- [routerLink]="['./../facturationform', '0']"> -->
 			<mat-icon>add</mat-icon>
 		</button>
 
-
+    <!--     
     <mat-form-field>
       <input matInput placeholder="Select Date"
       [matDatepicker]="picker"
-      [(ngModel)]="dateSelected"
+      [(ngModel)]="dateSelected">
       (ngModelChange)="updateDate(dateSelected)">
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field>
-
-
+    </mat-form-field> 
+    -->
 
   </mat-card-header>
 
   <mat-card-content>
 
+    <div class="date-move br3">
+      <mat-icon (click)="changeDay(calendarDate,'-7')">fast_rewind</mat-icon>
+      <mat-icon (click)="changeDay(calendarDate,'-1')">keyboard_arrow_left</mat-icon>
+      <span class="showdate"> {{calendarDate | date:'EEEE d MMM'}}</span>
+      <mat-icon (click)="changeDay(calendarDate,'1')">keyboard_arrow_right</mat-icon>
+      <mat-icon (click)="changeDay(calendarDate,'7')">fast_forward</mat-icon>      
+    </div>
+
     <ul class="coiffeur-menu">
-      <li>ALL</li>
-      <li *ngFor="let member of members | async">{{ member.name }}</li>
+      <li class="br3">ALL</li>
+      <li *ngFor="let member of members | async" class="br3">{{ member.name }}</li>
     </ul>
 
   	<br>
-    <mat-list dense>
-      <mat-list-item *ngFor="let facture of factures">
-        <!-- <h4 mat-line [ngClass]="facture.status==2 ? 'facture-done' : 'facture-waiting'"> -->
-				<h4 mat-line>        	
-        	<span class="facture-title">
-        		<span class="info-bill">
-              <strong>Fac. n°{{ facture.ref }}</strong> du 
-              <strong>{{ facture.date }}</strong> à 
-              <strong>{{ facture.starttime }}</strong>              
-            </span>
-        		<span class="client"> 
-              Client :
-              <strong>{{ facture.clientfullname }}</strong>
-            </span> 
-            <span class="montant">
-              Montant :
-              <strong>{{ facture.totalTTC }} </strong> €
-              {{ addToTotal(facture.$key,facture.totalTTC) }}
-            </span>
-        	</span><br>
-        	<span *ngIf="facture.timestamp" class="facture-date">{{ facture.timestamp | date}} | Réglement: <strong>{{ facture.moyendepaiement }}</strong> | Statut : <strong>{{ facture.statut }}</strong></span>
-        </h4>
-        <!-- facture WAITING -->
-				<button mat-icon-button color="warn"
-					*ngIf="facture.statut==0"
-					(click)="changeFactureStatut(facture)">
-		        <mat-icon>hourglass_empty</mat-icon>
-		    </button>
-        <!-- facture ON GOING -->
-				<button mat-icon-button
-					*ngIf="facture.statut==1"
-					(click)="changeFactureStatut(facture)">
-		        <mat-icon>hourglass_full</mat-icon>
-		    </button>
-        <!-- facture DONE -->		    		    
-				<button mat-icon-button
-					*ngIf="facture.statut==11">
-		        <mat-icon>done</mat-icon>
-		    </button>		     
-				<button mat-icon-button
-						(click)="deleteFacture(facture)">
-		        <mat-icon>remove_circle</mat-icon>
-		    </button>     
-      </mat-list-item>
-      <mat-list-item>
-        <h4 mat-line>         
-          <span class="facture-title">
-            <span class="info-bill">
-            </span>
-            <span class="client"> 
-            </span>
-            <span class="montant total-amount br3">
-              MONTANT TOTAL : <strong>{{ total }} €</strong>
-            </span>            
-          </span>
-        </h4>
-      </mat-list-item>
-    </mat-list>
+
+    <div *ngFor="let cart of carts">
+      <!-- <h4 mat-line [ngClass]="facture.status==2 ? 'facture-done' : 'facture-waiting'"> -->
+    	<span class="facture-title">
+    		<span class="info-bill">
+          <!-- <strong>Fac. n°{{ facture.ref }}</strong> du  -->
+          <strong>Fac. n° XXXXXXX</strong> du 
+
+          <strong>{{ cart.date }}</strong>
+        </span>
+    		<span class="client"> 
+          Client :
+          <strong>{{ cart.clientfullname }}</strong>
+        </span> 
+        <span class="montant">
+          Montant :
+          <strong>{{ cart.totalTTC }} </strong> €
+          {{ addToTotal(cart.$key, cart.totalTTC) }}
+        </span>
+    	</span>
+
+      <ul class="presta-membres">
+        <li *ngFor="let presta of cart.prestas" class="br3">
+          {{ presta.membername }} : 
+          <strong>{{ presta.price }} €</strong>
+        </li>
+      </ul>
+    </div>
+        
+        <!--         	<span *ngIf="facture.timestamp" class="facture-date">{{ cart.timestamp | date}} | Réglement: <strong>{{ facture.moyendepaiement }}</strong> | Statut : <strong>{{ facture.statut }}</strong></span> -->
+      <!-- 
+      <!-- facture WAITING 
+			<button mat-icon-button color="warn"
+				*ngIf="facture.statut==0"
+				(click)="changeFactureStatut(facture)">
+	        <mat-icon>hourglass_empty</mat-icon>
+	    </button>
+      <!-- facture ON GOING 
+			<button mat-icon-button
+				*ngIf="facture.statut==1"
+				(click)="changeFactureStatut(facture)">
+	        <mat-icon>hourglass_full</mat-icon>
+	    </button>
+      <!-- facture DONE 		    
+			<button mat-icon-button
+				*ngIf="facture.statut==11">
+	        <mat-icon>done</mat-icon>
+	    </button>		     
+			<button mat-icon-button
+					(click)="deleteFacture(facture)">
+	        <mat-icon>remove_circle</mat-icon>
+	    </button> 
+      -->
+
+      <div class="montant total-amount br3">
+          MONTANT TOTAL : 
+          <strong>{{ total }} €</strong>
+      </div>
+
+
   </mat-card-content>
 </mat-card>
