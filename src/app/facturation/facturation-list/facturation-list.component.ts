@@ -34,6 +34,7 @@ export class FacturationListComponent implements OnInit {
 
   total:number = 0;
   check: string = "Check : ";
+  checkdate: string;
 
   constructor(
 		private router: Router,
@@ -76,20 +77,25 @@ export class FacturationListComponent implements OnInit {
   }
 
   addToTotal(key:string, price:number):void {
-    if (this.check.indexOf(key) == -1) {
+    if (this.check.indexOf(key) == -1) 
+    {
       this.check = `${this.check} ${key}`;
-      console.log("key added");
       this.total += price;
       this.total = Math.round(this.total*100)/100;
     }
   }
 
+  reinitTotal(){
+    this.check = "Check : ";
+    this.total = 0;
+  }
  
   filterCartsBy(date: string|null) {
     this.date$.next(date);
   }
 
   changeDay(date,nb) {
+    this.reinitTotal();    
     this.calendarDate = moment(date).add(nb,'day');
     this.dateForQuery = this.eventService.getDate(this.calendarDate);
     this.filterCartsBy(this.dateForQuery);    
@@ -103,14 +109,10 @@ export class FacturationListComponent implements OnInit {
   }
 
   updateDate(date) {
-    var dateString : string = date;
+    // var dateString : string = date;
     // var tabs = dateString.split(' ');  
     // console.log(tabs[3]);
   }
-
-
-
-
 
   changeFactureStatut(facture) {
     // this.facturationService.changeFactureStatut(facture);  
@@ -119,7 +121,5 @@ export class FacturationListComponent implements OnInit {
   deleteFacture(facture) {
     // this.facturationService.deleteFacture(facture);
   } 
-
-
 
 }

@@ -21,7 +21,22 @@ mat-spinner {
 }
 
 .date-move {
-	line-height: 1em;
+    padding: 5px 5px;
+    background-color: #000;
+    color: #eee;
+    width: 280px;
+    text-align: center;
+    font-size: 0.8em;
+   	line-height: 1em;
+}
+
+.date-move mat-icon {
+	color: #eee;
+	cursor: pointer
+}
+
+.date-move mat-icon:hover {
+	color: #fff;	
 }
 
 .mb-20px {
@@ -29,14 +44,9 @@ mat-spinner {
 }
 
 
-.date-move {
-	background-color: #000;
-	color: #eee;
-	width: 250px;
-}
 .showdate {
 	display: inline-block;
-  margin-top: 5px;
+  margin-top: 8px;
   vertical-align: top;
   font-size: 1.2em;
 }

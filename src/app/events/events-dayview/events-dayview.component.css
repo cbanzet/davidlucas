@@ -105,20 +105,20 @@ font-size: 0.8em;
 }
 
 .round-top-event {
-	-webkit-border-top-left-radius: 5px;
-	-webkit-border-top-right-radius: 5px;
-	-moz-border-radius-topleft: 5px;
-	-moz-border-radius-topright: 5px;
-	border-top-left-radius: 5px;
-	border-top-right-radius: 5px;	
+	-webkit-border-top-left-radius: 3px;
+	-webkit-border-top-right-radius: 3px;
+	-moz-border-radius-topleft: 3px;
+	-moz-border-radius-topright: 3px;
+	border-top-left-radius: 3px;
+	border-top-right-radius: 3px;	
 }
 .round-bottom-event {
-	-webkit-border-bottom-right-radius: 5px;
-	-webkit-border-bottom-left-radius: 5px;
-	-moz-border-radius-bottomright: 5px;
-	-moz-border-radius-bottomleft: 5px;
-	border-bottom-right-radius: 5px;
-	border-bottom-left-radius: 5px;
+	-webkit-border-bottom-right-radius: 3px;
+	-webkit-border-bottom-left-radius: 3px;
+	-moz-border-radius-bottomright: 3px;
+	-moz-border-radius-bottomleft: 3px;
+	border-bottom-right-radius: 3px;
+	border-bottom-left-radius: 3px;
 }
 
 
@@ -127,19 +127,13 @@ font-size: 0.8em;
 	color: white !important;	
 	/*background-color: #A61D00 !important;	*/
 	background: #ff2c00; /* Old browsers */
-	background: -moz-linear-gradient(-45deg, #ff2c00 0%, #a61d00 100%); /* FF3.6-15 */
-	background: -webkit-linear-gradient(-45deg, #ff2c00 0%,#a61d00 100%); /* Chrome10-25,Safari5.1-6 */
-	background: linear-gradient(135deg, #ff2c00 0%,#a61d00 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff2c00', endColorstr='#a61d00',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+	background-color: #FF8B73;
+	border-left: 3px solid #FF2C00;
 }
 .ongoing-event {
-	color: white !important;	
-	/*background-color: #00782D !important;	*/
-	background: #00b945; /* Old browsers */
-	background: -moz-linear-gradient(-45deg, #00b945 0%, #00782d 100%); /* FF3.6-15 */
-	background: -webkit-linear-gradient(-45deg, #00b945 0%,#00782d 100%); /* Chrome10-25,Safari5.1-6 */
-	background: linear-gradient(135deg, #00b945 0%,#00782d 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00b945', endColorstr='#00782d',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+	color: white !important;
+	background-color: #63DC90;	
+	border-left: 3px solid #00B945;
 }
 .fillcart-event {
 	color: white !important;	

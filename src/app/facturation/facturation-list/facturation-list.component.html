@@ -41,7 +41,7 @@
       <mat-icon (click)="changeDay(calendarDate,'-1')">keyboard_arrow_left</mat-icon>
       <span class="showdate"> {{calendarDate | date:'EEEE d MMM'}}</span>
       <mat-icon (click)="changeDay(calendarDate,'1')">keyboard_arrow_right</mat-icon>
-      <mat-icon (click)="changeDay(calendarDate,'7')">fast_forward</mat-icon>      
+      <mat-icon (click)="changeDay(calendarDate,'7')">fast_forward</mat-icon>
     </div>
 
     <ul class="coiffeur-menu">
@@ -79,21 +79,26 @@
       </ul>
     </div>
         
-        <!--         	<span *ngIf="facture.timestamp" class="facture-date">{{ cart.timestamp | date}} | Réglement: <strong>{{ facture.moyendepaiement }}</strong> | Statut : <strong>{{ facture.statut }}</strong></span> -->
       <!-- 
-      <!-- facture WAITING 
+      <span *ngIf="facture.timestamp" class="facture-date">{{ cart.timestamp | date}} | Réglement: <strong>{{ facture.moyendepaiement }}</strong> | Statut : <strong>{{ facture.statut }}</strong></span> 
+      -->
+      <!-- 
+      <!-- 
+      facture WAITING 
 			<button mat-icon-button color="warn"
 				*ngIf="facture.statut==0"
 				(click)="changeFactureStatut(facture)">
 	        <mat-icon>hourglass_empty</mat-icon>
 	    </button>
-      <!-- facture ON GOING 
+      <!-- 
+      facture ON GOING 
 			<button mat-icon-button
 				*ngIf="facture.statut==1"
 				(click)="changeFactureStatut(facture)">
 	        <mat-icon>hourglass_full</mat-icon>
 	    </button>
-      <!-- facture DONE 		    
+      <!-- 
+      facture DONE 		    
 			<button mat-icon-button
 				*ngIf="facture.statut==11">
 	        <mat-icon>done</mat-icon>

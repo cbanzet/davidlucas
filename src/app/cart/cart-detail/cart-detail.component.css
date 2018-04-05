@@ -48,6 +48,12 @@ mat-chip {
   background-color: #E6E6E6 !important;
 }
 
+.menu-addcart mat-chip {
+  background-color: #666 !important;
+  color: #FFF;
+  margin: 1px 0 0 1px !important;
+  padding: 10px 10px !important;
+}
 
 button {
 	margin-left: 10px !important;

@@ -278,18 +278,18 @@ export class PrestationService {
     if(value) 
     {
       var prestaKey = prestation.$key;
-      var salonKey = prestation.salon.key;
+      // var salonKey = prestation.salon.key;
 
       const prestaPath = `${this.prestaPath}/${prestaKey}/${field}`;
-      const prestaInSalonPath = `${this.salonPath}/${salonKey}/prestations/${prestaKey}/${field}`;
+      // const prestaInSalonPath = `${this.salonPath}/${salonKey}/prestations/${prestaKey}/${field}`;
 
       var updateField = {};
       updateField[prestaPath]= value;
-      updateField[prestaInSalonPath]= value;
+      // updateField[prestaInSalonPath]= value;
 
       console.log(updateField);
       this.db.object("/").update(updateField).then(_=>
-         console.log('Prestation MAJ dans ' + prestaPath + prestaInSalonPath)
+         console.log(updateField)
       );
      }
      else { console.log("Delete Impossible Value Empty") }

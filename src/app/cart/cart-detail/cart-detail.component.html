@@ -54,16 +54,18 @@
 			fxFlex="100"
 			*ngIf="showAddPrestaSection">
 
-				<mat-chip-list>
-					<mat-chip *ngFor="let type of types | async" 
+				<mat-chip-list class="menu-addcart">
+					<mat-chip class="br3" *ngFor="let type of types | async" 
 					    (click)="typeSelected(type)" >
 					   {{ type.title }}
 				        </mat-chip>	
 				</mat-chip-list>
 
+				<br>
+
 				<ng-template #loading><br><br><mat-spinner color="warn"></mat-spinner><br><br></ng-template>		
 	      <mat-chip-list *ngIf="prestations | async; let prestations; else loading">
-					<mat-chip 
+					<mat-chip class="br3"
 						*ngFor="let prestation of prestations | filter : filtre"
 						(click)="insertInOldCart('prestation',cart,prestation)">
 						{{ prestation.title }}
@@ -102,16 +104,18 @@
 			fxFlex="100" 
 			*ngIf="showAddForfaitSection">
 
-				<mat-chip-list>
-					<mat-chip *ngFor="let type of forfaitTypes | async" 
+				<mat-chip-list class="menu-addcart">
+					<mat-chip class="br3" *ngFor="let type of forfaitTypes | async" 
 						(click)="typeSelectedForfait(type)" >
 						{{ type.title }}
 				       </mat-chip>	
 				</mat-chip-list>			
 
+				<br>
+
 				<ng-template #loading><br><br><mat-spinner color="warn"></mat-spinner><br><br></ng-template>		
 	      <mat-chip-list *ngIf="forfaits | async; let forfaits; else loading">
-	        <mat-chip 
+	        <mat-chip class="br3"
 						*ngFor="let forfait of forfaits | filterforfait : filtreForfait"
 						(click)="insertInOldCart('forfait',cart,forfait)">
 	          {{ forfait.title }} 
@@ -151,17 +155,19 @@
 			fxFlex="100" 
 			*ngIf="showAddProductSection">
 
-				<mat-chip-list>
-					<mat-chip *ngFor="let brand of Brands" 
+				<mat-chip-list class="menu-addcart">
+					<mat-chip class="br3" *ngFor="let brand of Brands" 
 					  (click)="typeSelectedProduct(brand)"
 					>
 					{{ brand.title }}
 					</mat-chip>	
 				</mat-chip-list>
 
+				<br>
+
 				<ng-template #loading><br><br><mat-spinner color="warn"></mat-spinner><br><br></ng-template>		
 	      <mat-chip-list *ngIf="products | async; let products; else loading">
-	        <mat-chip 
+	        <mat-chip class="br3"
 						*ngFor="let product of products | filterproduct : filtreproduct"
 	        	(click)="addProductToCart(product,cart)">
 	          {{ product.brand }} {{ product.title }} &nbsp;
@@ -195,7 +201,7 @@
 				<table class="full-width">
 					<tr class="table-header dark-cell br-top">
 						<td class="td-a-l">Description</td>
-						<td class="td-a-l">Qte</td>
+						<td width="70px" class="td-a-l">Qte</td>
 						<td width="80px" class="td-a-c">Price TTC</td>
 						<td width="40px"></td>
 					</tr>
@@ -219,16 +225,19 @@
 					</tr>
 
 					<tr class="table-footer">
+						<td></td>
 						<td class="td-a-r">TOTAL HT</td>
 						<td class="td-a-c dark-cell">{{ cart.totalHT }} €</td>
 						<td></td>
 					</tr>
 					<tr class="table-footer">
+						<td></td>
 						<td class="td-a-r">TAX 20%</td>
 						<td class="td-a-c dark-cell">{{ cart.totalTAX }} €</td>
 						<td></td>
 					</tr>
 					<tr class="table-footer br-bot">
+						<td></td>
 						<td class="td-a-r">TOTAL TTC</td>
 						<td class="td-a-c dark-cell">{{ cart.totalTTC }} €</td>
 						<td></td>

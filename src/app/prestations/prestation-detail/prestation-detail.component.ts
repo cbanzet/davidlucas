@@ -56,8 +56,8 @@ export class PrestationDetailComponent implements OnInit {
   	this.location.back();
 	}
 
-	updateField(key,field,value) {
-		this.prestationService.updatePrestation(key,field,value);
+	updateField(prestation,field,value) {
+		this.prestationService.updatePrestation(prestation,field,value);
 	}
 
   // compareFn(t1: Type, t2: Type): boolean {

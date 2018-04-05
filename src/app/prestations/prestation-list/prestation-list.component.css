@@ -1,12 +1,37 @@
 button {
-  margin-left: 10px !important;
+  margin-right: 5px !important;
 }
 
 mat-card-title {
-	font-size: 1.2em !important;
+	font-size: 2em !important;
 	line-height: 0.5em;
 	font-weight: 300;
 }
+
+
+.type-menu {
+	padding: 10px 40px !important;
+  margin: 0 0 0 1px !important;
+  font-size: 1.2em;
+  cursor: pointer !important;
+  background-color: #ccc;
+  color: #fff;
+  transition: all 0.3s ease;
+}
+.type-menu:hover {
+  background-color: #000;
+}
+
+.ml10 {
+	margin-left: 10px;
+}
+.ml10 mat-chip {
+    margin: -10px 0 0 1px !important;
+    padding: 5px 10px !important;
+    color: #FFF;
+}
+
+
 
 .example-full-width {
   width: 100%;
@@ -18,6 +43,10 @@ mat-card-title {
   flex: 1 1 auto;
 }
 
+.prestatitle {
+  width: 330px;
+  display: inline-block;
+}
 
 mat-spinner {
 	margin: 0 auto;

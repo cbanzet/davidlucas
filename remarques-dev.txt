@@ -1,3 +1,35 @@
+2018 04 04
+RDV CLIENT
+
+- Bug Calcul Cadi TVA TTC HT
+- Report Transaction journalière avec filtrage par coiffeur : 
+		- Nombre de service et produit par coiffeur	
+		- Compte Caisse - RAZ (Remise à Zéro journalier / Mensuel / Annuel)
+		- Ligne Total par mode de paiement (CB / Espece)
+		- Ligne Répartition Total Services/Produit
+
+
+- Ajout de plus de prestations par forfait : jusqu'à 7
+- Impression Facture automatique et Envoie mail quand on clique sur l'encaissement
+
+
+- Optimisation Performance
+- Module Douchette Produit
+- Module Facturation : 
+		- Partir des factures
+		- Dénomination Facture : YYYYMMDD-NBR (environ 60/jour)
+
+- Module De Connexion des Coiffeur : Code 4 Chiffres
+- Module Disponibilité des coiffeurs
+- Module Historique Client 
+- Module Historique Coiffeur
+
+
+
+
+
+
+
 2018 04 03
 
 - Récupération dans les cadis d'un jour donné, 
