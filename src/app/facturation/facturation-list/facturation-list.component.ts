@@ -47,30 +47,30 @@ export class FacturationListComponent implements OnInit {
     ) 
   { 
     this.date$ = new BehaviorSubject(null);
-    this.carts$ = this.date$.switchMap(date => db.list('/carts', ref =>
-        date ? ref.orderByChild('date').equalTo(date) : ref
-      ).snapshotChanges().map(arr => {
-          return arr.map(snap => Object
-            .assign(
-              // snap.payload.val(), 
-            { 
-              $key: snap.key,
-              date             : snap.payload.val().date,              
-              clientfullname   : snap.payload.val().clientfullname,
-              statut           : snap.payload.val().statut,
-              totalTTC         : snap.payload.val().totalTTC                        
-            },
-            { 
-              prestas          : snap.payload.val().prestations?Object.values(snap.payload.val().prestations):0
-            }        
-        ))})
-    );
+    // this.carts$ = this.date$.switchMap(date => db.list('/carts', ref =>
+    //     date ? ref.orderByChild('date').equalTo(date) : ref
+    //   ).snapshotChanges().map(arr => {
+    //       return arr.map(snap => Object
+    //         .assign(
+    //           // snap.payload.val(), 
+    //         { 
+    //           $key: snap.key,
+    //           date             : snap.payload.val().date,              
+    //           clientfullname   : snap.payload.val().clientfullname,
+    //           statut           : snap.payload.val().statut,
+    //           totalTTC         : snap.payload.val().totalTTC                        
+    //         },
+    //         { 
+    //           prestas          : snap.payload.val().prestations?Object.values(snap.payload.val().prestations):0
+    //         }        
+    //     ))})
+    // );
   }
 
   ngOnInit() {
   	// this.factures = this.facturationService.getFacturesList(); 
     this.members  = this.memberService.getMembersNameList(); 
-    // this.carts    = this.cartService.getCartListForReport();
+    this.carts    = this.cartService.getCartListForReport();
     this.calendarDate = Date.now();      
     this.dateForQuery = this.eventService.getDate(this.calendarDate);
     this.date$.next(this.dateForQuery); 

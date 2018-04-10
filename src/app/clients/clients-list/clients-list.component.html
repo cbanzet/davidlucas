@@ -36,7 +36,7 @@
 
 <ng-template #loading>				
 	<br><br>
-	<mat-spinner color="accent"></mat-spinner>
+	<mat-spinner color="warn"></mat-spinner>
 	<br><br>
 </ng-template>
 
@@ -57,11 +57,12 @@
 	<mat-card-content>
 		<mat-list dense>
 		  <mat-list-item 
-		  	*ngFor="let client of clients">
+		  	*ngFor="let client of clients; let i = index ">
 					<mat-icon matListIcon>face</mat-icon>
-					<p matLine> 
+					<p matLine>
+						<strong>{{ i }} - </strong>
 						<span><strong>{{client.firstname}} {{client.lastname}}</strong></span><br>
-						<span>{{client.timestamp | date}}</span>
+						<span>{{client.insertdate | date}}</span>
 					</p>
 					<p matline *ngIf="client.email"><span class="mailphone"><a href="mailto:{{ client.email }}">{{ client.email }}</a></span></p>
 					<p matline *ngIf="client.phone"><span class="mailphone"><a href="tel:{{client.phone}}">{{ client.phone }}</a></span></p>
@@ -93,9 +94,7 @@
 
 
 
-<mat-toolbar>
-<!-- 	<button mat-menu-item
-		routerLink="./../clientsearch"> -->
+<!-- <mat-toolbar>
 	<button mat-menu-item routerLink="./../clientsearch">
 		<mat-icon>search</mat-icon>
 		<span>Search Client</span>
@@ -105,4 +104,4 @@
 			<mat-icon>add</mat-icon>
 		<span>Add Client</span>
   </button> 
-</mat-toolbar> 
+</mat-toolbar> --> 

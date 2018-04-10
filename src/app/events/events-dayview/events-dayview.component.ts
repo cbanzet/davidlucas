@@ -427,25 +427,51 @@ export class DialogNewEvent implements OnInit {
     // console.log(index,element);
   }
 
-  getTotalHT(addOrRemove,px) {
+
+
+  // // CALCUL PX HT FIRST 
+  // getTotalHT(addOrRemove,px) {
+  //   if(addOrRemove=='add'){
+  //     this.totalHT = Math.round((px+this.totalHT)*100)/100;
+  //   }
+  //   else if(addOrRemove=='remove') {
+  //     this.totalHT = Math.round((this.totalHT-px)*100)/100;
+  //   }
+  // }
+  // getTotalTAX() {
+  //   this.totalTAX = Math.round((this.totalHT*0.2)*100)/100;    
+  // }
+  // getTotalTTC() {
+  //   this.totalTTC = this.totalTAX + this.totalHT;
+  // }
+  // sumTablePrice(addOrRemove,px) {
+  //   this.getTotalHT(addOrRemove,px);
+  //   this.getTotalTAX();
+  //   this.getTotalTTC();
+  // }
+
+
+  // CALCUL PX TTC FIRST 
+  getTotalTTC(addOrRemove,px) {
     if(addOrRemove=='add'){
-      this.totalHT = Math.round((px+this.totalHT)*100)/100;
+      this.totalTTC = Math.round((px+this.totalTTC)*100)/100;
     }
     else if(addOrRemove=='remove') {
-      this.totalHT = Math.round((this.totalHT-px)*100)/100;
+      this.totalTTC = Math.round((this.totalTTC-px)*100)/100;
     }
   }
+  getTotalHT() {
+    this.totalHT = Math.round((this.totalTTC/1.2)*100)/100;
+  }
   getTotalTAX() {
-    this.totalTAX = Math.round((this.totalHT*0.2)*100)/100;    
-  }
-  getTotalTTC() {
-    this.totalTTC = this.totalTAX + this.totalHT;
-  }
+    this.totalTAX = Math.round((this.totalTTC - this.totalHT)*100)/100;
+  }  
   sumTablePrice(addOrRemove,px) {
-    this.getTotalHT(addOrRemove,px);
+    this.getTotalTTC(addOrRemove,px);
+    this.getTotalHT();
     this.getTotalTAX();
-    this.getTotalTTC();
   }
+
 
 
 	/////////////////////////////////////////////////////////////////
@@ -522,24 +548,16 @@ export class DialogSeeEvent implements OnInit {
     this.dialogRef.close();
   }
 
-
-
-
-  // deleteEvent(event) {
-  //   this.eventService.deleteEvent(event);
-  //   this.dialogRef.close();
-  // }  
-
   deleteCart(cart,prestas) {
     this.cartService.deleteCart(cart,prestas);
     this.dialogRef.close();    
   }  
 
-  removePrestaFromCart(presta,card) {
-    if(card.prestas.length === 1) {
-      // this.deleteCart(card);
+  removePrestaFromCart(presta,cart) {
+    if(cart.prestas.length === 1) {
+      this.deleteCart(cart,presta);
     }
-    this.cartService.removePrestaFromCart(presta,card);
+    this.cartService.removePrestaFromCart(presta,cart);
   }
 
   changeCoiffeur(element,member,cart) {

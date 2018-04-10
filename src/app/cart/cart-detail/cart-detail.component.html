@@ -6,6 +6,7 @@
 <mat-card *ngIf="cart | async as cart" class="br-20">
 
 	<h1>Shopping Time</h1>
+	<p class="cartkey">{{ cart.$key }}</p>
 
 	<div class="content" 
 	 fxLayout="row" 

@@ -57,8 +57,10 @@ export class CartService {
           date           : snap.payload.val().date,
           clientfullname : snap.payload.val().clientfullname,
           totalTTC       : snap.payload.val().totalTTC,          
-        }
-        { prestas: snap.payload.val().prestations?Object.values(snap.payload.val().prestations):0},        
+        },
+        { 
+          prestas: snap.payload.val().prestations?Object.values(snap.payload.val().prestations):0
+        }      
       ))
     })
   }
@@ -131,10 +133,7 @@ export class CartService {
     newCartData['clientphone'] = client?client.phone:null;
     newCartData['clientemail'] = client?client.email:null;
 
-    // dataNewEvent['rolekey'] = data.selectedCoiffeur?data.selectedCoiffeur.rolekey:null; 
-
     // console.log(newCartData);
-
     var keyNewCard = this.cartsRef.push(newCartData).key;
     return keyNewCard;
   }
@@ -608,9 +607,9 @@ export class CartService {
     var totalTaxInCart = cart.totalTAX;
     var totalTtcInCart = cart.totalTTC;
 
-    var newTotalHT = Math.round((totalHtInCart-prestaPrice)*100)/100;
-    var newTotalTax = Math.round((newTotalHT*0.2)*100)/100;
-    var newTotalTtc =  newTotalTax + newTotalHT;
+    var newTotalTtc =  Math.round((totalTtcInCart-prestaPrice)*100)/100;
+    var newTotalHT = Math.round((newTotalTtc/1.2)*100)/100;
+    var newTotalTax = Math.round((newTotalTtc-newTotalHT)*100)/100;
 
     const prestaPath = `carts/${cartkey}/prestations/${prestakey}`;
     const totalHTPath = `carts/${cartkey}/totalHT`;

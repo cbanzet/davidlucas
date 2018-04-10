@@ -12,11 +12,17 @@
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ededed', GradientType=1 );
 }
 
-
+.cartkey {
+  color: #eee;
+  font-size: 0.7em;
+  margin: 0 0 20px 0;
+  padding: 0 0 0 10px;  
+}
 
 h1 {
 	font-weight: 200;
 	padding: 0 0 0 10px;
+  margin-bottom: 0 !important;
 	color: #000000
 }
 
@@ -188,11 +194,15 @@ border-radius: 20px;
   text-transform: uppercase;
   font-weight: 300;
 }
+.table-header td, .table-footer td {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
 .table-header td, .table-footer td, .items-info td{
   padding-left: 5px;
 }
 .dark-cell {
-  background-color: #000;
+  background-color: #666;
 	color: #FFF;	
 }
 
@@ -228,18 +238,18 @@ border-radius: 20px;
 }
 
 .br-top, .br-top td {
-	-webkit-border-top-left-radius: 5px;
--webkit-border-top-right-radius: 5px;
--moz-border-radius-topleft: 5px;
--moz-border-radius-topright: 5px;
-border-top-left-radius: 5px;
-border-top-right-radius: 5px;
+	-webkit-border-top-left-radius: 3px;
+-webkit-border-top-right-radius: 3px;
+-moz-border-radius-topleft: 3px;
+-moz-border-radius-topright: 3px;
+border-top-left-radius: 3px;
+border-top-right-radius: 3px;
 }
 .br-bot, .br-bot td {
-	-webkit-border-bottom-right-radius: 5px;
--webkit-border-bottom-left-radius: 5px;
--moz-border-radius-bottomright: 5px;
--moz-border-radius-bottomleft: 5px;
-border-bottom-right-radius: 5px;
-border-bottom-left-radius: 5px;
+	-webkit-border-bottom-right-radius: 3px;
+-webkit-border-bottom-left-radius: 3px;
+-moz-border-radius-bottomright: 3px;
+-moz-border-radius-bottomleft: 3px;
+border-bottom-right-radius: 3px;
+border-bottom-left-radius: 3px;
 }

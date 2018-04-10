@@ -1,3 +1,15 @@
+2018 04 10
+CALL FABRICE
+
+- Bug String + Number dans le calcul du prix
+- Ordre des Prestations dans dialog-see-event
+- Modification du coiffeur pour une prestation dans le cadi prérempli (cart-detail)
+
+
+
+
+
+
 2018 04 04
 RDV CLIENT
 
@@ -8,10 +20,8 @@ RDV CLIENT
 		- Ligne Total par mode de paiement (CB / Espece)
 		- Ligne Répartition Total Services/Produit
 
-
 - Ajout de plus de prestations par forfait : jusqu'à 7
 - Impression Facture automatique et Envoie mail quand on clique sur l'encaissement
-
 
 - Optimisation Performance
 - Module Douchette Produit
@@ -36,11 +46,6 @@ RDV CLIENT
 des montants des prestations liées à un coiffeur.
 ie. Récupération des listes de prestations à partir de l'id d'un cadi contenu dans une facture.
 
-
-
-
-
-
 BUGS
 
 - Error lors de la Suppression d'un rdv : Bug supression des prestations avant la suppression du cadi
@@ -53,11 +58,9 @@ OK
 - concaténation des prix à la création du cadi
 - Erreur saisie statut update
 
-
 - intervertir prix ttc et ht lors de l'ajout d'une prestation ou forfait dans un cadi
 - Bug création d'un rdv depuis David (à cause du prix)
 - Vérifier la récupération du prix david ou equipe selon le coiffeur
-
 
 DEV
 

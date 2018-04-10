@@ -22,7 +22,7 @@
 <!-- <mat-card *ngIf="dev"> -->
 <mat-card *ngIf="events$ | async; let events; else loading" class="calendar-card">
 	<mat-card-content>
-		<table>
+		<table cellspacing="0" class="cal-table">
 			<tr>
 				<td class="cal-cell-today bg-black">
 					<mat-icon (click)="getToday()">today</mat-icon>
