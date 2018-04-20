@@ -202,30 +202,51 @@
 				<table class="full-width">
 					<tr class="table-header dark-cell br-top">
 						<td class="td-a-l">Description</td>
-						<td width="70px" class="td-a-l">Qte</td>
-						<td width="80px" class="td-a-c">Price TTC</td>
+						<td width="100px" class="td-a-l">Coiffeur</td>
+						<td width="50px" class="td-a-l">Qte</td>
+						<td width="60px" class="td-a-c">Price TTC</td>
 						<td width="40px"></td>
 					</tr>
 
 					<tr class="items-info" *ngFor="let prestation of cart.prestas">
 						<td><strong>{{ prestation.prestationtitle }}</strong></td>
+						<td><strong>
+								<mat-select 
+								placeholder="{{ prestation.membername }}"
+								[(ngModel)]="member"
+								(ngModelChange)="changeCoiffeur(prestation,member,cart,'prestation')">
+									  <mat-option *ngFor="let member of members | async" [value]="member">
+										{{ member.firstname }}
+									  </mat-option>
+							  </mat-select>
+						</strong></td>
 						<td>{{ prestation.quantity }}</td>
-						<td class="td-a-c">{{ prestation.price }} €</td>
+						<td class="td-a-c">{{ +prestation.price }} €</td>
 						<td class="td-a-c" *ngIf="!prestation.fromcalendar"> 
 							<mat-icon class="cursor-pointer" (click)="deletePresta(prestation,cart)">clear</mat-icon>
 						</td>
 					</tr>
-
 					<tr class="items-info" *ngFor="let pdct of cart.pdcts">
 						<td><strong>{{ pdct.brand }}</strong> {{ pdct.title }}</td>
+						<td><strong>
+							<mat-select 
+							placeholder="{{ pdct.membername }}"
+							[(ngModel)]="member"
+							(ngModelChange)="changeCoiffeur(pdct,member,cart,'product')"	
+							>
+							  <mat-option *ngFor="let member of members | async" [value]="member">
+								{{ member.firstname }}
+							  </mat-option>
+						  </mat-select>
+					</strong></td>
 						<td>{{ pdct.quantity }}</td>
-						<td class="td-a-c">{{ pdct.price }} €</td>
+						<td class="td-a-c">{{ pdct.price }} Ä</td>
 						<td class="td-a-c">
 							<mat-icon class="cursor-pointer" (click)="deleteProduct(pdct,cart)">clear</mat-icon>
 						</td>
 					</tr>
-
 					<tr class="table-footer">
+						<td></td>
 						<td></td>
 						<td class="td-a-r">TOTAL HT</td>
 						<td class="td-a-c dark-cell">{{ cart.totalHT }} €</td>
@@ -233,11 +254,13 @@
 					</tr>
 					<tr class="table-footer">
 						<td></td>
+						<td></td>
 						<td class="td-a-r">TAX 20%</td>
 						<td class="td-a-c dark-cell">{{ cart.totalTAX }} €</td>
 						<td></td>
 					</tr>
 					<tr class="table-footer br-bot">
+						<td></td>
 						<td></td>
 						<td class="td-a-r">TOTAL TTC</td>
 						<td class="td-a-c dark-cell">{{ cart.totalTTC }} €</td>
@@ -249,6 +272,9 @@
 			<div class="pt-20 bt-white"
 			fxFlex="100"
 			fxLayoutAlign="end end">
+				<button mat-fab color="warn" matTooltip="Delete Cart" matTooltipPosition="after" disabled 
+					(click)="deleteCart(cart)"><mat-icon>delete_forever</mat-icon>
+				</button>
 				<button mat-fab color="warn" matTooltip="Pay" matTooltipPosition="after" 
 					(click)="goToBill(cart)"><mat-icon>payment</mat-icon>
 				</button>	

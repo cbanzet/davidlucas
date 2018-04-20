@@ -73,7 +73,7 @@
 							</mat-form-field>    				
 						</td>
 						<td class="ta-r">
-							<mat-slide-toggle>En poste</mat-slide-toggle>
+							<mat-slide-toggle disabled>En poste</mat-slide-toggle>
 						</td>	  				
 					</tr>
 			  </table>
@@ -90,19 +90,21 @@
 		<mat-icon>keyboard_arrow_left</mat-icon>
 	</button>
 
+	 	
+	<span matTooltip="Delete Forever">
+	<button mat-fab (click)="deleteForever(member)" color="warn">
+		<mat-icon>delete_forever</mat-icon>
+	</button>
+	</span> 
+	
+
 	<span matTooltip="Couper l'accès">
-	<button mat-fab color="black">
+	<button mat-fab color="black" disabled>
 		<mat-icon>phonelink_erase</mat-icon>
 	</button>
 	</span>
 
-	<!-- 	
-	<span matTooltip="Delete Forever">
-	<button mat-fab (click)="deleteForever(member)" color="black">
-		<mat-icon>delete_forever</mat-icon>
-	</button>
-	</span> 
-	-->
+
 
 </mat-card>
 

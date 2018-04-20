@@ -16,36 +16,17 @@ export class ForfaitFormComponent implements OnInit {
  
   addForfait = true;
   addPrestations = false;
-  showPrestaList1 = false;
-  showPrestaList2 = false;
-  showPrestaList3 = false;
-  showPrestaList4 = false;
-  showPrestaList5 = false;
   times = ['15','30','45','60'];
   services: Observable<any[]>;
   salons: Observable<any[]>;
-
+  prestaData: Array<any> = [];
   panelOpenState: boolean = false;
-  
+  showAddTypeButton:boolean = true;
   prestatypes: Observable<any[]>;
   forfaitTypes: Observable<any[]>;  
-
   selectedPrestations: Observable<any[]>;
-
   savedSelectTypes: any;
   prestations: Observable<any[]>;
-
-  selectTypesColors = [
-    { name: 'none', color: '', selected:true },
-    { name: 'Primary', color: 'primary', selected:false },
-  ];
-
-  nombrePrestations = [
-    {key: '2', title: '2 prestations'},
-    {key: '3', title: '3 prestations'},
-    {key: '4', title: '4 prestations'},
-    {key: '5', title: '5 prestations'},
-  ];
 
   constructor( private router: Router,
     private location: Location,
@@ -57,49 +38,24 @@ export class ForfaitFormComponent implements OnInit {
   ngOnInit() {
   }
 
-  onSubmit(newForfaitForm: NgForm) {
-  	this.forfaitService.createForfait(newForfaitForm);
+  onSubmit(newForfaitForm: NgForm, data ) {
+    this.forfaitService.createForfait(newForfaitForm, data);
   }
 
   goBack(): void {
     this.location.back();
   }
 
- activateInstrument(roleKey: number) {
-  if(roleKey==2) {
-     this.showPrestaList1 = true;
-     this.showPrestaList2 = false;
-     this.showPrestaList3 = false;
-     this.showPrestaList4 = false;
-     this.showPrestaList5 = false;
+
+  insertInPrestaData(prestation) {
+    let item = this.prestaData.find((Obj) =>  Obj.title ===  prestation.title);
+    console.log(item);
+    if (item === undefined) {
+      this.prestaData.push(prestation);
     }
-  else if(roleKey==3) { 
-    this.showPrestaList2 = true;
-    this.showPrestaList1 = false;
-    this.showPrestaList3 = false;
-    this.showPrestaList4 = false;
-    this.showPrestaList5 = false;
   }
-  else if(roleKey==4) { 
-    this.showPrestaList3 = true;
-    this.showPrestaList2 = false;
-    this.showPrestaList1 = false;
-    this.showPrestaList4 = false;
-    this.showPrestaList5 = false;
+
+  removePresta(index:number, prestation) {
+    this.prestaData.splice(index, 1);
   }
-  else if(roleKey==5) { 
-    this.showPrestaList4 = true;
-    this.showPrestaList2 = false;
-    this.showPrestaList1 = false;
-    this.showPrestaList5 = false;
-    this.showPrestaList3 = false;
-  }
-  else { 
-    this.showPrestaList5 = true;
-    this.showPrestaList2 = false;
-    this.showPrestaList1 = false;
-    this.showPrestaList4 = false;
-    this.showPrestaList3 = false;
-  }
-}  
 }

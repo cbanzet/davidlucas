@@ -110,20 +110,14 @@
 				<td colspan="2">
 					<br><br>
 					<h5>Appliquer une réduction</h5>
-					<mat-grid-list class="moy-paie" cols="8" rowHeight="40px">
+					<mat-grid-list class="moy-paie" cols="5" rowHeight="40px">
 					  <mat-grid-tile [ngClass]="promo==0.05 ? 'gridSelected' : 'gridNotSelected'" 
 					  	(click)="applyPromo(0.05,cart.totalTTC)">5%</mat-grid-tile>
 					  <mat-grid-tile [ngClass]="promo==0.1 ? 'gridSelected' : 'gridNotSelected'" 
 					  	(click)="applyPromo(0.1,cart.totalTTC)">10%</mat-grid-tile>
-					  <mat-grid-tile [ngClass]="promo==0.15 ? 'gridSelected' : 'gridNotSelected'" 
-					  	(click)="applyPromo(0.15,cart.totalTTC)">15%</mat-grid-tile>
 					  <mat-grid-tile [ngClass]="promo==0.2 ? 'gridSelected' : 'gridNotSelected'" 
 					  	(click)="applyPromo(0.2,cart.totalTTC)">20%</mat-grid-tile>
-					  <mat-grid-tile [ngClass]="promo==0.3 ? 'gridSelected' : 'gridNotSelected'" 
-					  	(click)="applyPromo(0.3,cart.totalTTC)">30%</mat-grid-tile>
-					  <mat-grid-tile [ngClass]="promo==0.4 ? 'gridSelected' : 'gridNotSelected'" 
-					  	(click)="applyPromo(0.4,cart.totalTTC)">40%</mat-grid-tile>
-					  <mat-grid-tile [ngClass]="promo==0.5 ? 'gridSelected' : 'gridNotSelected'"  
+					  <mat-grid-tile [ngClass]="promo==0.5 ? 'gridSelected' : 'gridNotSelected'" 
 					  	(click)="applyPromo(0.5,cart.totalTTC)">50%</mat-grid-tile>
 					  <mat-grid-tile (click)="
 					  									newtotalTTC=null;
@@ -139,15 +133,17 @@
 			<tr>
 				<td colspan="2">
 					<h5>Choisir le Moyen de Réglement</h5>
-					<mat-grid-list class="moy-paie" cols="4" rowHeight="40px">
-					  <mat-grid-tile [ngClass]="moypay==1 ? 'gridSelected' : 'gridNotSelec'" 
-					  	(click)="applyMoyPaiement(1)">Carte Bancaire</mat-grid-tile>
-					  <mat-grid-tile [ngClass]="moypay==2 ? 'gridSelected' : 'gridNotSelec'" 
-					  	(click)="applyMoyPaiement(2)">Espèces</mat-grid-tile>
-					  <mat-grid-tile [ngClass]="moypay==3 ? 'gridSelected' : 'gridNotSelec'" 
-					  	(click)="applyMoyPaiement(3)">Carte Cadeaux</mat-grid-tile>
-					  <mat-grid-tile [ngClass]="moypay==4 ? 'gridSelected' : 'gridNotSelec'" 
-					  	(click)="applyMoyPaiement(4)">Virement Bancaire</mat-grid-tile>
+					<mat-grid-list class="moy-paie" cols="5" rowHeight="40px">
+					  <mat-grid-tile [ngClass]="moypay=='CB' ? 'gridSelected' : 'gridNotSelec'" 
+					  	(click)="applyMoyPaiement('CB')">Carte Bancaire</mat-grid-tile>
+					  <mat-grid-tile [ngClass]="moypay=='CC' ? 'gridSelected' : 'gridNotSelec'" 
+					  	(click)="applyMoyPaiement('CC')">Carte Cadeaux</mat-grid-tile>
+					  <mat-grid-tile [ngClass]="moypay=='CH' ? 'gridSelected' : 'gridNotSelec'" 
+					  	(click)="applyMoyPaiement('CH')">Chèque</mat-grid-tile>					  						  
+					  <mat-grid-tile [ngClass]="moypay=='ES' ? 'gridSelected' : 'gridNotSelec'" 
+					  	(click)="applyMoyPaiement('ES')">Espèces</mat-grid-tile>
+					  <mat-grid-tile [ngClass]="moypay=='VB' ? 'gridSelected' : 'gridNotSelec'" 
+					  	(click)="applyMoyPaiement('VB')">Virement Bancaire</mat-grid-tile>
 					</mat-grid-list>
 				</td>	
 			</tr>
@@ -167,14 +163,13 @@
 				RETOUR
 			</button>
 			<span class="example-spacer"></span>
-			<button mat-raised-button type="button" color="black"
+			<button mat-raised-button type="button" color="black" disabled
 				routerLink="./../../facturationform">
 				RESET
 			</button>
 			<button mat-raised-button type="button" color="warn"
-				(click)="getBill(cart)"
-				[disabled]="!billready">
-				<!-- disabled -->
+				[disabled]="!billready"
+				(click)="getBill(cart)">
 				ENCAISSER
 			</button>				
 		</mat-toolbar>

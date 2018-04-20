@@ -17,8 +17,6 @@ import { AdminModule } from './admin/shared/admin.module';
 
 ///// Start Firebase
 import { AngularFireModule } from 'angularfire2';
-// import { environment } from '../environments/environment.prod';
-import { environment } from '../environments/environment';
 
 ///// Special Modules
 import { ClientModule } from './clients/shared/client.module';
@@ -29,6 +27,10 @@ import { ForfaitModule } from './forfaits/shared/forfait.module';
 import { EventModule } from './events/shared/event.module';
 import { CartModule } from './cart/shared/cart.module';
 import { FacturationModule } from './facturation/shared/facturation.module';
+
+///// Environment
+import { environment } from '../environments/environment.prod';
+// import { environment } from '../environments/environment';
 
 @NgModule({
   imports: [

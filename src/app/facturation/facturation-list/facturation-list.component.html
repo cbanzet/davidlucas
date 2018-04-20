@@ -5,7 +5,7 @@
 </ng-template>
 
 <mat-card class="br-20" 
-*ngIf="carts | async; let carts; else loading" >
+*ngIf="bills | async; let bills; else loading" >
 <!-- *ngIf="carts$ | async; let carts; else loading" > -->
   <mat-card-header>
     <div mat-card-avatar class="example-header-image">
@@ -16,11 +16,7 @@
       Liste des Factures du Salon David Lucas Paris <br>
       {{ dateSelected }}
    </mat-card-subtitle>
-		<button mat-fab type="button" color="black" disabled 
-      routerLink="./../facturationform">
-			<!-- [routerLink]="['./../facturationform', '0']"> -->
-			<mat-icon>add</mat-icon>
-		</button>
+
 
     <!--     
     <mat-form-field>
@@ -52,28 +48,30 @@
 
   	<br>
 
-    <div *ngFor="let cart of carts">
+    <div *ngFor="let bill of bills">
       <!-- <h4 mat-line [ngClass]="facture.status==2 ? 'facture-done' : 'facture-waiting'"> -->
     	<span class="facture-title">
     		<span class="info-bill">
-          <!-- <strong>Fac. n°{{ facture.ref }}</strong> du  -->
           <strong>Fac. n° XXXXXXX</strong> du 
-
-          <strong>{{ cart.date }}</strong>
+          <strong>{{ bill.date }}</strong>
         </span>
     		<span class="client"> 
           Client :
-          <strong>{{ cart.clientfullname }}</strong>
+          <strong>{{ bill.clientfullname }}</strong>
         </span> 
+        <span class="client"> 
+          Réglement :
+          <strong>{{ bill.moyendepaiement }}</strong>
+        </span>         
         <span class="montant">
           Montant :
-          <strong>{{ cart.totalTTC }} </strong> €
-          {{ addToTotal(cart.$key, cart.totalTTC) }}
+          <strong>{{ bill.totalTTC }} </strong> €
+          {{ addToTotal(bill.$key, bill.totalTTC) }}
         </span>
     	</span>
 
       <ul class="presta-membres">
-        <li *ngFor="let presta of cart.prestas" class="br3">
+        <li *ngFor="let presta of bill.arrprestas" class="br3">
           {{ presta.membername }} : 
           <strong>{{ presta.price }} €</strong>
         </li>

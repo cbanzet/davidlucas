@@ -9,12 +9,14 @@ mat-card-title {
 .calendar-card {
 	box-shadow: none !important;
 	padding: 0;
+	border-radius: 30px;
+	background-color: transparent;
 }
 
 
 tr:nth-child(even) {
-	background-color: #aaa !important;
-	color: #fff !important;
+	/*background-color: #aaa !important;*/
+	color: #666 !important;
 }
 
 
@@ -119,8 +121,17 @@ font-size: 0.8em;
 }
 
 .cal-table {
-	border: 1px dashed #ccc;
+	background-color: #ccc;
+	border: 1px solid #fff;
 	-webkit-border-radius: 20px;-moz-border-radius: 20px;border-radius: 20px;	
+}
+
+.cal-table tr:hover {
+background: #d6f9ff !important; /* Old browsers */
+background: -moz-linear-gradient(-45deg, #d6f9ff 0%, #9ee8fa 100%) !important; /* FF3.6-15 */
+background: -webkit-linear-gradient(-45deg, #d6f9ff 0%,#9ee8fa 100%) !important; /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(135deg, #d6f9ff 0%,#9ee8fa 100%) !important; /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d6f9ff', endColorstr='#9ee8fa',GradientType=1 ) !important; /* IE6-9 fallback on horizontal gradient */
 }
 
 .waiting-event {

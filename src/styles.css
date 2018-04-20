@@ -3,12 +3,26 @@
 
 
 * {
-	font-family: 'Heebo', sans-serif;
+	/*font-family: 'Heebo', sans-serif;*/
+  font-family: 'Roboto', sans-serif;
 	outline: none;
 }
 
 td:focus, td:active {
 		outline: none;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#e9f6fd+0,d3eefb+100;Blue+3D+%233 */
+background: #e9f6fd; /* Old browsers */
+background: -moz-linear-gradient(-45deg, #e9f6fd 0%, #d3eefb 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(-45deg, #e9f6fd 0%,#d3eefb 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(135deg, #e9f6fd 0%,#d3eefb 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e9f6fd', endColorstr='#d3eefb',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
 }
 
 .full-width {

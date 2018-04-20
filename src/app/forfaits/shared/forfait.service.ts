@@ -87,8 +87,8 @@ export class ForfaitService {
   /////////////// C R E A T E ///////////////////////
 ////////////////////////////////////////////////////
 
-  createForfait(newForfaitForm: NgForm): void {
-    // console.log(newForfaitForm.value);
+ createForfait(newForfaitForm: NgForm, prestaData): void {
+     console.log(prestaData);
   
     var newForfaitData = {};
     var times: number = 0;
@@ -97,90 +97,30 @@ export class ForfaitService {
    
     newForfaitData['title'] = newForfaitForm?newForfaitForm.value.newForfaitTitle:0;
     var newPrestation = [];
-    var numberKey = newForfaitForm.value.pickedNumberPrestation.key;
+   // var numberKey = newForfaitForm.value.pickedNumberPrestation.key;
     var updatePrestationsData = {};
-
-    var forfaitTabPrice = [];
-
-   // var nbTypes = newForfaitForm.value.selectedTypes?newForfaitForm.value.selectedTypes.length:0;
+    var prestaDataLength = prestaData.length ;
    var newForfaitTypes = {
      key: newForfaitForm.value.selectedTypes.key,
      title: newForfaitForm.value.selectedTypes.title
    };
    newForfaitData['type'] = newForfaitTypes;
 
-   if (numberKey) 
+   if (prestaDataLength )
    {
-    // INITIALISATION DU TABLEAU POUR CHAQUE CAS
-    var forfaitTabData = [ {key: newForfaitForm.value.selectedPrestation1.key,
-                            title: newForfaitForm.value.selectedPrestation1.title,
-                            times: newForfaitForm.value.selectedPrestation1.time,
-                            priceD: newForfaitForm.value.selectedPrestation1.priceDavid,
-                            priceT: newForfaitForm.value.selectedPrestation1.priceTeam},
 
-                            {key: newForfaitForm.value.selectedPrestation2.key,
-                              title: newForfaitForm.value.selectedPrestation2.title,
-                              times: newForfaitForm.value.selectedPrestation2.time,
-                              priceD: newForfaitForm.value.selectedPrestation2.priceDavid,
-                              priceT: newForfaitForm.value.selectedPrestation2.priceTeam}
-                           ]
-
-        if(numberKey === '3'){
-            forfaitTabData.push( {key: newForfaitForm.value.selectedPrestation3.key,
-            title: newForfaitForm.value.selectedPrestation3.title,
-            times: newForfaitForm.value.selectedPrestation3.time,
-            priceD: newForfaitForm.value.selectedPrestation3.priceDavid,
-            priceT: newForfaitForm.value.selectedPrestation3.priceTeam});
-
-        }
-        else if(numberKey === '4'){
-            forfaitTabData.push( {key: newForfaitForm.value.selectedPrestation3.key,
-              title: newForfaitForm.value.selectedPrestation3.title,
-              times: newForfaitForm.value.selectedPrestation3.time,
-              priceD: newForfaitForm.value.selectedPrestation3.priceDavid,
-              priceT: newForfaitForm.value.selectedPrestation3.priceTeam},
-
-                {key: newForfaitForm.value.selectedPrestation4.key,
-                title: newForfaitForm.value.selectedPrestation4.title,
-                times: newForfaitForm.value.selectedPrestation4.time,
-                priceD: newForfaitForm.value.selectedPrestation4.priceDavid,
-                priceT: newForfaitForm.value.selectedPrestation4.priceTeam} );
-
-        }
-        else if(numberKey === '5'){
-
-              forfaitTabData.push( {key: newForfaitForm.value.selectedPrestation3.key,
-                title: newForfaitForm.value.selectedPrestation3.title,
-                times: newForfaitForm.value.selectedPrestation3.time,
-                priceD: newForfaitForm.value.selectedPrestation3.priceDavid,
-                priceT: newForfaitForm.value.selectedPrestation3.priceTeam},
-
-                {key: newForfaitForm.value.selectedPrestation4.key,
-                title: newForfaitForm.value.selectedPrestation4.title,
-                times: newForfaitForm.value.selectedPrestation4.time,
-                priceD: newForfaitForm.value.selectedPrestation4.priceDavid,
-                priceT: newForfaitForm.value.selectedPrestation4.priceTeam}, 
-
-                {key: newForfaitForm.value.selectedPrestation5.key,
-                title: newForfaitForm.value.selectedPrestation5.title,
-                times: newForfaitForm.value.selectedPrestation5.time,
-                priceD: newForfaitForm.value.selectedPrestation5.priceDavid,
-                priceT: newForfaitForm.value.selectedPrestation5.priceTeam } );
-        }
-       
-
-        for( var i=0; i < numberKey ; i++ ) {
+        for( var i=0; i < prestaDataLength ; i++ ) {
             newPrestation[i+1] = {
-            key: forfaitTabData[i].key,
-            title: forfaitTabData[i].title,
-            time: forfaitTabData[i].times,
-            priceDavid: forfaitTabData[i].priceD,
-            priceTeam: forfaitTabData[i].priceT,
+            key:prestaData[i].key,
+            title: prestaData[i].title,
+            time: prestaData[i].time,
+            priceDavid: prestaData[i].priceDavid,
+            priceTeam: prestaData[i].priceTeam,
             order:  i+1
           };
-          times = times + +forfaitTabData[i].times;
-          priceD = priceD + +forfaitTabData[i].priceD;
-          priceT = priceT + +forfaitTabData[i].priceT;
+          times = times + +prestaData[i].time;
+          priceD = priceD + +prestaData[i].priceDavid;
+          priceT = priceT + +prestaData[i].priceTeam;
         }
 
         newForfaitData['prestations'] = newPrestation ;
@@ -191,12 +131,12 @@ export class ForfaitService {
         //Insert in forfait
         var keyNewForfait = this.forfaitsRef.push(newForfaitData).key;
           // lookup
-        for( var i=0; i < numberKey ; i++ ){
+        for( var i=0; i <  prestaDataLength ; i++ ){
             // insert in Prestation
-            updatePrestationsData["prestations/"+ forfaitTabData[i].key +"/forfaits/"+keyNewForfait] = true;
+            updatePrestationsData['prestations/'+ prestaData[i].key +'/forfaits/'+keyNewForfait] = true;
             // Insert in LookUp
             // this.db.list('/lookUpPrestationForfait').update(forfaitTabData[i].key, {[keyNewForfait]:true});
-            updatePrestationsData["lookUpForfaitPrestations/"+ forfaitTabData[i].key +"/"+keyNewForfait] = true;
+            updatePrestationsData["lookUpForfaitPrestations/"+prestaData[i].key +"/"+keyNewForfait] = true;
         };
 
       }
@@ -205,9 +145,7 @@ export class ForfaitService {
 
      this.router.navigate(['/forfaits']);
 
-    // console.log(keyNewPresta);  
     console.log(newForfaitData, keyNewForfait);
-   // console.log(newForfaitForm.value.forfair.title);
   }
 
 ////////////////////////////////////////////////////

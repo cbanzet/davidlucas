@@ -70,31 +70,22 @@ export class CartService {
 
   // fonction utilise pour recuperer le caddy depuis le calendrier
   getCartWithKey(key:string) {
-    var prestas: Array<any> = []; ;
     this.cart = this.db.object('carts/'+ key).snapshotChanges().map(action => {
       const $key = action.payload.key;
-      prestas = action.payload.val() ? Object.values(action.payload.val().prestations) : null;
-      const length = action.payload.val()?prestas.length:0;
-      if(length) {
-        prestas.sort((a, b) => { 
-          if (a.order < b.order) { return -1; }
-          else if (a.order > b.order) { return 1; }
-          else { return 0; }
-        });
-      }
+      // const prestas = action.payload.val().prestations ? Object.values(action.payload.val().prestations) : null;
+      const prestas = action.payload.val() ? Object.values(action.payload.val().prestations) : null;
+    //  const pdcts =   Object.values(action.payload.val().products) ;
       const data = 
       { 
         $key, 
         prestas,
-        //  pdcts,
+      //  pdcts,
         ...action.payload.val()
       };
       return data;
     });
-    return this.cart
+  return this.cart
   }
-
-
 
   // fonction utilise pour recuperer le produit depuis le caddy
   getCartWithProductWithKey(key:string) {
@@ -167,7 +158,6 @@ export class CartService {
     newPrestaData['membername'] = membername;
     newPrestaData['fromcalendar'] = dataPresta.fromcalendar;
     newPrestaData['quantity'] = dataPresta.quantity;
-    newPrestaData['order'] = dataPresta.order;
 
     const cartPath = `carts/${cartkey}/prestations/${prestationkey}/`;
 
@@ -189,22 +179,17 @@ export class CartService {
 //////////////////////////////////////////////////////////
 
 
-  changeCoiffeurIncart(data, member, cart , type) {
+ changeCoiffeurIncart(prestation, member, cart) {
     var cartkey = cart.$key;
-    var prestakey = data.prestationkey? data.prestationkey:null;
-    var productkey = data.key? data.key:null;
+    var prestakey = prestation.prestationkey? prestation.prestationkey:null;
     var memberkey = member.$key?member.$key:null;
     var memberFirstName = member.firstname?member.firstname:null;
-    var eventkeys = data.events?Object.values(data.events):null;
-    var updateData = {};
-
-    console.log(data.key);
+    var eventkeys = prestation.events?Object.values(prestation.events):null;
     
     const cartMemberPath = `carts/${cartkey}/prestations/${prestakey}/membername`;
     const cartMemberKeyPath = `carts/${cartkey}/prestations/${prestakey}/memberkey`;
-    const cartMemberPathToProduct = `carts/${cartkey}/products/${productkey}/membername`;
-    const cartMemberKeyPathToProduct = `carts/${cartkey}/products/${productkey}/memberkey`;
-   if(type == 'prestation'){
+   
+    var updateData = {};
     if (eventkeys) {
       for (let i = 0 ; i < eventkeys.length ; i++ ) {
         const eventPath =  `events/${eventkeys[i]}/memberfirstname`;        
@@ -214,21 +199,14 @@ export class CartService {
       updateData[cartMemberPath] =  memberFirstName;
 
     }
-        this.db.object("/").update(updateData).then(_=>
-          console.log(updateData)
-      );
-   } else {
-      updateData[cartMemberKeyPathToProduct] = memberkey;
-      updateData[cartMemberPathToProduct] =  memberFirstName;
-      this.db.object("/").update(updateData).then(_=>
-        console.log(updateData)
-    );
-   }
+
+    this.db.object("/").update(updateData).then(_=>
+      console.log(updateData)
+   );
+
   }
 
 
-
-  
   addProductToCart(product,cart) {
 
     var cartkey = cart.$key;
@@ -540,8 +518,6 @@ export class CartService {
        console.log(deleteData)
     );
   }
-
-
 
 
 

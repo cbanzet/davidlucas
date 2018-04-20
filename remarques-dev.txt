@@ -1,11 +1,33 @@
+
+
+2018 04 19 
+RETOUR BENJAMIN
+
+- Horaires plus lisibles
+- Chevauchement des rdv
+- Horaire spécifique pour David
+- Modification d'une durée de prestation d'un rdv
+- Création raccourci de cliente dans la modal avec nom/prenom(facultatif)/email/telephone
+- Bouton de suppression d'un cadi dans la page de cadi prérempli
+- Réglement par chèque
+
+- Tronquer le titre des prestations dans la modal d'un rdv déja créé
+
+- Laisser que David
+- Création coiffeur avec Prenom/Nom/Email
+- Facturation pour Vendredi
+
+
+
+
 2018 04 10
 CALL FABRICE
 
 - Bug String + Number dans le calcul du prix
-- Ordre des Prestations dans dialog-see-event
 - Modification du coiffeur pour une prestation dans le cadi prérempli (cart-detail)
+- Composition d'un forfait avec plusieurs prestations
 
-
+- Ordre des Prestations dans dialog-see-event
 
 
 

@@ -11,9 +11,8 @@ import "rxjs/add/operator/switchMap";
 
 import { AngularFireAction,AngularFireDatabase } from 'angularfire2/database';
 
-// import { FacturationService } from './../shared/facturation.service';
+import { FacturationService } from './../shared/facturation.service';
 import { MemberService } from './../../members/shared/member.service';
-import { CartService } from './../../cart/shared/cart.service';
 import { EventService } from './../../events/shared/event.service';
 
 @Component({
@@ -23,8 +22,7 @@ import { EventService } from './../../events/shared/event.service';
 })
 export class FacturationListComponent implements OnInit {
 
-  carts : Observable<any[]>;
-  factures: Observable<any[]>;
+  bills: Observable<any[]>;
   members : Observable<any[]>;
 
   calendarDate:any;
@@ -40,10 +38,9 @@ export class FacturationListComponent implements OnInit {
 		private router: Router,
     private location: Location,
     private memberService: MemberService,
-    private cartService: CartService,
     private eventService: EventService,
-    private db: AngularFireDatabase
-    // private facturationService: FacturationService
+    private db: AngularFireDatabase,
+    private billService: FacturationService
     ) 
   { 
     this.date$ = new BehaviorSubject(null);
@@ -69,8 +66,8 @@ export class FacturationListComponent implements OnInit {
 
   ngOnInit() {
   	// this.factures = this.facturationService.getFacturesList(); 
-    this.members  = this.memberService.getMembersNameList(); 
-    this.carts    = this.cartService.getCartListForReport();
+    this.members      = this.memberService.getMembersNameList(); 
+    this.bills        = this.billService.getBillsList();
     this.calendarDate = Date.now();      
     this.dateForQuery = this.eventService.getDate(this.calendarDate);
     this.date$.next(this.dateForQuery); 

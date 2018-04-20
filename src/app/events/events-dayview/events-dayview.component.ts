@@ -155,7 +155,7 @@ export class EventsDayviewComponent implements OnInit {
       }
     });
     dialogNewEventRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
+      // console.log('The dialog was closed');
     });
   }  
 
@@ -178,7 +178,7 @@ export class EventsDayviewComponent implements OnInit {
         }
       });
       dialogSeeEventRef.afterClosed().subscribe(result => {
-        console.log('The event dialog was closed');
+        // console.log('The event dialog was closed');
       });
     }
   }  
@@ -413,7 +413,7 @@ export class DialogNewEvent implements OnInit {
              title: title[i],
              time: time[i],
              price: price[i],
-             q: quantity[i]
+             quantity: quantity[i]
            };
           this.insertItemInCart(prestation);
        }
@@ -560,8 +560,8 @@ export class DialogSeeEvent implements OnInit {
     this.cartService.removePrestaFromCart(presta,cart);
   }
 
-  changeCoiffeur(element,member,cart) {
-    this.cartService.changeCoiffeurIncart(element,member,cart);
+  changeCoiffeur(element,member,cart,type) {
+    this.cartService.changeCoiffeurIncart(element,member,cart,type);
   }
 
 

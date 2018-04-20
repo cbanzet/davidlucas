@@ -18,6 +18,8 @@ import 'rxjs/add/operator/do';
 export class FacturationService {
 
 	facturesRef: AngularFireList<any>;
+
+  billsRef: AngularFireList<any>;
   dataFromEventKey: Observable<any>;
   eventPrice: Observable<any>;
 
@@ -26,18 +28,20 @@ export class FacturationService {
     private db: AngularFireDatabase, 
     private router: Router) 
   {
-  	this.facturesRef= db.list('/factures', ref => ref.orderByChild('timestamp').limitToLast(50));
+  	// this.facturesRef= db.list('/bills', ref => ref.orderByChild('timestamp'));
+    this.billsRef= db.list('/bills', ref => ref.orderByChild('timestamp'));
+
   }
 
 /////////////////////////////////////////////////
   ////////// G E T
 /////////////////////////////////////////////////
 
-  getFacturesList() {
-    return this.facturesRef.snapshotChanges().map(arr => {
+  getBillsList() {
+    return this.billsRef.snapshotChanges().map(arr => {
       return arr.map(snap => Object.assign(
         snap.payload.val(), 
-        // { musicians: snap.payload.val().artists?Object.values(snap.payload.val().artists):0},
+        { arrprestas: snap.payload.val().prestations?Object.values(snap.payload.val().prestations):0},
         { $key: snap.key }) )
     })
   }
@@ -83,125 +87,151 @@ export class FacturationService {
 
   // createFacture(newFactureForm: NgForm): void {
   // createFacture(date,coiffeur,client,prestation,pxHT,pxTAX,pxTTC): void {
-  createNewFacture(date,client,coiffeur,prestation,moyenDePaiement,pxHT,pxTAX,pxTTC): void {
-    // console.log(newFactureForm.value);
-    console.log(date);
-    console.log(client,coiffeur,prestation,pxHT,pxTAX,pxTTC);
+  // createNewFacture(date,client,coiffeur,prestation,moyenDePaiement,pxHT,pxTAX,pxTTC): void {
+  //   // console.log(newFactureForm.value);
+  //   console.log(date);
+  //   console.log(client,coiffeur,prestation,pxHT,pxTAX,pxTTC);
 
-    var newFactureData = {}
-    newFactureData['timestamp'] = Date.now();    
-    newFactureData['ref'] = "001";    
+  //   var newFactureData = {}
+  //   newFactureData['timestamp'] = Date.now();    
+  //   newFactureData['ref'] = "001";    
 
-    // newFactureData['date'] = `${date.getDay()}-${date.getMonth()}-${date.getFullYear()}`;
-    newFactureData['date'] = date.toLocaleDateString();
-    // newFactureData['fulldate'] = date;
+  //   // newFactureData['date'] = `${date.getDay()}-${date.getMonth()}-${date.getFullYear()}`;
+  //   newFactureData['date'] = date.toLocaleDateString();
+  //   // newFactureData['fulldate'] = date;
 
-    newFactureData['priceHT'] = pxHT;
-    newFactureData['priceTAX'] = pxTAX;
-    newFactureData['priceTTC'] = pxTTC;
+  //   newFactureData['priceHT'] = pxHT;
+  //   newFactureData['priceTAX'] = pxTAX;
+  //   newFactureData['priceTTC'] = pxTTC;
 
-    newFactureData['clientkey'] = client.$key;
-    newFactureData['clientfullname'] = `${client.firstname} ${client.lastname}`;
-    newFactureData['clientFullAdress'] = `${client.street}, ${client.zip} ${client.city}`;
-    newFactureData['clientPhone'] = client.phone;
-    newFactureData['clientEmail'] = client.email;
+  //   newFactureData['clientkey'] = client.$key;
+  //   newFactureData['clientfullname'] = `${client.firstname} ${client.lastname}`;
+  //   newFactureData['clientFullAdress'] = `${client.street}, ${client.zip} ${client.city}`;
+  //   newFactureData['clientPhone'] = client.phone;
+  //   newFactureData['clientEmail'] = client.email;
 
-    newFactureData['prestationKey'] = prestation.$key;
-    newFactureData['prestationFullTitle'] = `${prestation.title} ${prestation.details}`;
+  //   newFactureData['prestationKey'] = prestation.$key;
+  //   newFactureData['prestationFullTitle'] = `${prestation.title} ${prestation.details}`;
 
-    newFactureData['coiffeurKey'] = prestation.$key;
-    newFactureData['coiffeurFullName'] = `${coiffeur.firstname} ${coiffeur.lastname}`;    
+  //   newFactureData['coiffeurKey'] = prestation.$key;
+  //   newFactureData['coiffeurFullName'] = `${coiffeur.firstname} ${coiffeur.lastname}`;    
 
-    newFactureData['eventKey'] = null;
-    newFactureData['statut'] = '0';
-    newFactureData['moyenDePaiement'] = moyenDePaiement?moyenDePaiement:"";
+  //   newFactureData['eventKey'] = null;
+  //   newFactureData['statut'] = '0';
+  //   newFactureData['moyenDePaiement'] = moyenDePaiement?moyenDePaiement:"";
 
-    console.log(newFactureData);
-    this.facturesRef.push(newFactureData).then(_=>
-      // console.log('Facture Added')
-      this.router.navigate(['/facturations'])
-    );
-  }
+  //   console.log(newFactureData);
+  //   this.facturesRef.push(newFactureData).then(_=>
+  //     // console.log('Facture Added')
+  //     this.router.navigate(['/facturations'])
+  //   );
+  // }
 
 
-  createEventFacture(eventkey,event,moyenDePaiement,pxHT,pxTAX,pxTTC): void {
-    // console.log(event);
-    var newFactureData = {}
-    newFactureData['timestamp'] = Date.now();    
-    newFactureData['ref'] = "001";    
-    newFactureData['date'] = event.date;
+  // createEventFacture(eventkey,event,moyenDePaiement,pxHT,pxTAX,pxTTC): void {
+  //   // console.log(event);
+  //   var newFactureData = {}
+  //   newFactureData['timestamp'] = Date.now();    
+  //   newFactureData['ref'] = "001";    
+  //   newFactureData['date'] = event.date;
 
-    newFactureData['priceHT'] = pxHT;
-    newFactureData['priceTAX'] = pxTAX;
-    newFactureData['priceTTC'] = pxTTC;
+  //   newFactureData['priceHT'] = pxHT;
+  //   newFactureData['priceTAX'] = pxTAX;
+  //   newFactureData['priceTTC'] = pxTTC;
 
-    newFactureData['clientkey'] = event.clientKey;
-    newFactureData['clientfullname'] = `${event.clientFirstname} ${event.clientLastname}`;
-    // newFactureData['clientFullAdress'] = `${client.street}, ${client.zip} ${client.city}`;
-    newFactureData['clientPhone'] = event.clientPhone;
-    newFactureData['clientEmail'] = event.clientEmail;
+  //   newFactureData['clientkey'] = event.clientKey;
+  //   newFactureData['clientfullname'] = `${event.clientFirstname} ${event.clientLastname}`;
+  //   // newFactureData['clientFullAdress'] = `${client.street}, ${client.zip} ${client.city}`;
+  //   newFactureData['clientPhone'] = event.clientPhone;
+  //   newFactureData['clientEmail'] = event.clientEmail;
 
-    newFactureData['prestationKey'] = event.prestationKey;
-    newFactureData['prestationFullTitle'] = `${event.prestationTitle} ${event.prestationDetails}`;
+  //   newFactureData['prestationKey'] = event.prestationKey;
+  //   newFactureData['prestationFullTitle'] = `${event.prestationTitle} ${event.prestationDetails}`;
 
-    newFactureData['coiffeurKey'] = event.memberKey;
-    newFactureData['coiffeurFullName'] = `${event.memberFirstname} ${event.memberLastname}`;    
+  //   newFactureData['coiffeurKey'] = event.memberKey;
+  //   newFactureData['coiffeurFullName'] = `${event.memberFirstname} ${event.memberLastname}`;    
 
-    newFactureData['eventKey'] = eventkey?eventkey:0;
-    newFactureData['statut'] = '0';
-    newFactureData['moyenDePaiement'] = moyenDePaiement?moyenDePaiement:"";
+  //   newFactureData['eventKey'] = eventkey?eventkey:0;
+  //   newFactureData['statut'] = '0';
+  //   newFactureData['moyenDePaiement'] = moyenDePaiement?moyenDePaiement:"";
 
-    console.log(newFactureData);
-    this.facturesRef.push(newFactureData).then(_=>
-      this.router.navigate(['/facturations'])
-    );
-  }
+  //   console.log(newFactureData);
+  //   this.facturesRef.push(newFactureData).then(_=>
+  //     this.router.navigate(['/facturations'])
+  //   );
+  // }
 
   createBillFromCart(cart,moypay,promo,ttc,ht,tva) {
-    console.log(cart);
 
-    var cartkey = cart.$key;
+    var cartkey                    = cart.$key;
+    var promo                      = promo ? promo:null;
 
-    var newFactureData = {}
-    newFactureData['timestamp']       = Date.now();    
-    newFactureData['ref']             = "XXXXXXXXX";    
-    newFactureData['promo']           = promo ? promo:0;    
-    newFactureData['date']            = cart.date;
-    newFactureData['cartkey']         = cartkey;
-    newFactureData['starttime']       = cart.cartstarttime;
-    newFactureData['totalHT']         = ht ? ht : 0;
-    newFactureData['totalTAX']        = tva ? tva : 0;
-    newFactureData['totalTTC']        = ttc ? ttc : 0;
-    newFactureData['clientkey']       = cart.clientkey;
-    newFactureData['clientfullname']  = cart.clientfullname;
-    newFactureData['clientphone']     = cart.clientphone;
-    newFactureData['clientemail']     = cart.clientemail;
-    newFactureData['statut']          = '0';
-    newFactureData['moyendepaiement'] = moypay?moypay:"nc";    
+    var newBillData                = {}
+    newBillData['timestamp']       = Date.now();    
+    newBillData['ref']             = "XXXXXXXXX";    
+    newBillData['promo']           = promo;
+    newBillData['date']            = cart.date;
+    newBillData['cartkey']         = cartkey;
+    newBillData['starttime']       = cart.cartstarttime;
+    newBillData['totalHT']         = ht ? ht : cart.totalHT ;
+    newBillData['totalTAX']        = tva ? tva : cart.totalTAX;
+    newBillData['totalTTC']        = ttc ? ttc : cart.totalTTC;
+    newBillData['clientkey']       = cart.clientkey;
+    newBillData['clientfullname']  = cart.clientfullname;
+    newBillData['clientphone']     = cart.clientphone;
+    newBillData['clientemail']     = cart.clientemail;
+    newBillData['statut']          = '0';
+    newBillData['moyendepaiement'] = moypay?moypay:"nc";   
 
-    var facturekey = this.facturesRef.push(newFactureData).key;
-    var updateData = {};
-    var clientPath         = `clientes/${cart.clientkey}/billhistory/${facturekey}`;
-    updateData[clientPath] = ttc;
+    var billkey                    = this.billsRef.push(newBillData).key;
+    
+    var updateData                 = {};
+    var clientPath                 = `clientes/${cart.clientkey}/billhistory/${billkey}`;
+    updateData[clientPath]         = newBillData;
 
-    // Déroulement des Prestations
     if(cart.prestas.length){
       for (let i = 0 ; i < cart.prestas.length ; i++ ) 
       {
-        var prestakey = cart.prestas[i].prestationkey ? cart.prestas[i].prestationkey : null;
-        var memberkey = cart.prestas[i].memberkey ? cart.prestas[i].memberkey : null;
-        var prestaprice = cart.prestas[i].price ? cart.prestas[i].price : null;
-        var memberPath = `members/${memberkey}/billhistory/${cartkey}/${prestakey}`;
+        var prestakey          = cart.prestas[i].prestationkey ? cart.prestas[i].prestationkey : null;
+        var memberkey          = cart.prestas[i].memberkey ? cart.prestas[i].memberkey : null;        
+        var membername         = cart.prestas[i].membername ? cart.prestas[i].membername : null;        
+
+        var prestaprice        = promo ? cart.prestas[i].price - (cart.prestas[i].price * promo) : cart.prestas[i].price;
+
+        var memberPath         = `members/${memberkey}/billhistory/${cartkey}/${prestakey}`;
         updateData[memberPath] = prestaprice;
+        this.addPrestaToBill(billkey,prestakey,memberkey,membername,prestaprice);
       }
     }
+    
+    var cartPath                 = `carts/${cartkey}/billkey`;
+    updateData[cartPath] = billkey;
 
-    this.db.object("/").update(updateData).then(_=>
-      console.log(updateData)
-    );
+    this.db.object("/").update(updateData).then( _=> console.log(updateData));
     this.cartService.doCart(cart,'paid');
     this.router.navigate(['/facturations'])
   }
+
+
+  addPrestaToBill(billkey,prestakey,memberkey,membername,price) {
+
+    var newPrestaData = {};
+    newPrestaData['prestationkey'] = prestakey;
+    newPrestaData['price'] = price?price:0;
+    newPrestaData['memberkey'] = memberkey;
+    newPrestaData['membername'] = membername;
+
+    const prestaInBillPath = `bills/${billkey}/prestations/${prestakey}/`;
+
+    var updateData = {};
+    updateData[prestaInBillPath]= newPrestaData;
+    // updateData['/lookUpCartPrestations/'+cartkey+'/'+prestationkey]= true;
+
+    this.db.object("/").update(updateData).then(_=> console.log(updateData));    
+
+  }
+
+
 
 
 

@@ -199,11 +199,11 @@ export class FacturationFormComponent implements OnInit {
     var prestation = this.selectedPrestation;
     var moyenDePaiement = this.moyenDePaiement?this.moyenDePaiement:"";
 
-    this.facturationService.createNewFacture(
-      this.selectedDate,
-      client,coiffeur,prestation,
-      moyenDePaiement,
-      this.totalHT,this.totalTAX,this.totalTTC);        
+    // this.facturationService.createNewFacture(
+    //   this.selectedDate,
+    //   client,coiffeur,prestation,
+    //   moyenDePaiement,
+    //   this.totalHT,this.totalTAX,this.totalTTC);        
   }
 
   changeQty(n) {

@@ -92,9 +92,9 @@ export class FacturationEventComponent implements OnInit {
     // var event = this.getEvent?this.getEvent:0;
     var moyenDePaiement = this.moyenDePaiement?this.moyenDePaiement:"";
 
-    this.facturationService.createEventFacture(
-      eventkey,event,moyenDePaiement,
-      this.totalHT,this.totalTAX,this.totalTTC);        
+    // this.facturationService.createEventFacture(
+    //   eventkey,event,moyenDePaiement,
+    //   this.totalHT,this.totalTAX,this.totalTTC);        
   }
 
   goBack(): void {

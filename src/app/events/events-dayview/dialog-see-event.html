@@ -14,7 +14,7 @@
 	fxFlexFill
 	fxLayoutWrap>
 
-	<p>{{ cart.$key }}</p>
+	<!-- <p>{{ cart.$key }}</p> -->
 
 	<div 
 		fxFlex="70"
@@ -81,7 +81,7 @@
 		<!-- <mat-icon (click)="changeCoiffeur(element)">cached</mat-icon> -->
 		<mat-select 	
 		  [(ngModel)]="member"
-		  (ngModelChange)="changeCoiffeur(element,member,cart)">
+		  (ngModelChange)="changeCoiffeur(element,member,cart,'prestation')">
 				<mat-option *ngFor="let member of members | async" [value]="member">
 				  {{ member.firstname }}
 				</mat-option>

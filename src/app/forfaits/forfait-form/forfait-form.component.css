@@ -81,3 +81,8 @@ mat-card-title {
 .presta-list {
   font-size: 0.9em;
 }
+
+
+.mat-chip {
+  margin: 5px !important;
+}

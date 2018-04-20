@@ -7,6 +7,7 @@ import { ForfaitService } from './../../forfaits/shared/forfait.service';
 import { PrestationService } from './../../prestations/shared/prestation.service';
 import { CartService  } from './../../cart/shared/cart.service';
 import { ProductsService } from './../../products/shared/products.service';
+import { MemberService } from './../../members/shared/member.service';
 
 import { Type } from './../../prestations/shared/type';
 
@@ -43,6 +44,7 @@ export class CartDetailComponent implements OnInit {
   ];
 
   forfaitTypes: Observable<any[]>;
+  members: Observable<any[]>;
   types: Observable<any[]>;
   typeselected: string;
   typeselectedProduct: string;
@@ -78,6 +80,7 @@ export class CartDetailComponent implements OnInit {
     private prestationService: PrestationService,
     private forfaitService: ForfaitService ,
     private productsService: ProductsService,
+    private memberService: MemberService,
     private cartService: CartService,
   	private route: ActivatedRoute,
     private router: Router,    
@@ -88,7 +91,8 @@ export class CartDetailComponent implements OnInit {
     this.products = this.productsService.getProductsList();
 
     this.forfaitTypes = this.forfaitService.getForfaitTypeList();
-    this.types = this.prestationService.getPrestaTypeList();     
+    this.types = this.prestationService.getPrestaTypeList(); 
+    this.members = this.memberService.getMembersList();    
   }
 
   ngOnInit() {
@@ -142,6 +146,12 @@ export class CartDetailComponent implements OnInit {
 
   deleteProduct(product, cart) {
      this.cartService.removeProductFromCart(product, cart);
+  }
+  changeCoiffeur(element,member,cart,type) {
+    this.cartService.changeCoiffeurIncart(element,member,cart,type);
+  }
+  deleteCart(cart) {
+    // this.cartService.deleteCartFromCartDetail(cart);
   }
 
 }
