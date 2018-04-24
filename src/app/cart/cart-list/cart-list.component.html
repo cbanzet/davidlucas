@@ -1,10 +1,10 @@
-<ng-template #loading>				
+<!-- <ng-template #loading>				
   <br><br>
   <mat-spinner color="warn"></mat-spinner>
   <br><br>
-</ng-template>
+</ng-template> -->
           
-<mat-card  class="br-20" 
+<!-- <mat-card  class="br-20" 
   *ngIf="carts | async; let carts; else loading">
   <mat-card-header class="example-full-width">
     <mat-card-title>Carts</mat-card-title>
@@ -34,18 +34,89 @@
           <span>{{ cart.date }} - {{ cart.cartstarttime }}</span>
           <span>{{ cart.clientfullname }}</span>
         </p>
-        <p class="px-ttc">{{ cart.totalTTC }} €</p>
+        <p class="px-ttc">{{ cart.totalTTC }} €</p> -->
 
 
-         
-        <button mat-icon-button
-            (click)=" deleteCart(cart)">
+       <!-- <div *ngIf="cart.statut !== 'paid'"> -->
+        <!-- <button mat-icon-button
+            (click)="deleteCart(cart,cart.prestas)">
             <mat-icon>remove_circle</mat-icon>
-        </button>
+        </button> -->
+         <!-- <button mat-icon-button
+            >
+             <mat-icon>info</mat-icon>
+          </button>
+        <button mat-icon-button
+        (click)="openDialog(cart)"> 
+        <mat-icon>remove_circle</mat-icon>
+        </button> -->
 
-      </mat-list-item>
+       <!-- </div>  -->
+       
+      <!-- </mat-list-item>
    
     </mat-list>
   </mat-card-content>
-</mat-card>
-        
+</mat-card> -->
+
+<!-- <pre>{{carts | async | json}}</pre> -->
+
+<ng-template #loading>				
+  <br><br>
+  <mat-spinner color="warn"></mat-spinner>
+  <br><br>
+</ng-template>
+
+<mat-card  class="br-20" 
+  *ngIf="carts | async; let carts; else loading">
+  <mat-card-header class="example-full-width">
+    <mat-card-title>Carts</mat-card-title>
+    <mat-card-subtitle>Liste des Paniers Vendus au Salon</mat-card-subtitle>
+    <button mat-fab disabled routerLink="./../cartform" type="button" color="black">
+      <mat-icon>add</mat-icon>
+    </button>		
+  </mat-card-header>
+  <mat-card-content>
+    <br>
+    <mat-list dense>
+    <div
+			fxFlex="100"
+			fxLayoutAlign="center center">
+				<table class="full-width" >
+					<tr>
+						<td width="5px"></td>
+						<td width="15 px"></td>
+						<td></td>
+            <td width="40px"></td>
+            <td width="40px"></td>
+            <td width="40px"></td>
+					</tr>
+          <!-- <mat-list-item *ngFor="let cart of carts"> -->
+					<tr *ngFor="let cart of carts">
+						<td><mat-icon matListIcon>local_offer</mat-icon></td>
+						<td>
+              <span class="statut">
+                {{ cart.statut }}
+              </span>
+            </td>
+            <td>
+              <span>{{ cart.date }} - {{ cart.cartstarttime }}    {{ cart.clientfullname }}</span>
+            </td>
+						<td> <p class="px-ttc">{{ cart.totalTTC }} €</p></td>
+						<td class="td-a-c"><button mat-icon-button
+                (click)="redirection(cart)" >
+               <mat-icon>info</mat-icon>
+            </button></td>
+						<td class="td-a-c" *ngIf="cart.statut !== 'paid'"> 
+              <button mat-icon-button color="warn"
+              (click)="openDialog(cart)"> 
+              <mat-icon>remove_circle</mat-icon>
+              </button>
+            </td>
+            </tr>
+          <!-- </mat-list-item>		 -->
+				</table>
+      </div>
+      </mat-list>
+    </mat-card-content>
+  </mat-card>

@@ -114,6 +114,17 @@ mat-spinner {
 	color: #ccc !important;
 }
 
+.promo {
+	padding: 5px 10px;
+	background: #45484d; /* Old browsers */
+	background: -moz-radial-gradient(center, ellipse cover, #45484d 0%, #000000 100%); /* FF3.6-15 */
+	background: -webkit-radial-gradient(center, ellipse cover, #45484d 0%,#000000 100%); /* Chrome10-25,Safari5.1-6 */
+	background: radial-gradient(ellipse at center, #45484d 0%,#000000 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#45484d', endColorstr='#000000',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */  color: #fff;
+  font-size: 12px;
+  border-radius: 10px;
+  line-height: 10px;
+}
 
 
 .client, .montant {
@@ -129,12 +140,14 @@ mat-spinner {
 }
 .montant {
 	padding-left: 10px;
-	width: 260px;
+	width: 170px;
 }
 .total-amount {
 	background-color: #000;
 	color: #FFF;
 	padding: 5px 10px;
-	font-size: 1.3em
+	font-size: 1.3em;
+	display:inline-block;
+
 }
 

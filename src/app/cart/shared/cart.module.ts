@@ -19,6 +19,7 @@ import { CartService } from './cart.service';
 import { CartFormComponent } from './../cart-form/cart-form.component';
 import { CartListComponent } from './../cart-list/cart-list.component';
 import { CartDetailComponent } from './../cart-detail/cart-detail.component';
+import { CartListRemoveComponent } from './../cart-list/cart-list.component';
 
 import { FilterPipe } from './../cart-detail/filter';
 import { FilterProduct } from './../cart-detail/filterproduct';
@@ -37,16 +38,18 @@ import { FilterForfaitPipe } from './../cart-detail/filterforfait';
     FlexLayoutModule
   ],
   declarations: [
-  	CartFormComponent,
-  	CartListComponent,
-  	CartDetailComponent,
+    CartFormComponent,
+    CartListComponent,
+    CartDetailComponent,
     FilterPipe,
     FilterProduct,
-    FilterForfaitPipe
+    FilterForfaitPipe,
+    CartListRemoveComponent
   ],
   providers: [
     CartService,
     AuthService
-  ]    
+  ],
+  entryComponents: [CartListRemoveComponent]
 })
 export class CartModule { }

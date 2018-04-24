@@ -74,7 +74,7 @@ const routes: Routes = [
   { path: 'cart/:id', component: CartDetailComponent },
   { path: 'cartform', component: CartFormComponent },
   ////////////////////////////////////////////////////////////////
-  { path: 'facturations', component: FacturationListComponent },
+  { path: 'bills', component: FacturationListComponent },
   { path: 'facturationform', component: FacturationFormComponent },
   { path: 'facturationevent/:eventid', component: FacturationEventComponent },
   { path: 'facturationcart/:cartid', component: FacturationCartComponent },

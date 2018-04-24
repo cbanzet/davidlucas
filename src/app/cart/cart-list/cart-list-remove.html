@@ -1,0 +1,18 @@
+<ng-template #loading>								
+	<br><br>
+	<mat-spinner color="warn"></mat-spinner>
+	<br><br>
+</ng-template>
+<div *ngIf="cart | async; let cart; else loading" 
+	fxLayout="row"
+	fxLayout.xs="column"
+	fxLayoutAlign="center center"
+	fxFlexFill
+    fxLayoutWrap>
+            <strong>Do you want to remove this cart?</strong>
+   
+    <div mat-dialog-actions>
+        <button mat-button (click)="onNoClick()">No</button>
+        <button mat-button (click)="deleteCart(cart,cart.prestas)" cdkFocusInitial>Yes</button>
+      </div>
+</div>

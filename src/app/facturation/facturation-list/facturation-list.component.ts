@@ -22,17 +22,18 @@ import { EventService } from './../../events/shared/event.service';
 })
 export class FacturationListComponent implements OnInit {
 
-  bills: Observable<any[]>;
-  members : Observable<any[]>;
+  bills         : Observable<any[]>;
+  members       : Observable<any[]>;
 
-  calendarDate:any;
-  dateForQuery:any;
-  carts$: Observable<AngularFireAction<any>[]>;
-  date$: BehaviorSubject<string|null>;
+  calendarDate  : any;
+  dateForQuery  : any;
 
-  total:number = 0;
-  check: string = "Check : ";
-  checkdate: string;
+  bills$        : Observable<AngularFireAction<any>[]>;
+  date$         : BehaviorSubject<string|null>;
+
+  total         : number = 0;
+  check         : string = "Check : ";
+  checkdate     : string;
 
   constructor(
 		private router: Router,
@@ -44,30 +45,32 @@ export class FacturationListComponent implements OnInit {
     ) 
   { 
     this.date$ = new BehaviorSubject(null);
-    // this.carts$ = this.date$.switchMap(date => db.list('/carts', ref =>
-    //     date ? ref.orderByChild('date').equalTo(date) : ref
-    //   ).snapshotChanges().map(arr => {
-    //       return arr.map(snap => Object
-    //         .assign(
-    //           // snap.payload.val(), 
-    //         { 
-    //           $key: snap.key,
-    //           date             : snap.payload.val().date,              
-    //           clientfullname   : snap.payload.val().clientfullname,
-    //           statut           : snap.payload.val().statut,
-    //           totalTTC         : snap.payload.val().totalTTC                        
-    //         },
-    //         { 
-    //           prestas          : snap.payload.val().prestations?Object.values(snap.payload.val().prestations):0
-    //         }        
-    //     ))})
-    // );
+    this.bills$ = this.date$.switchMap(date => db.list('/bills', ref =>
+        date ? ref.orderByChild('date').equalTo(date) : ref
+      ).snapshotChanges().map(arr => {
+          return arr.map(snap => Object
+            .assign(
+              snap.payload.val(), 
+            // { 
+            //   $key: snap.key,
+            //   date             : snap.payload.val().date,              
+            //   clientfullname   : snap.payload.val().clientfullname,
+            //   moyendepaiement  : snap.payload.val().moyendepaiement,
+            //   statut           : snap.payload.val().statut,
+            //   totalTTC         : snap.payload.val().totalTTC                        
+            // },
+            // { 
+            //   arrprestas          : snap.payload.val().prestations?Object.values(snap.payload.val().prestations):0
+            // }        
+        ))})
+    );
   }
 
   ngOnInit() {
   	// this.factures = this.facturationService.getFacturesList(); 
     this.members      = this.memberService.getMembersNameList(); 
     this.bills        = this.billService.getBillsList();
+    
     this.calendarDate = Date.now();      
     this.dateForQuery = this.eventService.getDate(this.calendarDate);
     this.date$.next(this.dateForQuery); 

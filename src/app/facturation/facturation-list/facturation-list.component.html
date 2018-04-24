@@ -4,16 +4,47 @@
 	<br><br>
 </ng-template>
 
+{{ calendarDate }} <br> {{ dateForQuery }} <br><br>
+
+<mat-form-field>
+  <input matInput placeholder="Select Date"
+  [matDatepicker]="picker"
+  [(ngModel)]="dateSelected"
+  (ngModelChange)="updateDate(dateSelected)">
+  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+  <mat-datepicker #picker></mat-datepicker>
+</mat-form-field> 
+
+
+<div *ngIf="bills$ | async; let bills; else loading">
+  <ul>
+    <li *ngFor="let bill of bills">
+      {{ bill.date }}
+      <!-- <code>{{ event.payload.key }}</code> -  -->
+      {{ bill.clientfullname }} -
+      {{bill.totalTTC}} €
+      <!-- {{bill.payload.val().time}} -->
+      <!-- <pre> {{ bill | json }} </pre> -->
+    </li>
+  </ul>
+  <!-- <div *ngIf="bills.length === 0">No results, try clearing filters</div> -->
+</div>
+
+
+      
+   
+
+
+<!-- <mat-card *ngIf="dev"> -->
 <mat-card class="br-20" 
 *ngIf="bills | async; let bills; else loading" >
-<!-- *ngIf="carts$ | async; let carts; else loading" > -->
   <mat-card-header>
     <div mat-card-avatar class="example-header-image">
       <mat-icon matListIcon>receipt</mat-icon>
     </div>      
     <mat-card-title>Factures</mat-card-title>
     <mat-card-subtitle>
-      Liste des Factures du Salon David Lucas Paris <br>
+      Liste des Factures du Salon <br>
       {{ dateSelected }}
    </mat-card-subtitle>
 
@@ -62,12 +93,13 @@
         <span class="client"> 
           Réglement :
           <strong>{{ bill.moyendepaiement }}</strong>
-        </span>         
+        </span>                 
         <span class="montant">
           Montant :
           <strong>{{ bill.totalTTC }} </strong> €
           {{ addToTotal(bill.$key, bill.totalTTC) }}
         </span>
+        <span class="promo" *ngIf="bill.promo">-{{ (bill.promo*100) }} %</span>                
     	</span>
 
       <ul class="presta-membres">
@@ -108,7 +140,7 @@
 	    </button> 
       -->
 
-      <div class="montant total-amount br3">
+      <div class="total-amount br3">
           MONTANT TOTAL : 
           <strong>{{ total }} €</strong>
       </div>
