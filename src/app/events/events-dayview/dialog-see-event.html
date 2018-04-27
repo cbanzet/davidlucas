@@ -60,7 +60,12 @@
 			<span class="buble-16 mr-10">{{ (i+1) }}</span>
 			<strong>{{ element.starttime }} &nbsp;&nbsp;</strong>
 			<span
-			[ngStyle]="{'font-size': '0.8em'}">{{ element.prestationtitle }}</span>
+			[ngStyle]="{'font-size': '0.8em'}">
+				{{ 
+					(element.prestationtitle.length>40) ?
+					(element.prestationtitle | slice:0:40)+'...':(element.prestationtitle) 						
+				}}
+			</span>
 		</div>
 
 		<div

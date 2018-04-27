@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { Router, ActivatedRoute, Params, ParamMap } from '@angular/router';
 import { Location } from '@angular/common';
 import { NgForm } from '@angular/forms';
 import { FormControl } from '@angular/forms';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 import { FacturationService } from './../shared/facturation.service';
 import { ClientService } from './../../clients/shared/client.service';
@@ -24,18 +25,21 @@ export class FacturationCartComponent implements OnInit {
   cart;
   cartkey;
 
-  moypay:any;
-  promotion:Observable<any[]>;
+  moypay         :any;
+  promotion      :Observable<any[]>;
 
-  selectedPrice:number;
-  selectedQty:number=1;
+  selectedPrice  :number;
+  selectedQty    :number=1;
   
-  newtotalTAX: number=0;
-  newtotalTTC: number=0;
-  newtotalHT: number=0;
+  newtotalTAX    : number=0;
+  newtotalTTC    : number=0;
+  newtotalHT     : number=0;
 
-  billready:boolean=false;
-  promo: number;promoEuros:number;  
+  billready      :boolean=false;
+  promo          : number;promoEuros:number;  
+
+  freeamount     :number;
+  freepromo      :number;
 
   constructor(
     private route: ActivatedRoute,
@@ -43,7 +47,8 @@ export class FacturationCartComponent implements OnInit {
   	private clientService: ClientService,
     private cartService: CartService,
     private location: Location, 	
-  	private facturationService: FacturationService     
+  	private facturationService: FacturationService,
+    public dialog: MatDialog         
   ) { }
 
 
@@ -73,7 +78,6 @@ export class FacturationCartComponent implements OnInit {
         this.cartService.getCartWithKey(params.get('cartid')));  	
   }
 
-
   getBill(cart) {
     var moyenDePaiement = this.moypay?this.moypay:"";
     this.facturationService.createBillFromCart(
@@ -86,9 +90,70 @@ export class FacturationCartComponent implements OnInit {
                             );        
   }
 
+  openDialog(cart): void {
+
+    const oldpx = parseFloat(cart.totalTTC);
+
+    const dialogRef = this.dialog.open( BillFreeTotalComponent, {
+      width: '300px',
+      data: { freeamount: this.freeamount }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      // console.log(result);
+      // this.freeamount = result;
+      // this.freepromo = Math.round(((100-(this.freeamount*100)/oldpx)*100)/100);
+      // this.applyPromo(this.freepromo/100,oldpx);
+      // this.promo = this.freepromo/100;
+
+      this.newtotalTTC = Math.round((result)*100)/100;
+      this.newtotalHT  = Math.round((this.newtotalTTC/1.2)*100)/100;
+      this.newtotalTAX = Math.round((this.newtotalTTC-this.newtotalHT)*100)/100;    
+
+      this.promoEuros = oldpx - this.newtotalTTC;
+      this.freepromo = Math.round(((this.promoEuros*100)/oldpx)*100)/100;
+
+      this.promo = this.freepromo/100;
+      this.freeamount = result;
+
+      console.log(this.promo);      
+
+    });
+  }
+
 
   goBack(): void {
     this.location.back();
   } 
 
 }
+
+
+
+
+
+
+@Component({
+  selector: 'bill-free-total',
+  templateUrl: 'bill-free-total.html',
+  styles: [
+    'button { margin: 0 10px 20px 0 }'
+  ]  
+})
+export class BillFreeTotalComponent {
+  
+  constructor(
+    public dialogRef: MatDialogRef<BillFreeTotalComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any) 
+  {
+     console.log(data);
+  }
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+
+}
+
+

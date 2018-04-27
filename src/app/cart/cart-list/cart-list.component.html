@@ -93,14 +93,32 @@
 					</tr>
           <!-- <mat-list-item *ngFor="let cart of carts"> -->
 					<tr *ngFor="let cart of carts">
-						<td><mat-icon matListIcon>local_offer</mat-icon></td>
 						<td>
-              <span class="statut">
+              <mat-icon matListIcon
+                [ngClass]="
+                  {
+                    'waiting-icon':cart.statut=='waiting',
+                    'ongoing-icon':cart.statut=='ongoing',
+                    'fillcart-icon':cart.statut=='filled',
+                    'billing-icon':cart.statut=='billing',
+                    'paid-icon':cart.statut=='paid'
+                  }">shopping_cart</mat-icon></td>
+						<td>
+              <span class="statut"
+                [ngClass]="
+                {
+                  'waiting-statut':cart.statut=='waiting',
+                  'ongoing-statut':cart.statut=='ongoing',
+                  'fillcart-statut':cart.statut=='filled',
+                  'billing-statut':cart.statut=='billing',
+                  'paid-statut':cart.statut=='paid'
+                }">
                 {{ cart.statut }}
               </span>
             </td>
             <td>
-              <span>{{ cart.date }} - {{ cart.cartstarttime }}    {{ cart.clientfullname }}</span>
+              <span class="datetime">{{ cart.date }} - {{ cart.cartstarttime }}</span>
+              <span class="cliente" [routerLink]="['./../client', cart.clientkey]">{{ cart.clientfullname }}</span>
             </td>
 						<td> <p class="px-ttc">{{ cart.totalTTC }} €</p></td>
 						<td class="td-a-c"><button mat-icon-button

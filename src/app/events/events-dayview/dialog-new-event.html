@@ -19,7 +19,18 @@
 		fxFlexAlign="start start">
 			<h1 *ngIf="data.selectedCoiffeur" mat-dialog-title>
 				Rendez-vous de <strong>{{data.selectedCoiffeur.firstname}} </strong>
-				<span *ngIf="selectedClient">avec <strong>{{ selectedClient.firstname}} {{ selectedClient.lastname }}</strong></span>
+				 				
+				<span *ngIf="!saveMeetingWithNewClient">
+					<span *ngIf="selectedClient">avec <strong>{{ selectedClient.firstname}} {{ selectedClient.lastname }}</strong></span>
+				</span>
+				<span *ngIf="saveMeetingWithNewClient">
+					<span *ngIf="newClientSelected | async; let newClientSelected">
+						avec 
+						<strong>{{ newClientSelected.firstname}} {{ newClientSelected.lastname }}</strong>
+						{{ saveNewClientInfoInCtrl(newClientSelected) }}
+					</span>
+				</span> 
+				
 			</h1>				
 		</div>
 		<div class="datatime"
@@ -28,9 +39,11 @@
 			<span class="br3">le {{ data.date | date:'d MMM' }}. à {{data.time}}</span>
 		</div>
 		
-		<div class="pt-20"
-		fxFlex="100%"
-		fxLayoutAlign="center start">
+		<div 
+			*ngIf="searchClientForm"
+			class="pt-20"
+			fxFlex="100%"
+			fxLayoutAlign="center start">
 			<mat-form-field class="full-width"
 			*ngIf="!selectedClient">
 			  <input 
@@ -45,14 +58,81 @@
 			    </mat-option>
 			  </mat-autocomplete>
 			  <mat-icon matSuffix>search</mat-icon>
-			  <mat-icon matSuffix 
-			  	(click)="onNoClick()"
-			  	routerLink="./../clientform">add</mat-icon>
+
+			  <mat-icon matSuffix class="icon-button"
+			  	(click)="
+			  				formAddClient=true;
+			  				searchClientForm=false;
+			  				commandemodal=false
+			  				">add</mat-icon>
 			</mat-form-field>
+
+					<!-- 			  
+					<mat-icon matSuffix 
+			  	(click)="onNoClick()"
+			  	routerLink="./../clientform">add</mat-icon> 
+			  	-->
+
 		</div>
 	
+
+
+
+		<form *ngIf="formAddClient" #newClientForm="ngForm" (ngSubmit)="onSubmit(newClientForm)">		
 	  <div
-	  	*ngIf="selectedClient"
+	  	fxLayout="row"
+			fxLayout.xs="column"
+	  	fxFlexFill
+	  	fxLayoutWrap
+			fxLayoutAlign="start start"
+			[ngStyle]="{'padding-top': '20px'}"
+	  	>
+				<div fxFlex="50%">
+					<mat-form-field class="full-width">
+						<input matInput placeholder="Nouvelle Cliente : Prénom" required
+							ngModel #newClientfirstname="ngModel"
+							name="newClientfirstname">
+					</mat-form-field>
+				</div>
+				<div fxFlex="50%">				
+					<mat-form-field class="full-width">
+						<input matInput placeholder="Nom de famille" required
+						ngModel #newClientlastname="ngModel"
+						name="newClientlastname">
+					</mat-form-field>
+				</div>
+				<div fxFlex="50%">				
+					<mat-form-field class="full-width">
+						<input matInput placeholder="Email" type=email required 
+						[email]="true"
+						ngModel #newClientemail="ngModel" 
+						name="newClientemail">
+		  		</mat-form-field>
+	  		</div>
+				<div fxFlex="50%">				
+					<mat-form-field class="full-width">
+						<input matInput mat-maxlength="3" placeholder="Phone" required
+						ngModel #newClientphone 
+						name="newClientphone">
+					</mat-form-field>
+				</div>
+
+				<div fxFlex="100%">				
+					<button mat-fab type="button" color="black"
+						(click)="onNoClick()">
+						<mat-icon>close</mat-icon>
+					</button>			    						 	
+					<button mat-fab type="submit" color="warn"
+						[disabled]="!newClientForm.form.valid">
+						<mat-icon>save</mat-icon>
+					</button>
+				</div>
+	  </div>
+		</form>	    						 	
+
+
+	  <div
+	  	*ngIf="selectedClient||newClientSelected"
 	  	fxLayout="row"
 			fxLayout.xs="column"
 	  	fxFlexFill
@@ -114,7 +194,7 @@
 			</div>
 
 
-			<div fxFlex="100%"><h4>Déroulé du rendez-vous</h4></div>
+			<div fxFlex="100%" *ngIf="showCartContent"><h4>Déroulé du rendez-vous</h4></div>
 
 			<div class="event-program"
 			fxLayoutWrap
@@ -159,27 +239,29 @@
 
 	</div>
 
-	<div mat-dialog-actions>
+	<div mat-dialog-actions *ngIf="commandemodal">
+
+		<!-- <pre>{{ newClientSelected | async | json }}</pre> -->
 
 		<button mat-fab (click)="onNoClick()" type="button" tabindex="-1" color="black">
 			<mat-icon>close</mat-icon>
 	  </button>
 
 		<button mat-fab 
+			*ngIf="!saveMeetingWithNewClient"
 			[disabled]="cartData.length==0||!data.selectedCoiffeur||!selectedClient"
 			(click)="saveEvent(data,selectedClient)"
 			type="button" tabindex="2" color="warn">
 			<mat-icon>check</mat-icon>
 	  </button>
 
-		<!-- 		
 		<button mat-fab 
-			[disabled]="!data.prestation||!data.selectedCoiffeur||!selectedClient"
-			(click)="saveEvent(data,selectedClient)"
+			*ngIf="saveMeetingWithNewClient"		
+			[disabled]="cartData.length==0||!newClientSelected"
+			(click)="getNewClientBeforeSavingEvent(data)"
 			type="button" tabindex="2" color="warn">
 			<mat-icon>check</mat-icon>
-	  </button> 
-		-->
+	  </button>
 
 	</div>
 	<br>

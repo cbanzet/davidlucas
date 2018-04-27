@@ -43,6 +43,9 @@ mat-spinner {
 	margin-bottom: 40px;
 }
 
+.bgc-dg {
+	background-color: #4C4C4C !important;
+}
 
 .showdate {
 	display: inline-block;

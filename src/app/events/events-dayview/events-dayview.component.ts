@@ -16,6 +16,7 @@ import "rxjs/add/operator/switchMap";
 
 import { EventService } from './../../events/shared/event.service';
 import { MemberService } from './../../members/shared/member.service';
+import { ClientService } from './../../clients/shared/client.service';
 import { ForfaitService } from './../../forfaits/shared/forfait.service';
 import { CartService } from './../../cart/shared/cart.service';
 import { Cart } from './../shared/cart';
@@ -90,7 +91,12 @@ export class EventsDayviewComponent implements OnInit {
     "18:00",     
     "18:15",
     "18:30",
-    "18:45",                                        
+    "18:45",
+    "19:00",
+    "19:15",
+    "19:30",
+    "19:45",
+    "20:00",            
   ] 
 
   constructor(
@@ -225,6 +231,10 @@ export class DialogNewEvent implements OnInit {
   clientCtrl: FormControl = new FormControl();
   filteredClients: Observable<any[]>;
   selectedClient:Observable<any[]>;
+  newClientSelected: Observable<any[]>;
+  
+  // saveMeetingWithSelectedClient:boolean=false;
+  saveMeetingWithNewClient:boolean=false;
 
   selectPrestaOrForfait:boolean=true;
   showPrestaSelect:boolean=false;
@@ -249,7 +259,20 @@ export class DialogNewEvent implements OnInit {
   showTypeSelectForfait: boolean;
   filtreForfait: object;
 
+  formAddClient:boolean=false;
+  searchClientForm: boolean=true;
+  commandemodal:boolean=false;
+  showCartContent:boolean=false;
+
+  dropClientOnlyOnce:boolean=false;
+  getNewClientPhone:any;
+  getNewClientEmail:any;     
+  getNewClientFirstname:any; 
+  getNewClientLastname:any;  
+  getNewClientKey:any;       
+
   constructor(
+    private clientService: ClientService,
     private eventService: EventService,
     private prestationService: PrestationService,
     private forfaitService: ForfaitService,    
@@ -271,7 +294,7 @@ export class DialogNewEvent implements OnInit {
   }
 
   filterClients(val: string) {
-    console.log(val);
+    // console.log(val);
     return this.clients
     .map(response => response.filter(client => { 
       return client.lastname.toLowerCase().indexOf(val.toLowerCase()) === 0
@@ -295,6 +318,8 @@ export class DialogNewEvent implements OnInit {
       .switchMap(client => {
         if(client) {
           if(client.lastname) { 
+            console.log(client)
+            // this.selectedClientFromSearchForm = true;
             this.selectedClient = client;
             return this.clients;
           }
@@ -324,10 +349,35 @@ export class DialogNewEvent implements OnInit {
     console.log( this.typeselectedforfait);
   }
 
+  /////////////////////////////////////////////////////////////////
+  // NEW CLIENT 
+  onSubmit(newClientForm: NgForm) {
+    var clientkey = this.clientService.createClientFromNewEventModal(newClientForm);
+    this.formAddClient = false;
+    this.saveMeetingWithNewClient = true;
+    this.newClientSelected = this.clientService.getClientWithKeyOnce(clientkey);
+  }   
+
+  saveNewClientInfoInCtrl(client):void {
+    if(this.dropClientOnlyOnce==false) {     
+     this.getNewClientPhone     = client.phone;
+     this.getNewClientEmail     = client.email;
+     this.getNewClientFirstname = client.firstname;
+     this.getNewClientLastname  = client.lastname;
+     this.getNewClientKey       = client.$key;                    
+
+     this.dropClientOnlyOnce    = true;
+    }
+  }
+
 
 	/////////////////////////////////////////////////////////////////
   // CART 
   insertItemInCart(data) {
+
+    this.showCartContent=true;
+    this.commandemodal=true;
+
     var isInCart:Boolean;
     var id:number;
     var newPrice:number;
@@ -367,7 +417,6 @@ export class DialogNewEvent implements OnInit {
     }
   }
 
-
   formatPrestaBeforeInsert(isDavid,data) {
     var key = data.$key?data.$key:0;
     var title = data.title?data.title:0;
@@ -386,7 +435,7 @@ export class DialogNewEvent implements OnInit {
       this.insertItemInCart( prestation);
      console.log(this.cartData);
     }
-    else {console.log("EntrÈe incomplËte")}
+    else {console.log("Entrée incomplËte")}
   }
 
   formatForfaitBeforeInsert(isDavid,data) {
@@ -429,28 +478,6 @@ export class DialogNewEvent implements OnInit {
 
 
 
-  // // CALCUL PX HT FIRST 
-  // getTotalHT(addOrRemove,px) {
-  //   if(addOrRemove=='add'){
-  //     this.totalHT = Math.round((px+this.totalHT)*100)/100;
-  //   }
-  //   else if(addOrRemove=='remove') {
-  //     this.totalHT = Math.round((this.totalHT-px)*100)/100;
-  //   }
-  // }
-  // getTotalTAX() {
-  //   this.totalTAX = Math.round((this.totalHT*0.2)*100)/100;    
-  // }
-  // getTotalTTC() {
-  //   this.totalTTC = this.totalTAX + this.totalHT;
-  // }
-  // sumTablePrice(addOrRemove,px) {
-  //   this.getTotalHT(addOrRemove,px);
-  //   this.getTotalTAX();
-  //   this.getTotalTTC();
-  // }
-
-
   // CALCUL PX TTC FIRST 
   getTotalTTC(addOrRemove,px) {
     if(addOrRemove=='add'){
@@ -473,10 +500,20 @@ export class DialogNewEvent implements OnInit {
   }
 
 
-
-	/////////////////////////////////////////////////////////////////
 	/////////////////////////////////////////////////////////////////
 
+
+  getNewClientBeforeSavingEvent(data) {
+
+    const client = {};
+    client['$key'] = this.getNewClientKey;
+    client['email'] = this.getNewClientEmail;
+    client['phone'] = this.getNewClientPhone;
+    client['firstname'] = this.getNewClientFirstname;
+    client['lastname'] = this.getNewClientLastname;
+
+    this.saveEvent(data,client);
+  }
 
 
   saveEvent(data,client) {

@@ -56,16 +56,7 @@
 								<strong>{{ presta.prestationtitle }}</strong><br>
 								<i>({{ presta.membername }} - {{ presta.timelength }} minutes)</i>
 							</td>
-							<td>
-								<!-- 
-								<span>
-									<span>{{ selectedQty }}</span>
-									<span class="qty-ctrl">
-										<span class="qty-plus" (click)="changeQty(+1)">+</span>
-										<span class="qty-moint" (click)="changeQty(-1)">-</span>
-									</span>
-								</span>	 
-								-->								
+							<td>						
 							</td>								
 							<td class="td-a-c article-detail">{{ presta.price }} €</td>
 							<td class="td-a-c article-detail">{{ presta.price }} €</td>								
@@ -78,7 +69,8 @@
 							</td>
 							<td></td>
 							<td class="td-a-c article-detail">{{ pdct.price }} €</td>
-							<td class="td-a-c article-detail">{{ pdct.price }} €</td>	
+							<td class="td-a-c article-detail">{{ pdct.price }} €</td>
+						</tr>
 						<tr>
 							<td></td>
 							<td colspan="2" class="bg-grey ta-l">TOTAL HT</td>
@@ -111,19 +103,32 @@
 					<br><br>
 					<h5>Appliquer une réduction</h5>
 					<mat-grid-list class="moy-paie" cols="5" rowHeight="40px">
-					  <mat-grid-tile [ngClass]="promo==0.05 ? 'gridSelected' : 'gridNotSelected'" 
-					  	(click)="applyPromo(0.05,cart.totalTTC)">5%</mat-grid-tile>
 					  <mat-grid-tile [ngClass]="promo==0.1 ? 'gridSelected' : 'gridNotSelected'" 
 					  	(click)="applyPromo(0.1,cart.totalTTC)">10%</mat-grid-tile>
 					  <mat-grid-tile [ngClass]="promo==0.2 ? 'gridSelected' : 'gridNotSelected'" 
 					  	(click)="applyPromo(0.2,cart.totalTTC)">20%</mat-grid-tile>
 					  <mat-grid-tile [ngClass]="promo==0.5 ? 'gridSelected' : 'gridNotSelected'" 
 					  	(click)="applyPromo(0.5,cart.totalTTC)">50%</mat-grid-tile>
+
+
+<!-- 					  <mat-grid-tile [ngClass]="promo==0.5 ? 'gridSelected' : 'gridNotSelected'" 
+					  	(click)="applyPromo(0.5,cart.totalTTC)">50%</mat-grid-tile> -->
+
+					  <mat-grid-tile *ngIf="!freeamount" 
+					  	(click)="openDialog(cart)">
+					  	<mat-icon>euro_symbol</mat-icon>
+					  </mat-grid-tile>
+					  <mat-grid-tile *ngIf="freeamount" [ngClass]="promo==(freepromo/100) ? 'gridSelected' : 'gridNotSelected'" 
+					  	(click)="openDialog(cart)">
+					  	{{ freepromo }} %
+					  </mat-grid-tile>					  					  
 					  <mat-grid-tile (click)="
 					  									newtotalTTC=null;
 					  									newtotalTAX=null;
 					  									newtotalHT=null;
-					  									promo=null
+					  									promo=null;
+					  									freepromo=0;
+					  									freeamount=false;
 					  									">
 					  	<mat-icon>clear</mat-icon>
 					  </mat-grid-tile>

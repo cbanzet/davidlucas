@@ -26,18 +26,33 @@ mat-card-title {
 }
 
 
-waiting-cart {
-	background-color: red
+.waiting-statut { background-color: #FF2C00; }
+.ongoing-statut { background-color: #00B945; }
+.fillcart-statut { background-color: #D9005B; }
+.billing-statut { background-color: #FF8500; }
+.paid-statut { background-color: black }
+
+
+.waiting-icon { color: #FF2C00; }
+.ongoing-icon { color: #00B945; }
+.fillcart-icon { color: #D9005B; }
+.billing-icon { color: #FF8500; }
+.paid-icon { color: black }
+
+.datetime {
+	font-weight: 700;
+	width: 130px;
+	display: inline-block;
 }
-ongoing-cart {
-	background-color: green
+.cliente {
+	padding: 5px 10px;
+	border-left: 1px dotted #ccc;
+	background-color: #eee;
+	text-transform: uppercase;
+	cursor: pointer;
+	border-radius: 2px;
 }
-fillcart-cart {
-	background-color: orange 
-}
-billing-cart {
-	background-color: yellow
-}
-paid-cart {
-	background-color: black
+.cliente:hover {
+	background-color: #666;
+	color: #fff;
 }

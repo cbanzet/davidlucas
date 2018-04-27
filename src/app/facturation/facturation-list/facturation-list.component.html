@@ -4,31 +4,31 @@
 	<br><br>
 </ng-template>
 
-{{ calendarDate }} <br> {{ dateForQuery }} <br><br>
+<!-- {{ calendarDate }} <br> {{ dateForQuery }} <br><br> -->
 
-<mat-form-field>
+<!-- <mat-form-field>
   <input matInput placeholder="Select Date"
   [matDatepicker]="picker"
   [(ngModel)]="dateSelected"
   (ngModelChange)="updateDate(dateSelected)">
   <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
   <mat-datepicker #picker></mat-datepicker>
-</mat-form-field> 
+</mat-form-field>  -->
 
 
-<div *ngIf="bills$ | async; let bills; else loading">
-  <ul>
-    <li *ngFor="let bill of bills">
-      {{ bill.date }}
+<!-- <div *ngIf="bills$ | async; let bills; else loading"> -->
+  <!-- <ul> -->
+    <!-- <li *ngFor="let bill of bills"> -->
+      <!-- {{ bill.date }} -->
       <!-- <code>{{ event.payload.key }}</code> -  -->
-      {{ bill.clientfullname }} -
-      {{bill.totalTTC}} €
+      <!-- {{ bill.clientfullname }} - -->
+      <!-- {{bill.totalTTC}} € -->
       <!-- {{bill.payload.val().time}} -->
       <!-- <pre> {{ bill | json }} </pre> -->
-    </li>
-  </ul>
+    <!-- </li> -->
+  <!-- </ul> -->
   <!-- <div *ngIf="bills.length === 0">No results, try clearing filters</div> -->
-</div>
+<!-- </div> -->
 
 
       
@@ -47,22 +47,9 @@
       Liste des Factures du Salon <br>
       {{ dateSelected }}
    </mat-card-subtitle>
-
-
-    <!--     
-    <mat-form-field>
-      <input matInput placeholder="Select Date"
-      [matDatepicker]="picker"
-      [(ngModel)]="dateSelected">
-      (ngModelChange)="updateDate(dateSelected)">
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field> 
-    -->
-
   </mat-card-header>
 
-  <mat-card-content>
+  <mat-card-content *ngIf="bills$ | async; let bills; else loading">
 
     <div class="date-move br3">
       <mat-icon (click)="changeDay(calendarDate,'-7')">fast_rewind</mat-icon>
@@ -87,7 +74,6 @@
           <strong>{{ bill.date }}</strong>
         </span>
     		<span class="client"> 
-          Client :
           <strong>{{ bill.clientfullname }}</strong>
         </span> 
         <span class="client"> 
@@ -103,6 +89,7 @@
     	</span>
 
       <ul class="presta-membres">
+        <li class="br3 bgc-dg">{{ bill.timestamp | date:'h:mma' }}</li>
         <li *ngFor="let presta of bill.arrprestas" class="br3">
           {{ presta.membername }} : 
           <strong>{{ presta.price }} €</strong>
@@ -142,7 +129,7 @@
 
       <div class="total-amount br3">
           MONTANT TOTAL : 
-          <strong>{{ total }} €</strong>
+          <strong>{{ totalCart }} €</strong>
       </div>
 
 

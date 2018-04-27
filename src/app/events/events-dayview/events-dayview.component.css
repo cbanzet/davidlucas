@@ -14,14 +14,9 @@ mat-card-title {
 }
 
 
-tr:nth-child(even) {
-	/*background-color: #aaa !important;*/
-	color: #666 !important;
-}
-
 
 .cal-cell {
-	/*background-color: #eee;*/
+	border: 1px solid #fff;
 	cursor: pointer;
 	text-align: center;
 	padding-left: 10px;
@@ -65,40 +60,34 @@ font-size: 0.8em;
 }
 
 
+
+
+
 .cal-cell-hour {
 	text-align: center;
 	font-size: 0.7em;
 	padding: 2px 5px 0;
-	font-weight: bold;
+	font-weight: 400;
 	-webkit-border-top-left-radius: 5px;
 	-webkit-border-bottom-left-radius: 5px;
 	-moz-border-radius-topleft: 5px;
 	-moz-border-radius-bottomleft: 5px;
 	border-top-left-radius: 5px;
 	border-bottom-left-radius: 5px;
-	background: #eeeeee; /* Old browsers */
-	background: -moz-linear-gradient(left, #eeeeee 0%, #cccccc 100%); /* FF3.6-15 */
-	background: -webkit-linear-gradient(left, #eeeeee 0%,#cccccc 100%); /* Chrome10-25,Safari5.1-6 */
-	background: linear-gradient(to right, #eeeeee 0%,#cccccc 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#eeeeee', endColorstr='#cccccc',GradientType=1 ); /* IE6-9 */	
+	/*color: #ccc;*/
 }
 
 .rdv {
 	margin:0; padding:0;
 }
 .rdv span{
-	margin:0 0 0 2px; padding:2px 5px 0;
-	font-size: 9px;
-	text-transform: uppercase;
+	margin:0 0 0 2px; padding:1px 3px 0;
+	font-size: 10px;
+	/*text-transform: uppercase;*/
 	text-align: center;
 	font-weight: 500;
 	display: block;
-	/*	
-	-webkit-border-radius: 4px;
-	-moz-border-radius: 4px;
-	border-radius: 4px;	*/
-	/*height: 16px; width: 16px;*/
-	line-height: 13px;
+	line-height: 10px;
 	float: left;
 	color: #999999;
 }
@@ -120,18 +109,46 @@ font-size: 0.8em;
 	border-bottom-left-radius: 3px;
 }
 
+
+
+
+
+table {
+  overflow: hidden;
+}
+
+tr:hover {
+  background-color: #D9005B;
+  color: #FFF !important;  
+}
+
+td, th {
+  position: relative;
+}
+td:hover::after,
+th:hover::after {
+  content: "";
+  color: #FFF !important;
+  position: absolute;
+  background-color: #D9005B;
+  left: 0;
+  top: -5000px;
+  height: 10000px;
+  width: 100%;
+  z-index: -1;
+}
+
+
+
+
+
 .cal-table {
-	background-color: #ccc;
 	border: 1px solid #fff;
 	-webkit-border-radius: 20px;-moz-border-radius: 20px;border-radius: 20px;	
 }
 
 .cal-table tr:hover {
-background: #d6f9ff !important; /* Old browsers */
-background: -moz-linear-gradient(-45deg, #d6f9ff 0%, #9ee8fa 100%) !important; /* FF3.6-15 */
-background: -webkit-linear-gradient(-45deg, #d6f9ff 0%,#9ee8fa 100%) !important; /* Chrome10-25,Safari5.1-6 */
-background: linear-gradient(135deg, #d6f9ff 0%,#9ee8fa 100%) !important; /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d6f9ff', endColorstr='#9ee8fa',GradientType=1 ) !important; /* IE6-9 fallback on horizontal gradient */
+
 }
 
 .waiting-event {
@@ -185,6 +202,9 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d6f9ff', end
 	background-color: #000;
 }
 
+
+
+
 .td-date {
 	/*background-color: #000;*/
 	color: #FFF;
@@ -217,6 +237,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d6f9ff', end
 
 
 .cal-cell-people {
+	color: #FFF !important;
 	text-align: center;
 	cursor:pointer;
 	-webkit-border-bottom-left-radius: 10px;
@@ -236,6 +257,9 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d6f9ff', end
 	-webkit-border-bottom-left-radius: 10px;
 	-moz-border-radius-bottomleft: 10px;
 	border-bottom-left-radius: 10px;
+	-webkit-border-top-left-radius: 10px;
+	-moz-border-radius-topleft: 10px;
+	border-top-left-radius: 10px;	
 	color: #FFF;
 	text-align: center;
 	cursor:pointer;

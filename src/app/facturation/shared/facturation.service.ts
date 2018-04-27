@@ -196,7 +196,9 @@ export class FacturationService {
         var memberkey          = cart.prestas[i].memberkey ? cart.prestas[i].memberkey : null;        
         var membername         = cart.prestas[i].membername ? cart.prestas[i].membername : null;        
 
-        var prestaprice        = promo ? cart.prestas[i].price - (cart.prestas[i].price * promo) : cart.prestas[i].price;
+        var prestaprice        = promo ? 
+                          Math.round((cart.prestas[i].price - (cart.prestas[i].price * promo))*100)/100 : 
+                          cart.prestas[i].price;
 
         var memberPath         = `members/${memberkey}/billhistory/${cartkey}/${prestakey}`;
         updateData[memberPath] = prestaprice;
@@ -209,7 +211,7 @@ export class FacturationService {
 
     this.db.object("/").update(updateData).then( _=> console.log(updateData));
     this.cartService.doCart(cart,'paid');
-    this.router.navigate(['/facturations'])
+    this.router.navigate(['/calendar'])
   }
 
 

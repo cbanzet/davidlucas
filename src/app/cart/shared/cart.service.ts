@@ -410,6 +410,7 @@ export class CartService {
         dataPresta['starttime'] = starttime;
         dataPresta['timelength'] = data.prestations[i].time?data.prestations[i].time:null;
         dataPresta['memberkey'] = memberKey;
+        dataPresta['order'] = i+1;
         dataPresta['membername'] = membername;
         dataPresta['fromcalendar'] = false;
         if(item === undefined) 

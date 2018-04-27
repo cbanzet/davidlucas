@@ -1,0 +1,33 @@
+<ng-template #loading>								
+	<br><br>
+	<mat-spinner color="warn"></mat-spinner>
+	<br><br>
+</ng-template>
+<!-- <div *ngIf="cart | async; let cart; else loading"  -->
+
+
+<div
+	fxLayout="row"
+	fxLayout.xs="column"
+	fxLayoutAlign="center center"
+	fxFlexFill
+  fxLayoutWrap>
+    <strong>Indiquer un montant libre total pour cette facture ?</strong>
+
+    <br><br>
+   
+		<mat-form-field class="full-width">
+			<input matInput placeholder="Nouveau total TTC" type="number"
+				[(ngModel)]="data.freeamount">
+		</mat-form-field>
+
+
+    <div mat-dialog-actions>
+			<button mat-fab (click)="onNoClick()" color="black">
+				<mat-icon>clear</mat-icon>
+			</button>    	
+			<button mat-fab [mat-dialog-close]="data.freeamount" color="warn">
+				<mat-icon>check</mat-icon>
+			</button>    
+    </div>
+</div>

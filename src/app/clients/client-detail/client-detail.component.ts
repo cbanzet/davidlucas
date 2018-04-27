@@ -50,4 +50,8 @@ export class ClientDetailComponent implements OnInit {
   	this.location.back();
 	}
 
+  deleteClient(client):void {
+    this.clientService.deleteClient(client);
+  }
+
 }

@@ -58,6 +58,15 @@ button {
 	text-align: center;
 }
 
+
+.icon-button {
+	color: #999;
+	cursor:pointer;
+}
+.icon-button:hover {
+	color: #000;
+}
+
 .event-program {
 	color: #333;
 	font-size: 0.8em;

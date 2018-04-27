@@ -240,7 +240,7 @@
 						  </mat-select>
 					</strong></td>
 						<td>{{ pdct.quantity }}</td>
-						<td class="td-a-c">{{ pdct.price }} Ä</td>
+						<td class="td-a-c">{{ pdct.price }} €</td>
 						<td class="td-a-c">
 							<mat-icon class="cursor-pointer" (click)="deleteProduct(pdct,cart)">clear</mat-icon>
 						</td>
@@ -272,9 +272,9 @@
 			<div class="pt-20 bt-white"
 			fxFlex="100"
 			fxLayoutAlign="end end">
-				<button mat-fab color="warn" matTooltip="Delete Cart" matTooltipPosition="after" disabled 
+				<!-- <button mat-fab color="warn" matTooltip="Delete Cart" matTooltipPosition="after" disabled 
 					(click)="deleteCart(cart)"><mat-icon>delete_forever</mat-icon>
-				</button>
+				</button> -->
 				<button mat-fab color="warn" matTooltip="Pay" matTooltipPosition="after" 
 					(click)="goToBill(cart)"><mat-icon>payment</mat-icon>
 				</button>	

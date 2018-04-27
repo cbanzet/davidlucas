@@ -71,6 +71,36 @@ export class ClientService {
     return this.client
   }  
 
+  getClientWithKeyOnce(key: string) {
+    const clientPath = `clientes/${key}`;
+    this.client = this.db.object(clientPath)
+      .snapshotChanges().map(action => {
+        const $key = action.payload.key;
+        const data = { $key, ...action.payload.val() };
+        return data;
+      });
+    return this.client
+  }    
+
+
+  ////// C R E A T E
+
+
+
+
+  createClientFromNewEventModal(newClientForm: NgForm) {
+
+    var newClientData            = {}
+    newClientData['timestamp']   = Date.now();    
+    newClientData['firstname']   = newClientForm?newClientForm.value.newClientfirstname:0;
+    newClientData['lastname']    = newClientForm?newClientForm.value.newClientlastname:0;
+    newClientData['email']       = newClientForm?newClientForm.value.newClientemail:0;
+    newClientData['phone']       = newClientForm?newClientForm.value.newClientphone:0;
+
+    const clientkey              = this.clientsRef.push(newClientData).key;
+    return clientkey;
+  }
+
 
 
 
@@ -84,6 +114,7 @@ export class ClientService {
     var clientKey = client.$key;
     const composerPath = `clientes/${clientKey}`;
     this.db.object(composerPath).remove();
+    this.router.navigate(['/calendar']);      
   }  
 
 

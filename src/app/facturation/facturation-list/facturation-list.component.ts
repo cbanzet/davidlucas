@@ -34,6 +34,7 @@ export class FacturationListComponent implements OnInit {
   total         : number = 0;
   check         : string = "Check : ";
   checkdate     : string;
+  totalCart     : number = 0;
 
   constructor(
 		private router: Router,
@@ -43,26 +44,28 @@ export class FacturationListComponent implements OnInit {
     private db: AngularFireDatabase,
     private billService: FacturationService
     ) 
-  { 
+   {
     this.date$ = new BehaviorSubject(null);
     this.bills$ = this.date$.switchMap(date => db.list('/bills', ref =>
         date ? ref.orderByChild('date').equalTo(date) : ref
       ).snapshotChanges().map(arr => {
           return arr.map(snap => Object
             .assign(
-              snap.payload.val(), 
-            // { 
-            //   $key: snap.key,
-            //   date             : snap.payload.val().date,              
-            //   clientfullname   : snap.payload.val().clientfullname,
-            //   moyendepaiement  : snap.payload.val().moyendepaiement,
-            //   statut           : snap.payload.val().statut,
-            //   totalTTC         : snap.payload.val().totalTTC                        
-            // },
-            // { 
-            //   arrprestas          : snap.payload.val().prestations?Object.values(snap.payload.val().prestations):0
-            // }        
-        ))})
+              snap.payload.val(),
+              this.totalCart =  this.totalCart + snap.payload.val().totalTTC  ,
+              {
+                $key: snap.key,
+                date             : snap.payload.val().date,
+                clientfullname   : snap.payload.val().clientfullname,
+                statut           : snap.payload.val().statut,
+                totalTTC         : snap.payload.val().totalTTC,
+                moyendepaiment   : snap.payload.val().moyendepaiement,
+              },
+              {
+                arrprestas: snap.payload.val().prestations?Object.values(snap.payload.val().prestations): 0
+              },
+        ),  this.totalCart = 0
+      )})
     );
   }
 
