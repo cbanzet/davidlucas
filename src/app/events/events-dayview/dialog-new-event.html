@@ -241,8 +241,6 @@
 
 	<div mat-dialog-actions *ngIf="commandemodal">
 
-		<!-- <pre>{{ newClientSelected | async | json }}</pre> -->
-
 		<button mat-fab (click)="onNoClick()" type="button" tabindex="-1" color="black">
 			<mat-icon>close</mat-icon>
 	  </button>
@@ -250,7 +248,7 @@
 		<button mat-fab 
 			*ngIf="!saveMeetingWithNewClient"
 			[disabled]="cartData.length==0||!data.selectedCoiffeur||!selectedClient"
-			(click)="saveEvent(data,selectedClient)"
+			(click)="filteredClients=null;saveEvent(data,selectedClient)"
 			type="button" tabindex="2" color="warn">
 			<mat-icon>check</mat-icon>
 	  </button>
@@ -258,7 +256,7 @@
 		<button mat-fab 
 			*ngIf="saveMeetingWithNewClient"		
 			[disabled]="cartData.length==0||!newClientSelected"
-			(click)="getNewClientBeforeSavingEvent(data)"
+			(click)="filteredClients=null;getNewClientBeforeSavingEvent(data)"
 			type="button" tabindex="2" color="warn">
 			<mat-icon>check</mat-icon>
 	  </button>

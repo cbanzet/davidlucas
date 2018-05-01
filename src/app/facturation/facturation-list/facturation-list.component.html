@@ -61,7 +61,12 @@
 
     <ul class="coiffeur-menu">
       <li class="br3">ALL</li>
-      <li *ngFor="let member of members | async" class="br3">{{ member.name }}</li>
+      <li *ngFor="let member of members | async" (click)=getName(member.name) class="br3">{{ member.name }}</li>
+      <li class="menu-divider">&amp;</li>
+      <li>Carte Bancaire</li>
+      <li>Carte Cadeau</li>      
+      <li>Chèque</li>
+      <li>Espèces</li>
     </ul>
 
   	<br>

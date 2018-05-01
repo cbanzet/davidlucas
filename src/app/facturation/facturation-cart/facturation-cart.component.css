@@ -33,6 +33,17 @@ h5 {
 }
 
 
+.discount {
+	background-color: #FF6140;
+	color: #fff;
+	text-transform: uppercase;
+}
+.discount-number {
+	color: #FF6140;
+	font-weight: bold;
+
+}
+
 .full-width {
 	width: 100%
 }

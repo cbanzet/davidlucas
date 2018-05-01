@@ -1,4 +1,15 @@
 
+- Recherche par nom/tel/prenom
+- Drag And Drop
+- Prix d'Encaissement libre avec calcul automatique du taux de reduction appliqué à l'ensemble des prestations.
+- Chevauchement des rdv
+- Horaire spécifique pour David
+- Modification d'une durée de prestation d'un rdv
+
+
+
+
+
 ////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////
@@ -7,6 +18,27 @@
 ////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////
+
+
+2018 05 01
+
+- Complexification de la structuration des Factures dans le JSON avec des sous noeuds 'prestartion' et 'produit' créés dans l'historique des membres.
+OK - CB
+- Ajout d'une ligne rappelant la promotion dans la facturation
+OK - CB
+- Correction Bug saisie d'un produit dan sle cadi avec le premier membre de la prestation 0 du cadi sélectionné par défaut. 
+OK - CB
+- Modal New Event : Loading à la sauvegarde
+OK - CB
+- Modal See Event : Hide Commande à la sauvegarde
+OK - CB
+
+
+
+////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////
+
 
 
 2018 04 24
@@ -15,7 +47,7 @@
 OK - FK
 - Prix d'Encaissement libre avec calcul automatique du taux de reduction appliqué à l'ensemble des prestations.
 OK - CB
-- Filtrage des reports en focntion de la date 
+- Filtrage des reports en fonction de la date 
 OK - FK
 - Création d'un rendez vous avec un nouveau client sans quitter la modal
 OK - CB
@@ -27,9 +59,6 @@ OK - CB
 OK - Fabrice
 
 
-- Recherche par nom/tel/prenom
-- Drag And Drop
-- Prix d'Encaissement libre avec calcul automatique du taux de reduction appliqué à l'ensemble des prestations.
 
 
 ////////////////////////////////////////////////////////////////////////////

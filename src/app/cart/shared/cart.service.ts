@@ -231,35 +231,39 @@ export class CartService {
   
   addProductToCart(product,cart) {
 
-    var cartkey = cart.$key;
-    var productkey = product.$key;
+    console.log(cart);
 
-    var cartNewPriceTTC = Math.round((parseFloat(cart.totalTTC)+parseFloat(product.px))*100)/100;
-    var cartNewPriceHT = Math.round((cartNewPriceTTC/1.2)*100)/100;
-    var cartNewTVA = Math.round((cartNewPriceTTC-cartNewPriceHT)*100)/100;
+    var cartkey                  = cart.$key;
+    var productkey               = product.$key;
 
-    var newPdct = {};
-    newPdct['key'] =       productkey;
-    newPdct['title'] =     product.title;
-    newPdct['brand'] =     product.brand;
-    newPdct['code'] =      product.codeEAN;
-    newPdct['ref'] =       product.reference;
-    newPdct['price'] =     product.px;
-    newPdct['quantity'] =  1;
+    var cartNewPriceTTC          = Math.round((parseFloat(cart.totalTTC)+parseFloat(product.px))*100)/100;
+    var cartNewPriceHT           = Math.round((cartNewPriceTTC/1.2)*100)/100;
+    var cartNewTVA               = Math.round((cartNewPriceTTC-cartNewPriceHT)*100)/100;
 
-    var productInCartPath = `carts/${cartkey}/products/${productkey}`;
-    var TTCCartPath       = `carts/${cartkey}/totalTTC/`;
-    var HTCartPath        = `carts/${cartkey}/totalHT/`;
-    var TVACartPath       = `carts/${cartkey}/totalTAX/`;
-    const productPathOld = `carts/${cartkey}/products/${productkey}/quantity`;
-    const productPathOldPrice = `carts/${cartkey}/products/${productkey}/price`;
+    var newPdct                  = {};
+    newPdct['key']               = productkey;
+    newPdct['title']             = product.title;
+    newPdct['brand']             = product.brand;
+    newPdct['code']              = product.codeEAN;
+    newPdct['ref']               = product.reference;
+    newPdct['price']             = product.px;
+    newPdct['quantity']          = 1;
+    newPdct['memberkey']         = cart.prestas[0] ? cart.prestas[0].memberkey : null;
+    newPdct['membername']        = cart.prestas[0] ? cart.prestas[0].membername : null;    
+
+    var productInCartPath        = `carts/${cartkey}/products/${productkey}`;
+    var TTCCartPath              = `carts/${cartkey}/totalTTC/`;
+    var HTCartPath               = `carts/${cartkey}/totalHT/`;
+    var TVACartPath              = `carts/${cartkey}/totalTAX/`;
+    const productPathOld         = `carts/${cartkey}/products/${productkey}/quantity`;
+    const productPathOldPrice    = `carts/${cartkey}/products/${productkey}/price`;
    
-    var updateData = {};
-    var updateDatas = {};
+    var updateData               = {};
+    var updateDatas              = {};
     updateData[productInCartPath]= newPdct;
-    updateData[TTCCartPath]= +cartNewPriceTTC;
-    updateData[HTCartPath]= +cartNewPriceHT;
-    updateData[TVACartPath]= +cartNewTVA;
+    updateData[TTCCartPath]      = +cartNewPriceTTC;
+    updateData[HTCartPath]       = +cartNewPriceHT;
+    updateData[TVACartPath]      = +cartNewTVA;
 
     if(cart.pdcts) 
     {
@@ -306,27 +310,27 @@ export class CartService {
 
   // Update Cart From Cart Module : Add Presta or Forfait
   updateInCart(cart,data,element) {
-    console.log(cart.prestations);
-    var cartKey = cart.$key;
-    var prestaKey = data.$key;
-    var prestaTitle = data.title;
-    var starttime = '';
-    var timelength = data.time;
-    var memberKey =cart.prestas[0].memberkey;
-    var membername = cart.prestas[0].membername;
-    var prestaPrice = membername=='David'?+data.priceDavid:+data.priceTeam;
-    var prestaInCartPath =  `carts/${cartKey}/prestations/${prestaKey}`;
-    var totalHtInCart = cart.totalHT;
-    var totalTaxInCart = cart.totalTAX;
-    var totalTtcInCart = cart.totalTTC;
-    var newTotalTtc = Math.round((parseFloat(cart.totalTTC)+ prestaPrice)*100)/100;
-    var newTotalHT = Math.round((newTotalTtc/1.2)*100)/100;
-    var newTotalTax = Math.round((newTotalTtc-newTotalHT)*100)/100;
-    const prestaPath = `carts/${cartKey}/prestations/${prestaKey}`;
-    const totalHTPath = `carts/${cartKey}/totalHT`;
-    const totalTAXPath = `carts/${cartKey}/totalTAX`;
-    const totalTTCPath = `carts/${cartKey}/totalTTC`;
-    const prestaPathOld = `carts/${cartKey}/prestations/${prestaKey}/quantity`;
+    // console.log(cart.prestations);
+    var cartKey              = cart.$key;
+    var prestaKey            = data.$key;
+    var prestaTitle          = data.title;
+    var starttime            = '';
+    var timelength           = data.time;
+    var memberKey            = cart.prestas[0].memberkey;
+    var membername           = cart.prestas[0].membername;
+    var prestaPrice          = membername=='David'?+data.priceDavid:+data.priceTeam;
+    var prestaInCartPath     = `carts/${cartKey}/prestations/${prestaKey}`;
+    var totalHtInCart        = cart.totalHT;
+    var totalTaxInCart       = cart.totalTAX;
+    var totalTtcInCart       = cart.totalTTC;
+    var newTotalTtc          = Math.round((parseFloat(cart.totalTTC)+ prestaPrice)*100)/100;
+    var newTotalHT           = Math.round((newTotalTtc/1.2)*100)/100;
+    var newTotalTax          = Math.round((newTotalTtc-newTotalHT)*100)/100;
+    const prestaPath         = `carts/${cartKey}/prestations/${prestaKey}`;
+    const totalHTPath        = `carts/${cartKey}/totalHT`;
+    const totalTAXPath       = `carts/${cartKey}/totalTAX`;
+    const totalTTCPath       = `carts/${cartKey}/totalTTC`;
+    const prestaPathOld      = `carts/${cartKey}/prestations/${prestaKey}/quantity`;
     const prestaPathOldPrice = `carts/${cartKey}/prestations/${prestaKey}/price`;
     var newPrestaData = {};
     var updateData = {};

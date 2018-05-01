@@ -36,6 +36,9 @@ export class FacturationListComponent implements OnInit {
   checkdate     : string;
   totalCart     : number = 0;
 
+  selectedName  : any;
+
+
   constructor(
 		private router: Router,
     private location: Location,
@@ -87,6 +90,7 @@ export class FacturationListComponent implements OnInit {
       this.total = Math.round(this.total*100)/100;
     }
   }
+
 
   reinitTotal(){
     this.check = "Check : ";

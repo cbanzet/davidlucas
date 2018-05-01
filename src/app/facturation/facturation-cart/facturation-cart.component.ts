@@ -75,7 +75,7 @@ export class FacturationCartComponent implements OnInit {
 
     this.cart = this.route.paramMap
       .switchMap((params: ParamMap) =>
-        this.cartService.getCartWithKey(params.get('cartid')));  	
+        this.cartService.getCartWithProductWithKey(params.get('cartid')));  	
   }
 
   getBill(cart) {

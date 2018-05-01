@@ -189,6 +189,7 @@ export class FacturationService {
     var clientPath                 = `clientes/${cart.clientkey}/billhistory/${billkey}`;
     updateData[clientPath]         = newBillData;
 
+    // Insertion des Prestations en Sous-Noeud de la facture et dans le membre
     if(cart.prestas.length){
       for (let i = 0 ; i < cart.prestas.length ; i++ ) 
       {
@@ -197,17 +198,50 @@ export class FacturationService {
         var membername         = cart.prestas[i].membername ? cart.prestas[i].membername : null;        
 
         var prestaprice        = promo ? 
-                          Math.round((cart.prestas[i].price - (cart.prestas[i].price * promo))*100)/100 : 
-                          cart.prestas[i].price;
+                    Math.round((cart.prestas[i].price - (cart.prestas[i].price * promo))*100)/100 : 
+                    cart.prestas[i].price;
 
-        var memberPath         = `members/${memberkey}/billhistory/${cartkey}/${prestakey}`;
-        updateData[memberPath] = prestaprice;
+        var prestaHistory           = {};
+        prestaHistory['prestakey'] = prestakey;
+        prestaHistory['cartkey']    = cartkey;
+        prestaHistory['billkey']    = billkey;
+        prestaHistory['type']       = 'prestation';
+        prestaHistory['price']      = prestaprice;
+        prestaHistory['date']       = cart.date;
+
+        var memberPath         = `members/${memberkey}/billhistory/${prestakey}`;
+        updateData[memberPath] = prestaHistory;
         this.addPrestaToBill(billkey,prestakey,memberkey,membername,prestaprice);
       }
     }
+
+    // Insertion des Produits en Sous-Noeud de la facture et dans le membre
+    if(cart.pdcts){
+      for (let i = 0 ; i < cart.pdcts.length ; i++ ) 
+      {
+        var productkey         = cart.pdcts[i].key ? cart.pdcts[i].key : null;
+        var memberkey          = cart.pdcts[i].memberkey ? cart.pdcts[i].memberkey : null;        
+        var membername         = cart.pdcts[i].membername ? cart.pdcts[i].membername : null;        
+        var productprice       = promo ? 
+                    Math.round((cart.pdcts[i].price - (cart.pdcts[i].price * promo))*100)/100 : 
+                    cart.pdcts[i].price;
+
+        var prdctHistory           = {};
+        prdctHistory['productkey'] = productkey;
+        prdctHistory['cartkey']    = cartkey;
+        prdctHistory['billkey']    = billkey;
+        prdctHistory['type']       = 'product';
+        prdctHistory['price']      = productprice;
+        prdctHistory['date']       = cart.date;
+
+        var memberPath         = `members/${memberkey}/billhistory/${prestakey}`;
+        updateData[memberPath] = prdctHistory;
+        this.addProductToBill(billkey,productkey,memberkey,membername,productprice);
+      }
+    }    
     
-    var cartPath                 = `carts/${cartkey}/billkey`;
-    updateData[cartPath] = billkey;
+    var cartPath               = `carts/${cartkey}/billkey`;
+    updateData[cartPath]       = billkey;
 
     this.db.object("/").update(updateData).then( _=> console.log(updateData));
     this.cartService.doCart(cart,'paid');
@@ -216,21 +250,30 @@ export class FacturationService {
 
 
   addPrestaToBill(billkey,prestakey,memberkey,membername,price) {
-
-    var newPrestaData = {};
+    var newPrestaData              = {};
     newPrestaData['prestationkey'] = prestakey;
-    newPrestaData['price'] = price?price:0;
-    newPrestaData['memberkey'] = memberkey;
-    newPrestaData['membername'] = membername;
+    newPrestaData['price']         = price?price:0;
+    newPrestaData['memberkey']     = memberkey;
+    newPrestaData['membername']    = membername;
 
     const prestaInBillPath = `bills/${billkey}/prestations/${prestakey}/`;
-
     var updateData = {};
-    updateData[prestaInBillPath]= newPrestaData;
-    // updateData['/lookUpCartPrestations/'+cartkey+'/'+prestationkey]= true;
-
+    updateData[prestaInBillPath] = newPrestaData;
     this.db.object("/").update(updateData).then(_=> console.log(updateData));    
+  }
 
+
+  addProductToBill(billkey,productkey,memberkey,membername,productprice) {
+    var newPrdctData           = {};
+    newPrdctData['productkey'] = productkey;
+    newPrdctData['price']      = productprice?productprice:0;
+    newPrdctData['memberkey']  = memberkey;
+    newPrdctData['membername'] = membername;
+
+    const productInBillPath = `bills/${billkey}/products/${productkey}/`;
+    var updateData = {};    
+    updateData[productInBillPath] = newPrdctData;    
+    this.db.object("/").update(updateData).then(_=> console.log(updateData));    
   }
 
 

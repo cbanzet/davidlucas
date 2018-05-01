@@ -65,11 +65,21 @@
 							*ngFor="let pdct of cart.pdcts ;let i =index
 						">
 							<td class="article-detail">
-								<strong>{{ pdct.brand }}</strong> {{ pdct.title  }}
+								<strong>{{ pdct.brand }}</strong> {{ pdct.title  }} <br>
+								<i>({{ pdct.membername }})</i>
 							</td>
+							<td class="td-a-c article-detail">{{ pdct.quantity }}</td>
+							<td class="td-a-c article-detail">{{ pdct.price }} €</td>
+							<td class="td-a-c article-detail">{{ pdct.price }} €</td>
+						</tr>
+						<tr *ngIf="promo">
 							<td></td>
-							<td class="td-a-c article-detail">{{ pdct.price }} €</td>
-							<td class="td-a-c article-detail">{{ pdct.price }} €</td>
+							<td colspan="2" class="discount ta-l">
+								Promotion
+							</td>
+							<td class="discount-number td-a-c">
+								{{ (promo*100) }} %
+							</td>
 						</tr>
 						<tr>
 							<td></td>

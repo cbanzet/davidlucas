@@ -233,7 +233,6 @@ export class DialogNewEvent implements OnInit {
   selectedClient:Observable<any[]>;
   newClientSelected: Observable<any[]>;
   
-  // saveMeetingWithSelectedClient:boolean=false;
   saveMeetingWithNewClient:boolean=false;
 
   selectPrestaOrForfait:boolean=true;
@@ -552,6 +551,7 @@ export class DialogSeeEvent implements OnInit {
   key: any; cartkey:any;
   showDatePicker:boolean=false;
   showSavedDate:boolean=true;
+  justClicked: boolean= true;
 
   constructor(
     private cartService: CartService,

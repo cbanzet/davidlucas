@@ -119,11 +119,9 @@ mat-spinner {
 
 .promo {
 	padding: 5px 10px;
-	background: #45484d; /* Old browsers */
-	background: -moz-radial-gradient(center, ellipse cover, #45484d 0%, #000000 100%); /* FF3.6-15 */
-	background: -webkit-radial-gradient(center, ellipse cover, #45484d 0%,#000000 100%); /* Chrome10-25,Safari5.1-6 */
-	background: radial-gradient(ellipse at center, #45484d 0%,#000000 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#45484d', endColorstr='#000000',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */  color: #fff;
+	background: #FF6140; /* Old browsers */
+	color: #fff;
+	font-weight: bold;
   font-size: 12px;
   border-radius: 10px;
   line-height: 10px;
