@@ -34,10 +34,15 @@ export class FacturationListComponent implements OnInit {
   total         : number = 0;
   check         : string = "Check : ";
   checkdate     : string;
+
   totalCart     : number = 0;
+  total_CB      : number = 0;    
+  total_CH      : number = 0;
+  total_ES      : number = 0;    
+  total_CC      : number = 0;    
+  total_VB      : number = 0;    
 
   selectedName  : any;
-
 
   constructor(
 		private router: Router,
@@ -55,7 +60,12 @@ export class FacturationListComponent implements OnInit {
           return arr.map(snap => Object
             .assign(
               snap.payload.val(),
-              this.totalCart =  this.totalCart + snap.payload.val().totalTTC  ,
+              this.totalCart =  this.totalCart + snap.payload.val().totalTTC,
+              this.total_CB = snap.payload.val().moyendepaiement == 'CB' ? this.total_CB + snap.payload.val().totalTTC : this.total_CB,
+              this.total_CH = snap.payload.val().moyendepaiement == 'CH' ? this.total_CH + snap.payload.val().totalTTC : this.total_CH,
+              this.total_ES = snap.payload.val().moyendepaiement == 'ES' ? this.total_ES + snap.payload.val().totalTTC : this.total_ES,
+              this.total_CC = snap.payload.val().moyendepaiement == 'CC' ? this.total_CC + snap.payload.val().totalTTC : this.total_CC,
+              this.total_VB = snap.payload.val().moyendepaiement == 'VB' ? this.total_VB + snap.payload.val().totalTTC : this.total_VB
               {
                 $key: snap.key,
                 date             : snap.payload.val().date,
@@ -67,7 +77,8 @@ export class FacturationListComponent implements OnInit {
               {
                 arrprestas: snap.payload.val().prestations?Object.values(snap.payload.val().prestations): 0
               },
-        ),  this.totalCart = 0
+        ),  
+            this.totalCart = 0,this.total_CB=0, this.total_CH=0, this.total_ES=0, this.total_CC=0, this.total_VB=0
       )})
     );
   }

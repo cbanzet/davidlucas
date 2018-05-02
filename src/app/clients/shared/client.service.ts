@@ -65,7 +65,8 @@ export class ClientService {
     this.client = this.db.object(clientPath)
       .snapshotChanges().map(action => {
         const $key = action.payload.key;
-        const data = { $key, ...action.payload.val() };
+        const arrbills = action.payload.val().billhistory ? Object.values(action.payload.val().billhistory) : null; 
+        const data = { $key,arrbills, ...action.payload.val() };
         return data;
       });
     return this.client
@@ -84,8 +85,6 @@ export class ClientService {
 
 
   ////// C R E A T E
-
-
 
 
   createClientFromNewEventModal(newClientForm: NgForm) {

@@ -62,11 +62,6 @@
     <ul class="coiffeur-menu">
       <li class="br3">ALL</li>
       <li *ngFor="let member of members | async" (click)=getName(member.name) class="br3">{{ member.name }}</li>
-      <li class="menu-divider">&amp;</li>
-      <li>Carte Bancaire</li>
-      <li>Carte Cadeau</li>      
-      <li>Chèque</li>
-      <li>Espèces</li>
     </ul>
 
   	<br>
@@ -136,6 +131,13 @@
           MONTANT TOTAL : 
           <strong>{{ totalCart }} €</strong>
       </div>
+      <ul class="totaux">
+        <li *ngIf="total_CB">Carte Bancaire : <strong>{{ total_CB }} €</strong></li>
+        <li *ngIf="total_CC">Carte Cadeau : <strong>{{ total_CB }} €</strong></li>      
+        <li *ngIf="total_CH">Chèque : <strong>{{ total_CH }} €</strong></li>
+        <li *ngIf="total_ES">Espèces : <strong>{{ total_ES }} €</strong></li>
+        <li *ngIf="total_VB">Virement : <strong>{{ total_VB }} €</strong></li>
+      </ul>
 
 
   </mat-card-content>

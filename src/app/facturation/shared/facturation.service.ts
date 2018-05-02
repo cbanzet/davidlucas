@@ -17,11 +17,12 @@ import 'rxjs/add/operator/do';
 @Injectable()
 export class FacturationService {
 
-	facturesRef: AngularFireList<any>;
+	facturesRef       : AngularFireList<any>;
 
-  billsRef: AngularFireList<any>;
-  dataFromEventKey: Observable<any>;
-  eventPrice: Observable<any>;
+  historyRef        : AngularFireList<any>;
+  billsRef          : AngularFireList<any>;
+  dataFromEventKey  : Observable<any>;
+  eventPrice        : Observable<any>;
 
   constructor(
     private cartService: CartService,
@@ -30,6 +31,7 @@ export class FacturationService {
   {
   	// this.facturesRef= db.list('/bills', ref => ref.orderByChild('timestamp'));
     this.billsRef= db.list('/bills', ref => ref.orderByChild('timestamp'));
+    this.historyRef= db.list('/history', ref => ref.orderByChild('timestamp'));
 
   }
 
@@ -85,83 +87,10 @@ export class FacturationService {
 /////////////////////////////////////////////////
 
 
-  // createFacture(newFactureForm: NgForm): void {
-  // createFacture(date,coiffeur,client,prestation,pxHT,pxTAX,pxTTC): void {
-  // createNewFacture(date,client,coiffeur,prestation,moyenDePaiement,pxHT,pxTAX,pxTTC): void {
-  //   // console.log(newFactureForm.value);
-  //   console.log(date);
-  //   console.log(client,coiffeur,prestation,pxHT,pxTAX,pxTTC);
-
-  //   var newFactureData = {}
-  //   newFactureData['timestamp'] = Date.now();    
-  //   newFactureData['ref'] = "001";    
-
-  //   // newFactureData['date'] = `${date.getDay()}-${date.getMonth()}-${date.getFullYear()}`;
-  //   newFactureData['date'] = date.toLocaleDateString();
-  //   // newFactureData['fulldate'] = date;
-
-  //   newFactureData['priceHT'] = pxHT;
-  //   newFactureData['priceTAX'] = pxTAX;
-  //   newFactureData['priceTTC'] = pxTTC;
-
-  //   newFactureData['clientkey'] = client.$key;
-  //   newFactureData['clientfullname'] = `${client.firstname} ${client.lastname}`;
-  //   newFactureData['clientFullAdress'] = `${client.street}, ${client.zip} ${client.city}`;
-  //   newFactureData['clientPhone'] = client.phone;
-  //   newFactureData['clientEmail'] = client.email;
-
-  //   newFactureData['prestationKey'] = prestation.$key;
-  //   newFactureData['prestationFullTitle'] = `${prestation.title} ${prestation.details}`;
-
-  //   newFactureData['coiffeurKey'] = prestation.$key;
-  //   newFactureData['coiffeurFullName'] = `${coiffeur.firstname} ${coiffeur.lastname}`;    
-
-  //   newFactureData['eventKey'] = null;
-  //   newFactureData['statut'] = '0';
-  //   newFactureData['moyenDePaiement'] = moyenDePaiement?moyenDePaiement:"";
-
-  //   console.log(newFactureData);
-  //   this.facturesRef.push(newFactureData).then(_=>
-  //     // console.log('Facture Added')
-  //     this.router.navigate(['/facturations'])
-  //   );
-  // }
-
-
-  // createEventFacture(eventkey,event,moyenDePaiement,pxHT,pxTAX,pxTTC): void {
-  //   // console.log(event);
-  //   var newFactureData = {}
-  //   newFactureData['timestamp'] = Date.now();    
-  //   newFactureData['ref'] = "001";    
-  //   newFactureData['date'] = event.date;
-
-  //   newFactureData['priceHT'] = pxHT;
-  //   newFactureData['priceTAX'] = pxTAX;
-  //   newFactureData['priceTTC'] = pxTTC;
-
-  //   newFactureData['clientkey'] = event.clientKey;
-  //   newFactureData['clientfullname'] = `${event.clientFirstname} ${event.clientLastname}`;
-  //   // newFactureData['clientFullAdress'] = `${client.street}, ${client.zip} ${client.city}`;
-  //   newFactureData['clientPhone'] = event.clientPhone;
-  //   newFactureData['clientEmail'] = event.clientEmail;
-
-  //   newFactureData['prestationKey'] = event.prestationKey;
-  //   newFactureData['prestationFullTitle'] = `${event.prestationTitle} ${event.prestationDetails}`;
-
-  //   newFactureData['coiffeurKey'] = event.memberKey;
-  //   newFactureData['coiffeurFullName'] = `${event.memberFirstname} ${event.memberLastname}`;    
-
-  //   newFactureData['eventKey'] = eventkey?eventkey:0;
-  //   newFactureData['statut'] = '0';
-  //   newFactureData['moyenDePaiement'] = moyenDePaiement?moyenDePaiement:"";
-
-  //   console.log(newFactureData);
-  //   this.facturesRef.push(newFactureData).then(_=>
-  //     this.router.navigate(['/facturations'])
-  //   );
-  // }
 
   createBillFromCart(cart,moypay,promo,ttc,ht,tva) {
+
+    console.log(cart);
 
     var cartkey                    = cart.$key;
     var promo                      = promo ? promo:null;
@@ -194,6 +123,7 @@ export class FacturationService {
       for (let i = 0 ; i < cart.prestas.length ; i++ ) 
       {
         var prestakey          = cart.prestas[i].prestationkey ? cart.prestas[i].prestationkey : null;
+        var prestatitle        = cart.prestas[i].prestationtitle ? cart.prestas[i].prestationtitle : null;
         var memberkey          = cart.prestas[i].memberkey ? cart.prestas[i].memberkey : null;        
         var membername         = cart.prestas[i].membername ? cart.prestas[i].membername : null;        
 
@@ -202,14 +132,17 @@ export class FacturationService {
                     cart.prestas[i].price;
 
         var prestaHistory           = {};
-        prestaHistory['prestakey'] = prestakey;
+        prestaHistory['prestakey']  = prestakey;
         prestaHistory['cartkey']    = cartkey;
         prestaHistory['billkey']    = billkey;
         prestaHistory['type']       = 'prestation';
         prestaHistory['price']      = prestaprice;
         prestaHistory['date']       = cart.date;
+        prestaHistory['title']      = prestatitle;
 
-        var memberPath         = `members/${memberkey}/billhistory/${prestakey}`;
+        var historykey  = this.historyRef.push(prestaHistory).key; 
+
+        var memberPath         = `members/${memberkey}/billhistory/${historykey}`;
         updateData[memberPath] = prestaHistory;
         this.addPrestaToBill(billkey,prestakey,memberkey,membername,prestaprice);
       }
@@ -220,6 +153,7 @@ export class FacturationService {
       for (let i = 0 ; i < cart.pdcts.length ; i++ ) 
       {
         var productkey         = cart.pdcts[i].key ? cart.pdcts[i].key : null;
+        var producttitle       = cart.pdcts[i].title ? cart.pdcts[i].title : null;
         var memberkey          = cart.pdcts[i].memberkey ? cart.pdcts[i].memberkey : null;        
         var membername         = cart.pdcts[i].membername ? cart.pdcts[i].membername : null;        
         var productprice       = promo ? 
@@ -233,8 +167,11 @@ export class FacturationService {
         prdctHistory['type']       = 'product';
         prdctHistory['price']      = productprice;
         prdctHistory['date']       = cart.date;
+        prdctHistory['title']      = producttitle;
 
-        var memberPath         = `members/${memberkey}/billhistory/${prestakey}`;
+       var historykey  = this.historyRef.push(prdctHistory).key; 
+
+        var memberPath         = `members/${memberkey}/billhistory/${historykey}`;
         updateData[memberPath] = prdctHistory;
         this.addProductToBill(billkey,productkey,memberkey,membername,productprice);
       }

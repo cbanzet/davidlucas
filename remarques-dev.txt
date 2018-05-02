@@ -22,15 +22,17 @@
 
 2018 05 01
 
-- Complexification de la structuration des Factures dans le JSON avec des sous noeuds 'prestartion' et 'produit' créés dans l'historique des membres.
+- Complexification de la structuration des Factures dans le JSON avec des sous noeuds 'prestation' et 'produit' créés dans l'historique des membres.
 OK - CB
 - Ajout d'une ligne rappelant la promotion dans la facturation
 OK - CB
-- Correction Bug saisie d'un produit dan sle cadi avec le premier membre de la prestation 0 du cadi sélectionné par défaut. 
+- Correction Bug saisie d'un produit dans le cadi avec le premier membre de la prestation 0 du cadi sélectionné par défaut. 
 OK - CB
 - Modal New Event : Loading à la sauvegarde
 OK - CB
-- Modal See Event : Hide Commande à la sauvegarde
+- Modal See Event : Loading à la sauvegarde
+OK - CB
+- Client-detail-module : Client Bills History : brut
 OK - CB
 
 

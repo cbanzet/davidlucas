@@ -26,3 +26,29 @@ textarea {
 	font-weight: 200;
 	text-transform: uppercase;
 }
+
+
+
+
+.bill-history li {
+	list-style-type: none;
+}
+.rdv, .regl,.encaiss, .px{
+	border-left: 1px dotted #ccc;
+	padding: 0 10px;
+	display: inline-block;
+	text-transform: uppercase;
+}
+
+.rdv{
+	width: 200px;
+}
+.regl{
+	width: 120px;
+}
+.encaiss{
+	width: 220px;
+}
+.px{
+
+}
