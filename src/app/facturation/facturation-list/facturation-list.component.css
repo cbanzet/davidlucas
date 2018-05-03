@@ -100,8 +100,11 @@ h3 {
   padding: 10px;
   display: inline-block;
   text-transform: uppercase;
-  background-color: #A65600;
-  color: #fff;
+	background: #a3295c; /* Old browsers */
+	background: -moz-linear-gradient(top, #a3295c 0%, #a65600 100%); /* FF3.6-15 */
+	background: -webkit-linear-gradient(top, #a3295c 0%,#a65600 100%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(to bottom, #a3295c 0%,#a65600 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a3295c', endColorstr='#a65600',GradientType=0 ); /* IE6-9 */  color: #fff;
   cursor: pointer;
 	-webkit-border-bottom-right-radius: 5px;
 	-webkit-border-bottom-left-radius: 5px;
@@ -111,7 +114,11 @@ h3 {
 	border-bottom-left-radius: 5px;  
 }
 .coiffeur-menu li:hover {
-	background-color: #FF8500;
+	background: #a65600; /* Old browsers */
+	background: -moz-linear-gradient(top, #a65600 0%, #ff8500 100%); /* FF3.6-15 */
+	background: -webkit-linear-gradient(top, #a65600 0%,#ff8500 100%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(to bottom, #a65600 0%,#ff8500 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a65600', endColorstr='#ff8500',GradientType=0 ); /* IE6-9 */
 	color: #FFF;
 }
 
@@ -193,6 +200,9 @@ h3 {
 
 
 
+
+
+
 .date-move {
   padding: 10px 0; margin: 20px 0 0;
   background-color: #000;
@@ -214,6 +224,11 @@ h3 {
 	background: -webkit-linear-gradient(top, #8d003b 0%,#a3295c 100%); /* Chrome10-25,Safari5.1-6 */
 	background: linear-gradient(to bottom, #8d003b 0%,#a3295c 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#8d003b', endColorstr='#a3295c',GradientType=0 ); /* IE6-9 */
+}
+
+
+.com-date {
+	
 }
 
 .date-move mat-icon {

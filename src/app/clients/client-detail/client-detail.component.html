@@ -67,10 +67,10 @@
 			<h3>Bills History</h3>
 			<ul class="bill-history">
 				<li *ngFor="let bill of client.arrbills">
-					<span class="rdv">RDV du <strong> {{ bill.date }} &amp; </strong> à <strong> {{ bill.starttime }}</strong></span> 
+					<span class="rdv">RDV du <strong> {{ bill.date }}  </strong> à <strong> {{ bill.starttime }}</strong></span> 
 					<span class="regl">Réglement : <strong> {{ bill.moyendepaiement }}</strong></span>
 					<span class="encaiss">Encaissement :	<strong>{{ bill.timestamp | date }}</strong></span>
-					<span class="px">Prix : <strong> {{ bill.totalTTC }} € </strong> </span>
+					<span class="px">Prix TTC : <strong> {{ bill.totalTTC }} € </strong> </span>
 				</li>
 			</ul>
 		</div>

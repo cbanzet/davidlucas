@@ -167,13 +167,13 @@ export class FacturationListComponent implements OnInit {
     // this.facturationService.deleteFacture(facture);
   } 
 
-  openDialog(member): void {
+  openDialog(member,date): void {
     // console.log(member);    
     const dialogRef = this.dialog.open( FacturationListModaleComponent, 
     {
       width: '300px',
       height: '70px',
-      data: { memberkey: member.$key, membername: member.name}
+      data: { memberkey: member.$key, membername: member.name, date: date}
     });
       // dialogRef.afterClosed().subscribe(result => {
         // console.log('The dialog was closed');
@@ -217,6 +217,7 @@ export class FacturationListModaleComponent {
       this.date$     = new BehaviorSubject(null);
       this.memberkey = data.memberkey;
       this.membername = data.membername;
+      this.calendarDate = data.date;
       this.getMemberWithBillsKey(this.memberkey, this.db);
     }
 
@@ -225,7 +226,7 @@ export class FacturationListModaleComponent {
   }
 
   ngOnInit() {
-    this.calendarDate = Date.now();      
+    // this.calendarDate = Date.now();      
     this.dateForQuery = this.eventService.getDate(this.calendarDate);
     this.date$.next(this.dateForQuery); 
   }

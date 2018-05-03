@@ -49,15 +49,15 @@
   <mat-card-content *ngIf="bills$ | async; let bills; else loading">
 
     <div class="date-move">
-      <mat-icon (click)="changeDay(calendarDate,'-7')">fast_rewind</mat-icon>
-      <mat-icon (click)="changeDay(calendarDate,'-1')">keyboard_arrow_left</mat-icon>
+      <span class="com-date"><mat-icon (click)="changeDay(calendarDate,'-7')">fast_rewind</mat-icon></span>
+      <span class="com-date"><mat-icon (click)="changeDay(calendarDate,'-1')">keyboard_arrow_left</mat-icon></span>
       <span class="showdate"> {{calendarDate | date:'EEEE d MMM'}}</span>
-      <mat-icon (click)="changeDay(calendarDate,'1')">keyboard_arrow_right</mat-icon>
-      <mat-icon (click)="changeDay(calendarDate,'7')">fast_forward</mat-icon>
+      <span class="com-date"><mat-icon (click)="changeDay(calendarDate,'1')">keyboard_arrow_right</mat-icon></span>
+      <span class="com-date"><mat-icon (click)="changeDay(calendarDate,'7')">fast_forward</mat-icon></span>
     </div>
 
     <ul class="coiffeur-menu" *ngIf="totalCart; else nomoney">
-      <li *ngFor="let member of members | async" (click)="openDialog(member)">{{ member.name }}</li>
+      <li *ngFor="let member of members | async" (click)="openDialog(member,calendarDate)">{{ member.name }}</li>
     </ul>
 
   	<br>
