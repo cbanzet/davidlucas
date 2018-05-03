@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject,  } from '@angular/core';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { NgForm } from '@angular/forms';
@@ -8,11 +8,13 @@ import { Subscription } from 'rxjs/Subscription';
 import * as moment from 'moment'; // add this 1 of 4
 import 'rxjs/add/operator/map';
 import "rxjs/add/operator/switchMap";
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 import { AngularFireAction,AngularFireDatabase } from 'angularfire2/database';
 
 import { FacturationService } from './../shared/facturation.service';
 import { MemberService } from './../../members/shared/member.service';
+import { Member } from './../../members/shared/member';
 import { EventService } from './../../events/shared/event.service';
 
 @Component({
@@ -35,6 +37,7 @@ export class FacturationListComponent implements OnInit {
   check         : string = "Check : ";
   checkdate     : string;
 
+  totaux        : any;
   totalCart     : number = 0;
   total_CB      : number = 0;    
   total_CH      : number = 0;
@@ -50,22 +53,42 @@ export class FacturationListComponent implements OnInit {
     private memberService: MemberService,
     private eventService: EventService,
     private db: AngularFireDatabase,
-    private billService: FacturationService
+    private billService: FacturationService,
+    public dialog: MatDialog             
     ) 
-   {
+  {
+    this.getBills(db);
+  }
+
+  ngOnInit() {
+    this.members      = this.memberService.getMembersNameList(); 
+    this.bills        = this.billService.getBillsList();
+    
+    this.calendarDate = Date.now();      
+    this.dateForQuery = this.eventService.getDate(this.calendarDate);
+    this.date$.next(this.dateForQuery); 
+  }
+
+
+  getBills(db){
     this.date$ = new BehaviorSubject(null);
     this.bills$ = this.date$.switchMap(date => db.list('/bills', ref =>
         date ? ref.orderByChild('date').equalTo(date) : ref
       ).snapshotChanges().map(arr => {
-          return arr.map(snap => Object
-            .assign(
+          return arr.map(snap => Object.assign(
               snap.payload.val(),
-              this.totalCart =  this.totalCart + snap.payload.val().totalTTC,
-              this.total_CB = snap.payload.val().moyendepaiement == 'CB' ? this.total_CB + snap.payload.val().totalTTC : this.total_CB,
-              this.total_CH = snap.payload.val().moyendepaiement == 'CH' ? this.total_CH + snap.payload.val().totalTTC : this.total_CH,
-              this.total_ES = snap.payload.val().moyendepaiement == 'ES' ? this.total_ES + snap.payload.val().totalTTC : this.total_ES,
-              this.total_CC = snap.payload.val().moyendepaiement == 'CC' ? this.total_CC + snap.payload.val().totalTTC : this.total_CC,
-              this.total_VB = snap.payload.val().moyendepaiement == 'VB' ? this.total_VB + snap.payload.val().totalTTC : this.total_VB
+              this.total_CB  = snap.payload.val().moyendepaiement == 'CB' ? 
+                                 // round2nb(this.total_CB + snap.payload.val().totalTTC) : this.total_CB,
+                                 Math.round((this.total_CB + snap.payload.val().totalTTC)*100)/100 : this.total_CB,
+              this.total_CH  = snap.payload.val().moyendepaiement == 'CH' ?
+                                 Math.round((this.total_CH + snap.payload.val().totalTTC)*100)/100 : this.total_CH,
+              this.total_ES  = snap.payload.val().moyendepaiement == 'ES' ?
+                                 Math.round((this.total_ES + snap.payload.val().totalTTC)*100)/100 : this.total_ES,
+              this.total_CC  = snap.payload.val().moyendepaiement == 'CC' ?
+                                 Math.round((this.total_CC + snap.payload.val().totalTTC)*100)/100 : this.total_CC,
+              this.total_VB  = snap.payload.val().moyendepaiement == 'VB' ?
+                                 Math.round((this.total_VB + snap.payload.val().totalTTC)*100)/100 : this.total_VB,
+              this.totalCart = Math.round((this.totalCart + snap.payload.val().totalTTC)*100)/100,
               {
                 $key: snap.key,
                 date             : snap.payload.val().date,
@@ -77,21 +100,22 @@ export class FacturationListComponent implements OnInit {
               {
                 arrprestas: snap.payload.val().prestations?Object.values(snap.payload.val().prestations): 0
               },
-        ),  
-            this.totalCart = 0,this.total_CB=0, this.total_CH=0, this.total_ES=0, this.total_CC=0, this.total_VB=0
-      )})
-    );
+        ), this.totalCart = 0,
+            this.total_CB = 0, 
+            this.total_CH = 0, 
+            this.total_ES = 0, 
+            this.total_CC = 0, 
+            this.total_VB = 0,
+      );
+    })
+   );
   }
 
-  ngOnInit() {
-  	// this.factures = this.facturationService.getFacturesList(); 
-    this.members      = this.memberService.getMembersNameList(); 
-    this.bills        = this.billService.getBillsList();
-    
-    this.calendarDate = Date.now();      
-    this.dateForQuery = this.eventService.getDate(this.calendarDate);
-    this.date$.next(this.dateForQuery); 
-  }
+  // round2nb(n) {
+  //   var result = Math.round(n*100)/100;
+  //   return result
+  // }
+
 
   addToTotal(key:string, price:number):void {
     if (this.check.indexOf(key) == -1) 
@@ -102,6 +126,14 @@ export class FacturationListComponent implements OnInit {
     }
   }
 
+  resetTotaux() {
+    this.totalCart = 0;
+    this.total_CB = 0; 
+    this.total_CH = 0; 
+    this.total_ES = 0; 
+    this.total_CC = 0; 
+    this.total_VB = 0;    
+  }
 
   reinitTotal(){
     this.check = "Check : ";
@@ -126,11 +158,6 @@ export class FacturationListComponent implements OnInit {
     this.filterCartsBy(this.dateForQuery);
   }
 
-  updateDate(date) {
-    // var dateString : string = date;
-    // var tabs = dateString.split(' ');  
-    // console.log(tabs[3]);
-  }
 
   changeFactureStatut(facture) {
     // this.facturationService.changeFactureStatut(facture);  
@@ -140,4 +167,87 @@ export class FacturationListComponent implements OnInit {
     // this.facturationService.deleteFacture(facture);
   } 
 
+  openDialog(member): void {
+    // console.log(member);    
+    const dialogRef = this.dialog.open( FacturationListModaleComponent, 
+    {
+      width: '300px',
+      height: '70px',
+      data: { memberkey: member.$key, membername: member.name}
+    });
+      // dialogRef.afterClosed().subscribe(result => {
+        // console.log('The dialog was closed');
+      // });
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+@Component({
+  selector: 'app-facturation-list-modal',
+  templateUrl: 'facturation-list-modal.html',
+  styleUrls: ['./facturation-list.modal.css']    
+})
+export class FacturationListModaleComponent {
+
+  dateForQuery     : any;
+  calendarDate     : number;
+  memberkey        : any;
+  membername       : any;
+  member           : Observable<any>;
+  date$            : BehaviorSubject<string|null>;
+  totalMemberCart  : any;
+  basePath = '/members';
+
+  constructor(
+    public dialogRef: MatDialogRef<FacturationListModaleComponent>,
+    private db: AngularFireDatabase,
+    private memberService: MemberService,
+    private eventService: EventService,
+    @Inject(MAT_DIALOG_DATA) public data: any) {
+      this.date$     = new BehaviorSubject(null);
+      this.memberkey = data.memberkey;
+      this.membername = data.membername;
+      this.getMemberWithBillsKey(this.memberkey, this.db);
+    }
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+
+  ngOnInit() {
+    this.calendarDate = Date.now();      
+    this.dateForQuery = this.eventService.getDate(this.calendarDate);
+    this.date$.next(this.dateForQuery); 
+  }
+
+  getMemberWithBillsKey(key: string, db:any ): Observable<Member> {
+    const memberPath = `${this.basePath}/${key}/billhistory`;
+    this.member = this.date$.switchMap(date => db.list(memberPath, ref =>
+    date ? ref.orderByChild('date').equalTo(date) : ref
+       ).snapshotChanges().map(arr => {
+        return arr.map(snap => Object
+          .assign(
+            snap.payload.val(),
+            this.totalMemberCart =  this.totalMemberCart + +snap.payload.val().price  ,
+           // console.log(this.totalMemberCart),
+            {
+              $key             : snap.key,
+              date             : snap.payload.val().date,
+              billkey          : snap.payload.val().billkey,
+              price            : snap.payload.val().price,
+            },
+      ), this.totalMemberCart = 0
+    );}));
+   return this.member;
+  }
 }

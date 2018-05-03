@@ -10,6 +10,7 @@ import { NgForm } from '@angular/forms';
 import { Facture } from './facture';
 import { CartService } from './../../cart/shared/cart.service';
 
+import * as moment from 'moment'; 
 import { Http,Response } from '@angular/http';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/do';
@@ -23,6 +24,7 @@ export class FacturationService {
   billsRef          : AngularFireList<any>;
   dataFromEventKey  : Observable<any>;
   eventPrice        : Observable<any>;
+  lastBillRef       : AngularFireList<any>;
 
   constructor(
     private cartService: CartService,
@@ -30,9 +32,9 @@ export class FacturationService {
     private router: Router) 
   {
   	// this.facturesRef= db.list('/bills', ref => ref.orderByChild('timestamp'));
-    this.billsRef= db.list('/bills', ref => ref.orderByChild('timestamp'));
-    this.historyRef= db.list('/history', ref => ref.orderByChild('timestamp'));
-
+    this.billsRef    = db.list('/bills', ref => ref.orderByChild('timestamp'));
+    this.historyRef  = db.list('/history', ref => ref.orderByChild('timestamp'));
+    this.lastBillRef = db.list('/bills', ref => ref.orderByChild('timestamp').limitToLast(1));
   }
 
 /////////////////////////////////////////////////
@@ -46,6 +48,28 @@ export class FacturationService {
         { arrprestas: snap.payload.val().prestations?Object.values(snap.payload.val().prestations):0},
         { $key: snap.key }) )
     })
+  }
+
+  getNewBillRef(timestamp) {
+    return this.lastBillRef.snapshotChanges().map(arr => {
+      return arr.map(snap => Object.assign(
+        // snap.payload.val(),
+        { 
+           ref: snap.payload.val().ref 
+                ? `${this.getDateForBillRef(timestamp)}-${Number(snap.payload.val().ref.split('-')[3])+1}` 
+                : `${this.getDateForBillRef(timestamp)}-XX` 
+         }
+        // { $key: snap.key }
+      ))
+    })
+  }
+
+  getDateForBillRef(timestamp) {
+    var day = moment(timestamp).date();
+    var month = (moment(timestamp).month())+1;
+    var year = moment(timestamp).year(); 
+    var date = `${year}-${month}-${day}`;
+    return date;
   }
 
   // Return Member with Key
@@ -88,16 +112,14 @@ export class FacturationService {
 
 
 
-  createBillFromCart(cart,moypay,promo,ttc,ht,tva) {
-
-    console.log(cart);
+  createBillFromCart(cart,moypay,promo,ttc,ht,tva,ref) {
 
     var cartkey                    = cart.$key;
     var promo                      = promo ? promo:null;
 
     var newBillData                = {}
     newBillData['timestamp']       = Date.now();    
-    newBillData['ref']             = "XXXXXXXXX";    
+    newBillData['ref']             = ref;    
     newBillData['promo']           = promo;
     newBillData['date']            = cart.date;
     newBillData['cartkey']         = cartkey;
@@ -178,7 +200,9 @@ export class FacturationService {
     }    
     
     var cartPath               = `carts/${cartkey}/billkey`;
+    var billRefInCart          = `carts/${cartkey}/billref`;    
     updateData[cartPath]       = billkey;
+    updateData[billRefInCart]  = ref;
 
     this.db.object("/").update(updateData).then( _=> console.log(updateData));
     this.cartService.doCart(cart,'paid');

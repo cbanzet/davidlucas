@@ -27,6 +27,7 @@ export class FacturationCartComponent implements OnInit {
 
   moypay         :any;
   promotion      :Observable<any[]>;
+  newref         :any;
 
   selectedPrice  :number;
   selectedQty    :number=1;
@@ -72,22 +73,26 @@ export class FacturationCartComponent implements OnInit {
     // this.route.params.subscribe((params: Params) => {
         // this.cartkey = params['cartid'];
     // });
+    const today = Date.now();
+    this.newref = this.facturationService.getNewBillRef(today);
+    console.log(this.newref);
 
     this.cart = this.route.paramMap
       .switchMap((params: ParamMap) =>
         this.cartService.getCartWithProductWithKey(params.get('cartid')));  	
   }
 
-  getBill(cart) {
+  getBill(cart,newref) {
+    var facref = newref.toString();
+    var facref = facref.split('-')[3]=='NaN' ? facref.replace('NaN', '00') : facref;
     var moyenDePaiement = this.moypay?this.moypay:"";
+
+    // console.log(facref);
+
     this.facturationService.createBillFromCart(
-                                cart,
-                                moyenDePaiement,
-                                this.promo,
-                                this.newtotalTTC,
-                                this.newtotalHT,
-                                this.newtotalTAX
-                            );        
+         cart,moyenDePaiement,this.promo,
+         this.newtotalTTC,this.newtotalHT,this.newtotalTAX,
+         facref);        
   }
 
   openDialog(cart): void {

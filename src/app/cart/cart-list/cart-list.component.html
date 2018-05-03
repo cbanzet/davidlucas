@@ -121,11 +121,13 @@
               <span class="cliente" [routerLink]="['./../client', cart.clientkey]">{{ cart.clientfullname }}</span>
             </td>
 						<td> <p class="px-ttc">{{ cart.totalTTC }} €</p></td>
-						<td class="td-a-c"><button mat-icon-button
-                (click)="redirection(cart)" >
-               <mat-icon>info</mat-icon>
-            </button></td>
+						<td class="td-a-c">
+              <button mat-icon-button
+                (click)="redirection(cart)">
+                <mat-icon>info</mat-icon>
+              </button></td>
 						<td class="td-a-c" *ngIf="cart.statut !== 'paid'"> 
+            <!-- <td class="td-a-c">  -->
               <button mat-icon-button color="warn"
               (click)="openDialog(cart)"> 
               <mat-icon>remove_circle</mat-icon>

@@ -20,32 +20,21 @@ mat-spinner {
 	margin: 0 auto;
 }
 
-.date-move {
-    padding: 5px 5px;
-    background-color: #000;
-    color: #eee;
-    width: 280px;
-    text-align: center;
-    font-size: 0.8em;
-   	line-height: 1em;
-}
-
-.date-move mat-icon {
-	color: #eee;
-	cursor: pointer
-}
-
-.date-move mat-icon:hover {
-	color: #fff;	
+h3 {
+	font-size: 3em;
+	color: #FF8500;
+	padding: 100px auto;
+	font-weight: 300;
+	text-align: center;
 }
 
 .mb-20px {
 	margin-bottom: 40px;
 }
 
-.bgc-dg {
-	background-color: #4C4C4C !important;
-}
+
+
+
 
 .showdate {
 	display: inline-block;
@@ -60,24 +49,27 @@ mat-spinner {
 	line-height: 0.8em;
 }
 
-.coiffeur-menu {
-	padding: 0;
-	margin: 20px 0 0 !important;
-}
+
 
 .totaux {
 	padding: 0;
 	margin: 0;
+  border-bottom: 1px dotted #eee;	
+  text-align: right;
 }
 
 .totaux li {
   margin-right: 1px;
   padding: 8px 10px;
   display: inline-block;
-  background-color: #7F7F7F;
+  background-color: #8D003B;
   color: #eee;
- 	border-radius: 3px;
-  cursor: pointer;
+	-webkit-border-top-right-radius: 5px;
+	-webkit-border-top-left-radius: 5px;
+	-moz-border-radius-topright: 5px;
+	-moz-border-radius-topleft: 5px;
+	border-top-right-radius: 5px;
+	border-top-left-radius: 5px;
   font-weight: normal;	
 }
 .totaux li strong {
@@ -92,21 +84,34 @@ mat-spinner {
 .presta-membres li {
 	text-transform: uppercase;
 	font-size: 0.8em;
-	margin-left: 1px; padding: 0 10px;
-	background-color: #999999; color: #FFF;
+	padding: 0 5px;
+	color: #999999;
 }
 
+
+
+.coiffeur-menu {
+	padding: 0;
+	margin: 0 !important;
+	border-top: 1px dotted #eee;
+}
 .coiffeur-menu li {
   margin-right: 1px;
-  padding: 2px 10px;
+  padding: 10px;
   display: inline-block;
   text-transform: uppercase;
-  background-color: #4C4C4C;
-  color: #eee;
+  background-color: #A65600;
+  color: #fff;
   cursor: pointer;
+	-webkit-border-bottom-right-radius: 5px;
+	-webkit-border-bottom-left-radius: 5px;
+	-moz-border-radius-bottomright: 5px;
+	-moz-border-radius-bottomleft: 5px;
+	border-bottom-right-radius: 5px;
+	border-bottom-left-radius: 5px;  
 }
 .coiffeur-menu li:hover {
-	background-color: #000;
+	background-color: #FF8500;
 	color: #FFF;
 }
 
@@ -147,27 +152,105 @@ mat-spinner {
 }
 
 
-.client, .montant {
+.client, .reglement, .montant {
 	display: inline-block;
 	border-left: 1px dotted #ccc;
 }
 .info-bill {
-	width: 300px;
+	width: 180px;
+	display: inline-block;
 }
 .client {
 	padding-left: 10px;
-	width: 200px;
+	width: 300px;
+	display: inline-block;
+	vertical-align: middle
+}
+.reglement {
+	padding-left: 10px;
+	width: 150px;	
 }
 .montant {
 	padding-left: 10px;
-	width: 170px;
+	width: 190px;
 }
+
+.bill-list {
+	padding: 0 0 0 15px;
+	border-left: 1px dotted #ccc;
+}
+
+
+.client mat-icon {
+	vertical-align: middle;
+	cursor: pointer;
+	color: #A65600;
+}
+.client mat-icon:hover {
+	color: #FF8500
+}	
+
+
+
+
+.date-move {
+  padding: 10px 0; margin: 20px 0 0;
+  background-color: #000;
+  color: #eee;
+  display: block;
+  width: 100%;
+  text-align: center;
+  font-size: 1.2em;
+ 	line-height: 0.6em;
+	-webkit-border-top-left-radius: 10px;
+	-webkit-border-top-right-radius: 10px;
+	-moz-border-radius-topleft: 10px;
+	-moz-border-radius-topright: 10px;
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+	border-top: 3px solid #eee;	
+	background: #8d003b; /* Old browsers */
+	background: -moz-linear-gradient(top, #8d003b 0%, #a3295c 100%); /* FF3.6-15 */
+	background: -webkit-linear-gradient(top, #8d003b 0%,#a3295c 100%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(to bottom, #8d003b 0%,#a3295c 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#8d003b', endColorstr='#a3295c',GradientType=0 ); /* IE6-9 */
+}
+
+.date-move mat-icon {
+  margin: 0 10px;
+  line-height: 0.8em;
+  color: #eee;
+  font-size: 2em;
+  cursor: pointer;
+}
+
+.date-move mat-icon:hover {
+	color: #fff;	
+}
+
+
 .total-amount {
+	width: 100%;
+	text-align: center;
 	background-color: #000;
 	color: #FFF;
-	padding: 5px 10px;
+	padding: 10px 0;
 	font-size: 1.3em;
+	font-weight: 300;
 	display:inline-block;
-
+	-webkit-border-bottom-left-radius: 10px;
+	-webkit-border-bottom-right-radius: 10px;
+	-moz-border-radius-bottomleft: 10px;
+	-moz-border-radius-bottomright: 10px;
+	border-bottom-left-radius: 10px;
+	border-bottom-right-radius: 10px;
+	border-bottom: 3px solid #eee;
+	background: #a3295c; /* Old browsers */
+	background: -moz-linear-gradient(top, #a3295c 0%, #8d003b 100%); /* FF3.6-15 */
+	background: -webkit-linear-gradient(top, #a3295c 0%,#8d003b 100%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(to bottom, #a3295c 0%,#8d003b 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a3295c', endColorstr='#8d003b',GradientType=0 ); /* IE6-9 */
 }
-
+.total-amount strong {
+	font-weight: 900;
+}

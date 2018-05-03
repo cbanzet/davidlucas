@@ -1,5 +1,5 @@
 <ng-template #loading>				
-	<br><br>
+	<br><br><br><br>
 	<mat-spinner color="warn"></mat-spinner>
 	<br><br>
 </ng-template>
@@ -31,9 +31,6 @@
 <!-- </div> -->
 
 
-      
-   
-
 
 <!-- <mat-card *ngIf="dev"> -->
 <mat-card class="br-20" 
@@ -51,7 +48,7 @@
 
   <mat-card-content *ngIf="bills$ | async; let bills; else loading">
 
-    <div class="date-move br3">
+    <div class="date-move">
       <mat-icon (click)="changeDay(calendarDate,'-7')">fast_rewind</mat-icon>
       <mat-icon (click)="changeDay(calendarDate,'-1')">keyboard_arrow_left</mat-icon>
       <span class="showdate"> {{calendarDate | date:'EEEE d MMM'}}</span>
@@ -59,29 +56,36 @@
       <mat-icon (click)="changeDay(calendarDate,'7')">fast_forward</mat-icon>
     </div>
 
-    <ul class="coiffeur-menu">
-      <li class="br3">ALL</li>
-      <li *ngFor="let member of members | async" (click)=getName(member.name) class="br3">{{ member.name }}</li>
+    <ul class="coiffeur-menu" *ngIf="totalCart; else nomoney">
+      <li *ngFor="let member of members | async" (click)="openDialog(member)">{{ member.name }}</li>
     </ul>
 
   	<br>
 
-    <div *ngFor="let bill of bills">
+    <ng-template #nomoney>
+      <h3>Easy <strong>today</strong> ! </h3>
+    </ng-template>    
+
+    <div *ngFor="let bill of bills" class="bill-list">
       <!-- <h4 mat-line [ngClass]="facture.status==2 ? 'facture-done' : 'facture-waiting'"> -->
     	<span class="facture-title">
     		<span class="info-bill">
-          <strong>Fac. n° XXXXXXX</strong> du 
-          <strong>{{ bill.date }}</strong>
+          Fac. n° <strong>{{ bill.ref }}</strong>
         </span>
-    		<span class="client"> 
+    		<span class="client">
+          <mat-icon [routerLink]="['./../client', bill.clientkey]">info</mat-icon>
           <strong>{{ bill.clientfullname }}</strong>
+          <i>({{ bill.date }})</i>
         </span> 
-        <span class="client"> 
-          Réglement :
-          <strong>{{ bill.moyendepaiement }}</strong>
+        <span class="reglement"> 
+          <strong *ngIf="bill.moyendepaiement=='CH'">Chèque</strong>
+          <strong *ngIf="bill.moyendepaiement=='CC'">Carte Cadeau</strong>
+          <strong *ngIf="bill.moyendepaiement=='CB'">Carte Bancaire</strong>
+          <strong *ngIf="bill.moyendepaiement=='VB'">Virement Bancaire</strong>
+          <strong *ngIf="bill.moyendepaiement=='ES'">Espèces</strong>
         </span>                 
         <span class="montant">
-          Montant :
+          Montant TTC :
           <strong>{{ bill.totalTTC }} </strong> €
           {{ addToTotal(bill.$key, bill.totalTTC) }}
         </span>
@@ -89,7 +93,7 @@
     	</span>
 
       <ul class="presta-membres">
-        <li class="br3 bgc-dg">{{ bill.timestamp | date:'h:mma' }}</li>
+        <li class="br3">{{ bill.timestamp | date:'h:mma' }}</li>
         <li *ngFor="let presta of bill.arrprestas" class="br3">
           {{ presta.membername }} : 
           <strong>{{ presta.price }} €</strong>
@@ -127,17 +131,17 @@
 	    </button> 
       -->
 
-      <div class="total-amount br3">
-          MONTANT TOTAL : 
-          <strong>{{ totalCart }} €</strong>
-      </div>
       <ul class="totaux">
         <li *ngIf="total_CB">Carte Bancaire : <strong>{{ total_CB }} €</strong></li>
-        <li *ngIf="total_CC">Carte Cadeau : <strong>{{ total_CB }} €</strong></li>      
+        <li *ngIf="total_CC">Carte Cadeau : <strong>{{ total_CC }} €</strong></li>      
         <li *ngIf="total_CH">Chèque : <strong>{{ total_CH }} €</strong></li>
         <li *ngIf="total_ES">Espèces : <strong>{{ total_ES }} €</strong></li>
         <li *ngIf="total_VB">Virement : <strong>{{ total_VB }} €</strong></li>
       </ul>
+      <div class="total-amount" *ngIf="totalCart">
+          Montant Total : 
+          <strong>{{ totalCart }} €</strong>
+      </div>
 
 
   </mat-card-content>

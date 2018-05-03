@@ -48,7 +48,8 @@ export class CartListComponent implements OnInit {
 
   redirection(cart) {
     if ( cart.statut === 'paid' ) {
-       this.router.navigate(['/facturations/']) ;
+      // console.log(cart)
+       this.router.navigate(['/facturationcart/'+cart.$key]) ;
     } else if ( cart.statut === 'filled') {
       this.router.navigate(['/cart/'+cart.$key]) ;
     } else if ( cart.statut === 'waiting') {

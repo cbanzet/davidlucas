@@ -54,7 +54,7 @@
 			  <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
 			    <mat-option *ngFor="let client of clients" 
 			    	[value]="client">
-			      <span>{{ client.firstname }} {{ client.lastname }}</span>
+			      <span><strong>{{ client.firstname }} {{ client.lastname }}</strong> <i>{{ client.phone }}</i></span>
 			    </mat-option>
 			  </mat-autocomplete>
 			  <mat-icon matSuffix>search</mat-icon>

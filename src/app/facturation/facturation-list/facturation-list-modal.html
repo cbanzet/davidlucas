@@ -1,0 +1,31 @@
+<ng-template #loading>				
+	<br><br>
+	<mat-spinner color="warn"></mat-spinner>
+	<br><br>
+</ng-template>
+
+
+
+<div *ngIf="member | async let member; else loading"
+	fxLayout="row"
+	fxLayout.xs="column"
+	fxLayoutAlign="center center"
+	fxFlexFill
+  fxLayoutWrap>
+	<!-- <button mat-icon-button (click)="onNoClick()" color="black"><mat-icon>clear</mat-icon></button>  -->
+	<span class="name">Total <strong>{{ membername }} : </strong></span>
+	<span class="total-membre">{{totalMemberCart}} €</span>
+
+	<!-- 	
+	<ul class="presta-list">
+		<li *ngFor="let presta of member">
+			{{ presta.type }} : {{ presta.title }} <strong>{{ presta.price }} €</strong>
+		</li>
+	</ul> 
+	-->
+
+	<!-- <pre>{{ member | json }}</pre> -->
+
+</div>
+<!-- <div>DATE: {{date$ | async | json}}</div><br> -->
+<!-- <pre>{{member | async | json}}<pre> -->

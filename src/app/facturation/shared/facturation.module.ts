@@ -21,6 +21,7 @@ import { FacturationFormComponent } from './../facturation-form/facturation-form
 import { FacturationEventComponent } from './../facturation-event/facturation-event.component';
 import { FacturationCartComponent } from './../facturation-cart/facturation-cart.component';
 import { BillFreeTotalComponent } from './../facturation-cart/facturation-cart.component';
+import { FacturationListModaleComponent } from './../facturation-list/facturation-list.component';
 
 @NgModule({
   imports: [
@@ -39,11 +40,15 @@ import { BillFreeTotalComponent } from './../facturation-cart/facturation-cart.c
   	FacturationFormComponent,
     FacturationEventComponent,
     FacturationCartComponent,
-    BillFreeTotalComponent
+    BillFreeTotalComponent,
+    FacturationListModaleComponent
   ],
   providers: [
   	FacturationService
   ],
-  entryComponents: [ BillFreeTotalComponent ]  
+  entryComponents: [ 
+    BillFreeTotalComponent, 
+    FacturationListModaleComponent 
+  ]  
 })
 export class FacturationModule { }
