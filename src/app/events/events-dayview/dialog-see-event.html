@@ -83,6 +83,7 @@
 
 			<div 
 			fxFlex="5"
+			*ngIf="!cart.billkey"
 			fxLayoutAlign="start start">&nbsp;
 			<!-- <mat-icon (click)="changeCoiffeur(element)">cached</mat-icon> -->
 			<mat-select 	
@@ -148,23 +149,33 @@
 
 			<button mat-fab type="button" tabindex="-1" color="warn"
 				*ngIf="cart.statut=='waiting'"
+			  matTooltip="Supprimer le rendez vous" matTooltipPosition="after"																				
 				(click)="justClicked=false;deleteCart(cart,cart.prestas)">
 				<mat-icon>delete</mat-icon>
 		  </button>
 
 			<button mat-fab type="button" tabindex="2" color="green"
 				*ngIf="cart.statut=='waiting'"
+			  matTooltip="Début du rendez vous" matTooltipPosition="after"																
 				(click)="justClicked=false;doingCart(cart,'ongoing')">
 				<mat-icon>check</mat-icon>
 		  </button>
 
 			<button mat-fab type="button" tabindex="2" color="warn"
 				*ngIf="cart.statut=='ongoing'"
+			  matTooltip="Effectuer le paiement" matTooltipPosition="after"												
 				(click)="justClicked=false;doingCart(cart,'done')">
 				<mat-icon>payment</mat-icon>
 		  </button>
 
+			<button mat-fab type="button" tabindex="2" color="black"
+			  matTooltip="Voir la facture" matTooltipPosition="after"	
+	      [routerLink]="['./../facturationcart', cart.$key]"
+	      (click)="onNoClick()"			  						
+				*ngIf="cart.statut=='paid'">
+				<mat-icon>receipt</mat-icon>
+		  </button>
+
 		 </div>
-		 
 	</div>
 </div>

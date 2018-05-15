@@ -7,7 +7,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Subscription } from 'rxjs/Subscription';
 import * as moment from 'moment'; // add this 1 of 4
 import 'rxjs/add/operator/map';
-import "rxjs/add/operator/switchMap";
+import 'rxjs/add/operator/switchMap';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 import { AngularFireAction,AngularFireDatabase } from 'angularfire2/database';
@@ -100,6 +100,7 @@ export class FacturationListComponent implements OnInit {
               {
                 arrprestas: snap.payload.val().prestations?Object.values(snap.payload.val().prestations): 0
               },
+              { arrproduits: snap.payload.val().products?Object.values(snap.payload.val().products):0},
         ), this.totalCart = 0,
             this.total_CB = 0, 
             this.total_CH = 0, 

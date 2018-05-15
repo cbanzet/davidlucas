@@ -105,8 +105,6 @@ border-bottom-left-radius: 5px;
   cursor: pointer;
 }
 
-
-
 .br-20 {
   -webkit-border-radius: 20px !important;
   -moz-border-radius: 20px !important;
@@ -123,3 +121,19 @@ border-bottom-left-radius: 5px;
   background: linear-gradient(45deg, #ffffff 0%,#e8e8e8 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#e8e8e8',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
 }
+
+
+
+@media print{
+  
+  .doNotPrint{display:none !important}
+ 
+  .mode-A4 {
+    box-shadow: none !important;
+  }
+
+
+}
+
+
+

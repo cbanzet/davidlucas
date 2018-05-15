@@ -337,6 +337,22 @@ export class EventService {
 //////////////////////////////////////////////////////////////////
 
 
+
+
+
+  changeEventTime(key:string, time) {
+
+    // var dateandtime = `${date} ${starttime}`;
+    // var newdateandtime = moment(dateandtime,'YYYY-MM-DD hh:mm').add(n*15, 'minutes');
+    // var hour = moment(newdateandtime).hour(); 
+    // var min = moment(newdateandtime).minute(); 
+    // if(min==0) { var newtime = `${hour}:00`; }
+    // else { var newtime = `${hour}:${min}`; }
+    // return newtime;
+
+  }
+
+
   doingEvent(data,action) {
     const eventkey = data?data.$key:0;
     const memberkey = data?data.memberKey:0;

@@ -296,9 +296,19 @@ export class DialogNewEvent implements OnInit {
     // console.log(val);
     return this.clients
     .map(response => response.filter(client => { 
-      return client.lastname.toLowerCase().indexOf(val.toLowerCase()) === 0
+      if(Number.isInteger(+val)) 
+      {
+        return client.phone.toLowerCase().indexOf(val.toLowerCase()) === 0;
+      } 
+      else
+      {      
+        return (client.firstname.toLowerCase().indexOf(val.toLowerCase()) === 0)
+        || (client.lastname.toLowerCase().indexOf(val.toLowerCase()) === 0);
+      }   
     }));
   }
+
+
 
   displayFn(client) {
     if(client) {
@@ -601,6 +611,9 @@ export class DialogSeeEvent implements OnInit {
     this.cartService.changeCoiffeurIncart(element,member,cart,type);
   }
 
+  changePrestaTime(time, cart, presta) {
+    this.cartService.changeTimeIncart(time, cart, presta);
+  }
 
   ngOnInit() {
   	// console.log(this.cartkey);

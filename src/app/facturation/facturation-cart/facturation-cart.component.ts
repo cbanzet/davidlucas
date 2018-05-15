@@ -105,12 +105,6 @@ export class FacturationCartComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      // console.log(result);
-      // this.freeamount = result;
-      // this.freepromo = Math.round(((100-(this.freeamount*100)/oldpx)*100)/100);
-      // this.applyPromo(this.freepromo/100,oldpx);
-      // this.promo = this.freepromo/100;
 
       this.newtotalTTC = Math.round((result)*100)/100;
       this.newtotalHT  = Math.round((this.newtotalTTC/1.2)*100)/100;
@@ -125,6 +119,11 @@ export class FacturationCartComponent implements OnInit {
       console.log(this.promo);      
 
     });
+  }
+
+
+  print_page() {
+     window.print();
   }
 
 

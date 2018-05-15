@@ -226,7 +226,19 @@ export class CartService {
    }
   }
 
+  changeTimeIncart(time, cart, presta) {
 
+    // Update Prestation In Cart
+
+    // Update de l'horaire des autres prestations dans le cadi
+
+    // Update des events dans le noeud event
+    // Boucle pour parcourir les events du cadi dans le noeud event et maj de l'horaire
+    // this.eventService.changeEventsTime(eventkey);
+
+    // this.db.object("/").update(updateData).then(_=>
+
+  }
 
   
   addProductToCart(product,cart) {

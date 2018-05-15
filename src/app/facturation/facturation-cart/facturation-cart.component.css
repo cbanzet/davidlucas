@@ -142,3 +142,8 @@ h5 {
 	color: #4C4C4C
 }
 
+@media print{
+	.doNotPrint{display:none !important};
+  
+}
+

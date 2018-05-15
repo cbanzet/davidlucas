@@ -7,7 +7,9 @@
 		<div mat-card-avatar class="header-image">
 			<img src="http://www.davidlucas.fr/img/David-Lucas-LOGO-2015-black.png">
 		</div>			
-		<mat-card-title *ngIf="cart.billkey; else shownewref">Facture # {{ cart.billref }}</mat-card-title>
+		<mat-card-title *ngIf="cart.billkey; else shownewref">
+			Facture # {{ cart.billref }}
+		</mat-card-title>
 		<ng-template #shownewref>
 			<div *ngIf="newref | async as newref">
 				<mat-card-title *ngFor="let new of newref">
@@ -69,8 +71,7 @@
 							<td class="td-a-c article-detail">{{ presta.price }} €</td>								
 						</tr>
 						<tr class="items-info"
-							*ngFor="let pdct of cart.pdcts ;let i =index
-						">
+							*ngFor="let pdct of cart.pdcts ;let i =index ">
 							<td class="article-detail">
 								<strong>{{ pdct.brand }}</strong> {{ pdct.title  }} <br>
 								<i>({{ pdct.membername }})</i>
@@ -127,10 +128,6 @@
 					  <mat-grid-tile [ngClass]="promo==0.5 ? 'gridSelected' : 'gridNotSelected'" 
 					  	(click)="applyPromo(0.5,cart.totalTTC)">50%</mat-grid-tile>
 
-
-<!-- 					  <mat-grid-tile [ngClass]="promo==0.5 ? 'gridSelected' : 'gridNotSelected'" 
-					  	(click)="applyPromo(0.5,cart.totalTTC)">50%</mat-grid-tile> -->
-
 					  <mat-grid-tile *ngIf="!freeamount" 
 					  	(click)="openDialog(cart)">
 					  	<mat-icon>euro_symbol</mat-icon>
@@ -173,7 +170,7 @@
 
 
 	</mat-card-content>
-  <mat-card-footer>
+  <mat-card-footer class="doNotPrint">
 		<mat-toolbar *ngIf="newref | async as newref">
 			<!-- <pre>{{ newref[0] }}</pre> -->
 			<!-- 		
@@ -185,13 +182,14 @@
 				(click)="goBack()">
 				RETOUR
 			</button>
+			
+			<button (click)="print_page()"  mat-raised-button type="button" color="black" >
+				<mat-icon>print</mat-icon>
+			</button>	
+
+
 			<span class="example-spacer"></span>
-			<!-- 
-			<button mat-raised-button type="button" color="black" disabled
-				routerLink="./../../facturationform">
-				RESET
-			</button> 
-			-->
+
 			<span *ngFor="let newref of newref">
 				<button mat-raised-button type="button" color="warn"
 					*ngIf="!cart.billkey"

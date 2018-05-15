@@ -46,6 +46,7 @@ export class FacturationService {
       return arr.map(snap => Object.assign(
         snap.payload.val(), 
         { arrprestas: snap.payload.val().prestations?Object.values(snap.payload.val().prestations):0},
+        { arrproduits: snap.payload.val().products?Object.values(snap.payload.val().products):0},
         { $key: snap.key }) )
     })
   }
