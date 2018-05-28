@@ -33,11 +33,9 @@ export class EventService {
 
 	// coiffeursRef:AngularFireList<any>;
 	coiffeur: Observable<any>;
-  eventsRef: AngularFireList<any>;
+	eventsRef: AngularFireList<any>;
   meeting:  Observable<any>;
   date;
-  // event: Event;
-  event: Array<Object> = [];
   
   starttime;endtime;
 
@@ -48,7 +46,7 @@ export class EventService {
     // private prestationService: PrestationService,    
     private router: Router) 
   { 
-    this.eventsRef = db.list('events');
+  	this.eventsRef = db.list('events');
     // this.coiffeursRef = db.list('members');
     // this.coiffeursRef = db.list('/role/1/members', ref => ref.orderByChild('firstname'));    
   }
@@ -144,16 +142,13 @@ export class EventService {
     this.meeting = this.db.object('events/'+ key)
       .snapshotChanges().map(action => {
         const $key = action.payload.key;
-        this.event = action.payload.val();
         // const prestations = Object.values(action.payload.val().prestations);
         const data = { 
           $key, 
           ...action.payload.val() };
-         // this.event = data;
-          console.log(data);
         return data;
       });
-    return this.meeting;
+    return this.meeting
   } 
 
 
@@ -170,8 +165,6 @@ export class EventService {
     var dateFormat = this.getDate(data.date);
     var timestamp = moment(data.date).unix()*1000;
     this.starttime = data.time?data.time:0;
-    console.log('startime',this.starttime);
-    console.log('dateformat',dateFormat);
 
     // Création du Panier dans le Json
     var cartkey = this.cartService.createCartFromCalendar(client,this.starttime,dateFormat,totalHT,totalTAX,totalTTC);
@@ -213,144 +206,16 @@ export class EventService {
 
         // Ajout de la prestation dans le panier déjà créé
         if (cartkey&&prestationkey) { 
-          this.cartService.createPrestaInCart(cartkey,prestationkey,memberkey,memberfirstname,dataPresta);
+          this.cartService.createPrestaInCart(cartkey,prestationkey,memberkey,memberfirstname,dataPresta); 
         }
 
         // Création des events de la prestation
-        this.formatEventForMultiEventsCreation(dataNewEvent,dataPresta,'newevent');
+        this.formatEventForMultiEventsCreation(dataNewEvent,dataPresta);
       }
     }
     else { console.log('Cart Empty'); }
   }
 
-  changeTimeInCartInPresta(cart,prestation,time) {
-    const cartkey = cart.$key;
-    const prestakey = prestation.prestationkey?prestation.prestationkey:null;
-    const oldevents = Object.values(prestation.events);
-    console.log(oldevents);
-    const updateData = {};
-    // const dateFormat = this.getDate(prestation.date);
-    const timestamp = moment(prestation.date).unix()*1000;
-    this.starttime = prestation.starttime? prestation.starttime:0;
-    console.log(prestakey);
-    // modifier des informations dans le panier(timelength)
-    this.cartService.updateTimeInCart(cart,prestation,time);
-
-   
-    // supprimer les evements egalement dans le noeud evenement
-    if(oldevents.length) {
-     // console.log(oldevents.length);
-      for (let i = 0 ; i < oldevents.length ; i++ ) {
-        let eventkey : any = oldevents[i] ; // kadio
-       // const eventkey = events.eventkey; // fabio
-        const cartPrestaPath = `carts/${cartkey}/prestations/${prestakey}/events/${eventkey}/`;
-        const eventPath =  `events/${eventkey}/`;
-        console.log(eventkey);
-        updateData[eventPath] = null;
-        updateData[cartPrestaPath] = null;
-      }
-    }
-
-      // validation des operations
-     this.db.object("/").update(updateData).then(_=>
-       console.log(updateData)
-   );
-
-    // les nouveaux evenements generes à partir de la prestation
-    var  dataNewEvent = {};
-    dataNewEvent['cartkey'] = cartkey;
-    dataNewEvent['date'] = cart.date;
-    dataNewEvent['timestamp'] = cart.timestamp;
-    dataNewEvent['clientkey'] = cart?cart.clientkey:null;
-    dataNewEvent['clientfullname'] = cart.clientlastname ? cart.clientfullname:null;
-    dataNewEvent['memberkey'] = prestation.memberkey;
-    dataNewEvent['memberfirstname'] = prestation.membername;
-    dataNewEvent['rolekey'] = ''; 
-    dataNewEvent['salonkey'] = prestation.salonkey?prestation.salonkey:null;
-    dataNewEvent['statut'] = cart.statut;
-    dataNewEvent['time'] = time;
-    // Création des events de la prestation
-    const position = cart.prestas.indexOf(prestation);
-    let updateDataIncartPresta = {};
-    const cartDate = cart.date;
-    var firststarttime = this.changeStartTime( cartDate,this.starttime,time);
-    console.log(firststarttime);
-    const eventfirstshedule = firststarttime;
-    // modification des heures de chaque prestation suivantes
-    if( position + 1 < cart.prestas.length ) {
-      this.formatEventForMultiEventsCreation( dataNewEvent,prestation,'updatevent');
-       const cartDate = cart.date;
-       const oldevents = Object.values(prestation.events);
-       const eventsSize = oldevents.length;
-       var l = 0;
-       for(let i = position + 1 ; i < cart.prestas.length ; i++ ) {
-         var prestaKey = cart.prestas[i].prestationkey;
-         const cartPrestaPath = `carts/${cartkey}/prestations/${prestaKey}/starttime`;
-         updateDataIncartPresta[cartPrestaPath] = firststarttime;
-         console.log(cart.prestas[i].timelength);
-         console.log(firststarttime);
-          var events:any = Object.entries(cart.prestas[i]);
-          var eventsObjectValues:any = Object.values(events[0][1]);
-         // modifications des horaire des evenements suivants
-          for(var j = 0 ; j<  eventsObjectValues.length ; j++ ) {
-          var eventkeys = eventsObjectValues[j]; // fabio kadio
-           console.log(eventkeys);
-          var eventPath = `events/${eventkeys}/time`;
-          var nextstarttime = this.changeStartTimeEvent(cartDate,eventfirstshedule,l);
-          updateDataIncartPresta[eventPath] = nextstarttime;
-          l++;
-          console.log(l);
-          console.log(nextstarttime);
-          }   
-     
-         firststarttime = this.changeStartTime( cartDate,firststarttime,cart.prestas[i].timelength);
-         // modification du temps des evenements suivantes
-       }
-       this.db.object("/").update(updateDataIncartPresta).then(_=>
-       console.log(updateDataIncartPresta)
-    );
-    console.log(cart.prestas);
-    } else {
-       this.formatEventForMultiEventsCreation( dataNewEvent,prestation,'updatevent');
-    }
-
-  }
-
-//   UpdateStartTimeInEvent(prestation,cart,time) {
-//     let nextTime:any;
-//     const cartDate = cart.date;
-//     const starttime = prestation.starttime;
-//     const position = cart.prestas.indexOf(prestation);
-//     console.log(position);
-//     if( position + 1 < cart.prestas.length ) {
-//       var  nexttime = cart.prestas[position+1].starttime;
-//       var som = 0;
-//       var l = 0;
-//       var  updateTimelengthInevent = {};
-//       for(let k = position + 1 ; k < cart.prestas.length ; k++ ) {
-//         var events:any = Object.entries(cart.prestas[k]);
-//         var eventsObjectValues:any = Object.values(events[0][1]);
-//         var timelength =  cart.prestas[position+1].timelength;
-//         console.log(events);
-//         for(var j = 0 ; j<  eventsObjectValues.length ; j++ ) {
-//         var eventkeys = eventsObjectValues[j].eventkey;
-//          console.log(eventkeys);
-//         var eventPath = `events/${eventkeys}/time`;
-//         var horaire =  this.changeStartTime(cartDate,nexttime,time);
-//         var nextstarttime = this.changeStartTimeEvent(cartDate,nexttime,l);
-//         updateTimelengthInevent[eventPath] = nextstarttime;
-//         l++;
-//         console.log(l);
-//         console.log('nextstatrtime',nextstarttime);
-//         console.log('',nexttime);
-//         }   
-//     }
-//     this.db.object("/").update(updateTimelengthInevent).then(_=>
-//       console.log(updateTimelengthInevent)
-//    );
-    
-//   }
-// }
 
   changeStartTime(date,starttime,n) {
     if(date&&starttime&&n) {
@@ -366,15 +231,12 @@ export class EventService {
   }
 
 
-  formatEventForMultiEventsCreation(data,presta,type) {
+  formatEventForMultiEventsCreation(data,presta) {
 
     var newEventData = data;
     var dateFormat = data.date;
     var starttime = presta.starttime;
-    var n = timelength/15 - 1;
-    console.log(starttime);
-    var timelength = type ==='newevent'? presta.timelength:data.time;
-    console.log(timelength);
+    var timelength = presta.timelength;
 
     switch(timelength) {
       // MULTI EVENTS
@@ -405,11 +267,9 @@ export class EventService {
     var tabeventkeys = [];
     for (var i=0; i<=n; i++) {
      var nextstarttime = this.changeStartTimeEvent(date,time,i);
-     console.log(time);
      newEventData['time'] = nextstarttime;
      newEventData['multiEvent'] = `${i+1}/${n+1}`;
-     newEventData['prestationkey'] = presta.prestationKey?presta.prestationKey:presta.prestationkey;
-     console.log(presta.prestationkey);
+     newEventData['prestationkey'] = presta.prestationKey?presta.prestationKey:0;
      this.createSingleEvent(newEventData);
      // console.log("Create Event n°" + i + " at " + nextstarttime);         
     }
@@ -435,13 +295,10 @@ export class EventService {
     var cartkey = newEventData.cartkey;
     var prestationkey = newEventData.prestationkey;
 
-   // console.log(prestationkey);
-    console.log(newEventData);
+    console.log(prestationkey);
 
     // INSERT EVENT IN EVENTS NODE
     var eventkey = this.eventsRef.push(newEventData).key;
-   // newEventData['eventkey'] = eventkey ;
-    
 
     // INSERT EVENT IN CLIENT/COIFFEUR/SALON/ NODES
     const clientPath = `clientes/${clientkey}/events/${eventkey}/`;
@@ -461,14 +318,14 @@ export class EventService {
     updateData[clientPath]= true;
     updateData[coiffeurPath]= true;
     // updateData[salonPath]= true;
-    updateData[eventsInPrestaInCart] = eventkey;
+    updateData[eventsInPrestaInCart]= eventkey;
     // updateData[membersWithEventsCart]= true;
     // updateData[coiffeurInRolePath]= true;
     // updateData['/lookUpSalonEvents/'+salonkey+'/'+eventkey]= true;
     updateData['/lookUpMemberEvents/'+memberkey+'/'+eventkey]= true;
     updateData['/lookUpClientEvents/'+clientkey+'/'+eventkey]= true;
 
-     this.db.object("/").update(updateData).then(_=> console.log(updateData));
+    this.db.object("/").update(updateData).then(_=> console.log(updateData));
 
     return eventkey;
   }

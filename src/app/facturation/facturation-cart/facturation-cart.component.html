@@ -182,13 +182,28 @@
 				(click)="goBack()">
 				RETOUR
 			</button>
+
+			<button mat-raised-button type="button" color="black"
+				routerLink="./../../calendar">
+				CALENDRIER
+			</button>			
 			
-			<button (click)="print_page()"  mat-raised-button type="button" color="black" >
+			<span class="example-spacer"></span>
+
+			<!--
+			<button mat-raised-button type="button" color="black" 
+				[disabled]="cart.statut!='paid'"
+				(click)="print_page()">
 				<mat-icon>print</mat-icon>
 			</button>	
 
+ 			<button mat-raised-button type="button" color="black"
+				*ngIf="cart.billkey"
+				routerLink="./../../bills">
+				<mat-icon>receipt</mat-icon>
+			</button>	 
+			-->
 
-			<span class="example-spacer"></span>
 
 			<span *ngFor="let newref of newref">
 				<button mat-raised-button type="button" color="warn"
@@ -197,7 +212,8 @@
 					(click)="getBill(cart,newref.ref)">
 					ENCAISSER
 				</button>	
-			</span>			
+			</span>
+
 		</mat-toolbar>
   </mat-card-footer>  	
 </mat-card>

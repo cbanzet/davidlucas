@@ -128,8 +128,10 @@ border-bottom-left-radius: 5px;
   
   .doNotPrint{display:none !important}
  
-  .mode-A4 {
+  .mode-A4, .mode-ticket {
     box-shadow: none !important;
+    padding: 0px !important;
+    margin: 0px !important;
   }
 
 

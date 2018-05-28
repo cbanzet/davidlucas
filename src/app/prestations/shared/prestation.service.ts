@@ -40,9 +40,7 @@ export class PrestationService {
   	this.servicesRef = db.list('/services')
     this.salonsRef = db.list('/salons')
 
-
     // this.coiffeursRef = db.list('/role/1/members', ref => ref.orderByChild('firstname'));    
-
 
   }
 
@@ -273,27 +271,58 @@ export class PrestationService {
  
 
   // Update Member's data
-  updatePrestation(prestation,field,value): void {
+  // updatePrestation(prestation,field,value): void {
 
+  //   if(value) 
+  //   {
+  //     var prestaKey = prestation.$key;
+  //     // var salonKey = prestation.salon.key;
+
+  //     const prestaPath = `${this.prestaPath}/${prestaKey}/${field}`;
+  //     // const prestaInSalonPath = `${this.salonPath}/${salonKey}/prestations/${prestaKey}/${field}`;
+
+  //     var updateField = {};
+  //     updateField[prestaPath]= value;
+  //     // updateField[prestaInSalonPath]= value;
+
+  //     console.log(updateField);
+  //     this.db.object("/").update(updateField).then(_=>
+  //        console.log(updateField)
+  //     );
+  //    }
+  //    else { console.log("Delete Impossible Value Empty") }
+  // }
+
+
+  updatePrestation(prestation,field,value): void {
     if(value) 
     {
       var prestaKey = prestation.$key;
       // var salonKey = prestation.salon.key;
-
+      var forfaitsKey:any = Object.keys(prestation.forfaits) ;
+      var prestationOrder:any = Object.values(prestation.forfaits) ;
+      var updateField = {};
+      const length = forfaitsKey.length;
+      for(var i = 0 ; i < length ; i++) {
+        const prestaPriceInForfaitPath = `/forfaits/${forfaitsKey[i]}/prestations/${prestationOrder[i]}/${field}`;
+        updateField[prestaPriceInForfaitPath] = value;
+          // console.log(prestaPriceInForfaitPath);
+          // console.log('order: ',prestationOrder[i]);
+      }
       const prestaPath = `${this.prestaPath}/${prestaKey}/${field}`;
       // const prestaInSalonPath = `${this.salonPath}/${salonKey}/prestations/${prestaKey}/${field}`;
 
-      var updateField = {};
       updateField[prestaPath]= value;
       // updateField[prestaInSalonPath]= value;
 
-      console.log(updateField);
-      this.db.object("/").update(updateField).then(_=>
-         console.log(updateField)
-      );
+      this.db.object("/").update(updateField).then(_=>console.log(updateField));
      }
-     else { console.log("Delete Impossible Value Empty") }
+     else { console.log("No value to update") }
   }
+
+
+
+
 
 
 

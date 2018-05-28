@@ -22,7 +22,11 @@
 			[ngStyle]="{'font-size': '1.2em'}"
 		>
 			Rendez-vous de
-			<strong>{{ cart.clientfullname }}</strong> 
+			<strong>
+				{{ cart.clientfullname }}
+				<i *ngIf="cart.clientemail" class="material-icons clientlinkicon" [routerLink]="['./../client', cart.clientkey]" (click)="onNoClick()">info</i>
+				<i *ngIf="!cart.clientemail" class="material-icons clientlinkicon" [routerLink]="['./../client', cart.clientkey]" (click)="onNoClick()">alternate_email</i>
+			</strong> 
 			<mat-icon class="cur-point" *ngIf="!showclientdetail&&cart.clientPhone" (click)="showclientdetail=true">add_circle</mat-icon>
 		</div>
 		<div 
@@ -33,16 +37,14 @@
 			<strong>{{ cart.date }}</strong> à <strong>{{ cart.cartstarttime }}</strong>
 		</div>
 
-
 		<div *ngIf="showclientdetail" class="client-detail"
 		fxFlex="100">
 			<a *ngIf="cart.clientphone" href="tel:{{cart.clientphone}}">{{ cart.clientphone }} </a>
-			<a *ngIf="cart.clientemail" href="mailto:{{cart.clientemail}}">{{cart.clientemail}}</a>
+			<a *ngIf="cart.clientemail" href="mailto:{{cart.clientemail}}">{{ cart.clientemail }}</a>
 			<mat-icon class="cur-point" (click)="onNoClick()" [routerLink]="['./../client', cart.clientKey]">remove_red_eye</mat-icon>
 		</div>
 
 		<br><br>
-
 
 		<div class="event-program"
 		fxLayoutWrap
@@ -56,43 +58,57 @@
 		*ngFor="let element of cart.prestas ;let i = index ">
 
 			<div
-			fxFlex="60"
+			fxFlex="59"
 			fxLayoutAlign="start center">
 				<span class="buble-16 mr-10">{{ (i+1) }}</span>
 				<strong>{{ element.starttime }} &nbsp;&nbsp;</strong>
 				<span
 				[ngStyle]="{'font-size': '0.8em'}">
 					{{ 
-						(element.prestationtitle.length>40) ?
-						(element.prestationtitle | slice:0:40)+'...':(element.prestationtitle) 						
+						(element.prestationtitle.length>35) ?
+						(element.prestationtitle | slice:0:35)+'...':(element.prestationtitle) 						
 					}}
 				</span>
 			</div>
 
 			<div
-			fxFlex="10"
-			fxLayoutAlign="start end" class="small">
-				<strong>{{ element.timelength }} </strong>&nbsp; min
+			fxFlex="7"
+			fxLayoutAlign="end start" class="small">
+				<span class="member-name">{{ element.timelength }}&nbsp;m</span>
+			</div>
+
+			<div 
+			class="whitetext"
+			fxFlex="3"
+			*ngIf="!cart.billkey"
+			fxLayoutAlign="start start">&nbsp;
+				<mat-select 	
+				  [(ngModel)]="time"
+				  (ngModelChange)="ChangeTimeInCart(cart,element,time)">
+						<mat-option *ngFor="let time of timelengths " [value]="time">
+						  {{ time }}
+						</mat-option>
+				</mat-select>
 			</div>
 
 			<div
-			fxFlex="15"
+			fxFlex="18"
 			fxLayoutAlign="end start">
 				<span class="member-name">{{ element.membername }}</span>
 			</div>
 
 			<div 
-			fxFlex="5"
+			class="whitetext"
+			fxFlex="3"
 			*ngIf="!cart.billkey"
 			fxLayoutAlign="start start">&nbsp;
-			<!-- <mat-icon (click)="changeCoiffeur(element)">cached</mat-icon> -->
-			<mat-select 	
-			  [(ngModel)]="member"
-			  (ngModelChange)="changeCoiffeur(element,member,cart,'prestation')">
-					<mat-option *ngFor="let member of members | async" [value]="member">
-					  {{ member.firstname }}
-					</mat-option>
-				  </mat-select>
+				<mat-select 	
+				  [(ngModel)]="member"
+				  (ngModelChange)="changeCoiffeur(element,member,cart,'prestation')">
+						<mat-option *ngFor="let member of members | async" [value]="member">
+						  {{ member.firstname }}
+						</mat-option>
+				</mat-select>
 			</div>
 
 			<div
@@ -107,17 +123,7 @@
 				<mat-icon (click)="removePrestaFromCart(element,cart)" class="cursor-pointer">clear</mat-icon>
 			</div>
 
-
-			<!-- 		
-			<div
-			fxFlex="10"
-			fxLayoutAlign="start end">
-				<mat-icon (click)="removePrestaFromCart(element,cart)">clear</mat-icon>
-			</div> 
-			-->
-
-		</div>		
-
+		</div>
 
 		<div 
 			fxFlex="100"
@@ -137,7 +143,6 @@
 			<div fxFlex="30" fxFlexAlign="end">TAX 20% : {{ cart.totalTAX }} € </div>		
 			<div fxFlex="30" fxFlexAlign="end">TOTAL TTC : 	{{ cart.totalTTC }} €</div>		
 		</div>
-
 
 		<div fxFlex="100"
 			[ngStyle]="{'padding-top': '20px'}">

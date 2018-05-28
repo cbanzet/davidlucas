@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "david-lucas-paris-prod"
+    "default": "david-lucas-paris-prod",
+    "david-lucas-bordeaux": "david-lucas-bordeaux"
   }
 }

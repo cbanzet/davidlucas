@@ -1,0 +1,97 @@
+<!-- <pre>{{ bill | async | json }}</pre> -->
+
+<mat-toolbar class="doNotPrint">
+	<span class="example-spacer"></span>
+	<button (click)="print_page()"  mat-raised-button type="button" color="black" ><mat-icon>print</mat-icon></button>	
+	<button routerLink="./../../bills"  mat-raised-button type="button" color="black" ><mat-icon>close</mat-icon></button>					
+</mat-toolbar>
+
+
+
+<ng-template #loading>				
+	<br><br><br><br>
+	<mat-spinner color="warn"></mat-spinner>
+	<br><br>
+</ng-template>
+
+
+
+<mat-card *ngIf="bill | async, let bill; else loading" class="mode-ticket">
+
+	<hr>
+		
+	<img src="http://www.davidlucas.fr/img/David-Lucas-LOGO-2015-black.png" class="logo">
+
+	<hr>
+
+	<h1>David Lucas Bordeaux</h1>
+	<span class="address">
+			2, Place des Quinconces, 33000 Bordeaux <br>
+			05 57 14 89 59 www.davidlucas.fr <br>
+			Siret 83536535400017 TVA FR0835365354
+	</span>
+
+	<hr>
+
+	<h2>Facture # {{ bill.ref }}</h2>
+
+	<hr>
+
+	<span class="client">
+		Rendez-vous du <strong>{{ bill.date }}</strong> @ <strong>{{ bill.starttime}}</strong><br>
+		Encaissé le {{ bill.timestamp | date:'MM/dd/yyyy @ h:mma' }} <br>
+		<strong>{{ bill.clientfullname }}</strong><br>
+	</span>
+
+	<hr>
+  <ul class="detail-prestas">
+    <li *ngFor="let presta of bill.prestas">
+    	<span class="info">
+    		{{ 	
+					(presta.title.length>20) ? 
+					(presta.title | slice:0:20)+'...':(presta.title) 
+				}}
+    	</span>
+    	<span *ngIf="presta.price!=0">{{ presta.price }} €</span>
+    </li>
+    <li *ngFor="let pdct of bill.prdcts">
+      <span class="info">
+        {{  
+          (pdct.title.length>20) ? 
+          (pdct.title | slice:0:20)+'...':(pdct.title) 
+        }}
+      </span>
+      <span *ngIf="pdct.price!=0">{{ pdct.price }} €</span>
+    </li>    
+    <li *ngIf="bill.promo">
+    	<span class="info">Promotion </span>{{ (bill.promo*100) }} % 
+    </li>
+    <li>
+    	<hr>
+    	<span class="info">TOTAL HT </span><strong>{{ bill.totalHT }} € </strong>
+    </li>
+    <li>
+    	<span class="info">TAX </span><strong>{{ bill.totalTAX }} € </strong>
+    </li>      
+    <li>
+    	<span class="info">TOTAL TTC </span><strong>{{ bill.totalTTC }} €</strong>
+    </li>            
+  </ul>
+  <hr>
+
+
+
+  <span class="reglement"> 
+  	Réglement effectué en
+    <strong *ngIf="bill.moyendepaiement=='CH'">Chèque</strong>
+    <strong *ngIf="bill.moyendepaiement=='CC'">Carte Cadeau</strong>
+    <strong *ngIf="bill.moyendepaiement=='CB'">Carte Bancaire</strong>
+    <strong *ngIf="bill.moyendepaiement=='VB'">Virement Bancaire</strong>
+    <strong *ngIf="bill.moyendepaiement=='ES'">Espèces</strong>
+  </span> 
+
+  <br>
+
+  <h3>À bientôt dans les salons <strong>David Lucas</strong></h3>
+
+</mat-card>

@@ -92,58 +92,45 @@ export class ForfaitService {
   
     var newForfaitData = {};
     var times: number = 0;
-    var priceD: number = 0;
-    var priceT: number = 0;
    
     newForfaitData['title'] = newForfaitForm?newForfaitForm.value.newForfaitTitle:0;
     var newPrestation = [];
-   // var numberKey = newForfaitForm.value.pickedNumberPrestation.key;
     var updatePrestationsData = {};
     var prestaDataLength = prestaData.length ;
-   var newForfaitTypes = {
-     key: newForfaitForm.value.selectedTypes.key,
-     title: newForfaitForm.value.selectedTypes.title
-   };
+    var newForfaitTypes = {
+       key: newForfaitForm.value.selectedTypes.key,
+       title: newForfaitForm.value.selectedTypes.title
+    };
    newForfaitData['type'] = newForfaitTypes;
 
    if (prestaDataLength )
    {
-
-        for( var i=0; i < prestaDataLength ; i++ ) {
-            newPrestation[i+1] = {
-            key:prestaData[i].key,
-            title: prestaData[i].title,
-            time: prestaData[i].time,
-            priceDavid: prestaData[i].priceDavid,
-            priceTeam: prestaData[i].priceTeam,
-            order:  i+1
-          };
-          times = times + +prestaData[i].time;
-          priceD = priceD + +prestaData[i].priceDavid;
-          priceT = priceT + +prestaData[i].priceTeam;
-        }
-
-        newForfaitData['prestations'] = newPrestation ;
-        newForfaitData['time'] = times;
-        newForfaitData['priceDavid'] = priceD;
-        newForfaitData['priceTeam'] = priceT;
-
-        //Insert in forfait
-        var keyNewForfait = this.forfaitsRef.push(newForfaitData).key;
-          // lookup
-        for( var i=0; i <  prestaDataLength ; i++ ){
-            // insert in Prestation
-            updatePrestationsData['prestations/'+ prestaData[i].key +'/forfaits/'+keyNewForfait] = true;
-            // Insert in LookUp
-            // this.db.list('/lookUpPrestationForfait').update(forfaitTabData[i].key, {[keyNewForfait]:true});
-            updatePrestationsData["lookUpForfaitPrestations/"+prestaData[i].key +"/"+keyNewForfait] = true;
+      for( var i=0; i < prestaDataLength ; i++ ) {
+          newPrestation[i+1] = {
+          key:prestaData[i].key,
+          title: prestaData[i].title,
+          order:  i+1
         };
-
+        times = times + +prestaData[i].time;
       }
 
-    this.db.object("/").update(updatePrestationsData).then(_=>'Prestations Saved');
+      newForfaitData['prestations'] = newPrestation ;
+      newForfaitData['time'] = times;
 
-     this.router.navigate(['/forfaits']);
+      //Insert in forfait
+      var keyNewForfait = this.forfaitsRef.push(newForfaitData).key;
+        // lookup
+      for( var i=0; i <  prestaDataLength ; i++ ){
+          // insert in Prestation
+          updatePrestationsData['prestations/'+ prestaData[i].key +'/forfaits/'+keyNewForfait] = true;
+          // Insert in LookUp
+          // this.db.list('/lookUpPrestationForfait').update(forfaitTabData[i].key, {[keyNewForfait]:true});
+          updatePrestationsData["lookUpForfaitPrestations/"+prestaData[i].key +"/"+keyNewForfait] = true;
+      };
+    }
+
+    this.db.object("/").update(updatePrestationsData).then(_=>'Prestations Saved');
+    this.router.navigate(['/forfaits']);
 
     console.log(newForfaitData, keyNewForfait);
   }

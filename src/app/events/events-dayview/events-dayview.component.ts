@@ -562,6 +562,7 @@ export class DialogSeeEvent implements OnInit {
   showDatePicker:boolean=false;
   showSavedDate:boolean=true;
   justClicked: boolean= true;
+  timelengths = ['15','30','45','60'];
 
   constructor(
     private cartService: CartService,
@@ -613,6 +614,10 @@ export class DialogSeeEvent implements OnInit {
 
   changePrestaTime(time, cart, presta) {
     this.cartService.changeTimeIncart(time, cart, presta);
+  }
+
+  ChangeTimeInCart(cart,prestation,time) {
+     this.eventService.changeTimeInCartInPresta(cart,prestation,time);
   }
 
   ngOnInit() {

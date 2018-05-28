@@ -21,6 +21,8 @@ export class FacturationService {
 	facturesRef       : AngularFireList<any>;
 
   historyRef        : AngularFireList<any>;
+
+  bill              : Observable<any>;
   billsRef          : AngularFireList<any>;
   dataFromEventKey  : Observable<any>;
   eventPrice        : Observable<any>;
@@ -37,9 +39,19 @@ export class FacturationService {
     this.lastBillRef = db.list('/bills', ref => ref.orderByChild('timestamp').limitToLast(1));
   }
 
+
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
 /////////////////////////////////////////////////
   ////////// G E T
 /////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+
 
   getBillsList() {
     return this.billsRef.snapshotChanges().map(arr => {
@@ -103,14 +115,39 @@ export class FacturationService {
   }
 
 
+  getBillWithKey(key:string) {
+    var prestas: Array<any> = []; ;
+    this.bill = this.db.object('bills/'+ key).snapshotChanges().map(action => {
+      const $key = action.payload.key;
+      const prestas = action.payload.val() ? Object.values(action.payload.val().prestations) : null;
+      const prdcts = action.payload.val().products ? Object.values(action.payload.val().products) : null;
+      const length = action.payload.val()?prestas.length:0;
+      const data = 
+      { 
+        $key, 
+        prestas,
+        prdcts,
+        ...action.payload.val()
+      };
+      return data;
+    });
+    return this.bill;
+  }
 
 
 
 
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
 /////////////////////////////////////////////////
   ////////// C R E A T E
 /////////////////////////////////////////////////
-
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
 
 
   createBillFromCart(cart,moypay,promo,ttc,ht,tva,ref) {
@@ -121,7 +158,7 @@ export class FacturationService {
     var newBillData                = {}
     newBillData['timestamp']       = Date.now();    
     newBillData['ref']             = ref;    
-    newBillData['promo']           = promo;
+    newBillData['promo']           = Math.round(promo*100)/100;
     newBillData['date']            = cart.date;
     newBillData['cartkey']         = cartkey;
     newBillData['starttime']       = cart.cartstarttime;
@@ -167,7 +204,7 @@ export class FacturationService {
 
         var memberPath         = `members/${memberkey}/billhistory/${historykey}`;
         updateData[memberPath] = prestaHistory;
-        this.addPrestaToBill(billkey,prestakey,memberkey,membername,prestaprice);
+        this.addPrestaToBill(billkey,prestakey,memberkey,membername,prestaprice,prestatitle);
       }
     }
 
@@ -196,7 +233,7 @@ export class FacturationService {
 
         var memberPath         = `members/${memberkey}/billhistory/${historykey}`;
         updateData[memberPath] = prdctHistory;
-        this.addProductToBill(billkey,productkey,memberkey,membername,productprice);
+        this.addProductToBill(billkey,productkey,memberkey,membername,productprice,producttitle);
       }
     }    
     
@@ -207,13 +244,14 @@ export class FacturationService {
 
     this.db.object("/").update(updateData).then( _=> console.log(updateData));
     this.cartService.doCart(cart,'paid');
-    this.router.navigate(['/calendar'])
+    this.router.navigate(['/printbill/'+ billkey])
   }
 
 
-  addPrestaToBill(billkey,prestakey,memberkey,membername,price) {
+  addPrestaToBill(billkey,prestakey,memberkey,membername,price,title) {
     var newPrestaData              = {};
     newPrestaData['prestationkey'] = prestakey;
+    newPrestaData['title']         = title;
     newPrestaData['price']         = price?price:0;
     newPrestaData['memberkey']     = memberkey;
     newPrestaData['membername']    = membername;
@@ -225,9 +263,10 @@ export class FacturationService {
   }
 
 
-  addProductToBill(billkey,productkey,memberkey,membername,productprice) {
+  addProductToBill(billkey,productkey,memberkey,membername,productprice,title) {
     var newPrdctData           = {};
     newPrdctData['productkey'] = productkey;
+    newPrdctData['title']      = title;    
     newPrdctData['price']      = productprice?productprice:0;
     newPrdctData['memberkey']  = memberkey;
     newPrdctData['membername'] = membername;
@@ -241,10 +280,19 @@ export class FacturationService {
 
 
 
-
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
 /////////////////////////////////////////////////
   ////////// U P D A T E
 /////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+
+
 
   // CHANGE FACTURE STATUS
   changeFactureStatut(facture): void {
@@ -264,9 +312,20 @@ export class FacturationService {
     this.db.object("/").update(updateData).then(_=>console.log('Facture Statut Updated!'));
   } 
 
+
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
 /////////////////////////////////////////////////
   ////////// D E L E T E
 /////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+/////////////////////////////////////////////////
+
+
 
   // DELETE STATUS
   deleteFacture(facture): void {

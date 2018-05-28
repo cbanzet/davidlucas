@@ -70,7 +70,7 @@
       <!-- <h4 mat-line [ngClass]="facture.status==2 ? 'facture-done' : 'facture-waiting'"> -->
     	<span class="facture-title">
     		<span class="info-bill">
-          <mat-icon [routerLink]="['./../facturationcart', bill.cartkey]">info</mat-icon>  
+          <mat-icon [routerLink]="['./../printbill', bill.$key]">info</mat-icon>  
           Fac. n° <strong>{{ bill.ref }}</strong>
         </span>
     		<span class="client">

@@ -175,7 +175,7 @@ th:hover::after {
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#dddddd', endColorstr='#b7b7b7',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
 }
 .billing-event {
-	color: white !important;	background-color: #eee !important;		
+	color: white !important;	background-color: #ccc !important;		
 }
 
 .paid-event {

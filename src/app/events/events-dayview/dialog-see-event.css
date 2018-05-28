@@ -38,16 +38,25 @@ button {
 }
 
 .member-name {
-	background-color: #000;
-	color: #eee;
-	padding: 0px 15px;
+	background-color: #FFA340;
+	color: #fff;
+	padding: 3px 5px;
 	font-weight: 500;
-	font-size: 0.9em;
+	font-size: 0.8em;
 }
 
+
+.buble-16 {
+	background-color: #D9005B !important;
+}
+
+.mat-select-value, .mat-select-value-text, mat-select-value, mat-select-value-text {
+	color: #FFF !important;
+}
+
+
 .qty {
-	background-color: #000;
-	color: #eee;
+	color: #E6E6E6;
 	padding: 0px 5px;
 	font-weight: 500;
 	font-size: 0.9em;	
@@ -142,7 +151,13 @@ mat-spinner {
 	text-align: center;
 }
 
-
+.clientlinkicon {
+	color: #B3B3B3;
+	cursor: pointer;
+}
+.clientlinkicon:hover {
+	color: #000;
+}
 
 .small {
 	font-size: 0.8em;

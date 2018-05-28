@@ -38,6 +38,7 @@ import { FacturationFormComponent } from './facturation/facturation-form/factura
 import { FacturationDetailComponent } from './facturation/facturation-detail/facturation-detail.component';
 import { FacturationEventComponent } from './facturation/facturation-event/facturation-event.component';
 import { FacturationCartComponent } from './facturation/facturation-cart/facturation-cart.component';
+import { PrintBillComponent } from './facturation/print-bill/print-bill.component';
 
 import { EventDetailComponent } from './events/event-detail/event-detail.component';
 import { EventFormComponent } from './events/event-form/event-form.component';
@@ -79,6 +80,7 @@ const routes: Routes = [
   { path: 'facturationevent/:eventid', component: FacturationEventComponent },
   { path: 'facturationcart/:cartid', component: FacturationCartComponent },
   { path: 'facturation/:id', component: FacturationDetailComponent },
+  { path: 'printbill/:id', component: PrintBillComponent }, 
   ////////////////////////////////////////////////////////////////
   { path: 'salon', component: SalonComponent },
   { path: 'members', component: MembersListComponent },

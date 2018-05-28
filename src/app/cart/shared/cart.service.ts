@@ -189,6 +189,15 @@ export class CartService {
 //////////////////////////////////////////////////////////
 
 
+  updateTimeInCart(cart,prestation,time) {
+    const cartkey = cart.$key;
+    const prestakey = prestation.prestationkey?prestation.prestationkey:null;
+    const updateData = {};
+    const cartPrestaPath = `carts/${cartkey}/prestations/${prestakey}/timelength`;
+    updateData[cartPrestaPath] = time;
+    this.db.object("/").update(updateData).then(_=>console.log(updateData)); 
+  }
+
   changeCoiffeurIncart(data, member, cart , type) {
     var cartkey = cart.$key;
     var prestakey = data.prestationkey? data.prestationkey:null;

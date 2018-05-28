@@ -172,7 +172,7 @@ export class FacturationListComponent implements OnInit {
     // console.log(member);    
     const dialogRef = this.dialog.open( FacturationListModaleComponent, 
     {
-      width: '300px',
+      width: '350px',
       height: '70px',
       data: { memberkey: member.$key, membername: member.name, date: date}
     });
@@ -240,7 +240,7 @@ export class FacturationListModaleComponent {
         return arr.map(snap => Object
           .assign(
             snap.payload.val(),
-            this.totalMemberCart =  this.totalMemberCart + +snap.payload.val().price  ,
+            this.totalMemberCart =  Math.round((this.totalMemberCart + +snap.payload.val().price  )*100)/100,
            // console.log(this.totalMemberCart),
             {
               $key             : snap.key,

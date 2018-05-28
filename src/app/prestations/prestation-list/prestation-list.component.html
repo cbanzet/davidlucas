@@ -62,14 +62,14 @@
 							{{ presta.title }}
 						</span>
 
-						<mat-form-field class="field-price">
-		  				<input matInput placeholder="Prix David" type="number"
+						<mat-form-field [hidden]="presta.priceTeam" class="field-price">
+		  				<input matInput placeholder="Prix Equipe" type="number"
 		  					[(ngModel)]="presta.priceTeam"
 		  					(ngModelChange)="updateField(presta,'priceTeam',presta.priceTeam)">
 		  				<mat-icon matSuffix>euro_symbol</mat-icon>
 						</mat-form-field>
 
-						<mat-form-field class="field-price">
+						<mat-form-field [hidden]="presta.priceDavid" class="field-price">
 		  				<input matInput placeholder="Prix David" type="number"
 		  					[(ngModel)]="presta.priceDavid"
 		  					(ngModelChange)="updateField(presta,priceDavidField,presta.priceDavid)">

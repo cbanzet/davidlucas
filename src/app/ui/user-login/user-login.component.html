@@ -40,11 +40,14 @@
   </mat-card-title>
 
   <mat-card-content>
+    
+    <br><br>
+
+    <!--       
 
     <form class="login-form">
               
       <mat-form-field class="example-full-width">
-        <!-- <input matInput placeholder="Email"> -->
         <input matInput placeholder="Email" [formControl]="emailFormControl">
         <mat-error *ngIf="emailFormControl.hasError('pattern')">
           Please enter a valid email address
@@ -53,20 +56,15 @@
           Email is <strong>required</strong>
         </mat-error>
       </mat-form-field>
-      <!-- 
-      <mat-form-field class="example-full-width">
-        <span matPrefix>+33 &nbsp;</span>
-        <input type="tel" matInput 
-          placeholder="Cellphone"
-          #cellPhone maxlength="10">
-          <mat-hint align="end">{{cellPhone.value.length}} / 10</mat-hint>
-      </mat-form-field> 
-      -->
+
       <mat-form-field class="example-full-width">
         <input type="password" matInput 
           placeholder="Password">
       </mat-form-field>
+
     </form>
+
+    -->
 
   </mat-card-content>
 

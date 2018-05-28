@@ -29,8 +29,8 @@ import { CartModule } from './cart/shared/cart.module';
 import { FacturationModule } from './facturation/shared/facturation.module';
 
 ///// Environment
-// import { environment } from '../environments/environment.prod';
-import { environment } from '../environments/environment';
+import { environment } from '../environments/environment.prod';
+// import { environment } from '../environments/environment';
 
 @NgModule({
   imports: [
